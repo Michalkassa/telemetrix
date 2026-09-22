@@ -1,0 +1,12 @@
+# TEMPLATE 14b — What NOT to send to Docker when building
+# Where it goes: backend/.dockerignore
+#
+# `docker build` first copies the whole folder (the "build context") to the Docker daemon.
+# Excluding build output keeps builds fast and stops stale jars or local secrets from sneaking in.
+target/
+.idea/
+*.iml
+.vscode/
+.env
+Dockerfile
+.dockerignore

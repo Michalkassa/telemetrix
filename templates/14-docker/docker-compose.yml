@@ -1,0 +1,48 @@
+# TEMPLATE 14c — Running the backend AND the database together with Docker Compose
+# Where it goes: merge the `backend` service into the repo-root docker-compose.yml
+# Run:           docker compose up --build -d      (--build = rebuild the image from the Dockerfile)
+#
+# Compose puts all services on one private network where they reach each other BY SERVICE NAME.
+# Inside that network the database is  postgres:5432  — not localhost:5432
+# ("localhost" inside a container means that container itself).
+
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: telemetrix
+      POSTGRES_USER: telemetrix
+      POSTGRES_PASSWORD: telemetrix
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U telemetrix -d telemetrix"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build: ./backend               # build the image from backend/Dockerfile
+    environment:
+      # Overrides the ${SPRING_DATASOURCE_URL:…} default from application.properties (template 02).
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/telemetrix
+      SPRING_DATASOURCE_USERNAME: telemetrix
+      SPRING_DATASOURCE_PASSWORD: telemetrix
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy # wait until pg_isready succeeds, not just "container started"
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+
+# Useful commands:
+#   docker compose ps                   status + health
+#   docker compose logs -f backend      follow the app's logs
+#   docker compose up --build -d backend   rebuild + restart only the backend after a code change
+#   docker compose down                 stop everything (data volume kept)
+#   docker compose down -v              stop everything and DELETE the database volume

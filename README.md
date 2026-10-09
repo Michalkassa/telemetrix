@@ -4,9 +4,9 @@ A full-stack platform that replays Formula 1 races from free/open telemetry and 
 (no video): animated driver dots on a track map, telemetry playback, an event timeline,
 championship simulations and historical analytics.
 
-**Status: the backend's data foundation (Steps 1–11 of 55).** It imports the full race history from
-1950 (Jolpica), each season's calendar, and on demand a race's OpenF1 sessions, and serves seasons and
-races over a REST API. No frontend or replay yet. Everything to be built is specified in
+**Status: the backend's data foundation (Steps 1–12 of 55).** It imports the full race history from
+1950 (Jolpica), each season's calendar, and on demand a race's OpenF1 sessions, laps with sector
+splits, tyre stints and pit stops, and serves seasons and races over a REST API. No frontend or replay yet. Everything to be built is specified in
 [`plan.md`](plan.md), and [`STEPS.md`](STEPS.md) breaks it into 55 build steps.
 Progress is tracked in [`features.csv`](features.csv); see the top of `plan.md`.
 
@@ -55,7 +55,7 @@ The database starts empty; fill it (all data sources are free — `docs/adr/0003
 curl -X POST localhost:8080/api/admin/import/history         # 1950 → today from Jolpica's dump (~20 s, runs in the background)
 curl localhost:8080/api/admin/import/history                 # ...until "status": "COMPLETED"
 curl -X POST localhost:8080/api/admin/import/seasons/2024     # a season's calendar + OpenF1 links (also nightly for the current season)
-curl -X POST localhost:8080/api/admin/import/races/1102       # one race's OpenF1 data, on demand
+curl -X POST localhost:8080/api/admin/import/races/1102       # one race's OpenF1 sessions, laps, stints, pit stops
 ```
 
 Then browse: `curl localhost:8080/api/seasons`, `/api/seasons/2024/races`, `/api/races/{id}`, or
@@ -110,8 +110,8 @@ journey) and are driven inward with unit tests. The rules and the test tools for
 
 ## Where to start implementing
 
-Follow [`STEPS.md`](STEPS.md) from **Step 12** (laps, sector splits, stints and pit stops — the replay
-timing points), using [`templates/README.md`](templates/README.md) as the reference for each Spring
+Follow [`STEPS.md`](STEPS.md) from **Step 13** (race import when a race is opened, and on-demand
+telemetry), using [`templates/README.md`](templates/README.md) as the reference for each Spring
 layer. Every step starts with its **Tests first** list. When a feature's tests pass, tick it off:
 `python3 scripts/sync_features.py done <ID>`.
 

@@ -99,6 +99,51 @@ class OpenF1ClientTest {
 	}
 
 	@Test
+	void fetchesASessionsLapsWithSectorSplits() {
+		server.expect(requestTo(BASE + "/laps?session_key=9472"))
+				.andRespond(withSuccess(fixture("laps_9472.json"), MediaType.APPLICATION_JSON));
+
+		var laps = client.laps(9472);
+
+		assertThat(laps).hasSize(1129);
+		var lap10 = laps.stream().filter(l -> l.driverNumber() == 1 && l.lapNumber() == 10).findFirst().orElseThrow();
+		assertThat(lap10.dateStart()).isEqualTo(OffsetDateTime.parse("2024-03-02T15:18:15.404Z"));
+		assertThat(lap10.durationSector1()).isEqualTo(30.986);
+		assertThat(lap10.durationSector2()).isEqualTo(42.009);
+		assertThat(lap10.durationSector3()).isEqualTo(23.965);
+		assertThat(lap10.lapDuration()).isEqualTo(96.96);
+		assertThat(lap10.isPitOutLap()).isFalse();
+		assertThat(laps).filteredOn(l -> l.durationSector1() == null).hasSize(2);
+	}
+
+	@Test
+	void fetchesASessionsTyreStints() {
+		server.expect(requestTo(BASE + "/stints?session_key=9472"))
+				.andRespond(withSuccess(fixture("stints_9472.json"), MediaType.APPLICATION_JSON));
+
+		var stints = client.stints(9472);
+
+		assertThat(stints).hasSize(63);
+		assertThat(stints.getFirst()).isEqualTo(new OpenF1Stint(1, 1, "SOFT", 1, 17, 3));
+	}
+
+	@Test
+	void fetchesASessionsPitStops() {
+		server.expect(requestTo(BASE + "/pit?session_key=9472"))
+				.andRespond(withSuccess(fixture("pit_9472.json"), MediaType.APPLICATION_JSON));
+
+		var stops = client.pitStops(9472);
+
+		assertThat(stops).hasSize(43);
+		var first = stops.getFirst();
+		assertThat(first.driverNumber()).isEqualTo(27);
+		assertThat(first.lapNumber()).isEqualTo(1);
+		assertThat(first.date()).isEqualTo(OffsetDateTime.parse("2024-03-02T15:06:11.115Z"));
+		assertThat(first.laneDuration()).isEqualTo(36.6);
+		assertThat(first.stopDuration()).isNull();
+	}
+
+	@Test
 	void noResultsIsAnEmptyListNotAnError() {
 		// OpenF1 answers "nothing matches" with a 404
 		server.expect(requestTo(BASE + "/meetings?year=1990"))

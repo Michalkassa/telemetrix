@@ -124,8 +124,12 @@ run nightly for the current season (`telemetrix.import.calendar-cron`, default 0
 
 #### `POST /api/admin/import/races/{id}`
 
-Downloads one race's data on demand (for now: its OpenF1 sessions). A race that has happened is
-marked imported, and later calls make no requests; a race still to come is refreshed each time.
+Downloads one race's data on demand: its OpenF1 sessions, and for the race and sprint sessions every
+car's laps (with sector splits — the replay's timing points), tyre stints and pit stops. About 4–7
+requests (~10 s at OpenF1's rate limit). Lap problems (a gap in lap numbers, sectors that don't add up,
+a pit stop without a tyre change) are stored anyway and listed in `notes` as `ERROR …` / `WARNING …`.
+A race that has happened is marked imported, and later calls make no requests; a race still to come
+is refreshed (its timing replaced) each time.
 Races before 2023 have no OpenF1 data; the report says so.
 
 | Status | When |

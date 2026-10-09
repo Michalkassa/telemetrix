@@ -541,13 +541,13 @@ lap charts, strategy views and pace analysis.
 **Check it:** for Bahrain 2024, 1,129 laps across 20 drivers; the validator report has no errors.
 
 <!-- features:12 -->
-**Checks off (0/5):**
+**Checks off (5/5):**
 
-- [ ] `DB-06` laps
-- [ ] `DB-07` sectors
-- [ ] `DB-10` pit_stops
-- [ ] `DB-13` tire_stints
-- [ ] `VAL-03` Lap consistency checks
+- [x] `DB-06` laps
+- [x] `DB-07` sectors
+- [x] `DB-10` pit_stops
+- [x] `DB-13` tire_stints
+- [x] `VAL-03` Lap consistency checks
 <!-- /features -->
 
 ---

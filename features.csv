@@ -118,14 +118,14 @@ DB-02,1,6,Core Tables,races,done,2026-10-09
 DB-03,1,6,Core Tables,circuits,done,2026-10-09
 DB-04,1,6,Core Tables,drivers,done,2026-10-09
 DB-05,1,6,Core Tables,constructors,done,2026-10-09
-DB-06,1,12,Core Tables,laps,todo,
-DB-07,1,12,Core Tables,sectors,todo,
+DB-06,1,12,Core Tables,laps,done,2026-10-09
+DB-07,1,12,Core Tables,sectors,done,2026-10-09
 DB-08,1,13,Core Tables,telemetry_points,todo,
 DB-09,2,21,Core Tables,race_events,todo,
-DB-10,1,12,Core Tables,pit_stops,todo,
+DB-10,1,12,Core Tables,pit_stops,done,2026-10-09
 DB-11,2,21,Core Tables,weather_data,todo,
 DB-12,3,30,Core Tables,championship_snapshots,todo,
-DB-13,1,12,Core Tables,tire_stints,todo,
+DB-13,1,12,Core Tables,tire_stints,done,2026-10-09
 DB-14,2,21,Core Tables,penalties,todo,
 DB-15,1,6,Core Tables,sessions,done,2026-10-09
 TSDB-01,4,39,TimescaleDB Extension,Telemetry time-series storage,todo,
@@ -160,7 +160,7 @@ ING-04,2,21,Scheduled Importers,Weather importer,todo,
 ING-05,2,21,Scheduled Importers,Event importer,todo,
 VAL-01,1,9,Data Validation,Duplicate detection,done,2026-10-09
 VAL-02,1,13,Data Validation,Timestamp validation,todo,
-VAL-03,1,12,Data Validation,Lap consistency checks,todo,
+VAL-03,1,12,Data Validation,Lap consistency checks,done,2026-10-09
 VAL-04,1,13,Data Validation,Missing telemetry handling,todo,
 REPLAY-01,1,15,Responsibilities,Reconstruct race state,todo,
 REPLAY-02,1,15,Responsibilities,Emit synchronized playback frames,todo,

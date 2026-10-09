@@ -14,12 +14,12 @@ python3 scripts/sync_features.py --check                # CI: fail if plan.md/ST
 ```
 
 <!-- progress:start -->
-**30 / 305 features done (9%)**
+**35 / 305 features done (11%)**
 
 | Phase | Done | Total | Progress |
 |---|---:|---:|---|
 | 0 — Foundation | 3 | 3 | `██████████` |
-| 1 — Data foundation & basic replay | 27 | 71 | `████░░░░░░` |
+| 1 — Data foundation & basic replay | 32 | 71 | `█████░░░░░` |
 | 2 — Telemetry, timeline & playback | 0 | 83 | `░░░░░░░░░░` |
 | 3 — Championship & analytics | 0 | 46 | `░░░░░░░░░░` |
 | 4 — Distributed systems & production | 0 | 75 | `░░░░░░░░░░` |
@@ -315,14 +315,14 @@ Primary relational database.
 - [x] circuits <!-- DB-03 -->
 - [x] drivers <!-- DB-04 -->
 - [x] constructors <!-- DB-05 -->
-- [ ] laps <!-- DB-06 -->
-- [ ] sectors <!-- DB-07 -->
+- [x] laps <!-- DB-06 -->
+- [x] sectors <!-- DB-07 -->
 - [ ] telemetry_points <!-- DB-08 -->
 - [ ] race_events <!-- DB-09 -->
-- [ ] pit_stops <!-- DB-10 -->
+- [x] pit_stops <!-- DB-10 -->
 - [ ] weather_data <!-- DB-11 -->
 - [ ] championship_snapshots <!-- DB-12 -->
-- [ ] tire_stints <!-- DB-13 -->
+- [x] tire_stints <!-- DB-13 -->
 - [ ] penalties <!-- DB-14 -->
 - [x] sessions <!-- DB-15 -->
 
@@ -402,7 +402,7 @@ Possible free APIs:
 ### Data Validation
 - [x] Duplicate detection <!-- VAL-01 -->
 - [ ] Timestamp validation <!-- VAL-02 -->
-- [ ] Lap consistency checks <!-- VAL-03 -->
+- [x] Lap consistency checks <!-- VAL-03 -->
 - [ ] Missing telemetry handling <!-- VAL-04 -->
 
 ---

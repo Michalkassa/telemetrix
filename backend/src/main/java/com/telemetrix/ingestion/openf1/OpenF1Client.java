@@ -32,6 +32,25 @@ public class OpenF1Client {
 				}).orElse(List.of());
 	}
 
+	/** GET /laps?session_key= — every lap of every car in one session (one request). */
+	public List<OpenF1Lap> laps(int sessionKey) {
+		return http.get("/laps", Map.of("session_key", sessionKey), new ParameterizedTypeReference<List<OpenF1Lap>>() {
+		}).orElse(List.of());
+	}
+
+	/** GET /stints?session_key= — every car's tyre stints in one session. */
+	public List<OpenF1Stint> stints(int sessionKey) {
+		return http.get("/stints", Map.of("session_key", sessionKey),
+				new ParameterizedTypeReference<List<OpenF1Stint>>() {
+				}).orElse(List.of());
+	}
+
+	/** GET /pit?session_key= — every pit stop in one session. */
+	public List<OpenF1PitStop> pitStops(int sessionKey) {
+		return http.get("/pit", Map.of("session_key", sessionKey), new ParameterizedTypeReference<List<OpenF1PitStop>>() {
+		}).orElse(List.of());
+	}
+
 	/** GET /drivers?session_key= — the drivers entered in one session. */
 	public List<OpenF1Driver> drivers(int sessionKey) {
 		return http.get("/drivers", Map.of("session_key", sessionKey),

@@ -1,8 +1,11 @@
 package com.telemetrix;
 
 import com.telemetrix.ingestion.jolpica.JolpicaRace;
+import com.telemetrix.ingestion.openf1.OpenF1Lap;
 import com.telemetrix.ingestion.openf1.OpenF1Meeting;
+import com.telemetrix.ingestion.openf1.OpenF1PitStop;
 import com.telemetrix.ingestion.openf1.OpenF1Session;
+import com.telemetrix.ingestion.openf1.OpenF1Stint;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
@@ -32,6 +35,21 @@ public final class Fixtures {
 
 	public static List<OpenF1Session> openF1Sessions(int meetingKey) {
 		return read("openf1/sessions_" + meetingKey + ".json", new TypeReference<>() {
+		});
+	}
+
+	public static List<OpenF1Lap> openF1Laps(int sessionKey) {
+		return read("openf1/laps_" + sessionKey + ".json", new TypeReference<>() {
+		});
+	}
+
+	public static List<OpenF1Stint> openF1Stints(int sessionKey) {
+		return read("openf1/stints_" + sessionKey + ".json", new TypeReference<>() {
+		});
+	}
+
+	public static List<OpenF1PitStop> openF1PitStops(int sessionKey) {
+		return read("openf1/pit_" + sessionKey + ".json", new TypeReference<>() {
 		});
 	}
 

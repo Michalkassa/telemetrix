@@ -14,12 +14,12 @@ python3 scripts/sync_features.py --check                # CI: fail if plan.md/ST
 ```
 
 <!-- progress:start -->
-**12 / 305 features done (3%)**
+**14 / 305 features done (4%)**
 
 | Phase | Done | Total | Progress |
 |---|---:|---:|---|
 | 0 — Foundation | 3 | 3 | `██████████` |
-| 1 — Data foundation & basic replay | 9 | 71 | `█░░░░░░░░░` |
+| 1 — Data foundation & basic replay | 11 | 71 | `██░░░░░░░░` |
 | 2 — Telemetry, timeline & playback | 0 | 83 | `░░░░░░░░░░` |
 | 3 — Championship & analytics | 0 | 46 | `░░░░░░░░░░` |
 | 4 — Distributed systems & production | 0 | 75 | `░░░░░░░░░░` |
@@ -500,7 +500,7 @@ to write first.
 - [ ] Calculators <!-- TEST-04 -->
 
 ### Integration Tests
-- [ ] Repository tests <!-- TEST-05 -->
+- [x] Repository tests <!-- TEST-05 -->
 - [ ] Kafka tests <!-- TEST-06 -->
 - [ ] Redis tests <!-- TEST-07 -->
 - [ ] API tests <!-- TEST-08 -->
@@ -776,7 +776,7 @@ Use Python separately for:
 - [ ] Builder Pattern <!-- PAT-04 -->
 - [ ] CQRS <!-- PAT-05 -->
 - [ ] Event Sourcing <!-- PAT-06 -->
-- [ ] Repository Pattern <!-- PAT-07 -->
+- [x] Repository Pattern <!-- PAT-07 -->
 
 ---
 

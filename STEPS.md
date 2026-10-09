@@ -332,10 +332,10 @@ app starts. Repository tests pin the queries down.
 **Check it:** `./mvnw test` is green; the app starts without schema validation errors.
 
 <!-- features:7 -->
-**Checks off (0/2):**
+**Checks off (2/2):**
 
-- [ ] `TEST-05` Repository tests
-- [ ] `PAT-07` Repository Pattern
+- [x] `TEST-05` Repository tests
+- [x] `PAT-07` Repository Pattern
 <!-- /features -->
 
 ---

@@ -81,4 +81,25 @@ public class OpenF1Client {
 				}).orElse(List.of());
 	}
 
+	/** GET /race_control?session_key= — every race-control message in one session, in time order. */
+	public List<OpenF1RaceControl> raceControl(int sessionKey) {
+		return http.get("/race_control", Map.of("session_key", sessionKey),
+				new ParameterizedTypeReference<List<OpenF1RaceControl>>() {
+				}).orElse(List.of());
+	}
+
+	/** GET /weather?session_key= — the weather readings during one session (about one a minute). */
+	public List<OpenF1Weather> weather(int sessionKey) {
+		return http.get("/weather", Map.of("session_key", sessionKey),
+				new ParameterizedTypeReference<List<OpenF1Weather>>() {
+				}).orElse(List.of());
+	}
+
+	/** GET /team_radio?session_key= — every published team radio clip in one session. */
+	public List<OpenF1TeamRadio> teamRadio(int sessionKey) {
+		return http.get("/team_radio", Map.of("session_key", sessionKey),
+				new ParameterizedTypeReference<List<OpenF1TeamRadio>>() {
+				}).orElse(List.of());
+	}
+
 }

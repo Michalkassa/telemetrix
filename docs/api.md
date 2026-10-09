@@ -185,6 +185,85 @@ Every car at one moment, worked out on the server: race position, lap, progress 
            "x": -4088.3, "y": 3696.3}]}
 ```
 
+#### `GET /api/sessions/{id}/replay/state?at={instant}`
+
+The whole race state at one moment (`state` package, `RaceStateEngine`): the leader's lap, the flag
+(`GREEN`, `YELLOW`, `SAFETY_CAR`, `VSC`, `VSC_ENDING`, `RED`) and every car in race order, retired cars
+last. Gaps are seconds — to the leader and to the car ahead (`interval`) — measured where the car is: how
+long ago the other car was there; null for cars on the grid or retired, and frozen at the line once a car
+finishes. `tyreAge` counts laps on the current tyres including any they'd done before; `penaltySeconds`
+are time penalties so far (added after the race), `pendingPenalties` drive-throughs and stop-gos not yet
+served (a pit stop serves one). Answers in a few milliseconds anywhere: positions come straight from the
+timing, and the rest starts from the nearest snapshot (every 5 s, every lap, every key event).
+
+```json
+{"at": "2023-09-17T13:20:00Z", "lap": 44, "flag": "VSC",
+ "cars": [{"number": 55, "code": "SAI", "position": 1, "lap": 44, "lapsDone": 43.8293, "status": "RUNNING",
+           "gapToLeader": 0.0, "interval": null, "lapsDown": 0, "compound": "HARD", "tyreAge": 23,
+           "pitStops": 1, "penaltySeconds": 0, "pendingPenalties": 0}]}
+```
+
+`status`: `ON_GRID`, `RUNNING`, `IN_PIT`, `RETIRED`, `FINISHED`. 404 as for the replay.
+
+#### `GET /api/sessions/{id}/replay/snapshots`
+
+The derived state (flag, and per car: tyres, pit stops, penalties) once per lap and at each key event
+(`reason`: `LAP`, `SAFETY_CAR`, `VSC`, `RED_FLAG`, `PIT_STOP`), in time order, so the browser can start
+from the nearest one when scrubbing. About 6 KB gzipped for a Grand Prix. `t` is milliseconds after the
+replay's `clockStart`.
+
+```json
+[{"t": 0, "at": "2023-09-17T12:03:44.658Z", "lap": 1, "reason": "LAP", "flag": "GREEN",
+  "cars": {"14": {"compound": "MEDIUM", "stintLapStart": 1, "ageAtStart": 0, "pitStops": 0, "inPit": false,
+                  "penaltySeconds": 0, "pendingPenalties": 0}}}]
+```
+
+### Timeline
+
+#### `GET /api/races/{id}/timeline?type={type}`
+
+What happened in the race (its Race session; open the race first), in time order. Events are worked
+out from the stored data by one detector per type (`event` package) and kept until the race is imported
+again. `t` is milliseconds after `clockStart`, the replay clock's zero, so the player can jump to an
+event; `lap` is the leader's lap (a fastest lap: the car's own). Events that last (safety car, VSC, red
+and yellow flags, pit stops) have `endsAt` / `endLap`. `participants` act in order: the overtaker
+first. Repeat `type` to keep several types.
+
+```json
+{
+  "raceId": 39, "sessionId": 15, "clockStart": "2023-09-17T12:03:44.658Z",
+  "events": [
+    {"type": "SAFETY_CAR", "at": "2023-09-17T12:36:40.792Z", "t": 1976134, "lap": 20,
+     "endsAt": "2023-09-17T12:42:49.803Z", "endLap": 22, "severity": "HIGH", "participants": [],
+     "summary": "Safety car", "link": null},
+    {"type": "INCIDENT", "at": "2023-09-17T13:45:13Z", "t": 6088342, "lap": 59, "endsAt": null, "endLap": null,
+     "severity": "MEDIUM", "participants": [{"number": 11, "code": "PER"}, {"number": 23, "code": "ALB"}],
+     "summary": "Incident: PER, ALB — causing a collision", "link": null}
+  ]
+}
+```
+
+| `type` | From |
+|--------|------|
+| `OVERTAKE` | The replay's running order, sampled each second: a pass that holds for 5 s either side. Not counted: swaps on a pit lap or out-lap or around a pit stop, under SC / VSC / red, past a stopped car, or before the leader completes lap 1 |
+| `PIT_STOP`, `TYRE_CHANGE` | Pit stops; a new tyre stint (old → new compound) |
+| `FASTEST_LAP` | Each new fastest lap of the race when it's completed (not lap 1) |
+| `SAFETY_CAR`, `VSC`, `RED_FLAG`, `YELLOW_FLAG` | Track status periods (a VSC includes its ending phase) |
+| `INCIDENT` | Each incident the stewards note, once |
+| `CRASH` | A collision or "car stopped" message **and** a double yellow / SC / VSC / red from 3 min before to 1 min after it **and** a car retiring (≤ 5 min) or losing 3+ places (≤ 2 min). Replaces the incident |
+| `DNF` | A car whose timing stops before the chequered flag |
+| `PENALTY` | Penalties from race control |
+| `TEAM_RADIO` | Each clip; `link` is the recording |
+| `WEATHER` | Rain starting or stopping |
+
+Each detected event is also published inside the backend as a `RaceEventDetected` Spring event.
+
+| Status | When |
+|--------|------|
+| 200 | Found |
+| 400 | An unknown `type` |
+| 404 | Unknown race, no Race session, or no timing (open the race first) |
+
 ### Telemetry
 
 #### `GET /api/sessions/{id}/telemetry?driver={carNumber}&lap={lap}`
@@ -244,9 +323,13 @@ run nightly for the current season (`telemetrix.import.calendar-cron`, default 0
 #### `POST /api/admin/import/races/{id}`
 
 Downloads one race's data on demand: its OpenF1 sessions; for the race and sprint sessions every
-car's laps (with sector splits — the replay's timing points), tyre stints and pit stops; and the
-circuit's track map, once per circuit and year. About 4–7
-requests (~10 s at OpenF1's rate limit). Lap problems (a gap in lap numbers, sectors that don't add up,
+car's laps (with sector splits — the replay's timing points), tyre stints and pit stops, plus the
+weather, every race-control message (penalties are picked out of the stewards' messages), team radio
+links and the **track status** (yellow / SC / VSC / VSC ending / red periods, with the leader's laps);
+and the circuit's track map, once per circuit and year. About 8–12 requests (~25 s at OpenF1's rate
+limit). Track status comes from the F1 live-timing archive, timed to the millisecond
+(`f1archive.enabled`, on by default); when it's off or doesn't have the session, the same periods come
+from race-control messages, to the second. The report's notes say which was used. Lap problems (a gap in lap numbers, sectors that don't add up,
 a pit stop without a tyre change) are stored anyway and listed in `notes` as `ERROR …` / `WARNING …`.
 A race that has happened is marked imported, and later calls make no requests; a race still to come
 is refreshed (its timing replaced) each time.

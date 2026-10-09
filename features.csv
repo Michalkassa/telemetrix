@@ -33,19 +33,19 @@ TELE-09,2,27,Telemetry Visualization,Fuel estimate,todo,
 TELE-10,2,27,Telemetry Visualization,ERS estimate,todo,
 TELE-11,2,27,Telemetry Visualization,Sector deltas,todo,
 TELE-12,2,27,Telemetry Visualization,Lap delta comparisons,todo,
-TIME-01,2,22,Timeline System,Overtakes,todo,
-TIME-02,2,22,Timeline System,Pit stops,todo,
-TIME-03,2,22,Timeline System,Safety car,todo,
-TIME-04,2,22,Timeline System,VSC,todo,
-TIME-05,2,22,Timeline System,Yellow flags,todo,
-TIME-06,2,22,Timeline System,Red flags,todo,
-TIME-07,2,22,Timeline System,Crashes,todo,
-TIME-08,2,22,Timeline System,DNFs,todo,
-TIME-09,2,22,Timeline System,Fastest laps,todo,
-TIME-10,2,22,Timeline System,Penalties,todo,
-TIME-11,2,22,Timeline System,Team radio markers,todo,
-TIME-12,2,22,Timeline System,Tire changes,todo,
-TIME-13,2,22,Timeline System,Weather changes,todo,
+TIME-01,2,22,Timeline System,Overtakes,done,2026-10-09
+TIME-02,2,22,Timeline System,Pit stops,done,2026-10-09
+TIME-03,2,22,Timeline System,Safety car,done,2026-10-09
+TIME-04,2,22,Timeline System,VSC,done,2026-10-09
+TIME-05,2,22,Timeline System,Yellow flags,done,2026-10-09
+TIME-06,2,22,Timeline System,Red flags,done,2026-10-09
+TIME-07,2,22,Timeline System,Crashes,done,2026-10-09
+TIME-08,2,22,Timeline System,DNFs,done,2026-10-09
+TIME-09,2,22,Timeline System,Fastest laps,done,2026-10-09
+TIME-10,2,22,Timeline System,Penalties,done,2026-10-09
+TIME-11,2,22,Timeline System,Team radio markers,done,2026-10-09
+TIME-12,2,22,Timeline System,Tire changes,done,2026-10-09
+TIME-13,2,22,Timeline System,Weather changes,done,2026-10-09
 TIME-14,3,30,Timeline System,Championship lead changes,todo,
 CHAMP-01,3,31,Championship Explorer,Select any season,todo,
 CHAMP-02,3,31,Championship Explorer,View constructor standings,todo,
@@ -121,12 +121,12 @@ DB-05,1,6,Core Tables,constructors,done,2026-10-09
 DB-06,1,12,Core Tables,laps,done,2026-10-09
 DB-07,1,12,Core Tables,sectors,done,2026-10-09
 DB-08,1,13,Core Tables,telemetry_points,done,2026-10-09
-DB-09,2,21,Core Tables,race_events,todo,
+DB-09,2,21,Core Tables,race_events,done,2026-10-09
 DB-10,1,12,Core Tables,pit_stops,done,2026-10-09
-DB-11,2,21,Core Tables,weather_data,todo,
+DB-11,2,21,Core Tables,weather_data,done,2026-10-09
 DB-12,3,30,Core Tables,championship_snapshots,todo,
 DB-13,1,12,Core Tables,tire_stints,done,2026-10-09
-DB-14,2,21,Core Tables,penalties,todo,
+DB-14,2,21,Core Tables,penalties,done,2026-10-09
 DB-15,1,6,Core Tables,sessions,done,2026-10-09
 TSDB-01,4,39,TimescaleDB Extension,Telemetry time-series storage,todo,
 TSDB-02,4,39,TimescaleDB Extension,Efficient timestamp querying,todo,
@@ -156,8 +156,8 @@ SRC-05,5,49,Sources,Public telemetry datasets,todo,
 ING-01,1,9,Scheduled Importers,Race importer,done,2026-10-09
 ING-02,1,13,Scheduled Importers,Telemetry importer,done,2026-10-09
 ING-03,1,9,Scheduled Importers,Session importer,done,2026-10-09
-ING-04,2,21,Scheduled Importers,Weather importer,todo,
-ING-05,2,21,Scheduled Importers,Event importer,todo,
+ING-04,2,21,Scheduled Importers,Weather importer,done,2026-10-09
+ING-05,2,21,Scheduled Importers,Event importer,done,2026-10-09
 VAL-01,1,9,Data Validation,Duplicate detection,done,2026-10-09
 VAL-02,1,13,Data Validation,Timestamp validation,done,2026-10-09
 VAL-03,1,12,Data Validation,Lap consistency checks,done,2026-10-09
@@ -166,7 +166,7 @@ REPLAY-01,1,15,Responsibilities,Reconstruct race state,done,2026-10-09
 REPLAY-02,1,15,Responsibilities,Emit synchronized playback frames,done,2026-10-09
 REPLAY-03,1,15,Responsibilities,Interpolate telemetry,done,2026-10-09
 REPLAY-04,1,15,Responsibilities,Maintain race timing,done,2026-10-09
-REPLAY-05,2,23,Responsibilities,Support rewind,todo,
+REPLAY-05,2,23,Responsibilities,Support rewind,done,2026-10-09
 REPLAY-06,2,24,Responsibilities,Support pause/resume,todo,
 FRAME-01,1,15,Playback Frame,Driver positions,done,2026-10-09
 FRAME-02,2,26,Playback Frame,Track state,todo,
@@ -174,12 +174,12 @@ FRAME-03,1,15,Playback Frame,Current lap,done,2026-10-09
 FRAME-04,2,26,Playback Frame,Current flags,todo,
 FRAME-05,2,26,Playback Frame,Weather state,todo,
 FRAME-06,2,26,Playback Frame,Gap data,todo,
-SNAP-01,2,23,Snapshotting,5 seconds,todo,
-SNAP-02,2,23,Snapshotting,1 lap,todo,
-SNAP-03,2,23,Snapshotting,Key events,todo,
+SNAP-01,2,23,Snapshotting,5 seconds,done,2026-10-09
+SNAP-02,2,23,Snapshotting,1 lap,done,2026-10-09
+SNAP-03,2,23,Snapshotting,Key events,done,2026-10-09
 API-01,1,11,REST APIs,GET /seasons,done,2026-10-09
 API-02,1,11,REST APIs,GET /races/{id},done,2026-10-09
-API-03,2,22,REST APIs,GET /races/{id}/timeline,todo,
+API-03,2,22,REST APIs,GET /races/{id}/timeline,done,2026-10-09
 API-04,3,32,REST APIs,GET /drivers/{id}/stats,todo,
 API-05,1,13,REST APIs,GET /telemetry/{sessionId},done,2026-10-09
 WS-01,2,24,WebSocket APIs,Live replay stream,todo,
@@ -276,10 +276,10 @@ MOD-04,1,15,Modules,replay-service,done,2026-10-09
 MOD-05,3,32,Modules,analytics-service,todo,
 MOD-06,1,9,Modules,ingestion-service,done,2026-10-09
 MOD-07,3,30,Modules,championship-service,todo,
-MOD-08,2,22,Modules,event-service,todo,
-PAT-01,1,21,Patterns To Use,Factory Pattern,todo,
+MOD-08,2,22,Modules,event-service,done,2026-10-09
+PAT-01,1,21,Patterns To Use,Factory Pattern,done,2026-10-09
 PAT-02,3,30,Patterns To Use,Strategy Pattern,todo,
-PAT-03,2,22,Patterns To Use,Observer Pattern,todo,
+PAT-03,2,22,Patterns To Use,Observer Pattern,done,2026-10-09
 PAT-04,1,15,Patterns To Use,Builder Pattern,done,2026-10-09
 PAT-05,3,36,Patterns To Use,CQRS,todo,
 PAT-06,3,36,Patterns To Use,Event Sourcing,todo,

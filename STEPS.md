@@ -860,14 +860,14 @@ event timeline.
 44–45.
 
 <!-- features:21 -->
-**Checks off (0/6):**
+**Checks off (6/6):**
 
-- [ ] `DB-09` race_events
-- [ ] `DB-11` weather_data
-- [ ] `DB-14` penalties
-- [ ] `ING-04` Weather importer
-- [ ] `ING-05` Event importer
-- [ ] `PAT-01` Factory Pattern
+- [x] `DB-09` race_events
+- [x] `DB-11` weather_data
+- [x] `DB-14` penalties
+- [x] `ING-04` Weather importer
+- [x] `ING-05` Event importer
+- [x] `PAT-01` Factory Pattern
 <!-- /features -->
 
 ---
@@ -901,24 +901,24 @@ testable on its own.
 **Check it:** Singapore 2023's timeline shows the SC, the VSC and the late Pérez collisions.
 
 <!-- features:22 -->
-**Checks off (0/16):**
+**Checks off (16/16):**
 
-- [ ] `TIME-01` Overtakes
-- [ ] `TIME-02` Pit stops
-- [ ] `TIME-03` Safety car
-- [ ] `TIME-04` VSC
-- [ ] `TIME-05` Yellow flags
-- [ ] `TIME-06` Red flags
-- [ ] `TIME-07` Crashes
-- [ ] `TIME-08` DNFs
-- [ ] `TIME-09` Fastest laps
-- [ ] `TIME-10` Penalties
-- [ ] `TIME-11` Team radio markers
-- [ ] `TIME-12` Tire changes
-- [ ] `TIME-13` Weather changes
-- [ ] `API-03` GET /races/{id}/timeline
-- [ ] `MOD-08` event-service
-- [ ] `PAT-03` Observer Pattern
+- [x] `TIME-01` Overtakes
+- [x] `TIME-02` Pit stops
+- [x] `TIME-03` Safety car
+- [x] `TIME-04` VSC
+- [x] `TIME-05` Yellow flags
+- [x] `TIME-06` Red flags
+- [x] `TIME-07` Crashes
+- [x] `TIME-08` DNFs
+- [x] `TIME-09` Fastest laps
+- [x] `TIME-10` Penalties
+- [x] `TIME-11` Team radio markers
+- [x] `TIME-12` Tire changes
+- [x] `TIME-13` Weather changes
+- [x] `API-03` GET /races/{id}/timeline
+- [x] `MOD-08` event-service
+- [x] `PAT-03` Observer Pattern
 <!-- /features -->
 
 ---
@@ -945,12 +945,12 @@ scrub.
 under 100 ms.
 
 <!-- features:23 -->
-**Checks off (0/4):**
+**Checks off (4/4):**
 
-- [ ] `REPLAY-05` Support rewind
-- [ ] `SNAP-01` 5 seconds
-- [ ] `SNAP-02` 1 lap
-- [ ] `SNAP-03` Key events
+- [x] `REPLAY-05` Support rewind
+- [x] `SNAP-01` 5 seconds
+- [x] `SNAP-02` 1 lap
+- [x] `SNAP-03` Key events
 <!-- /features -->
 
 ---

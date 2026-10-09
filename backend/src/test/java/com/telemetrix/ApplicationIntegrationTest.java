@@ -2,6 +2,8 @@ package com.telemetrix;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.telemetrix.ingestion.TrackStatusSourceFactory;
+import com.telemetrix.ingestion.f1archive.F1ArchiveProperties;
 import com.telemetrix.ingestion.jolpica.JolpicaProperties;
 import com.telemetrix.ingestion.openf1.OpenF1Properties;
 import java.time.Duration;
@@ -24,6 +26,12 @@ class ApplicationIntegrationTest {
 
 	@Autowired
 	JolpicaProperties jolpica;
+
+	@Autowired
+	F1ArchiveProperties f1Archive;
+
+	@Autowired
+	TrackStatusSourceFactory trackStatusSources;
 
 	@Test
 	void contextLoads() {
@@ -50,6 +58,14 @@ class ApplicationIntegrationTest {
 		assertThat(jolpica.baseUrl()).isEqualTo("https://api.jolpi.ca/ergast/f1");
 		// unauthenticated: 500 requests/hour sustained, so at most one request every 7.2 s
 		assertThat(jolpica.minRequestInterval()).isGreaterThanOrEqualTo(Duration.ofMillis(7200));
+	}
+
+	@Test
+	void theF1ArchiveIsUsedForTrackStatusByDefaultAndPolitely() {
+		assertThat(f1Archive.enabled()).isTrue();
+		assertThat(f1Archive.baseUrl()).isEqualTo("https://livetiming.formula1.com/static");
+		assertThat(f1Archive.minRequestInterval()).isGreaterThanOrEqualTo(Duration.ofSeconds(1));
+		assertThat(trackStatusSources).isNotNull();
 	}
 
 }

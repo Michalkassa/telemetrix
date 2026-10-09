@@ -6,6 +6,7 @@ import static org.mockito.BDDMockito.given;
 import com.telemetrix.Fixtures;
 import com.telemetrix.TestcontainersConfiguration;
 import com.telemetrix.ingestion.RaceImporter;
+import com.telemetrix.ingestion.f1archive.F1ArchiveClient;
 import com.telemetrix.ingestion.multiviewer.MultiviewerClient;
 import com.telemetrix.ingestion.openf1.OpenF1Client;
 import java.time.Instant;
@@ -55,6 +56,9 @@ class ReplayFlowTest {
 
 	@MockitoBean
 	MultiviewerClient multiviewer;
+
+	@MockitoBean
+	F1ArchiveClient f1Archive; // never the live archive from tests
 
 	long sessionId;
 

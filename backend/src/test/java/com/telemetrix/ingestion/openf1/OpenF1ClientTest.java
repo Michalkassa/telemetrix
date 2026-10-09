@@ -68,6 +68,43 @@ class OpenF1ClientTest {
 	}
 
 	@Test
+	void fetchesASessionsRaceControlMessages() {
+		server.expect(requestTo(BASE + "/race_control?session_key=9165"))
+				.andRespond(withSuccess(fixture("race_control_9165.json"), MediaType.APPLICATION_JSON));
+
+		var messages = client.raceControl(9165);
+
+		assertThat(messages).hasSize(76);
+		assertThat(messages.get(18)).isEqualTo(new OpenF1RaceControl(OffsetDateTime.parse("2023-09-17T12:36:41Z"), 20,
+				"SafetyCar", null, null, null, null, "SAFETY CAR DEPLOYED"));
+		assertThat(messages.get(6).sector()).isEqualTo(13);
+	}
+
+	@Test
+	void fetchesASessionsWeather() {
+		server.expect(requestTo(BASE + "/weather?session_key=9165"))
+				.andRespond(withSuccess(fixture("weather_9165.json"), MediaType.APPLICATION_JSON));
+
+		var weather = client.weather(9165);
+
+		assertThat(weather).hasSize(176);
+		assertThat(weather.getFirst()).isEqualTo(new OpenF1Weather(OffsetDateTime.parse("2023-09-17T11:01:24.028Z"),
+				30.0, 38.3, 68.0, 1007.9, 0, 0.8, 106));
+	}
+
+	@Test
+	void fetchesASessionsTeamRadio() {
+		server.expect(requestTo(BASE + "/team_radio?session_key=9165"))
+				.andRespond(withSuccess(fixture("team_radio_9165.json"), MediaType.APPLICATION_JSON));
+
+		var radio = client.teamRadio(9165);
+
+		assertThat(radio).hasSize(65);
+		assertThat(radio.getFirst().driverNumber()).isEqualTo(24);
+		assertThat(radio.getFirst().recordingUrl()).endsWith("/TeamRadio/GUAZHO01_24_20230917_121303.mp3");
+	}
+
+	@Test
 	void fetchesAMeetingsSessions() {
 		server.expect(requestTo(BASE + "/sessions?meeting_key=1229"))
 				.andRespond(withSuccess(fixture("sessions_1229.json"), MediaType.APPLICATION_JSON));

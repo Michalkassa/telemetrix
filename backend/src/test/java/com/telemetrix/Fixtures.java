@@ -1,5 +1,6 @@
 package com.telemetrix;
 
+import com.telemetrix.ingestion.f1archive.F1ArchiveClient.SessionStreams;
 import com.telemetrix.ingestion.jolpica.JolpicaRace;
 import com.telemetrix.ingestion.multiviewer.MultiviewerCircuit;
 import com.telemetrix.ingestion.openf1.OpenF1CarData;
@@ -8,11 +9,15 @@ import com.telemetrix.ingestion.openf1.OpenF1Lap;
 import com.telemetrix.ingestion.openf1.OpenF1Location;
 import com.telemetrix.ingestion.openf1.OpenF1Meeting;
 import com.telemetrix.ingestion.openf1.OpenF1PitStop;
+import com.telemetrix.ingestion.openf1.OpenF1RaceControl;
+import com.telemetrix.ingestion.openf1.OpenF1TeamRadio;
+import com.telemetrix.ingestion.openf1.OpenF1Weather;
 import com.telemetrix.ingestion.openf1.OpenF1Session;
 import com.telemetrix.ingestion.openf1.OpenF1Stint;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import org.springframework.core.io.ClassPathResource;
 import tools.jackson.core.type.TypeReference;
@@ -72,9 +77,39 @@ public final class Fixtures {
 		});
 	}
 
+	public static List<OpenF1RaceControl> openF1RaceControl(int sessionKey) {
+		return read("openf1/race_control_" + sessionKey + ".json", new TypeReference<>() {
+		});
+	}
+
+	public static List<OpenF1Weather> openF1Weather(int sessionKey) {
+		return read("openf1/weather_" + sessionKey + ".json", new TypeReference<>() {
+		});
+	}
+
+	public static List<OpenF1TeamRadio> openF1TeamRadio(int sessionKey) {
+		return read("openf1/team_radio_" + sessionKey + ".json", new TypeReference<>() {
+		});
+	}
+
 	public static MultiviewerCircuit multiviewerCircuit(int circuitKey, int year) {
 		return read("multiviewer/circuit_" + circuitKey + "_" + year + ".json", new TypeReference<>() {
 		});
+	}
+
+	/** The F1 archive's TrackStatus and SessionData streams for Singapore 2023's race (session 9165). */
+	public static SessionStreams f1ArchiveSingapore2023Race() {
+		return new SessionStreams(text("f1archive/singapore_2023_race_TrackStatus.jsonStream"),
+				text("f1archive/singapore_2023_race_SessionData.jsonStream"));
+	}
+
+	private static String text(String path) {
+		try {
+			return new ClassPathResource("fixtures/" + path).getContentAsString(StandardCharsets.UTF_8);
+		}
+		catch (IOException e) {
+			throw new UncheckedIOException(e);
+		}
 	}
 
 	private static tools.jackson.databind.JsonNode read(String path) {

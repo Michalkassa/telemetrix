@@ -14,13 +14,13 @@ python3 scripts/sync_features.py --check                # CI: fail if plan.md/ST
 ```
 
 <!-- progress:start -->
-**68 / 305 features done (22%)**
+**94 / 305 features done (30%)**
 
 | Phase | Done | Total | Progress |
 |---|---:|---:|---|
 | 0 — Foundation | 3 | 3 | `██████████` |
-| 1 — Data foundation & basic replay | 65 | 71 | `█████████░` |
-| 2 — Telemetry, timeline & playback | 0 | 83 | `░░░░░░░░░░` |
+| 1 — Data foundation & basic replay | 66 | 71 | `█████████░` |
+| 2 — Telemetry, timeline & playback | 25 | 83 | `███░░░░░░░` |
 | 3 — Championship & analytics | 0 | 46 | `░░░░░░░░░░` |
 | 4 — Distributed systems & production | 0 | 75 | `░░░░░░░░░░` |
 | 5 — Data science & polish | 0 | 16 | `░░░░░░░░░░` |
@@ -132,19 +132,19 @@ The system is designed as:
 
 ### Timeline System
 Timeline events:
-- [ ] Overtakes <!-- TIME-01 -->
-- [ ] Pit stops <!-- TIME-02 -->
-- [ ] Safety car <!-- TIME-03 -->
-- [ ] VSC <!-- TIME-04 -->
-- [ ] Yellow flags <!-- TIME-05 -->
-- [ ] Red flags <!-- TIME-06 -->
-- [ ] Crashes <!-- TIME-07 -->
-- [ ] DNFs <!-- TIME-08 -->
-- [ ] Fastest laps <!-- TIME-09 -->
-- [ ] Penalties <!-- TIME-10 -->
-- [ ] Team radio markers <!-- TIME-11 -->
-- [ ] Tire changes <!-- TIME-12 -->
-- [ ] Weather changes <!-- TIME-13 -->
+- [x] Overtakes <!-- TIME-01 -->
+- [x] Pit stops <!-- TIME-02 -->
+- [x] Safety car <!-- TIME-03 -->
+- [x] VSC <!-- TIME-04 -->
+- [x] Yellow flags <!-- TIME-05 -->
+- [x] Red flags <!-- TIME-06 -->
+- [x] Crashes <!-- TIME-07 -->
+- [x] DNFs <!-- TIME-08 -->
+- [x] Fastest laps <!-- TIME-09 -->
+- [x] Penalties <!-- TIME-10 -->
+- [x] Team radio markers <!-- TIME-11 -->
+- [x] Tire changes <!-- TIME-12 -->
+- [x] Weather changes <!-- TIME-13 -->
 - [ ] Championship lead changes <!-- TIME-14 -->
 
 ---
@@ -318,12 +318,12 @@ Primary relational database.
 - [x] laps <!-- DB-06 -->
 - [x] sectors <!-- DB-07 -->
 - [x] telemetry_points <!-- DB-08 -->
-- [ ] race_events <!-- DB-09 -->
+- [x] race_events <!-- DB-09 -->
 - [x] pit_stops <!-- DB-10 -->
-- [ ] weather_data <!-- DB-11 -->
+- [x] weather_data <!-- DB-11 -->
 - [ ] championship_snapshots <!-- DB-12 -->
 - [x] tire_stints <!-- DB-13 -->
-- [ ] penalties <!-- DB-14 -->
+- [x] penalties <!-- DB-14 -->
 - [x] sessions <!-- DB-15 -->
 
 ## TimescaleDB Extension
@@ -396,8 +396,8 @@ Possible free APIs:
 - [x] Race importer <!-- ING-01 -->
 - [x] Telemetry importer <!-- ING-02 -->
 - [x] Session importer <!-- ING-03 -->
-- [ ] Weather importer <!-- ING-04 -->
-- [ ] Event importer <!-- ING-05 -->
+- [x] Weather importer <!-- ING-04 -->
+- [x] Event importer <!-- ING-05 -->
 
 ### Data Validation
 - [x] Duplicate detection <!-- VAL-01 -->
@@ -418,7 +418,7 @@ timing points per lap, played client-side like a video — see
 - [x] Emit synchronized playback frames <!-- REPLAY-02 -->
 - [x] Interpolate telemetry <!-- REPLAY-03 -->
 - [x] Maintain race timing <!-- REPLAY-04 -->
-- [ ] Support rewind <!-- REPLAY-05 -->
+- [x] Support rewind <!-- REPLAY-05 -->
 - [ ] Support pause/resume <!-- REPLAY-06 -->
 
 ## Core Concepts
@@ -433,9 +433,9 @@ Contains:
 
 ### Snapshotting
 Create snapshots every:
-- [ ] 5 seconds <!-- SNAP-01 -->
-- [ ] 1 lap <!-- SNAP-02 -->
-- [ ] Key events <!-- SNAP-03 -->
+- [x] 5 seconds <!-- SNAP-01 -->
+- [x] 1 lap <!-- SNAP-02 -->
+- [x] Key events <!-- SNAP-03 -->
 
 Allows efficient rewind and seeking.
 
@@ -447,7 +447,7 @@ Allows efficient rewind and seeking.
 Examples:
 - [x] GET /seasons <!-- API-01 -->
 - [x] GET /races/{id} <!-- API-02 -->
-- [ ] GET /races/{id}/timeline <!-- API-03 -->
+- [x] GET /races/{id}/timeline <!-- API-03 -->
 - [ ] GET /drivers/{id}/stats <!-- API-04 -->
 - [x] GET /telemetry/{sessionId} <!-- API-05 -->
 
@@ -741,7 +741,7 @@ Use Python separately for:
 - [ ] analytics-service <!-- MOD-05 -->
 - [x] ingestion-service <!-- MOD-06 -->
 - [ ] championship-service <!-- MOD-07 -->
-- [ ] event-service <!-- MOD-08 -->
+- [x] event-service <!-- MOD-08 -->
 
 ---
 
@@ -777,9 +777,9 @@ Use Python separately for:
 # Recommended Design Patterns
 
 ## Patterns To Use
-- [ ] Factory Pattern <!-- PAT-01 -->
+- [x] Factory Pattern <!-- PAT-01 -->
 - [ ] Strategy Pattern <!-- PAT-02 -->
-- [ ] Observer Pattern <!-- PAT-03 -->
+- [x] Observer Pattern <!-- PAT-03 -->
 - [x] Builder Pattern <!-- PAT-04 -->
 - [ ] CQRS <!-- PAT-05 -->
 - [ ] Event Sourcing <!-- PAT-06 -->

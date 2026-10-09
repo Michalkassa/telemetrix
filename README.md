@@ -8,7 +8,10 @@ championship simulations and historical analytics.
 1950 (Jolpica) and each season's calendar; a race's OpenF1 data (sessions, laps with sector splits,
 tyre stints, pit stops, the circuit's track map) downloads in the background the first time someone
 opens it, and a car's full telemetry the first time someone asks for it. Seasons, races, import status,
-track maps, telemetry and the **replay** (a whole race's timing points in one ~80 KB response) are
+track maps, telemetry, each race's weather, race control, penalties, track status (SC / VSC / red
+flag periods) and team radio, each race's **timeline** (overtakes, pit stops, SC/VSC, incidents,
+DNFs, fastest laps, penalties, ...), the race **state** at any moment (order, gaps, tyres, flags,
+penalties; instant to seek thanks to snapshots), and the **replay** (a whole race's timing points in one ~80 KB response) are
 served over a REST API. The React frontend has the landing page, dashboard, Grand Prix list and race pages, and the
 replay player (`/races/:year/:raceId/replay`: a canvas track map with one dot per car, play/pause, lap
 counter and running order). Everything to be built is specified in
@@ -136,7 +139,7 @@ journey) and are driven inward with unit tests. The rules and the test tools for
 
 ## Where to start implementing
 
-Follow [`STEPS.md`](STEPS.md) from **Step 19** (Dockerize the stack), using [`templates/README.md`](templates/README.md) as the reference for each Spring
+Follow [`STEPS.md`](STEPS.md) from **Step 24** (shared viewing over WebSocket; Step 20, CI, is still to do), using [`templates/README.md`](templates/README.md) as the reference for each Spring
 layer. Every step starts with its **Tests first** list. When a feature's tests pass, tick it off:
 `python3 scripts/sync_features.py done <ID>`.
 

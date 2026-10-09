@@ -14,7 +14,12 @@ import com.telemetrix.circuit.Circuit;
 import com.telemetrix.circuit.CircuitLayout;
 import com.telemetrix.circuit.CircuitLayoutStore;
 import com.telemetrix.circuit.CircuitRepository;
+import com.telemetrix.ingestion.f1archive.F1ArchiveClient;
 import com.telemetrix.ingestion.multiviewer.MultiviewerClient;
+import com.telemetrix.racecontrol.RaceControlMessageRepository;
+import com.telemetrix.racecontrol.TrackStatusSource;
+import com.telemetrix.racecontrol.SessionTrackStatusRepository;
+import com.telemetrix.racecontrol.TrackStatus;
 import com.telemetrix.common.NotFoundException;
 import com.telemetrix.ingestion.openf1.OpenF1Client;
 import com.telemetrix.ingestion.openf1.OpenF1Lap;
@@ -44,11 +49,14 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.context.event.ApplicationEvents;
+import org.springframework.test.context.event.RecordApplicationEvents;
 
 // Downloading one race's data on demand, when a user opens it.
 @RepositoryTest
+@RecordApplicationEvents
 @Import({ RaceImporter.class, CalendarValidator.class, SessionTimingImporter.class, LapConsistencyValidator.class,
-		CircuitLayoutImporter.class, CircuitLayoutStore.class, RaceImporterTest.FixedClock.class })
+		CircuitLayoutImporter.class, CircuitLayoutStore.class, SessionEventsImporter.class, RaceImporterTest.FixedClock.class })
 class RaceImporterTest {
 
 	// "now" for these tests: well after the 2024 Bahrain GP, before the 2027 season
@@ -60,6 +68,11 @@ class RaceImporterTest {
 		@Bean
 		Clock clock() {
 			return Clock.fixed(NOW, ZoneOffset.UTC);
+		}
+
+		@Bean
+		TrackStatusSourceFactory trackStatusSourceFactory(F1ArchiveClient archive) {
+			return new TrackStatusSourceFactory(archive, true);
 		}
 
 	}
@@ -85,6 +98,18 @@ class RaceImporterTest {
 	@MockitoBean
 	MultiviewerClient multiviewer;
 
+	@MockitoBean
+	F1ArchiveClient archive;
+
+	@Autowired
+	SessionTrackStatusRepository trackStatus;
+
+	@Autowired
+	ApplicationEvents published;
+
+	@Autowired
+	RaceControlMessageRepository raceEvents;
+
 	@Autowired
 	CircuitLayoutStore layouts;
 
@@ -106,6 +131,7 @@ class RaceImporterTest {
 	void seedCalendar() {
 		seasons.save(new Season((short) 2024));
 		seasons.save(new Season((short) 2008));
+		seasons.save(new Season((short) 2023));
 		seasons.save(new Season((short) 2027));
 		bahrainCircuit = circuits.save(new Circuit("bahrain", "Bahrain International Circuit"));
 	}
@@ -128,6 +154,18 @@ class RaceImporterTest {
 		assertThat(raceSession.getEndsAt()).isEqualTo(Instant.parse("2024-03-02T17:00:00Z"));
 		assertThat(race.getImportedAt()).isEqualTo(NOW);
 		assertThat(report.count("sessions").inserted()).isEqualTo(5);
+	}
+
+	@Test
+	void announcesTheImportSoAnythingWorkedOutFromItIsRedone() {
+		long id = race(2024, 1, "2024-03-02", 1229).getId();
+		given(openF1.sessions(1229)).willReturn(Fixtures.openF1Sessions(1229));
+
+		importer.importRace(id);
+
+		var sessionIds = races.findById(id).orElseThrow().getSessions().stream().map(Session::getId).toList();
+		assertThat(published.stream(RaceImported.class)).singleElement()
+				.isEqualTo(new RaceImported(id, sessionIds));
 	}
 
 	@Test
@@ -283,6 +321,39 @@ class RaceImporterTest {
 
 		assertThat(report.notes()).anySatisfy(note -> assertThat(note).startsWith("ERROR").contains("car 1"));
 		assertThat(report.count("laps").inserted()).isEqualTo(2); // kept, but reported
+	}
+
+	@Test
+	void downloadsRaceControlAndWeatherWithExactTrackStatusFromTheF1Archive() {
+		// Singapore 2023: the safety car from lap 20 to 22, the VSC on laps 44-45
+		long id = race(2023, 16, "2023-09-17", 1219).getId();
+		given(openF1.sessions(1219)).willReturn(Fixtures.openF1Sessions(1219));
+		given(openF1.laps(9165)).willReturn(Fixtures.openF1Laps(9165));
+		given(openF1.raceControl(9165)).willReturn(Fixtures.openF1RaceControl(9165));
+		given(openF1.weather(9165)).willReturn(Fixtures.openF1Weather(9165));
+		given(openF1.teamRadio(9165)).willReturn(Fixtures.openF1TeamRadio(9165));
+		given(archive.trackStatus(2023, 9165)).willReturn(Optional.of(Fixtures.f1ArchiveSingapore2023Race()));
+
+		var report = importer.importRace(id);
+		em.flush();
+		em.clear();
+
+		var raceSession = races.findById(id).orElseThrow().getSessions().getLast();
+		assertThat(raceSession.getName()).isEqualTo("Race");
+		var periods = trackStatus.findBySessionOrderByStartsAtAsc(raceSession);
+		assertThat(periods).allSatisfy(p -> assertThat(p.getSource()).isEqualTo(TrackStatusSource.Kind.F1_ARCHIVE));
+		assertThat(periods).filteredOn(p -> p.getStatus() == TrackStatus.SAFETY_CAR).singleElement()
+				.satisfies(sc -> {
+					assertThat(sc.getStartLap()).isEqualTo((short) 20);
+					assertThat(sc.getEndLap()).isEqualTo((short) 22);
+				});
+		var vsc = periods.stream().filter(p -> p.getStatus() == TrackStatus.VSC).findFirst().orElseThrow();
+		var vscEnding = periods.stream().filter(p -> p.getStatus() == TrackStatus.VSC_ENDING).findFirst().orElseThrow();
+		assertThat(vsc.getStartLap()).isEqualTo((short) 44);
+		assertThat(vscEnding.getEndLap()).isEqualTo((short) 45);
+		assertThat(raceEvents.findBySessionOrderByOccurredAtAscIdAsc(raceSession)).hasSize(76);
+		assertThat(report.count("weather").inserted()).isEqualTo(176);
+		verify(openF1, never()).raceControl(9161); // Qualifying: no events yet
 	}
 
 	@Test

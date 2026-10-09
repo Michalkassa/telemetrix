@@ -13,6 +13,7 @@ import java.util.Optional;
 import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,8 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 // already happened is imported it is marked, and later calls make no API calls at all. A race still
 // to come is imported but not marked, so its sessions are refreshed next time.
 // Race and sprint sessions also get their laps, tyre stints and pit stops (SessionTimingImporter), and
-// the circuit its track map (CircuitLayoutImporter);
-// Step 21 adds race control and weather.
+// the circuit its track map (CircuitLayoutImporter), and their weather, race control, penalties, track
+// status and team radio (SessionEventsImporter).
 @Service
 public class RaceImporter {
 
@@ -40,16 +41,23 @@ public class RaceImporter {
 
 	private final CircuitLayoutImporter layouts;
 
+	private final SessionEventsImporter events;
+
 	private final Clock clock;
 
+	private final ApplicationEventPublisher publisher;
+
 	RaceImporter(OpenF1Client openF1, RaceRepository races, CalendarValidator validator, SessionTimingImporter timing,
-			CircuitLayoutImporter layouts, Clock clock) {
+			CircuitLayoutImporter layouts, SessionEventsImporter events, Clock clock,
+			ApplicationEventPublisher publisher) {
 		this.openF1 = openF1;
 		this.races = races;
 		this.validator = validator;
 		this.timing = timing;
 		this.layouts = layouts;
+		this.events = events;
 		this.clock = clock;
+		this.publisher = publisher;
 	}
 
 	@Transactional
@@ -84,6 +92,7 @@ public class RaceImporter {
 		for (Session session : race.getSessions()) {
 			if (TIMED_SESSIONS.contains(session.getName()) && session.getOpenf1SessionKey() != null) {
 				SectorSegments segments = timing.importSession(session, report);
+				events.importSession(session, race.getSeason().getYear(), report);
 				if (mapSession == null || session.getName().equals("Race")) { // prefer the race's laps
 					mapSession = session;
 					mapSegments = segments;
@@ -97,6 +106,8 @@ public class RaceImporter {
 		if (race.getRaceDate().isBefore(LocalDate.now(clock))) {
 			race.markImported(clock.instant());
 		}
+		// anything worked out from this race's data (its timeline) is out of date now
+		publisher.publishEvent(new RaceImported(raceId, race.getSessions().stream().map(Session::getId).toList()));
 		ImportReport result = report.build();
 		log.info("Imported {}: {}", what, result.counts());
 		return result;

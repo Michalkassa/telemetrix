@@ -5,6 +5,7 @@ import { Landing } from './pages/Landing'
 import { RaceList } from './pages/RaceList'
 import { RacePage } from './pages/RacePage'
 import { RacesIndex } from './pages/RacesIndex'
+import { ReplayPage } from './pages/ReplayPage'
 
 // Every page and its URL (plan.md, "Route tree"). All selection state lives in the URL, so every
 // view is a deep link.
@@ -17,6 +18,7 @@ export const routes: RouteObject[] = [
       { path: '/races', element: <RacesIndex /> },
       { path: '/races/:year', element: <RaceList /> },
       { path: '/races/:year/:raceId', element: <RacePage /> },
+      { path: '/races/:year/:raceId/replay', element: <ReplayPage /> },
     ],
   },
 ]

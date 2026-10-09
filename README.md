@@ -9,8 +9,9 @@ championship simulations and historical analytics.
 tyre stints, pit stops, the circuit's track map) downloads in the background the first time someone
 opens it, and a car's full telemetry the first time someone asks for it. Seasons, races, import status,
 track maps, telemetry and the **replay** (a whole race's timing points in one ~80 KB response) are
-served over a REST API. The React frontend has the landing page, dashboard, Grand Prix list and race pages;
-the replay player is next (Step 18). Everything to be built is specified in
+served over a REST API. The React frontend has the landing page, dashboard, Grand Prix list and race pages, and the
+replay player (`/races/:year/:raceId/replay`: a canvas track map with one dot per car, play/pause, lap
+counter and running order). Everything to be built is specified in
 [`plan.md`](plan.md), and [`STEPS.md`](STEPS.md) breaks it into 55 build steps.
 Progress is tracked in [`features.csv`](features.csv); see the top of `plan.md`.
 
@@ -19,17 +20,17 @@ Progress is tracked in [`features.csv`](features.csv); see the top of `plan.md`.
 | Path                 | What it is                                                                  |
 |----------------------|-----------------------------------------------------------------------------|
 | `backend/`           | Spring Boot 4 app (Java 25, Maven): importers, schema, REST API              |
-| `docker-compose.yml` | Local infrastructure: PostgreSQL 16                                          |
+| `docker-compose.yml` | The whole stack: PostgreSQL 16, backend, frontend (nginx), calendar seed     |
 | `frontend/`          | React 19 + TypeScript + Vite app: React Router, React Query, Tailwind        |
 | `docs/`              | ADRs (`docs/adr/`) and the API reference (`docs/api.md`)                     |
 | `templates/`         | Commented reference code for every Spring Boot layer (read, don't run)       |
 | `STEPS.md`           | Every build step from empty project to finished platform, with checks       |
 | `plan.md`            | The full product & system design, as a checklist with a progress table      |
 | `features.csv`       | Source of truth for that checklist: one row per feature, its step and status |
-| `scripts/`           | `sync_features.py` — marks features done and syncs `plan.md` / `STEPS.md`    |
+| `scripts/`           | `sync_features.py` (feature checklist), `compose-smoke.sh` (stack smoke test) |
+| `contracts/`         | Test cases shared by the backend and frontend (replay progress)              |
 
-Not there yet, but planned:
-Dockerfiles for the backend and frontend, and `analytics/` (Python).
+Not there yet, but planned: `analytics/` (Python).
 
 ## Prerequisites
 
@@ -40,6 +41,18 @@ Maven does not need to be installed: the **Maven wrapper** (`backend/mvnw`) down
 version on first run. Always use `./mvnw`, never `mvn`.
 
 ## Run it
+
+### Everything in Docker (one command)
+
+```bash
+docker compose up --build -d --wait   # postgres, backend, frontend; imports the 2024 calendar
+```
+
+Open http://localhost:3000. The first time a race is opened its data downloads (~10 s). Settings
+(ports, credentials, `SEED_SEASONS`) can go in `.env` — see `.env.example`. `scripts/compose-smoke.sh`
+checks that the stack is healthy; `docker compose down` stops it (add `-v` to wipe the database).
+
+### For development
 
 From the repo root, start the database:
 
@@ -123,7 +136,7 @@ journey) and are driven inward with unit tests. The rules and the test tools for
 
 ## Where to start implementing
 
-Follow [`STEPS.md`](STEPS.md) from **Step 18** (the replay player), using [`templates/README.md`](templates/README.md) as the reference for each Spring
+Follow [`STEPS.md`](STEPS.md) from **Step 19** (Dockerize the stack), using [`templates/README.md`](templates/README.md) as the reference for each Spring
 layer. Every step starts with its **Tests first** list. When a feature's tests pass, tick it off:
 `python3 scripts/sync_features.py done <ID>`.
 

@@ -27,6 +27,11 @@ public final class ProgressTimeline {
 		this.lapsDone = points.stream().mapToDouble(TimingPoint::lapsDone).toArray();
 	}
 
+	/** A timeline from ready-made points (cleaned the same way as fromLaps). */
+	public static ProgressTimeline of(List<TimingPoint> points) {
+		return new ProgressTimeline(clean(points));
+	}
+
 	/** `sector1End` and `sector2End`: where the sectors end, as a share of the lap distance. */
 	public static ProgressTimeline fromLaps(List<Lap> laps, double sector1End, double sector2End) {
 		List<TimingPoint> raw = new ArrayList<>();
@@ -48,9 +53,14 @@ public final class ProgressTimeline {
 				raw.add(new TimingPoint(start.plusMillis(lap.getLapMs()), before + 1));
 			}
 		}
-		raw.sort(Comparator.comparing(TimingPoint::at));
+		return new ProgressTimeline(clean(raw));
+	}
 
-		// One point per moment, and never backwards: a point behind one already reached is bad data.
+	// In time order, one point per moment, and never backwards: a point behind one already reached is
+	// bad data.
+	private static List<TimingPoint> clean(List<TimingPoint> points) {
+		List<TimingPoint> raw = new ArrayList<>(points);
+		raw.sort(Comparator.comparing(TimingPoint::at));
 		List<TimingPoint> clean = new ArrayList<>();
 		for (TimingPoint p : raw) {
 			if (clean.isEmpty()) {
@@ -68,7 +78,7 @@ public final class ProgressTimeline {
 				clean.add(p);
 			}
 		}
-		return new ProgressTimeline(clean);
+		return clean;
 	}
 
 	public List<TimingPoint> points() {

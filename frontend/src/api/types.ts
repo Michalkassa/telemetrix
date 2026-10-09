@@ -53,3 +53,43 @@ export interface ImportStatus {
   since: string | null
   message: string | null
 }
+
+export interface Layout {
+  circuit: string
+  year: number
+  rotation: number
+  length: number
+  boundingBox: { minX: number; minY: number; maxX: number; maxY: number }
+  points: [number, number][] // already rotated for display
+  startFinish: [number, number]
+  sectorEnds: number[] | null
+}
+
+export interface ReplayDriver {
+  number: number
+  code: string
+  name: string
+  team: string
+  teamColour: string | null // hex without '#'
+}
+
+export interface CarTiming {
+  number: number
+  t: number[] // ms after clockStart
+  laps: number[] // laps done: 9.25 = a quarter of the way round lap 10
+  pits: { lap: number | null; from: number; to: number }[]
+  finished: boolean
+  retiredAt: number | null
+}
+
+export interface Replay {
+  sessionId: number
+  raceId: number
+  session: string
+  clockStart: string
+  chequeredAt: string
+  totalLaps: number
+  layout: Layout | null
+  drivers: ReplayDriver[]
+  timing: CarTiming[]
+}

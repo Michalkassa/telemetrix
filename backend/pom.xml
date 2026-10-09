@@ -23,6 +23,11 @@
 		</dependency>
 
 		<!-- Database: JPA/Hibernate for Java objects <-> tables, Flyway for schema migrations -->
+		<!-- /actuator/health: Docker Compose's healthcheck -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>

@@ -14,12 +14,12 @@ python3 scripts/sync_features.py --check                # CI: fail if plan.md/ST
 ```
 
 <!-- progress:start -->
-**59 / 305 features done (19%)**
+**68 / 305 features done (22%)**
 
 | Phase | Done | Total | Progress |
 |---|---:|---:|---|
 | 0 — Foundation | 3 | 3 | `██████████` |
-| 1 — Data foundation & basic replay | 56 | 71 | `████████░░` |
+| 1 — Data foundation & basic replay | 65 | 71 | `█████████░` |
 | 2 — Telemetry, timeline & playback | 0 | 83 | `░░░░░░░░░░` |
 | 3 — Championship & analytics | 0 | 46 | `░░░░░░░░░░` |
 | 4 — Distributed systems & production | 0 | 75 | `░░░░░░░░░░` |
@@ -85,8 +85,8 @@ The system is designed as:
 ## Race Replay Features
 
 ### Playback Controls
-- [ ] Play <!-- PLAY-01 -->
-- [ ] Pause <!-- PLAY-02 -->
+- [x] Play <!-- PLAY-01 -->
+- [x] Pause <!-- PLAY-02 -->
 - [ ] Rewind <!-- PLAY-03 -->
 - [ ] Fast forward <!-- PLAY-04 -->
 - [ ] Jump to lap <!-- PLAY-05 -->
@@ -103,10 +103,10 @@ The system is designed as:
 - [ ] Timeline scrubbing <!-- PLAY-10 -->
 
 ### Track Visualization
-- [ ] 2D track rendering <!-- TRACK-01 -->
-- [ ] Driver dots <!-- TRACK-02 -->
+- [x] 2D track rendering <!-- TRACK-01 -->
+- [x] Driver dots <!-- TRACK-02 -->
 - [ ] Real-time sector coloring <!-- TRACK-03 -->
-- [ ] Position indicators <!-- TRACK-04 -->
+- [x] Position indicators <!-- TRACK-04 -->
 - [ ] Gap visualization <!-- TRACK-05 -->
 - [ ] DRS indicators <!-- TRACK-06 -->
 - [ ] Pit lane rendering <!-- TRACK-07 -->
@@ -240,7 +240,7 @@ Store race state as events:
 - [ ] Zustand <!-- FE-05 -->
 - [x] TailwindCSS <!-- FE-06 -->
 - [ ] D3.js <!-- FE-07 -->
-- [ ] Canvas API <!-- FE-08 -->
+- [x] Canvas API <!-- FE-08 -->
 - [ ] WebSockets <!-- FE-09 -->
 - [ ] Recharts <!-- FE-10 -->
 
@@ -541,7 +541,7 @@ to write first.
 - [ ] Timeline controls <!-- FETEST-05 -->
 - [ ] Playback synchronization <!-- FETEST-06 -->
 - [ ] Telemetry rendering <!-- FETEST-07 -->
-- [ ] Race visualization <!-- FETEST-08 -->
+- [x] Race visualization <!-- FETEST-08 -->
 - [ ] State management <!-- FETEST-09 -->
 
 ---
@@ -549,8 +549,8 @@ to write first.
 # DevOps
 
 ## Containerization
-- [ ] Docker <!-- OPS-01 -->
-- [ ] Docker Compose <!-- OPS-02 -->
+- [x] Docker <!-- OPS-01 -->
+- [x] Docker Compose <!-- OPS-02 -->
 
 ### How Docker Compose composes the stack
 

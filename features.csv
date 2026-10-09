@@ -1,6 +1,6 @@
 id,phase,step,section,feature,status,done_on
-PLAY-01,1,18,Playback Controls,Play,todo,
-PLAY-02,1,18,Playback Controls,Pause,todo,
+PLAY-01,1,18,Playback Controls,Play,done,2026-10-09
+PLAY-02,1,18,Playback Controls,Pause,done,2026-10-09
 PLAY-03,2,25,Playback Controls,Rewind,todo,
 PLAY-04,2,25,Playback Controls,Fast forward,todo,
 PLAY-05,2,25,Playback Controls,Jump to lap,todo,
@@ -9,10 +9,10 @@ PLAY-07,2,25,Playback Controls,Variable playback speed,todo,
 PLAY-08,2,25,Playback Controls,Auto-follow selected driver,todo,
 PLAY-09,2,25,Playback Controls,Multi-driver camera focus mode,todo,
 PLAY-10,2,25,Playback Controls,Timeline scrubbing,todo,
-TRACK-01,1,18,Track Visualization,2D track rendering,todo,
-TRACK-02,1,18,Track Visualization,Driver dots,todo,
+TRACK-01,1,18,Track Visualization,2D track rendering,done,2026-10-09
+TRACK-02,1,18,Track Visualization,Driver dots,done,2026-10-09
 TRACK-03,2,26,Track Visualization,Real-time sector coloring,todo,
-TRACK-04,1,18,Track Visualization,Position indicators,todo,
+TRACK-04,1,18,Track Visualization,Position indicators,done,2026-10-09
 TRACK-05,2,26,Track Visualization,Gap visualization,todo,
 TRACK-06,2,26,Track Visualization,DRS indicators,todo,
 TRACK-07,2,26,Track Visualization,Pit lane rendering,todo,
@@ -101,7 +101,7 @@ FE-04,1,16,Frontend Stack,React Query,done,2026-10-09
 FE-05,2,25,Frontend Stack,Zustand,todo,
 FE-06,1,16,Frontend Stack,TailwindCSS,done,2026-10-09
 FE-07,2,26,Frontend Stack,D3.js,todo,
-FE-08,1,18,Frontend Stack,Canvas API,todo,
+FE-08,1,18,Frontend Stack,Canvas API,done,2026-10-09
 FE-09,2,24,Frontend Stack,WebSockets,todo,
 FE-10,2,27,Frontend Stack,Recharts,todo,
 NAV-01,3,31,Top-level lenses (L1),Seasons — explore a championship year: standings and full season results.,todo,
@@ -223,10 +223,10 @@ FETEST-04,2,25,Testing Stack,Playwright,todo,
 FETEST-05,2,25,Test Areas,Timeline controls,todo,
 FETEST-06,2,28,Test Areas,Playback synchronization,todo,
 FETEST-07,2,27,Test Areas,Telemetry rendering,todo,
-FETEST-08,1,18,Test Areas,Race visualization,todo,
+FETEST-08,1,18,Test Areas,Race visualization,done,2026-10-09
 FETEST-09,2,25,Test Areas,State management,todo,
-OPS-01,1,19,Containerization,Docker,todo,
-OPS-02,1,19,Containerization,Docker Compose,todo,
+OPS-01,1,19,Containerization,Docker,done,2026-10-09
+OPS-02,1,19,Containerization,Docker Compose,done,2026-10-09
 OPS-03,4,40,Growth path,"More infrastructure: add the commented-out services; each gets its own healthcheck, named",todo,
 OPS-04,4,46,Growth path,"CI: build both images in GitHub Actions, run the backend tests (Testcontainers) against...",todo,
 CI-01,1,20,CI/CD,GitHub Actions,todo,

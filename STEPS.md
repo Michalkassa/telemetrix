@@ -752,15 +752,15 @@ would otherwise mean constant DOM layout work.
 **Check it:** a 2024 race plays smoothly; overtakes on screen match reality; pause freezes it.
 
 <!-- features:18 -->
-**Checks off (0/7):**
+**Checks off (7/7):**
 
-- [ ] `PLAY-01` Play
-- [ ] `PLAY-02` Pause
-- [ ] `TRACK-01` 2D track rendering
-- [ ] `TRACK-02` Driver dots
-- [ ] `TRACK-04` Position indicators
-- [ ] `FE-08` Canvas API
-- [ ] `FETEST-08` Race visualization
+- [x] `PLAY-01` Play
+- [x] `PLAY-02` Pause
+- [x] `TRACK-01` 2D track rendering
+- [x] `TRACK-02` Driver dots
+- [x] `TRACK-04` Position indicators
+- [x] `FE-08` Canvas API
+- [x] `FETEST-08` Race visualization
 <!-- /features -->
 
 ---
@@ -788,10 +788,10 @@ healthchecks, and a `.env.example`. `plan.md` → *DevOps* describes the target 
 **Check it:** `docker compose up --build -d`, then http://localhost:3000 plays a replay.
 
 <!-- features:19 -->
-**Checks off (0/2):**
+**Checks off (2/2):**
 
-- [ ] `OPS-01` Docker
-- [ ] `OPS-02` Docker Compose
+- [x] `OPS-01` Docker
+- [x] `OPS-02` Docker Compose
 <!-- /features -->
 
 ---

@@ -1,0 +1,23 @@
+{
+  "about": "How a car's progress is read from its timing points (docs/adr/0004). Run by BOTH the backend (ProgressTimelineContractTest) and the frontend (src/replay/progress.test.ts), so the replay in the browser and the server's frames always agree. t is milliseconds; laps is laps done (9.25 = a quarter of the way round lap 10).",
+  "cases": [
+    {
+      "name": "one lap with its sector ends",
+      "points": [[0, 0], [30000, 0.25], [60000, 0.75], [90000, 1]],
+      "progressAt": [[-5000, 0], [0, 0], [15000, 0.125], [30000, 0.25], [45000, 0.5], [90000, 1], [100000, 1]],
+      "reachedAt": [[0.125, 15000], [0.25, 30000], [1, 90000], [2, null]]
+    },
+    {
+      "name": "a car that stopped (retired) stays where it stopped",
+      "points": [[1000, 0], [2000, 0.5], [3000, 0.5], [4000, 0.75]],
+      "progressAt": [[500, 0], [1500, 0.25], [2500, 0.5], [3500, 0.625], [9000, 0.75]],
+      "reachedAt": [[0.5, 2000], [0.625, 3500], [0.8, null]]
+    },
+    {
+      "name": "a missing sector: interpolated across the whole lap",
+      "points": [[0, 0], [100000, 1], [190000, 2]],
+      "progressAt": [[50000, 0.5], [100000, 1], [145000, 1.5], [190000, 2]],
+      "reachedAt": [[1.5, 145000], [2, 190000]]
+    }
+  ]
+}

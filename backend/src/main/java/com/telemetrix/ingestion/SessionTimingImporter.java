@@ -40,7 +40,8 @@ class SessionTimingImporter {
 		this.pitStops = pitStops;
 	}
 
-	void importSession(Session session, ImportReport.Builder report) {
+	/** Returns how many mini-sectors each sector has in this session (null if OpenF1 doesn't say). */
+	SectorSegments importSession(Session session, ImportReport.Builder report) {
 		int key = session.getOpenf1SessionKey();
 		List<OpenF1Lap> sourceLaps = openF1.laps(key);
 		List<OpenF1Stint> sourceStints = openF1.stints(key);
@@ -80,6 +81,21 @@ class SessionTimingImporter {
 					millis(source.stopDuration())));
 			report.inserted("pitStops");
 		}
+		return sectorSegments(sourceLaps);
+	}
+
+	// the most common (sector 1, 2, 3) mini-sector counts among the laps
+	private static SectorSegments sectorSegments(List<OpenF1Lap> laps) {
+		return laps.stream()
+				.filter(l -> l.segmentsSector1() != null && l.segmentsSector2() != null && l.segmentsSector3() != null)
+				.map(l -> new SectorSegments(l.segmentsSector1().size(), l.segmentsSector2().size(),
+						l.segmentsSector3().size()))
+				.filter(s -> s.sector1() > 0 && s.sector2() > 0 && s.sector3() > 0)
+				.collect(java.util.stream.Collectors.groupingBy(s -> s, java.util.stream.Collectors.counting()))
+				.entrySet().stream()
+				.max(Map.Entry.comparingByValue())
+				.map(Map.Entry::getKey)
+				.orElse(null);
 	}
 
 	private static Integer millis(Double seconds) {

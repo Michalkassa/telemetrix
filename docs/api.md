@@ -113,6 +113,36 @@ instant for everyone.
 
 `POST` answers **202** while `IMPORTING`, otherwise **200**; both **404** for an unknown race.
 
+### Track maps
+
+#### `GET /api/circuits/{ref}/layout?year={year}`
+
+A circuit's track map for one year, ready to draw: the outline from the start/finish line round one lap,
+**already rotated for display**, plus where sectors 1 and 2 end and the corners (`progress` = share of
+the lap distance, 0 at the line). It's fetched when a race at that circuit and year is first opened.
+Telemetry `x`/`y` are raw: rotate them by `rotation` degrees (counter-clockwise) to sit on this map.
+
+```json
+{
+  "circuit": "bahrain", "year": 2024, "source": "MULTIVIEWER", "rotation": 92.0, "length": 53395.1,
+  "boundingBox": {"minX": -8347.4, "minY": -492.8, "maxX": 3499.3, "maxY": 7260.4},
+  "points": [[-1330.1, -421.7], [-1429.1, -422.1]],
+  "startFinish": [-1330.1, -421.7],
+  "sectorEnds": [0.3279, 0.7362], "sectorEndsSource": "TRACK",
+  "corners": [{"number": 1, "x": -8325.6, "y": -248.3, "progress": 0.132}]
+}
+```
+
+`source` is `MULTIVIEWER`, or `OPENF1_LAP` when the outline was traced from the fastest lap's
+positions. `sectorEndsSource` is `TRACK` (from the circuit's mini-sectors) or `ESTIMATED` (from sector
+times). [Bahrain 2024 drawn from this endpoint](bahrain-2024-layout.svg).
+
+| Status | When |
+|--------|------|
+| 200 | Found |
+| 400 | `year` missing or outside 1950–2100 |
+| 404 | No map yet for that circuit and year (open a race there first) |
+
 ### Telemetry
 
 #### `GET /api/sessions/{id}/telemetry?driver={carNumber}&lap={lap}`
@@ -171,8 +201,9 @@ run nightly for the current season (`telemetrix.import.calendar-cron`, default 0
 
 #### `POST /api/admin/import/races/{id}`
 
-Downloads one race's data on demand: its OpenF1 sessions, and for the race and sprint sessions every
-car's laps (with sector splits — the replay's timing points), tyre stints and pit stops. About 4–7
+Downloads one race's data on demand: its OpenF1 sessions; for the race and sprint sessions every
+car's laps (with sector splits — the replay's timing points), tyre stints and pit stops; and the
+circuit's track map, once per circuit and year. About 4–7
 requests (~10 s at OpenF1's rate limit). Lap problems (a gap in lap numbers, sectors that don't add up,
 a pit stop without a tyre change) are stored anyway and listed in `notes` as `ERROR …` / `WARNING …`.
 A race that has happened is marked imported, and later calls make no requests; a race still to come

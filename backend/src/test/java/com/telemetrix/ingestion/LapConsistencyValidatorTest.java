@@ -74,7 +74,7 @@ class LapConsistencyValidatorTest {
 
 	private static OpenF1Lap lap(int car, int number, Double s1, Double s2, Double s3, Double lap) {
 		return new OpenF1Lap(car, number, OffsetDateTime.parse("2024-03-02T15:00:00Z").plusSeconds(95L * number), s1,
-				s2, s3, lap, null, null, null, false);
+				s2, s3, lap, null, null, null, false, null, null, null);
 	}
 
 }

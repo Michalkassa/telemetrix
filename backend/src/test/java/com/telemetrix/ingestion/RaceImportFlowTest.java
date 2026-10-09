@@ -5,6 +5,7 @@ import static org.mockito.BDDMockito.given;
 
 import com.telemetrix.Fixtures;
 import com.telemetrix.TestcontainersConfiguration;
+import com.telemetrix.ingestion.multiviewer.MultiviewerClient;
 import com.telemetrix.ingestion.openf1.OpenF1Client;
 import java.time.Duration;
 import java.time.Instant;
@@ -33,6 +34,9 @@ class RaceImportFlowTest {
 
 	@MockitoBean
 	OpenF1Client openF1;
+
+	@MockitoBean
+	MultiviewerClient multiviewer; // returns no map: tests never call live APIs
 
 	long raceId;
 

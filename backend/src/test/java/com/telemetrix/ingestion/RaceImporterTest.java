@@ -11,7 +11,10 @@ import static org.mockito.Mockito.verify;
 import com.telemetrix.Fixtures;
 import com.telemetrix.RepositoryTest;
 import com.telemetrix.circuit.Circuit;
+import com.telemetrix.circuit.CircuitLayout;
+import com.telemetrix.circuit.CircuitLayoutStore;
 import com.telemetrix.circuit.CircuitRepository;
+import com.telemetrix.ingestion.multiviewer.MultiviewerClient;
 import com.telemetrix.common.NotFoundException;
 import com.telemetrix.ingestion.openf1.OpenF1Client;
 import com.telemetrix.ingestion.openf1.OpenF1Lap;
@@ -31,6 +34,7 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +47,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 // Downloading one race's data on demand, when a user opens it.
 @RepositoryTest
 @Import({ RaceImporter.class, CalendarValidator.class, SessionTimingImporter.class, LapConsistencyValidator.class,
-		RaceImporterTest.FixedClock.class })
+		CircuitLayoutImporter.class, CircuitLayoutStore.class, RaceImporterTest.FixedClock.class })
 class RaceImporterTest {
 
 	// "now" for these tests: well after the 2024 Bahrain GP, before the 2027 season
@@ -76,6 +80,12 @@ class RaceImporterTest {
 
 	@MockitoBean
 	OpenF1Client openF1;
+
+	@MockitoBean
+	MultiviewerClient multiviewer;
+
+	@Autowired
+	CircuitLayoutStore layouts;
 
 	@Autowired
 	LapRepository laps;
@@ -209,6 +219,20 @@ class RaceImporterTest {
 	}
 
 	@Test
+	void downloadsTheCircuitsTrackMapWithSectorEndsFromTheRacesMiniSectors() {
+		bahrainCircuit.linkOpenF1Circuit(63);
+		long id = race(2024, 1, "2024-03-02", 1229).getId();
+		givenBahrain2024();
+		given(multiviewer.circuit(63, 2024)).willReturn(Optional.of(Fixtures.multiviewerCircuit(63, 2024)));
+
+		var report = importer.importRace(id);
+
+		var layout = layouts.find(bahrainCircuit.getId(), 2024).orElseThrow();
+		assertThat(layout.sectorEndsSource()).isEqualTo(CircuitLayout.SectorEndsSource.TRACK); // 10 + 11 + 7 mini-sectors
+		assertThat(report.count("layouts").inserted()).isEqualTo(1);
+	}
+
+	@Test
 	void onlyRaceAndSprintSessionsGetTimingData() {
 		long id = race(2024, 1, "2024-03-02", 1229).getId();
 		givenBahrain2024();
@@ -276,7 +300,7 @@ class RaceImporterTest {
 
 	private static OpenF1Lap openF1Lap(int car, int number) {
 		return new OpenF1Lap(car, number, odt("2027-03-14T15:00:00Z").plusSeconds(90L * number), 30.0, 35.0, 25.0,
-				90.0, null, null, null, false);
+				90.0, null, null, null, false, null, null, null);
 	}
 
 	private static OffsetDateTime odt(String value) {

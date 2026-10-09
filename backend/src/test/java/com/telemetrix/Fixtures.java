@@ -1,6 +1,7 @@
 package com.telemetrix;
 
 import com.telemetrix.ingestion.jolpica.JolpicaRace;
+import com.telemetrix.ingestion.multiviewer.MultiviewerCircuit;
 import com.telemetrix.ingestion.openf1.OpenF1CarData;
 import com.telemetrix.ingestion.openf1.OpenF1Lap;
 import com.telemetrix.ingestion.openf1.OpenF1Location;
@@ -62,6 +63,11 @@ public final class Fixtures {
 
 	public static List<OpenF1Location> openF1Locations(int sessionKey, int driver) {
 		return read("openf1/location_" + sessionKey + "_" + driver + ".json", new TypeReference<>() {
+		});
+	}
+
+	public static MultiviewerCircuit multiviewerCircuit(int circuitKey, int year) {
+		return read("multiviewer/circuit_" + circuitKey + "_" + year + ".json", new TypeReference<>() {
 		});
 	}
 

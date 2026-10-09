@@ -19,7 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 // Downloads one race's data, on demand, when a user opens it (docs/adr/0003). Once a race that has
 // already happened is imported it is marked, and later calls make no API calls at all. A race still
 // to come is imported but not marked, so its sessions are refreshed next time.
-// Race and sprint sessions also get their laps, tyre stints and pit stops (SessionTimingImporter);
+// Race and sprint sessions also get their laps, tyre stints and pit stops (SessionTimingImporter), and
+// the circuit its track map (CircuitLayoutImporter);
 // Step 21 adds race control and weather.
 @Service
 public class RaceImporter {
@@ -37,14 +38,17 @@ public class RaceImporter {
 
 	private final SessionTimingImporter timing;
 
+	private final CircuitLayoutImporter layouts;
+
 	private final Clock clock;
 
 	RaceImporter(OpenF1Client openF1, RaceRepository races, CalendarValidator validator, SessionTimingImporter timing,
-			Clock clock) {
+			CircuitLayoutImporter layouts, Clock clock) {
 		this.openF1 = openF1;
 		this.races = races;
 		this.validator = validator;
 		this.timing = timing;
+		this.layouts = layouts;
 		this.clock = clock;
 	}
 
@@ -75,10 +79,19 @@ public class RaceImporter {
 		}
 
 		races.flush(); // new sessions get their ids before timing rows point at them
+		Session mapSession = null;
+		SectorSegments mapSegments = null;
 		for (Session session : race.getSessions()) {
 			if (TIMED_SESSIONS.contains(session.getName()) && session.getOpenf1SessionKey() != null) {
-				timing.importSession(session, report);
+				SectorSegments segments = timing.importSession(session, report);
+				if (mapSession == null || session.getName().equals("Race")) { // prefer the race's laps
+					mapSession = session;
+					mapSegments = segments;
+				}
 			}
+		}
+		if (mapSession != null) {
+			layouts.ensureLayout(race, mapSession, mapSegments, report);
 		}
 
 		if (race.getRaceDate().isBefore(LocalDate.now(clock))) {

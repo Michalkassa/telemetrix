@@ -1,0 +1,132 @@
+package com.telemetrix.ingestion;
+
+import com.telemetrix.circuit.Circuit;
+import com.telemetrix.circuit.CircuitLayout;
+import com.telemetrix.circuit.CircuitLayoutStore;
+import com.telemetrix.circuit.TrackOutline;
+import com.telemetrix.circuit.TrackOutline.Point;
+import com.telemetrix.ingestion.multiviewer.MultiviewerCircuit;
+import com.telemetrix.ingestion.multiviewer.MultiviewerClient;
+import com.telemetrix.ingestion.openf1.OpenF1Client;
+import com.telemetrix.ingestion.openf1.OpenF1Location;
+import com.telemetrix.race.Race;
+import com.telemetrix.race.Session;
+import com.telemetrix.timing.Lap;
+import com.telemetrix.timing.LapRepository;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
+import org.springframework.stereotype.Component;
+
+// Gets a race's circuit map once per circuit and year, as part of the race import:
+// 1. Multiviewer's map (1 request), with sector ends from its mini-sectors when the race's laps say
+//    how many each sector has — otherwise estimated from sector times;
+// 2. failing that, the outline of the session's fastest lap from OpenF1 positions (1 request).
+@Component
+class CircuitLayoutImporter {
+
+	private final MultiviewerClient multiviewer;
+
+	private final OpenF1Client openF1;
+
+	private final LapRepository laps;
+
+	private final CircuitLayoutStore layouts;
+
+	CircuitLayoutImporter(MultiviewerClient multiviewer, OpenF1Client openF1, LapRepository laps,
+			CircuitLayoutStore layouts) {
+		this.multiviewer = multiviewer;
+		this.openF1 = openF1;
+		this.laps = laps;
+		this.layouts = layouts;
+	}
+
+	void ensureLayout(Race race, Session session, SectorSegments segments, ImportReport.Builder report) {
+		Circuit circuit = race.getCircuit();
+		int year = race.getSeason().getYear();
+		if (layouts.exists(circuit.getId(), year)) {
+			report.changed("layouts", false);
+			return;
+		}
+		List<Lap> sessionLaps = laps.findBySessionOrderByDriverNumberAscLapNumberAsc(session);
+		Optional<MultiviewerCircuit> map = circuit.getOpenf1CircuitKey() == null ? Optional.empty()
+				: multiviewer.circuit(circuit.getOpenf1CircuitKey(), year);
+		CircuitLayout layout = map.filter(m -> m.x() != null && m.y() != null && m.x().size() >= 3)
+				.map(m -> fromMultiviewer(circuit, year, m, segments, sessionLaps))
+				.orElseGet(() -> fromFastestLap(circuit, year, session, sessionLaps));
+		if (layout == null) {
+			report.note("Race " + race.getId() + ": no track map for " + circuit.getRef() + " " + year);
+			return;
+		}
+		layouts.save(circuit.getId(), year, layout);
+		report.inserted("layouts");
+	}
+
+	private static CircuitLayout fromMultiviewer(Circuit circuit, int year, MultiviewerCircuit map,
+			SectorSegments segments, List<Lap> sessionLaps) {
+		List<Point> points = new ArrayList<>();
+		for (int i = 0; i < Math.min(map.x().size(), map.y().size()); i++) {
+			points.add(new Point(map.x().get(i), map.y().get(i)));
+		}
+		double rotation = map.rotation() == null ? 0 : map.rotation();
+		var outline = new TrackOutline(points, rotation);
+		double[] ends = segments == null ? null
+				: outline.sectorEndsFromMiniSectors(map.miniSectorsIndexes(), segments.sector1(), segments.sector2());
+		CircuitLayout.SectorEndsSource endsFrom = CircuitLayout.SectorEndsSource.TRACK;
+		if (ends == null) {
+			ends = estimateSectorEnds(sessionLaps);
+			endsFrom = ends == null ? null : CircuitLayout.SectorEndsSource.ESTIMATED;
+		}
+		List<CircuitLayout.Corner> corners = map.corners() == null ? List.of() : map.corners().stream()
+				.filter(c -> c.number() != null && c.trackPosition() != null)
+				.map(c -> {
+					var at = new Point(c.trackPosition().x(), c.trackPosition().y());
+					return new CircuitLayout.Corner(c.number(), at.x(), at.y(),
+							outline.progressAtIndex(outline.nearestIndex(at)));
+				})
+				.toList();
+		return new CircuitLayout(circuit.getRef(), year, CircuitLayout.Source.MULTIVIEWER, rotation, points, ends,
+				endsFrom, corners);
+	}
+
+	// The outline traced by the fastest complete lap's positions (not drawn upright: rotation 0).
+	private CircuitLayout fromFastestLap(Circuit circuit, int year, Session session, List<Lap> sessionLaps) {
+		Optional<Lap> fastest = sessionLaps.stream()
+				.filter(Lap::isComplete)
+				.filter(l -> l.getLapMs() != null)
+				.min(Comparator.comparing(Lap::getLapMs));
+		if (fastest.isEmpty() || session.getOpenf1SessionKey() == null) {
+			return null;
+		}
+		Lap lap = fastest.get();
+		Instant from = lap.getStartsAt();
+		Instant to = from.plusMillis(lap.getLapMs());
+		List<Point> points = openF1.locations(session.getOpenf1SessionKey(), lap.getDriverNumber()).stream()
+				.filter(l -> l.date() != null && !l.date().toInstant().isBefore(from) && l.date().toInstant().isBefore(to))
+				.filter(l -> !isNowhere(l))
+				.sorted(Comparator.comparing(OpenF1Location::date))
+				.map(l -> new Point(l.x(), l.y()))
+				.toList();
+		if (points.size() < 3) {
+			return null;
+		}
+		double[] ends = estimateSectorEnds(sessionLaps);
+		return new CircuitLayout(circuit.getRef(), year, CircuitLayout.Source.OPENF1_LAP, 0, points, ends,
+				ends == null ? null : CircuitLayout.SectorEndsSource.ESTIMATED, List.of());
+	}
+
+	private static double[] estimateSectorEnds(List<Lap> sessionLaps) {
+		return TrackOutline.estimateSectorEnds(sessionLaps.stream()
+				.filter(Lap::isComplete)
+				.filter(l -> l.getLapMs() != null && l.getLapMs() > 0)
+				.map(l -> new int[] { l.getSector1Ms(), l.getSector2Ms(), l.getLapMs() })
+				.toList());
+	}
+
+	private static boolean isNowhere(OpenF1Location l) {
+		return l.x() == null || l.y() == null || (l.x() == 0 && l.y() == 0 && (l.z() == null || l.z() == 0));
+	}
+
+}

@@ -2,6 +2,8 @@ package com.telemetrix;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.telemetrix.ingestion.openf1.OpenF1Properties;
+import java.time.Duration;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,6 +18,9 @@ class ApplicationIntegrationTest {
 	@Autowired
 	JdbcTemplate jdbc;
 
+	@Autowired
+	OpenF1Properties openF1;
+
 	@Test
 	void contextLoads() {
 	}
@@ -26,6 +31,14 @@ class ApplicationIntegrationTest {
 		Integer applied = jdbc.queryForObject("select count(*) from flyway_schema_history", Integer.class);
 
 		assertThat(applied).isNotNull();
+	}
+
+	@Test
+	void openF1DefaultsTargetTheRealApiWithinItsRateLimit() {
+		assertThat(openF1.baseUrl()).isEqualTo("https://api.openf1.org/v1");
+		// free tier: 3 requests/s and 30 requests/min, so at most one request every 2 s
+		assertThat(openF1.minRequestInterval()).isEqualTo(Duration.ofSeconds(2));
+		assertThat(openF1.maxAttempts()).isGreaterThan(1);
 	}
 
 }

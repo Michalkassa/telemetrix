@@ -148,7 +148,7 @@ KAFKA-02,4,40,Apache Kafka,race-events,todo,
 KAFKA-03,4,40,Apache Kafka,replay-events,todo,
 KAFKA-04,4,40,Apache Kafka,analytics-jobs,todo,
 KAFKA-05,4,40,Apache Kafka,ingestion-status,todo,
-SRC-01,1,8,Sources,OpenF1 API,todo,
+SRC-01,1,8,Sources,OpenF1 API,done,2026-10-09
 SRC-02,1,10,Sources,Ergast API,todo,
 SRC-03,5,49,Sources,FastF1 datasets,todo,
 SRC-04,5,49,Sources,FIA timing archives (where legal),todo,

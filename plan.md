@@ -14,12 +14,12 @@ python3 scripts/sync_features.py --check                # CI: fail if plan.md/ST
 ```
 
 <!-- progress:start -->
-**14 / 305 features done (4%)**
+**15 / 305 features done (4%)**
 
 | Phase | Done | Total | Progress |
 |---|---:|---:|---|
 | 0 — Foundation | 3 | 3 | `██████████` |
-| 1 — Data foundation & basic replay | 11 | 71 | `██░░░░░░░░` |
+| 1 — Data foundation & basic replay | 12 | 71 | `██░░░░░░░░` |
 | 2 — Telemetry, timeline & playback | 0 | 83 | `░░░░░░░░░░` |
 | 3 — Championship & analytics | 0 | 46 | `░░░░░░░░░░` |
 | 4 — Distributed systems & production | 0 | 75 | `░░░░░░░░░░` |
@@ -382,7 +382,7 @@ Use Kafka for:
 
 ## Sources
 Possible free APIs:
-- [ ] OpenF1 API <!-- SRC-01 -->
+- [x] OpenF1 API <!-- SRC-01 -->
 - [ ] Ergast API <!-- SRC-02 -->
 - [ ] FastF1 datasets <!-- SRC-03 -->
 - [ ] FIA timing archives (where legal) <!-- SRC-04 -->

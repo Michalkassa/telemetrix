@@ -364,9 +364,9 @@ mock the client.
 meetings.
 
 <!-- features:8 -->
-**Checks off (0/1):**
+**Checks off (1/1):**
 
-- [ ] `SRC-01` OpenF1 API
+- [x] `SRC-01` OpenF1 API
 <!-- /features -->
 
 ---

@@ -381,6 +381,9 @@ Use Kafka for:
 # Data Ingestion System
 
 ## Sources
+Chosen sources, what each owns, and their limits: [`docs/adr/0003-free-data-sources.md`](docs/adr/0003-free-data-sources.md).
+Race data is downloaded per race when a user first opens it; only the calendar is imported up front.
+
 Possible free APIs:
 - [x] OpenF1 API <!-- SRC-01 -->
 - [ ] Ergast API <!-- SRC-02 -->
@@ -405,6 +408,10 @@ Possible free APIs:
 ---
 
 # Replay Engine
+
+Cars are replayed as **lap progress** (0–100 % along the track outline) interpolated between ~4
+timing points per lap, played client-side like a video — see
+[`docs/adr/0004-replay-as-lap-progress.md`](docs/adr/0004-replay-as-lap-progress.md).
 
 ## Responsibilities
 - [ ] Reconstruct race state <!-- REPLAY-01 -->

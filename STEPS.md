@@ -78,10 +78,18 @@ Phases follow the roadmap in `plan.md`:
 | 5 — Data science & polish | 49–54 | Python analytics, predictions, portfolio finish |
 | Stretch | 55 | Everything in *Stretch Goals* |
 
-**Data sources, honestly:** OpenF1 has positions and car telemetry from **2023 onward**; Jolpica
-(the Ergast successor — the original Ergast API was retired after the 2024 season) has results, laps and pit
-stops back to 1950; FastF1 (Python) has telemetry from 2018. So *full* replay works for 2023+, and
-older seasons get results, standings and analytics. Plan for that in the UI.
+**Data sources (all free — see `docs/adr/0003`):** Jolpica owns the calendar and history (1950 →,
+API + free CSV dump); OpenF1 adds sessions, laps with sector splits, stints, pit stops, race
+control and weather for **2023 →** — downloaded **per race, when a user first opens it**, then
+stored; Multiviewer gives track outlines; F1's live-timing archive
+optionally gives exact safety-car / VSC / red-flag times. Full 3.7 Hz telemetry is fetched only
+on demand.
+
+**Replay model (`docs/adr/0004`):** every car is a coloured dot at its **lap progress** (0–100 %
+along the track outline), interpolated between ~4 timing points per lap (lap start + 3 sector
+splits). The browser downloads a whole race's timing points at once and plays it like a video:
+pause, 0.25–8×, rewind and scrub are instant. Coverage: smooth replay 2023 →, lap-level replay
+1996 →, results/standings/analytics 1950 →.
 
 ---
 
@@ -371,71 +379,94 @@ meetings.
 
 ---
 
-## Step 9 — Meeting & session importer
+## Step 9 — Season calendar & on-demand race import
 
 **Tests first:**
-- Service tests with a mocked `OpenF1Client`:
-  - a new meeting → inserted;
-  - the same meeting again → nothing new (upsert);
-  - a changed field → updated;
-  - an invalid row → rejected by the validator and counted as skipped.
-- Validator unit tests: duplicate keys, missing dates, a session outside its meeting's dates.
-- `ImporterFactory` returns the right importer per source and fails loudly for an unknown one.
-- **Outer test:** a `@SpringBootTest` that imports from fixtures twice and gets identical row counts.
-- Test the job's method directly with a fixed `Clock`; don't wait for cron.
+- `JolpicaClient` tests against a recorded `races.json` (2024): requests `/ergast/f1/2024/races.json`,
+  maps rounds, dates and circuits with coordinates; throttled and retried like the OpenF1 client.
+- `CalendarImporter` tests on the Testcontainers database with the clients mocked (fed from
+  fixtures):
+  - a season's calendar creates the season, its circuits and its races with official rounds;
+  - OpenF1 meetings are linked to races by date (`openf1_meeting_key`, `openf1_circuit_key`);
+  - pre-season testing and **cancelled** meetings (Imola 2023) are skipped and counted;
+  - **outer test:** importing the same season twice gives identical row counts, and the second
+    report shows nothing inserted;
+  - a changed field in the source (a race renamed or moved) updates the row;
+  - seasons before 2023 never call OpenF1.
+- `RaceImporter.importRace(raceId)` tests: the first call downloads that race's OpenF1 sessions and
+  stores them; a second call makes **no** API calls (already imported); a race without an OpenF1
+  meeting (pre-2023) imports nothing and says so.
+- Validator unit tests: a race with no date or round, a session ending before it starts, a session
+  outside its meeting's dates are rejected and counted as skipped.
+- The nightly job imports the *current* season's calendar according to an injected `Clock`; the
+  admin endpoints return the import report (`@WebMvcTest`).
 
-**What:** the `ingestion` package. An `Importer` interface with an `ImporterFactory` that picks the
-implementation for a source (the Factory pattern), a race/meeting importer and a session importer
-that upsert by source key, and a `@Scheduled` nightly job that imports anything new. Also an
-admin-only `POST /api/admin/import/{year}` for manual runs (keep it unsecured until Step 37, then
-lock it down). Log counts of inserted, updated and skipped rows. Unit-test the validators that
-reject duplicate or broken rows.
+**What:** the `ingestion` package.
+- Extract the throttling + retry logic from `OpenF1Client` into a shared `RateLimitedClient`
+  (refactor under the existing tests), and add `JolpicaClient` on top of it (`jolpica.*` settings;
+  500 req/hour → one request every 8 s).
+- `CalendarImporter.importSeason(year)` — **2 requests per season**: the Jolpica calendar → upsert
+  season, circuits, races by natural key; for 2023+, OpenF1 meetings matched to races by date.
+- `RaceImporter.importRace(raceId)` — **on demand**, for the race a user picks: that meeting's
+  OpenF1 sessions (1 request), upserted by `openf1_session_key`; a `races.imported_at` timestamp
+  marks it done. Steps 12 and 21 add laps, stints, pit stops, race control and weather to this same
+  per-race import.
+- A `@Scheduled` nightly job for the current season's calendar, and admin endpoints
+  `POST /api/admin/import/seasons/{year}` and `POST /api/admin/import/races/{id}` (unsecured until
+  Step 37 — note it in `docs/api.md`).
 
-**Why:** real data from now on. Upserts make the job safe to re-run, which matters because every
-import will be re-run during development.
+**Why:** Jolpica is the only source with official round numbers for every season, so it owns the
+calendar; race data is only downloaded for races someone actually opens (ADR 0003). Upserts make
+every import safe to re-run.
 
-**Learn:** `templates/12-scheduling/`, `templates/07-service/`.
+**Learn:** `templates/07-service/`, `templates/12-scheduling/`.
 
-**Check it:** importing 2023–2025 twice leaves the same row counts.
+**Check it:** import the 2024 calendar twice — the second report inserts nothing and
+`select count(*) from races where season_year = 2024` is 24; import one race — its 5 sessions
+appear; import it again — the log shows no OpenF1 call.
 
 <!-- features:9 -->
 **Checks off (0/7):**
 
 - [ ] `STACK-08` Spring Scheduler
+- [ ] `SRC-02` Ergast API
 - [ ] `ING-01` Race importer
 - [ ] `ING-03` Session importer
 - [ ] `VAL-01` Duplicate detection
 - [ ] `TEST-03` Validators
 - [ ] `MOD-06` ingestion-service
-- [ ] `PAT-01` Factory Pattern
 <!-- /features -->
 
 ---
 
-## Step 10 — Historical results from Jolpica (Ergast)
+## Step 10 — Full history from the Jolpica database dump
 
 **Tests first:**
-- Jolpica client mapping tests from fixtures (results, qualifying, and a 1950s race with sparse
-  data).
-- Driver matching across sources: the same number, name and season → linked; ambiguous → left
+- CSV-mapping tests on a trimmed copy of the dump (a few rows per file, committed as a fixture):
+  drivers, constructors, results, qualifying, lap times, pit stops, status — column lookup **by
+  name** (Jolpica doesn't guarantee column order).
+- Driver matching across sources: the same number + name + season → linked; ambiguous → left
   unresolved in the mapping table, never merged.
-- Paging through Jolpica's `limit`/`offset` fetches every page.
+- **Outer test:** loading the fixture dump twice gives identical row counts; a job forced to fail
+  halfway resumes from its last chunk.
 
-**What:** a second client for Jolpica-F1 (`https://api.jolpi.ca/ergast/f1/`, the drop-in Ergast
-replacement): seasons, circuits, drivers, constructors, results and qualifying back to 1950. Add a
-`results` table (`V2__…`). Match Jolpica drivers and constructors to OpenF1 ones where they overlap
-(2023+), and keep a mapping table rather than merging blindly. Respect its rate limits by throttling.
+**What:** a restartable **Spring Batch** job (chunked CSV reader → processor → JDBC batch writer)
+that downloads the free, 14-day-delayed CSV dump (`GET https://api.jolpi.ca/data/dumps/download/`
+→ `delayed_dumps.csv.download_url`, verify the SHA-256), unzip, and upsert seasons, circuits, races,
+drivers, constructors, results, qualifying, lap times and pit stops (`V2__…` tables for results,
+qualifying, lap times). Map Jolpica's integer enums (finishing status etc.). Races newer than the dump
+come from the API (Step 9's client). Keep a `driver_source_ids` mapping table for OpenF1 ↔ Jolpica.
 
-**Why:** OpenF1 only reaches back to 2023. Standings, analytics and "any season" navigation need
-the full history.
+**Why:** the whole 1950 → history in one 15 MB download instead of ~40 hours of API calls at 500
+requests/hour (ADR 0003). Non-commercial use only — fine for this project, recheck before Step 47.
 
-**Check it:** `select count(*) from races` gives ~1,100+ Grands Prix after a full backfill, and
-re-running changes nothing.
+**Check it:** `select count(*) from races` ≈ 1,100+; Hamilton's and Schumacher's win counts match
+public records.
 
 <!-- features:10 -->
 **Checks off (0/1):**
 
-- [ ] `SRC-02` Ergast API
+- [ ] `STACK-06` Spring Batch
 <!-- /features -->
 
 ---
@@ -474,24 +505,26 @@ endpoints, and an unknown id gives a 404 problem detail.
 
 ---
 
-## Step 12 — Laps, sectors, stints and pit stops
+## Step 12 — Laps, sector splits, stints and pit stops (the replay timing points)
 
 **Tests first:**
 - Lap-consistency validator unit tests on hand-built laps: a gap in lap numbers → error; sectors not
-  adding up to the lap time → error; a pit lap without a stint change → warning; a clean race →
-  no findings.
-- Importer tests for laps, stints and pit stops from fixtures.
-- **Outer test:** import one recorded race; laps per driver equal the classified laps.
+  adding up to the lap time (within 0.05 s) → error; a pit lap without a stint change → warning; a
+  missing sector (e.g. lap 1 or a pit lap) → kept, marked partial.
+- Importer tests from recorded OpenF1 `laps` / `stints` / `pit` fixtures (Bahrain 2024).
+- **Outer test:** import one recorded race; laps per driver equal the classified laps, and every
+  complete lap yields 4 timing points (start, S1, S2, finish).
 
-**What:** `V3__` tables `laps`, `sectors` (or sector columns on `laps`), `tire_stints` and
-`pit_stops`, plus importers for OpenF1 `laps`, `stints` and `pit`, and Jolpica laps and pit stops
-for older races. Add a lap-consistency validator: lap numbers are contiguous per driver, sector
-times add up to the lap time within a tolerance, and pit laps line up with stint changes.
+**What:** `V3__` tables `laps` (session, driver, lap number, `starts_at`, sector 1–3 durations, lap
+duration, speed traps, pit-out flag), `tire_stints` and `pit_stops`. Importers for OpenF1 `laps`,
+`stints` and `pit` — **one request per session for all drivers** each — added to Step 9's
+**per-race, on-demand** `RaceImporter`. For 1996–2022, Jolpica lap
+times from the dump (Step 10) give lap-level points.
 
-**Why:** laps are the backbone of every lap chart, strategy view and pace analysis.
+**Why:** these are the timing points the replay interpolates between (ADR 0004), and the backbone of
+lap charts, strategy views and pace analysis.
 
-**Check it:** for one 2024 race, laps per driver equal the classified laps, and the validator
-report shows no errors.
+**Check it:** for Bahrain 2024, 1,129 laps across 20 drivers; the validator report has no errors.
 
 <!-- features:12 -->
 **Checks off (0/5):**
@@ -505,66 +538,71 @@ report shows no errors.
 
 ---
 
-## Step 13 — Telemetry & location ingestion
+## Step 13 — Race import on open, and on-demand telemetry
 
 **Tests first:**
-- Processor unit tests:
-  - merging `car_data` and `location` by nearest timestamp;
-  - out-of-window timestamps rejected;
-  - a gap recorded, not filled.
-- A Spring Batch job test (`JobLauncherTestUtils`) on a small fixture, checking row counts and
-  idempotency.
-- A forced failure halfway through, then a restart, continues from the last chunk.
-- **Outer test (end to end):** full ingestion of one recorded session.
+- Import status: opening a race that isn't imported starts its import in the background and reports
+  `IMPORTING`, then `READY` (or `FAILED` with the reason); two users opening it at the same time
+  trigger **one** import; a failed import can be retried.
+- On-demand telemetry service: the first request for (session, driver) fetches OpenF1 `car_data` +
+  `location` (2 requests), merges them by nearest timestamp, validates timestamps (monotonic, inside
+  the session) and stores them; the second request is served from the database with **no** API call;
+  gaps are recorded, not filled.
+- `@WebMvcTest` for `GET /api/races/{id}/import-status` and
+  `GET /api/sessions/{id}/telemetry?driver=1&lap=10`.
+- **Outer test (end to end):** with recorded fixtures, open a never-imported race → it becomes
+  `READY` with its sessions, laps, stints and pit stops stored.
 
-**What:** the `telemetry` package and a `telemetry_points` table (`V4__`): session, driver, timestamp
-(`timestamptz`), speed, throttle, brake, gear, rpm, DRS, x/y/z. Import OpenF1 `car_data` and
-`location` (~3.7 Hz each) and merge them on timestamp. One race is roughly 1M rows, so use **Spring
-Batch** (chunked reader → processor → JDBC batch writer, restartable) instead of saving JPA entities
-one by one. Validate timestamps (monotonic, inside the session window) and record gaps instead of
-inventing data. Write an end-to-end test that runs a whole ingestion against recorded JSON
-fixtures.
+**What:** wire Step 9's `RaceImporter` to the user: `GET /api/races/{id}/import-status` and an
+async import (a single-flight lock per race) that runs when a race page is opened and isn't imported
+yet — the page shows "downloading race data…" for the ~30 s it takes, then is instant forever after.
+A `telemetry_points` table (`V4__`) filled **only on demand**, per driver and session, when the
+telemetry view asks for it (ADR 0003).
 
-**Why:** this is the data the replay and telemetry views run on. Batching makes it take minutes
-instead of hours, and a restartable job survives an API hiccup halfway through.
+**Why:** the user picks the races that get downloaded; nothing is fetched for races nobody opens, and
+replay never needs bulk 3.7 Hz telemetry (ADR 0004).
 
-**Check it:** import one race in under a few minutes, then run the same row count query twice and
-get the same answer. A deliberately interrupted job resumes where it stopped.
+**Check it:** open an un-imported race — "downloading…", then the replay data is there; open it
+again — instant, and the log shows no OpenF1 call. Ask for one driver's telemetry twice — the second
+answer is instant.
 
 <!-- features:13 -->
 **Checks off (0/7):**
 
-- [ ] `STACK-06` Spring Batch
 - [ ] `DB-08` telemetry_points
 - [ ] `ING-02` Telemetry importer
 - [ ] `VAL-02` Timestamp validation
 - [ ] `VAL-04` Missing telemetry handling
+- [ ] `API-05` GET /telemetry/{sessionId}
 - [ ] `TEST-10` Full ingestion flow
 - [ ] `MOD-03` telemetry-service
 <!-- /features -->
 
 ---
 
-## Step 14 — Track geometry
+## Step 14 — Track maps
 
 **Tests first:**
-- Unit tests on synthetic tracks (a square, a circle) where the answer is known:
-  - downsampling keeps the shape and reduces the point count;
-  - smoothing moves no point more than the tolerance;
-  - the loop is closed;
-  - the bounding box is correct.
-- A `@WebMvcTest` for `/api/circuits/{id}/layout`.
+- Multiviewer client test on a recorded circuit fixture (Bahrain 2024): outline points, rotation,
+  corners, marshal sectors.
+- `TrackOutline` unit tests on synthetic tracks (a square, a circle) where the answer is known:
+  - arc-length parametrisation: `pointAt(0) == pointAt(1)` (closed loop), `pointAt(0.5)` is
+    halfway round by distance, not by point index;
+  - rotation is applied; the bounding box is correct;
+  - sector-boundary fractions come from track data, or are estimated from median sector/lap time
+    ratios when missing.
+- Fallback: an outline derived from one clean lap of OpenF1 `location` when Multiviewer has none.
+- `@WebMvcTest` for `GET /api/circuits/{id}/layout?year=2024`.
 
-**What:** derive each circuit's outline from location data: take one clean lap of one driver, then
-downsample and smooth it. Store it as a polyline (JSON column or a `circuit_layouts` table, per
-circuit and year, because layouts change). Also store the bounding box, the start/finish point and
-the sector boundaries. Serve it with `GET /api/circuits/{id}/layout`.
+**What:** a `circuit_layouts` table (per circuit and year — layouts change): outline polyline,
+rotation, corners, sector-boundary fractions, start/finish point. Fetched from the Multiviewer
+circuits API (OpenF1's `circuit_info_url`) once per circuit-year and stored (ADR 0003).
 
-**Why:** the replay player needs something to draw the dots on. Deriving it from data means you need
-no licensed track maps.
+**Why:** the map the dots slide along. Lap progress 0–100 % only becomes a position on screen through
+`pointAt(progress)`.
 
-**Check it:** plot the polyline (even in a quick HTML page or a notebook) and it looks like the
-circuit.
+**Check it:** plot the polyline (a quick HTML page or notebook) — it looks like the circuit, and
+`pointAt(0.25)` / `(0.5)` / `(0.75)` land where you'd expect.
 
 <!-- features:14 -->
 _No plan.md checklist items — this step is groundwork._
@@ -572,33 +610,35 @@ _No plan.md checklist items — this step is groundwork._
 
 ---
 
-## Step 15 — Replay engine v1
+## Step 15 — Replay engine v1 (lap progress)
 
 **Tests first:**
-- Interpolation unit tests:
-  - halfway between samples → the midpoint;
-  - exactly on a sample → that sample;
-  - before the first or after the last sample → clamped;
-  - a driver with no data → absent, not zero.
-- Frame builder tests: drivers ordered by position, and the current lap is right at lap boundaries.
-- `@WebMvcTest` for the chunk endpoint: window parameters and validation (`to > from`, `hz` within
-  limits).
-- Keep timing out of unit tests; measure performance separately.
+- `ProgressTimeline` unit tests (ADR 0004):
+  - at a timing point → exactly that lap/progress; halfway in time between two points → halfway in
+    progress;
+  - before the start → on the grid (lap 0, progress 0); after the chequered flag → finished;
+  - a retired driver stops at their last point; a driver with a missing sector is interpolated
+    across it;
+  - progress never runs backwards.
+- Running order at time *t* is sorted by `lap + progress` and matches the official classification at
+  the end of each lap.
+- Frame builder: drivers ordered by position; current lap correct at lap boundaries.
+- `@WebMvcTest` for `GET /api/sessions/{id}/replay`.
 
-**What:** the `replay` package. A `PlaybackFrame` record (session time, current lap, and position,
-speed and lap for each driver) built with a builder. A `ReplayService` that, for a session and a
-time window, reads telemetry and **interpolates** each driver to a fixed tick (e.g. 10 Hz) so all
-cars line up in time. Serve it with `GET /api/telemetry/{sessionId}?from=&to=&hz=`, returned in
-chunks of about 30 s so the client can buffer.
+**What:** the `replay` package. Build each driver's timing points from Step 12 (4 per lap) and serve
+the **whole race at once** — drivers (number, code, team colour), timing points, pit windows,
+retirements, and the circuit layout — in one compact JSON response (a few hundred KB). Also a
+server-side `PlaybackFrame` builder (position, lap, progress per driver at *t*) for tests, the
+leaderboard API and later features.
 
-**Why:** the raw samples arrive at slightly different times per car. Interpolating to a shared clock
-is what makes smooth, synchronised playback possible.
+**Why:** with every timing point on the client, the player can compute any moment instantly — the
+basis for video-style controls.
 
-**Check it:** unit tests for the interpolation (a point halfway between two samples gets the
-midpoint), and a chunk for 20 drivers × 30 s × 10 Hz returns quickly (time it).
+**Check it:** the response for Bahrain 2024 is under ~300 KB; frames at lap boundaries match the
+lap-by-lap positions.
 
 <!-- features:15 -->
-**Checks off (0/10):**
+**Checks off (0/9):**
 
 - [ ] `STATE-01` Driver positions
 - [ ] `REPLAY-01` Reconstruct race state
@@ -607,7 +647,6 @@ midpoint), and a chunk for 20 drivers × 30 s × 10 Hz returns quickly (time it)
 - [ ] `REPLAY-04` Maintain race timing
 - [ ] `FRAME-01` Driver positions
 - [ ] `FRAME-03` Current lap
-- [ ] `API-05` GET /telemetry/{sessionId}
 - [ ] `MOD-04` replay-service
 - [ ] `PAT-04` Builder Pattern
 <!-- /features -->
@@ -677,26 +716,26 @@ works.
 ## Step 18 — Basic replay player
 
 **Tests first:**
-- Pure functions first, with no canvas needed:
-  - the world → canvas transform (fits the bounding box, preserves aspect ratio);
-  - the client-side frame buffer (picks the right frame for a clock time, asks for the next chunk
-    early);
-  - the clock advancing by elapsed time × speed.
+- Pure functions first, no canvas needed:
+  - `progressAt(points, t)` — the same rules as the server's `ProgressTimeline` (share the test
+    cases);
+  - `pointAt(outline, progress)` and the world → canvas transform (fits the bounding box, keeps the
+    aspect ratio, applies rotation);
+  - the playback clock: `t` advances by elapsed × speed while playing and not while paused.
 - A component test: play/pause toggles the clock, and drawing is called with the expected dot
   positions (a mocked 2D context).
-- **Outer test:** the first Playwright journey: open a race, press play, and the lap counter
-  advances.
+- **Outer test:** the first Playwright journey — open a race, press play, the lap counter advances;
+  press pause, it stops.
 
-**What:** `/races/:year/:sessionKey/replay`: a `<canvas>` that draws the circuit polyline (Step 14)
-scaled to fit, plus one coloured dot per driver (team colour) with its position number. A
-`requestAnimationFrame` loop advances a clock and draws interpolated frames from buffered chunks
-(Step 15), fetching the next chunk ahead of time. Only play and pause for now. Add component tests
-for the rendering maths (world→canvas transform).
+**What:** `/races/:year/:sessionKey/replay`. Fetch the race once (Step 15), then a
+`requestAnimationFrame` loop advances the clock and draws, on a `<canvas>`, the track outline and
+one coloured dot per driver (team colour, number) at `pointAt(progressAt(driver, t))`. Only play
+and pause for now.
 
-**Why:** this is the **Phase 1 milestone**: you can watch a real race. Canvas, not SVG or DOM,
-because 20 dots at 60 fps would otherwise mean constant layout work.
+**Why:** the **Phase 1 milestone** — you can watch a real race. Canvas, because 20 dots at 60 fps
+would otherwise mean constant DOM layout work.
 
-**Check it:** a 2024 race plays smoothly, overtakes on screen match reality, and pause freezes it.
+**Check it:** a 2024 race plays smoothly; overtakes on screen match reality; pause freezes it.
 
 <!-- features:18 -->
 **Checks off (0/7):**
@@ -783,30 +822,38 @@ event timeline.
 
 ---
 
-## Step 21 — Weather, race control and penalties
+## Step 21 — Weather, race control, penalties and track status
 
 **Tests first:**
 - Parameterised parser tests: a table of real race-control message strings → the expected flag,
-  SC/VSC state, or penalty (driver, seconds, reason).
+  SC/VSC state, or penalty (driver, seconds, reason), e.g. `SAFETY CAR DEPLOYED`,
+  `VIRTUAL SAFETY CAR ENDING`, `TURN 13 INCIDENT INVOLVING CARS 11 (PER) AND 23 (ALB) NOTED -
+  CAUSING A COLLISION`.
+- F1-archive `TrackStatus` parser tests on a recorded stream (Singapore 2023): status codes 1 all
+  clear, 2 yellow, 4 SC, 5 red, 6 VSC, 7 VSC ending → timestamped track-status periods.
+- `TrackStatusSourceFactory` picks the F1 archive when enabled, and falls back to OpenF1
+  race-control messages when it's disabled or the file is missing (both produce the same periods).
 - Importer tests for weather, race control and team radio from fixtures.
 
-**What:** `V5__` tables `weather_data`, `race_events` (raw race-control messages: flags, SC/VSC,
-red flags, investigations) and `penalties`. Add importers for OpenF1 `weather`, `race_control` and
-`team_radio`, and parse penalties out of race-control text into structured rows.
+**What:** `V5__` tables `weather_data`, `race_events` (raw race-control messages), `penalties` and
+`track_status` (green / yellow / SC / VSC / red periods). Importers for OpenF1 `weather`,
+`race_control` and `team_radio` (1 request per session each), and the optional F1-archive
+`TrackStatus` source (ADR 0003, `f1archive.enabled`), all part of the per-race on-demand import.
 
-**Why:** these are the facts the timeline and the track overlays are built from.
+**Why:** the facts the timeline, the SC/flag overlays and the crash detector are built from.
 
-**Check it:** for a race with a safety car, the `race_events` rows show SC deployed and in, at
-the right times.
+**Check it:** for Singapore 2023, `track_status` shows the SC from lap 20 to 22 and the VSC on lap
+44–45.
 
 <!-- features:21 -->
-**Checks off (0/5):**
+**Checks off (0/6):**
 
 - [ ] `DB-09` race_events
 - [ ] `DB-11` weather_data
 - [ ] `DB-14` penalties
 - [ ] `ING-04` Weather importer
 - [ ] `ING-05` Event importer
+- [ ] `PAT-01` Factory Pattern
 <!-- /features -->
 
 ---
@@ -815,30 +862,29 @@ the right times.
 
 **Tests first:**
 - One detector test class per event type, each on a tiny hand-built fixture:
-  - an overtake is detected;
-  - a pit-cycle position swap is *not*;
-  - fastest lap, DNF, SC start/end, yellow flags.
+  - an overtake is detected from the running order; a pit-cycle position swap is *not*;
+  - fastest lap, DNF, SC/VSC start and end, red flag, yellow flags;
+  - **crash / incident**: raised when signals agree — a collision or "car stopped" race-control
+    message, a double yellow or SC in that sector or right after, and the car retiring or losing
+    many places; *not* raised for a track-limits note alone.
 - An Observer test: publishing a detected event notifies listeners (`@RecordApplicationEvents`).
 - **Outer test:** `GET /api/races/{id}/timeline` returns events ordered by time and filterable by
   type.
 
-**What:** the `event` package. A `RaceEvent` domain model (type, timestamp, lap, severity,
-participants) and one detector per event type, all implementing an interface:
-- Overtakes, from position changes, excluding pit-cycle swaps.
-- Pit stops and tyre changes, from Step 12.
-- Fastest laps, from laps.
-- DNFs and crashes, from results and race control.
-- SC / VSC / yellow / red flags, from race control.
-- Team radio markers and weather changes.
+**What:** the `event` package. A `RaceEvent` model (type, timestamp, lap, severity, participants)
+and one detector per type, all implementing an interface:
+- overtakes, from the progress-based running order (Step 15), cross-checked with OpenF1 `overtakes`;
+- pit stops and tyre changes (Step 12); fastest laps;
+- SC / VSC / red / yellow from `track_status` (Step 21);
+- crashes and incidents, from the combined signals above (no source has a "crash" event —
+  ADR 0003); DNFs from results; team radio markers; weather changes.
 
 Detectors publish Spring application events that other modules listen to (the Observer pattern).
-Serve the result with `GET /api/races/{id}/timeline`.
 
 **Why:** the timeline is the event-driven heart of the app. Separate detectors keep each rule
 testable on its own.
 
-**Check it:** a detector unit test per event type, using a small hand-made fixture. For a famous
-race, the timeline matches what happened.
+**Check it:** Singapore 2023's timeline shows the SC, the VSC and the late Pérez collisions.
 
 <!-- features:22 -->
 **Checks off (0/16):**
@@ -866,22 +912,23 @@ race, the timeline matches what happened.
 ## Step 23 — Race state engine & snapshots
 
 **Tests first:**
-- Fold unit tests: given events → expected `RaceState` (order, gaps, tyres, flags, penalties).
+- Fold unit tests: given events → expected `RaceState` (order, gaps, tyres, flags, penalties,
+  pit-window status).
 - A jqwik **property test**: for any time *t*, the state from scratch equals the state from the
   nearest snapshot plus replay.
-- Snapshot-policy tests: one every 5 s, one per lap, one per key event.
+- Snapshot-policy tests: one per lap and one per key event (SC, red flag, pit stop).
 - Seek tests: the nearest-snapshot lookup picks the latest snapshot ≤ *t*.
 
-**What:** a `RaceStateEngine` that folds events and telemetry into a complete `RaceState` (order,
-gaps, tyres, penalties, flags, pit-window status) at any timestamp. Persist **snapshots** every 5 s,
-every lap and at each key event. Seeking means "load the nearest snapshot before *t*, then replay
-forward". Add a `GET /api/replay/{sessionId}/state?t=` endpoint.
+**What:** a `RaceStateEngine` that folds events and timing into a complete `RaceState` at any
+timestamp. Car positions are already instant (ADR 0004); snapshots make the **derived** state —
+gaps, tyres, penalties, flags — instant too, so the leaderboard and overlays keep up while scrubbing.
+Persist snapshots per lap and per key event and ship them with the race (Step 15).
 
-**Why:** without snapshots, jumping to lap 50 means recomputing 49 laps. With them, any seek is
-fast, which is what makes rewind and scrubbing possible.
+**Why:** without snapshots, the leaderboard at lap 50 means recomputing 49 laps of events on every
+scrub.
 
-**Check it:** state at *t* computed from scratch equals state from snapshot + replay (a property
-test over random *t*). Seeking anywhere returns in well under 100 ms.
+**Check it:** state at *t* from scratch equals state from snapshot + replay; seeking anywhere stays
+under 100 ms.
 
 <!-- features:23 -->
 **Checks off (0/4):**
@@ -894,27 +941,25 @@ test over random *t*). Seeking anywhere returns in well under 100 ms.
 
 ---
 
-## Step 24 — WebSocket replay streaming
+## Step 24 — Shared viewing over WebSocket
 
 **Tests first:**
-- **Outer test:** a WebSocket integration test with `WebSocketStompClient` on a random port:
-  - subscribe → play → frames arrive in order;
-  - pause stops them;
-  - seek jumps;
-  - 2× speed halves the interval.
-- The clock is a controllable `Clock`/scheduler, so the test runs in milliseconds, not real time.
-- Unit tests for the per-session playback clock.
+- **Outer test:** a WebSocket integration test with `WebSocketStompClient` on a random port: a host
+  and a viewer join the same watch session; host play / pause / seek / speed commands reach the
+  viewer in order.
+- The shared clock is a controllable `Clock`, so the test runs in milliseconds; late joiners get the
+  current position immediately.
 
-**What:** a WebSocket endpoint (STOMP over Spring WebSocket, or WebFlux; decide in **ADR 0003** and
-tick `STACK-03` once it's implemented). The server owns the playback clock per client session and
-pushes frames at the chosen speed. Clients send `play`, `pause`, `seek` and `speed` commands. Add an
-end-to-end test: open a socket, play 10 s, and assert the frame count and ordering.
+**What:** replay itself stays client-side (ADR 0004). This step adds **watch-together**: a server
+-held clock per shared session that broadcasts play / pause / seek / speed, so several viewers (or
+the player plus separate telemetry and timeline windows) stay in sync. STOMP over Spring WebSocket,
+or WebFlux — decide in **ADR 0005** and tick `STACK-03` once it's implemented. The same channel is
+what a future live mode would use.
 
-**Why:** server-paced streaming keeps several views perfectly in sync and keeps the client simple.
-The plan targets under 100 ms replay latency.
+**Why:** synchronised views are a plan requirement, and they need a single source of time.
 
-**Check it:** two browser tabs on the same session stay frame-for-frame in sync. Measure command →
-frame latency.
+**Check it:** two browser tabs on the same watch session stay in sync within 100 ms when the host
+pauses or scrubs.
 
 <!-- features:24 -->
 **Checks off (0/7):**
@@ -1013,24 +1058,23 @@ control messages.
 
 ---
 
-## Step 27 — Telemetry visualization
+## Step 27 — Telemetry visualization (on demand)
 
 **Tests first:**
 - Backend: distance-based alignment of two laps; the lap-delta trace ends at the lap-time
   difference; sector delta maths.
 - Fuel/ERS estimate models tested against hand-calculated values, and labelled as estimates.
-- Frontend: transformation functions (API → chart series) tested. RTL renders a chart for given
-  data.
+- Frontend: transformation functions (API → chart series) tested; RTL renders a chart for given
+  data, and shows a loading state while the on-demand fetch (Step 13) runs.
 
-**What:** `/races/:year/:sessionKey/telemetry?driver=VER&lap=…`, with Recharts traces for speed,
-throttle, brake, gear and RPM against distance. Add tyre compound, age and stint, fuel and ERS
-*estimates* (label them as models, not data), sector deltas, and lap-vs-lap delta between two
-drivers. Charts sync to the replay clock over the socket.
+**What:** `/races/:year/:sessionKey/telemetry?driver=VER&lap=…` — Recharts traces for speed,
+throttle, brake, gear and RPM against distance, fetched **on demand** (Step 13) and cached. Tyre
+compound, age and stint; fuel and ERS *estimates*; sector deltas and lap-vs-lap delta between two
+drivers. Charts follow the replay clock.
 
-**Why:** this is the "full telemetry playback" half of the vision.
+**Why:** the "full telemetry playback" half of the vision — paid for only when someone looks.
 
-**Check it:** compare two drivers' fastest laps; the delta trace ends at their lap-time
-difference.
+**Check it:** compare two drivers' fastest laps; the delta trace ends at their lap-time difference.
 
 <!-- features:27 -->
 **Checks off (0/14):**

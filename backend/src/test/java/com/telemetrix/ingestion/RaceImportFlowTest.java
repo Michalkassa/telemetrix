@@ -42,7 +42,7 @@ class RaceImportFlowTest {
 
 	@BeforeEach
 	void aCalendarWithBahrain2024() {
-		jdbc.execute("truncate seasons, circuits, races, sessions, laps, tire_stints, session_pit_stops restart identity cascade");
+		jdbc.execute("truncate seasons, circuits, races, sessions, laps, tire_stints, session_pit_stops, session_drivers restart identity cascade");
 		jdbc.update("insert into seasons (year) values (2024)");
 		jdbc.update("insert into circuits (ref, name) values ('bahrain', 'Bahrain International Circuit')");
 		raceId = jdbc.queryForObject("""

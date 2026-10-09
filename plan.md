@@ -14,12 +14,12 @@ python3 scripts/sync_features.py --check                # CI: fail if plan.md/ST
 ```
 
 <!-- progress:start -->
-**42 / 305 features done (13%)**
+**51 / 305 features done (16%)**
 
 | Phase | Done | Total | Progress |
 |---|---:|---:|---|
 | 0 — Foundation | 3 | 3 | `██████████` |
-| 1 — Data foundation & basic replay | 39 | 71 | `█████░░░░░` |
+| 1 — Data foundation & basic replay | 48 | 71 | `███████░░░` |
 | 2 — Telemetry, timeline & playback | 0 | 83 | `░░░░░░░░░░` |
 | 3 — Championship & analytics | 0 | 46 | `░░░░░░░░░░` |
 | 4 — Distributed systems & production | 0 | 75 | `░░░░░░░░░░` |
@@ -193,7 +193,7 @@ Timeline events:
 
 ## Race State Engine
 System reconstructs race state at every timestamp:
-- [ ] Driver positions <!-- STATE-01 -->
+- [x] Driver positions <!-- STATE-01 -->
 - [ ] Gap calculations <!-- STATE-02 -->
 - [ ] Tire states <!-- STATE-03 -->
 - [ ] Active penalties <!-- STATE-04 -->
@@ -414,19 +414,19 @@ timing points per lap, played client-side like a video — see
 [`docs/adr/0004-replay-as-lap-progress.md`](docs/adr/0004-replay-as-lap-progress.md).
 
 ## Responsibilities
-- [ ] Reconstruct race state <!-- REPLAY-01 -->
-- [ ] Emit synchronized playback frames <!-- REPLAY-02 -->
-- [ ] Interpolate telemetry <!-- REPLAY-03 -->
-- [ ] Maintain race timing <!-- REPLAY-04 -->
+- [x] Reconstruct race state <!-- REPLAY-01 -->
+- [x] Emit synchronized playback frames <!-- REPLAY-02 -->
+- [x] Interpolate telemetry <!-- REPLAY-03 -->
+- [x] Maintain race timing <!-- REPLAY-04 -->
 - [ ] Support rewind <!-- REPLAY-05 -->
 - [ ] Support pause/resume <!-- REPLAY-06 -->
 
 ## Core Concepts
 ### Playback Frame
 Contains:
-- [ ] Driver positions <!-- FRAME-01 -->
+- [x] Driver positions <!-- FRAME-01 -->
 - [ ] Track state <!-- FRAME-02 -->
-- [ ] Current lap <!-- FRAME-03 -->
+- [x] Current lap <!-- FRAME-03 -->
 - [ ] Current flags <!-- FRAME-04 -->
 - [ ] Weather state <!-- FRAME-05 -->
 - [ ] Gap data <!-- FRAME-06 -->
@@ -737,7 +737,7 @@ Use Python separately for:
 - [ ] auth-service <!-- MOD-01 -->
 - [x] race-service <!-- MOD-02 -->
 - [x] telemetry-service <!-- MOD-03 -->
-- [ ] replay-service <!-- MOD-04 -->
+- [x] replay-service <!-- MOD-04 -->
 - [ ] analytics-service <!-- MOD-05 -->
 - [x] ingestion-service <!-- MOD-06 -->
 - [ ] championship-service <!-- MOD-07 -->
@@ -780,7 +780,7 @@ Use Python separately for:
 - [ ] Factory Pattern <!-- PAT-01 -->
 - [ ] Strategy Pattern <!-- PAT-02 -->
 - [ ] Observer Pattern <!-- PAT-03 -->
-- [ ] Builder Pattern <!-- PAT-04 -->
+- [x] Builder Pattern <!-- PAT-04 -->
 - [ ] CQRS <!-- PAT-05 -->
 - [ ] Event Sourcing <!-- PAT-06 -->
 - [x] Repository Pattern <!-- PAT-07 -->

@@ -3,6 +3,7 @@ package com.telemetrix;
 import com.telemetrix.ingestion.jolpica.JolpicaRace;
 import com.telemetrix.ingestion.multiviewer.MultiviewerCircuit;
 import com.telemetrix.ingestion.openf1.OpenF1CarData;
+import com.telemetrix.ingestion.openf1.OpenF1Driver;
 import com.telemetrix.ingestion.openf1.OpenF1Lap;
 import com.telemetrix.ingestion.openf1.OpenF1Location;
 import com.telemetrix.ingestion.openf1.OpenF1Meeting;
@@ -63,6 +64,11 @@ public final class Fixtures {
 
 	public static List<OpenF1Location> openF1Locations(int sessionKey, int driver) {
 		return read("openf1/location_" + sessionKey + "_" + driver + ".json", new TypeReference<>() {
+		});
+	}
+
+	public static List<OpenF1Driver> openF1Drivers(int sessionKey) {
+		return read("openf1/drivers_" + sessionKey + ".json", new TypeReference<>() {
 		});
 	}
 

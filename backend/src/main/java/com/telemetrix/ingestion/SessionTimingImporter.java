@@ -1,12 +1,15 @@
 package com.telemetrix.ingestion;
 
 import com.telemetrix.ingestion.openf1.OpenF1Client;
+import com.telemetrix.ingestion.openf1.OpenF1Driver;
 import com.telemetrix.ingestion.openf1.OpenF1Lap;
 import com.telemetrix.ingestion.openf1.OpenF1PitStop;
 import com.telemetrix.ingestion.openf1.OpenF1Stint;
 import com.telemetrix.race.Session;
 import com.telemetrix.timing.Lap;
 import com.telemetrix.timing.LapRepository;
+import com.telemetrix.timing.SessionDriver;
+import com.telemetrix.timing.SessionDriverRepository;
 import com.telemetrix.timing.SessionPitStop;
 import com.telemetrix.timing.SessionPitStopRepository;
 import com.telemetrix.timing.TireStint;
@@ -16,8 +19,8 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.stereotype.Component;
 
-// Downloads one session's laps, tyre stints and pit stops from OpenF1 — 3 requests, each for all
-// cars — checks them, and stores them, replacing whatever the session had before.
+// Downloads one session's laps, tyre stints, pit stops and drivers from OpenF1 — 4 requests, each for
+// all cars — checks them, and stores them, replacing whatever the session had before.
 @Component
 class SessionTimingImporter {
 
@@ -31,13 +34,16 @@ class SessionTimingImporter {
 
 	private final SessionPitStopRepository pitStops;
 
+	private final SessionDriverRepository drivers;
+
 	SessionTimingImporter(OpenF1Client openF1, LapConsistencyValidator validator, LapRepository laps,
-			TireStintRepository stints, SessionPitStopRepository pitStops) {
+			TireStintRepository stints, SessionPitStopRepository pitStops, SessionDriverRepository drivers) {
 		this.openF1 = openF1;
 		this.validator = validator;
 		this.laps = laps;
 		this.stints = stints;
 		this.pitStops = pitStops;
+		this.drivers = drivers;
 	}
 
 	/** Returns how many mini-sectors each sector has in this session (null if OpenF1 doesn't say). */
@@ -46,12 +52,14 @@ class SessionTimingImporter {
 		List<OpenF1Lap> sourceLaps = openF1.laps(key);
 		List<OpenF1Stint> sourceStints = openF1.stints(key);
 		List<OpenF1PitStop> sourcePits = openF1.pitStops(key);
+		List<OpenF1Driver> sourceDrivers = openF1.drivers(key);
 		validator.check(sourceLaps, sourceStints, sourcePits)
 				.forEach(f -> report.note(f.severity() + " session " + key + " (" + session.getName() + "): " + f.message()));
 
 		laps.deleteBySession(session);
 		stints.deleteBySession(session);
 		pitStops.deleteBySession(session);
+		drivers.deleteBySession(session);
 
 		// one row per car and lap (or stint): a repeated row in the source keeps its last version
 		Map<String, OpenF1Lap> uniqueLaps = new LinkedHashMap<>();
@@ -80,6 +88,14 @@ class SessionTimingImporter {
 					source.date() == null ? null : source.date().toInstant(), millis(source.timeInLane()),
 					millis(source.stopDuration())));
 			report.inserted("pitStops");
+		}
+		Map<Integer, OpenF1Driver> uniqueDrivers = new LinkedHashMap<>();
+		sourceDrivers.forEach(d -> uniqueDrivers.put(d.driverNumber(), d));
+		for (OpenF1Driver source : uniqueDrivers.values()) {
+			drivers.save(new SessionDriver(session, source.driverNumber(), source.nameAcronym(), source.fullName(),
+					source.teamName(), source.teamColour() == null ? null : source.teamColour().toLowerCase(),
+					source.headshotUrl()));
+			report.inserted("drivers");
 		}
 		return sectorSegments(sourceLaps);
 	}

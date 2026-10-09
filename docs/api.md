@@ -143,6 +143,48 @@ times). [Bahrain 2024 drawn from this endpoint](bahrain-2024-layout.svg).
 | 400 | `year` missing or outside 1950–2100 |
 | 404 | No map yet for that circuit and year (open a race there first) |
 
+### Replay
+
+#### `GET /api/sessions/{id}/replay`
+
+The **whole race at once** for the browser's player (docs/adr/0004): about 80 KB for a full Grand
+Prix. Each car has its timing points — `t` in milliseconds after `clockStart`, `laps` = laps done
+(9.25 is a quarter of the way round lap 10). Between two points, interpolate linearly; before a car's
+first point it's on the grid, after its last it stays put. A dot's place on the map is
+`layout.points` at `laps − floor(laps)` of the way round **by distance**. Pause, 8×, rewind and scrub
+are just changes to the playback clock. Open the race first (`POST /api/races/{id}/import`).
+
+```json
+{
+  "sessionId": 5, "raceId": 1, "session": "Race",
+  "clockStart": "2024-03-02T15:03:42.341Z", "chequeredAt": "2024-03-02T16:35:27.617Z", "totalLaps": 57,
+  "layout": { "...": "the same shape as GET /api/circuits/{ref}/layout" },
+  "drivers": [{"number": 1, "code": "VER", "name": "Max VERSTAPPEN", "team": "Red Bull Racing", "teamColour": "3671c6"}],
+  "timing": [{"number": 1, "t": [0, 32877, 74143, 97758], "laps": [0.0, 0.3279, 0.7362, 1.0],
+              "pits": [{"lap": 37, "from": 3612188, "to": 3636388}], "finished": true, "retiredAt": null}]
+}
+```
+
+`finished`: the car took the chequered flag (crossed the line after the winner); otherwise
+`retiredAt` is when it stopped.
+
+| Status | When |
+|--------|------|
+| 200 | Found |
+| 404 | Unknown session, or no timing for it (open the race first; before 2023 there is none) |
+
+#### `GET /api/sessions/{id}/replay/frame?at={instant}`
+
+Every car at one moment, worked out on the server: race position, lap, progress round the lap, status
+(`ON_GRID`, `RUNNING`, `IN_PIT`, `FINISHED`, `RETIRED`) and its point on the (rotated) map.
+[Bahrain 2024, lap 13, drawn from this endpoint](bahrain-2024-lap13-frame.svg).
+
+```json
+{"at": "2024-03-02T15:23:42Z", "leaderLap": 13,
+ "cars": [{"number": 1, "position": 1, "lap": 13, "progress": 0.3729, "lapsDone": 12.3729, "status": "RUNNING",
+           "x": -4088.3, "y": 3696.3}]}
+```
+
 ### Telemetry
 
 #### `GET /api/sessions/{id}/telemetry?driver={carNumber}&lap={lap}`

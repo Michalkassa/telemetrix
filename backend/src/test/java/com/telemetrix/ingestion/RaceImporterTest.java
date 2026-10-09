@@ -21,6 +21,7 @@ import com.telemetrix.ingestion.openf1.OpenF1Lap;
 import com.telemetrix.ingestion.openf1.OpenF1Session;
 import com.telemetrix.timing.Lap;
 import com.telemetrix.timing.LapRepository;
+import com.telemetrix.timing.SessionDriverRepository;
 import com.telemetrix.timing.SessionPitStopRepository;
 import com.telemetrix.timing.TireStintRepository;
 import com.telemetrix.race.Race;
@@ -95,6 +96,9 @@ class RaceImporterTest {
 
 	@Autowired
 	SessionPitStopRepository pitStops;
+
+	@Autowired
+	SessionDriverRepository drivers;
 
 	Circuit bahrainCircuit;
 
@@ -215,6 +219,13 @@ class RaceImporterTest {
 		assertThat(stints.countBySession(raceSession)).isEqualTo(63);
 		assertThat(pitStops.countBySession(raceSession)).isEqualTo(43);
 		assertThat(report.count("laps").inserted()).isEqualTo(1129);
+		assertThat(report.count("drivers").inserted()).isEqualTo(20);
+		assertThat(drivers.findBySessionOrderByDriverNumberAsc(raceSession)).first()
+				.satisfies(d -> {
+					assertThat(d.getDriverNumber()).isEqualTo(1);
+					assertThat(d.getCode()).isEqualTo("VER");
+					assertThat(d.getTeamColour()).isEqualTo("3671c6");
+				});
 		assertThat(report.notes()).noneSatisfy(note -> assertThat(note).startsWithIgnoringCase("error"));
 	}
 
@@ -296,6 +307,7 @@ class RaceImporterTest {
 		given(openF1.laps(9472)).willReturn(Fixtures.openF1Laps(9472));
 		given(openF1.stints(9472)).willReturn(Fixtures.openF1Stints(9472));
 		given(openF1.pitStops(9472)).willReturn(Fixtures.openF1PitStops(9472));
+		given(openF1.drivers(9472)).willReturn(Fixtures.openF1Drivers(9472));
 	}
 
 	private static OpenF1Lap openF1Lap(int car, int number) {

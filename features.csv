@@ -75,7 +75,7 @@ CMP-01,3,35,Multi-Race Comparison,Compare same track across years,todo,
 CMP-02,3,35,Multi-Race Comparison,Compare driver performance,todo,
 CMP-03,3,35,Multi-Race Comparison,Compare tire strategies,todo,
 CMP-04,3,35,Multi-Race Comparison,Compare race pace evolution,todo,
-STATE-01,1,15,Race State Engine,Driver positions,todo,
+STATE-01,1,15,Race State Engine,Driver positions,done,2026-10-09
 STATE-02,2,26,Race State Engine,Gap calculations,todo,
 STATE-03,2,26,Race State Engine,Tire states,todo,
 STATE-04,2,26,Race State Engine,Active penalties,todo,
@@ -162,15 +162,15 @@ VAL-01,1,9,Data Validation,Duplicate detection,done,2026-10-09
 VAL-02,1,13,Data Validation,Timestamp validation,done,2026-10-09
 VAL-03,1,12,Data Validation,Lap consistency checks,done,2026-10-09
 VAL-04,1,13,Data Validation,Missing telemetry handling,done,2026-10-09
-REPLAY-01,1,15,Responsibilities,Reconstruct race state,todo,
-REPLAY-02,1,15,Responsibilities,Emit synchronized playback frames,todo,
-REPLAY-03,1,15,Responsibilities,Interpolate telemetry,todo,
-REPLAY-04,1,15,Responsibilities,Maintain race timing,todo,
+REPLAY-01,1,15,Responsibilities,Reconstruct race state,done,2026-10-09
+REPLAY-02,1,15,Responsibilities,Emit synchronized playback frames,done,2026-10-09
+REPLAY-03,1,15,Responsibilities,Interpolate telemetry,done,2026-10-09
+REPLAY-04,1,15,Responsibilities,Maintain race timing,done,2026-10-09
 REPLAY-05,2,23,Responsibilities,Support rewind,todo,
 REPLAY-06,2,24,Responsibilities,Support pause/resume,todo,
-FRAME-01,1,15,Playback Frame,Driver positions,todo,
+FRAME-01,1,15,Playback Frame,Driver positions,done,2026-10-09
 FRAME-02,2,26,Playback Frame,Track state,todo,
-FRAME-03,1,15,Playback Frame,Current lap,todo,
+FRAME-03,1,15,Playback Frame,Current lap,done,2026-10-09
 FRAME-04,2,26,Playback Frame,Current flags,todo,
 FRAME-05,2,26,Playback Frame,Weather state,todo,
 FRAME-06,2,26,Playback Frame,Gap data,todo,
@@ -272,7 +272,7 @@ NFR-17,4,43,Maintainability,Modular services,todo,
 MOD-01,4,37,Modules,auth-service,todo,
 MOD-02,1,11,Modules,race-service,done,2026-10-09
 MOD-03,1,13,Modules,telemetry-service,done,2026-10-09
-MOD-04,1,15,Modules,replay-service,todo,
+MOD-04,1,15,Modules,replay-service,done,2026-10-09
 MOD-05,3,32,Modules,analytics-service,todo,
 MOD-06,1,9,Modules,ingestion-service,done,2026-10-09
 MOD-07,3,30,Modules,championship-service,todo,
@@ -280,7 +280,7 @@ MOD-08,2,22,Modules,event-service,todo,
 PAT-01,1,21,Patterns To Use,Factory Pattern,todo,
 PAT-02,3,30,Patterns To Use,Strategy Pattern,todo,
 PAT-03,2,22,Patterns To Use,Observer Pattern,todo,
-PAT-04,1,15,Patterns To Use,Builder Pattern,todo,
+PAT-04,1,15,Patterns To Use,Builder Pattern,done,2026-10-09
 PAT-05,3,36,Patterns To Use,CQRS,todo,
 PAT-06,3,36,Patterns To Use,Event Sourcing,todo,
 PAT-07,1,7,Patterns To Use,Repository Pattern,done,2026-10-09

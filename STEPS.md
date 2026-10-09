@@ -652,17 +652,17 @@ basis for video-style controls.
 lap-by-lap positions.
 
 <!-- features:15 -->
-**Checks off (0/9):**
+**Checks off (9/9):**
 
-- [ ] `STATE-01` Driver positions
-- [ ] `REPLAY-01` Reconstruct race state
-- [ ] `REPLAY-02` Emit synchronized playback frames
-- [ ] `REPLAY-03` Interpolate telemetry
-- [ ] `REPLAY-04` Maintain race timing
-- [ ] `FRAME-01` Driver positions
-- [ ] `FRAME-03` Current lap
-- [ ] `MOD-04` replay-service
-- [ ] `PAT-04` Builder Pattern
+- [x] `STATE-01` Driver positions
+- [x] `REPLAY-01` Reconstruct race state
+- [x] `REPLAY-02` Emit synchronized playback frames
+- [x] `REPLAY-03` Interpolate telemetry
+- [x] `REPLAY-04` Maintain race timing
+- [x] `FRAME-01` Driver positions
+- [x] `FRAME-03` Current lap
+- [x] `MOD-04` replay-service
+- [x] `PAT-04` Builder Pattern
 <!-- /features -->
 
 ---

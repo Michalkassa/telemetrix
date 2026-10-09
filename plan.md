@@ -14,12 +14,12 @@ python3 scripts/sync_features.py --check                # CI: fail if plan.md/ST
 ```
 
 <!-- progress:start -->
-**58 / 305 features done (19%)**
+**59 / 305 features done (19%)**
 
 | Phase | Done | Total | Progress |
 |---|---:|---:|---|
 | 0 — Foundation | 3 | 3 | `██████████` |
-| 1 — Data foundation & basic replay | 55 | 71 | `████████░░` |
+| 1 — Data foundation & basic replay | 56 | 71 | `████████░░` |
 | 2 — Telemetry, timeline & playback | 0 | 83 | `░░░░░░░░░░` |
 | 3 — Championship & analytics | 0 | 46 | `░░░░░░░░░░` |
 | 4 — Distributed systems & production | 0 | 75 | `░░░░░░░░░░` |
@@ -280,7 +280,7 @@ L4 Leaf views                  the niche page (table / chart / replay / telemetr
 
 ## Route tree
 
-- [ ] `/` landing → `/dashboard` hub. <!-- NAV-05 -->
+- [x] `/` landing → `/dashboard` hub. <!-- NAV-05 -->
 - [ ] **Seasons**: `/seasons` (year grid) → `/seasons/:year` (season hub) → leaves <!-- NAV-06 -->
   `…/standings/drivers`, `…/standings/constructors`, `…/results` (race-by-race grid), `…/races`.
 - [ ] **Grand Prix**: `/races/:year` (GP list, year filter) → `/races/:year/:sessionKey` (race hub) → <!-- NAV-07 -->

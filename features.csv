@@ -108,7 +108,7 @@ NAV-01,3,31,Top-level lenses (L1),Seasons — explore a championship year: stand
 NAV-02,2,29,Top-level lenses (L1),"Grand Prix — explore a single event: results, timeline, analytics, telemetry, replay.",todo,
 NAV-03,3,34,Top-level lenses (L1),Drivers & Teams — explore competitors: per-driver and per-constructor stats/analytics.,todo,
 NAV-04,2,25,Top-level lenses (L1),Replay Theater — jump straight to watching a race's animated playback.,todo,
-NAV-05,1,17,Route tree,/ landing → /dashboard hub.,todo,
+NAV-05,1,17,Route tree,/ landing → /dashboard hub.,done,2026-10-09
 NAV-06,3,31,Route tree,Seasons: /seasons (year grid) → /seasons/:year (season hub) → leaves,todo,
 NAV-07,2,29,Route tree,"Grand Prix: /races/:year (GP list, year filter) → /races/:year/:sessionKey (race hub) →",todo,
 NAV-08,3,34,Route tree,Drivers & Teams: /drivers directory → /drivers/:acronym hub (Stats · Season-by-season ·,todo,

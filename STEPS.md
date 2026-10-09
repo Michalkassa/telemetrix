@@ -720,9 +720,9 @@ breadcrumbs. All selection state lives in the URL.
 works.
 
 <!-- features:17 -->
-**Checks off (0/1):**
+**Checks off (1/1):**
 
-- [ ] `NAV-05` / landing → /dashboard hub.
+- [x] `NAV-05` / landing → /dashboard hub.
 <!-- /features -->
 
 ---

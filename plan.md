@@ -1,6 +1,32 @@
 
 # F1 Historical Race Visualizer — MVP & System Design
 
+## Progress
+
+Every deliverable in this plan is a checkbox with a hidden id (`<!-- PLAY-01 -->`). The source of
+truth is [`features.csv`](features.csv); [`STEPS.md`](STEPS.md) says which step builds each one.
+Do not tick boxes here by hand — mark the feature done and sync:
+
+```bash
+python3 scripts/sync_features.py done PLAY-01 PLAY-02   # mark done (today's date) + sync
+python3 scripts/sync_features.py                        # re-sync after editing the CSV by hand
+python3 scripts/sync_features.py --check                # CI: fail if plan.md/STEPS.md are stale
+```
+
+<!-- progress:start -->
+**3 / 305 features done (0%)**
+
+| Phase | Done | Total | Progress |
+|---|---:|---:|---|
+| 0 — Foundation | 3 | 3 | `██████████` |
+| 1 — Data foundation & basic replay | 0 | 71 | `░░░░░░░░░░` |
+| 2 — Telemetry, timeline & playback | 0 | 83 | `░░░░░░░░░░` |
+| 3 — Championship & analytics | 0 | 46 | `░░░░░░░░░░` |
+| 4 — Distributed systems & production | 0 | 75 | `░░░░░░░░░░` |
+| 5 — Data science & polish | 0 | 16 | `░░░░░░░░░░` |
+| stretch — Stretch goals | 0 | 11 | `░░░░░░░░░░` |
+<!-- progress:end -->
+
 ## Project Vision
 
 Build a full-stack Formula 1 historical visualization and analytics platform that replays every available race using telemetry and event data from free/open F1 APIs.
@@ -59,128 +85,128 @@ The system is designed as:
 ## Race Replay Features
 
 ### Playback Controls
-- Play
-- Pause
-- Rewind
-- Fast forward
-- Jump to lap
-- Jump to timestamp
-- Variable playback speed:
+- [ ] Play <!-- PLAY-01 -->
+- [ ] Pause <!-- PLAY-02 -->
+- [ ] Rewind <!-- PLAY-03 -->
+- [ ] Fast forward <!-- PLAY-04 -->
+- [ ] Jump to lap <!-- PLAY-05 -->
+- [ ] Jump to timestamp <!-- PLAY-06 -->
+- [ ] Variable playback speed: <!-- PLAY-07 -->
   - 0.25x
   - 0.5x
   - 1x
   - 2x
   - 4x
   - 8x
-- Auto-follow selected driver
-- Multi-driver camera focus mode
-- Timeline scrubbing
+- [ ] Auto-follow selected driver <!-- PLAY-08 -->
+- [ ] Multi-driver camera focus mode <!-- PLAY-09 -->
+- [ ] Timeline scrubbing <!-- PLAY-10 -->
 
 ### Track Visualization
-- 2D track rendering
-- Driver dots
-- Real-time sector coloring
-- Position indicators
-- Gap visualization
-- DRS indicators
-- Pit lane rendering
-- Safety car visualization
-- Yellow flag visualization
-- Weather overlays
-- Track sectors
-- Mini-map mode
+- [ ] 2D track rendering <!-- TRACK-01 -->
+- [ ] Driver dots <!-- TRACK-02 -->
+- [ ] Real-time sector coloring <!-- TRACK-03 -->
+- [ ] Position indicators <!-- TRACK-04 -->
+- [ ] Gap visualization <!-- TRACK-05 -->
+- [ ] DRS indicators <!-- TRACK-06 -->
+- [ ] Pit lane rendering <!-- TRACK-07 -->
+- [ ] Safety car visualization <!-- TRACK-08 -->
+- [ ] Yellow flag visualization <!-- TRACK-09 -->
+- [ ] Weather overlays <!-- TRACK-10 -->
+- [ ] Track sectors <!-- TRACK-11 -->
+- [ ] Mini-map mode <!-- TRACK-12 -->
 
 ### Telemetry Visualization
-- Speed graph
-- Throttle graph
-- Brake graph
-- Gear display
-- RPM estimate
-- Tire compound
-- Tire age
-- Tire stint
-- Fuel estimate
-- ERS estimate
-- Sector deltas
-- Lap delta comparisons
+- [ ] Speed graph <!-- TELE-01 -->
+- [ ] Throttle graph <!-- TELE-02 -->
+- [ ] Brake graph <!-- TELE-03 -->
+- [ ] Gear display <!-- TELE-04 -->
+- [ ] RPM estimate <!-- TELE-05 -->
+- [ ] Tire compound <!-- TELE-06 -->
+- [ ] Tire age <!-- TELE-07 -->
+- [ ] Tire stint <!-- TELE-08 -->
+- [ ] Fuel estimate <!-- TELE-09 -->
+- [ ] ERS estimate <!-- TELE-10 -->
+- [ ] Sector deltas <!-- TELE-11 -->
+- [ ] Lap delta comparisons <!-- TELE-12 -->
 
 ### Timeline System
 Timeline events:
-- Overtakes
-- Pit stops
-- Safety car
-- VSC
-- Yellow flags
-- Red flags
-- Crashes
-- DNFs
-- Fastest laps
-- Penalties
-- Team radio markers
-- Tire changes
-- Weather changes
-- Championship lead changes
+- [ ] Overtakes <!-- TIME-01 -->
+- [ ] Pit stops <!-- TIME-02 -->
+- [ ] Safety car <!-- TIME-03 -->
+- [ ] VSC <!-- TIME-04 -->
+- [ ] Yellow flags <!-- TIME-05 -->
+- [ ] Red flags <!-- TIME-06 -->
+- [ ] Crashes <!-- TIME-07 -->
+- [ ] DNFs <!-- TIME-08 -->
+- [ ] Fastest laps <!-- TIME-09 -->
+- [ ] Penalties <!-- TIME-10 -->
+- [ ] Team radio markers <!-- TIME-11 -->
+- [ ] Tire changes <!-- TIME-12 -->
+- [ ] Weather changes <!-- TIME-13 -->
+- [ ] Championship lead changes <!-- TIME-14 -->
 
 ---
 
 # Championship Features
 
 ## Championship Explorer
-- Select any season
-- View constructor standings
-- View driver standings
-- Dynamic standings during race playback
-- Historical points systems
-- Sprint race support
-- Compare seasons
+- [ ] Select any season <!-- CHAMP-01 -->
+- [ ] View constructor standings <!-- CHAMP-02 -->
+- [ ] View driver standings <!-- CHAMP-03 -->
+- [ ] Dynamic standings during race playback <!-- CHAMP-04 -->
+- [ ] Historical points systems <!-- CHAMP-05 -->
+- [ ] Sprint race support <!-- CHAMP-06 -->
+- [ ] Compare seasons <!-- CHAMP-07 -->
 
 ## Driver Analytics
-- Wins
-- Podiums
-- DNFs
-- Fastest laps
-- Pole positions
-- Average finish
-- Overtake statistics
-- Pit stop averages
-- Tire strategy tendencies
-- Wet vs dry performance
-- Track-specific performance
+- [ ] Wins <!-- DRV-01 -->
+- [ ] Podiums <!-- DRV-02 -->
+- [ ] DNFs <!-- DRV-03 -->
+- [ ] Fastest laps <!-- DRV-04 -->
+- [ ] Pole positions <!-- DRV-05 -->
+- [ ] Average finish <!-- DRV-06 -->
+- [ ] Overtake statistics <!-- DRV-07 -->
+- [ ] Pit stop averages <!-- DRV-08 -->
+- [ ] Tire strategy tendencies <!-- DRV-09 -->
+- [ ] Wet vs dry performance <!-- DRV-10 -->
+- [ ] Track-specific performance <!-- DRV-11 -->
 
 ## Constructor Analytics
-- Reliability
-- Pit stop efficiency
-- Race pace
-- Qualifying pace
-- Development trend visualization
-- Strategy performance
+- [ ] Reliability <!-- CON-01 -->
+- [ ] Pit stop efficiency <!-- CON-02 -->
+- [ ] Race pace <!-- CON-03 -->
+- [ ] Qualifying pace <!-- CON-04 -->
+- [ ] Development trend visualization <!-- CON-05 -->
+- [ ] Strategy performance <!-- CON-06 -->
 
 ---
 
 # Advanced MVP Features
 
 ## Multi-Race Comparison
-- Compare same track across years
-- Compare driver performance
-- Compare tire strategies
-- Compare race pace evolution
+- [ ] Compare same track across years <!-- CMP-01 -->
+- [ ] Compare driver performance <!-- CMP-02 -->
+- [ ] Compare tire strategies <!-- CMP-03 -->
+- [ ] Compare race pace evolution <!-- CMP-04 -->
 
 ## Race State Engine
 System reconstructs race state at every timestamp:
-- Driver positions
-- Gap calculations
-- Tire states
-- Active penalties
-- Current flags
-- Pit window status
-- Championship standings
+- [ ] Driver positions <!-- STATE-01 -->
+- [ ] Gap calculations <!-- STATE-02 -->
+- [ ] Tire states <!-- STATE-03 -->
+- [ ] Active penalties <!-- STATE-04 -->
+- [ ] Current flags <!-- STATE-05 -->
+- [ ] Pit window status <!-- STATE-06 -->
+- [ ] Championship standings <!-- STATE-07 -->
 
 ## Event Sourcing Architecture
 Store race state as events:
-- Easier replay reconstruction
-- Time travel debugging
-- Efficient playback
-- Historical querying
+- [ ] Easier replay reconstruction <!-- ES-01 -->
+- [ ] Time travel debugging <!-- ES-02 -->
+- [ ] Efficient playback <!-- ES-03 -->
+- [ ] Historical querying <!-- ES-04 -->
 
 ---
 
@@ -188,14 +214,14 @@ Store race state as events:
 
 ## Backend
 ### Primary Stack
-- Java 21
-- Spring Boot 3
-- Spring WebFlux
-- Spring Security
-- Spring Data JPA
-- Spring Batch
-- Spring Cache
-- Spring Scheduler
+- [x] Java 25 <!-- STACK-01 -->
+- [x] Spring Boot 4 <!-- STACK-02 -->
+- [ ] Spring WebFlux <!-- STACK-03 -->
+- [ ] Spring Security <!-- STACK-04 -->
+- [x] Spring Data JPA <!-- STACK-05 -->
+- [ ] Spring Batch <!-- STACK-06 -->
+- [ ] Spring Cache <!-- STACK-07 -->
+- [ ] Spring Scheduler <!-- STACK-08 -->
 
 ### Why WebFlux?
 - High-frequency telemetry streaming
@@ -207,16 +233,16 @@ Store race state as events:
 # Frontend
 
 ## Frontend Stack
-- React
-- TypeScript
-- Vite
-- React Query
-- Zustand
-- TailwindCSS
-- D3.js
-- Canvas API
-- WebSockets
-- Recharts
+- [ ] React <!-- FE-01 -->
+- [ ] TypeScript <!-- FE-02 -->
+- [ ] Vite <!-- FE-03 -->
+- [ ] React Query <!-- FE-04 -->
+- [ ] Zustand <!-- FE-05 -->
+- [ ] TailwindCSS <!-- FE-06 -->
+- [ ] D3.js <!-- FE-07 -->
+- [ ] Canvas API <!-- FE-08 -->
+- [ ] WebSockets <!-- FE-09 -->
+- [ ] Recharts <!-- FE-10 -->
 
 ## Why Canvas?
 Telemetry rendering and track animations require:
@@ -247,22 +273,22 @@ L4 Leaf views                  the niche page (table / chart / replay / telemetr
 
 ## Top-level lenses (L1)
 
-- **Seasons** — explore a championship year: standings and full season results.
-- **Grand Prix** — explore a single event: results, timeline, analytics, telemetry, replay.
-- **Drivers & Teams** — explore competitors: per-driver and per-constructor stats/analytics.
-- **Replay Theater** — jump straight to watching a race's animated playback.
+- [ ] **Seasons** — explore a championship year: standings and full season results. <!-- NAV-01 -->
+- [ ] **Grand Prix** — explore a single event: results, timeline, analytics, telemetry, replay. <!-- NAV-02 -->
+- [ ] **Drivers & Teams** — explore competitors: per-driver and per-constructor stats/analytics. <!-- NAV-03 -->
+- [ ] **Replay Theater** — jump straight to watching a race's animated playback. <!-- NAV-04 -->
 
 ## Route tree
 
-- `/` landing → `/dashboard` hub.
-- **Seasons**: `/seasons` (year grid) → `/seasons/:year` (season hub) → leaves
+- [ ] `/` landing → `/dashboard` hub. <!-- NAV-05 -->
+- [ ] **Seasons**: `/seasons` (year grid) → `/seasons/:year` (season hub) → leaves <!-- NAV-06 -->
   `…/standings/drivers`, `…/standings/constructors`, `…/results` (race-by-race grid), `…/races`.
-- **Grand Prix**: `/races/:year` (GP list, year filter) → `/races/:year/:sessionKey` (race hub) →
+- [ ] **Grand Prix**: `/races/:year` (GP list, year filter) → `/races/:year/:sessionKey` (race hub) → <!-- NAV-07 -->
   leaves `…/results`, `…/timeline`, `…/lap-pace`, `…/telemetry`, `…/replay`. Telemetry and replay
   drill further via `?driver=VER` (and a stint / lap-range) for **per-driver / per-stint** views.
-- **Drivers & Teams**: `/drivers` directory → `/drivers/:acronym` hub (Stats · Season-by-season ·
+- [ ] **Drivers & Teams**: `/drivers` directory → `/drivers/:acronym` hub (Stats · Season-by-season · <!-- NAV-08 -->
   Race log); `/teams` directory → `/teams/:name` hub (Overview · Reliability · Pace).
-- **Replay Theater**: `/replay` (year → GP picker) → reuses the race-hub replay leaf.
+- [ ] **Replay Theater**: `/replay` (year → GP picker) → reuses the race-hub replay leaf. <!-- NAV-09 -->
 
 Cross-links stitch the branches together: a standings row links to that driver's hub, a season-
 results cell links to that race's hub, and a race hub links into the replay player.
@@ -284,28 +310,28 @@ results cell links to that race's hub, and a race hub links into the replay play
 Primary relational database.
 
 ### Core Tables
-- seasons
-- races
-- circuits
-- drivers
-- constructors
-- laps
-- sectors
-- telemetry_points
-- race_events
-- pit_stops
-- weather_data
-- championship_snapshots
-- tire_stints
-- penalties
-- sessions
+- [ ] seasons <!-- DB-01 -->
+- [ ] races <!-- DB-02 -->
+- [ ] circuits <!-- DB-03 -->
+- [ ] drivers <!-- DB-04 -->
+- [ ] constructors <!-- DB-05 -->
+- [ ] laps <!-- DB-06 -->
+- [ ] sectors <!-- DB-07 -->
+- [ ] telemetry_points <!-- DB-08 -->
+- [ ] race_events <!-- DB-09 -->
+- [ ] pit_stops <!-- DB-10 -->
+- [ ] weather_data <!-- DB-11 -->
+- [ ] championship_snapshots <!-- DB-12 -->
+- [ ] tire_stints <!-- DB-13 -->
+- [ ] penalties <!-- DB-14 -->
+- [ ] sessions <!-- DB-15 -->
 
 ## TimescaleDB Extension
 Use for:
-- Telemetry time-series storage
-- Efficient timestamp querying
-- Compression
-- Fast analytics
+- [ ] Telemetry time-series storage <!-- TSDB-01 -->
+- [ ] Efficient timestamp querying <!-- TSDB-02 -->
+- [ ] Compression <!-- TSDB-03 -->
+- [ ] Fast analytics <!-- TSDB-04 -->
 
 ---
 
@@ -313,12 +339,12 @@ Use for:
 
 ## Redis
 Use Redis for:
-- Timeline caching
-- Race playback snapshots
-- Session state
-- Frequently accessed telemetry
-- Leaderboards
-- Replay checkpoints
+- [ ] Timeline caching <!-- CACHE-01 -->
+- [ ] Race playback snapshots <!-- CACHE-02 -->
+- [ ] Session state <!-- CACHE-03 -->
+- [ ] Frequently accessed telemetry <!-- CACHE-04 -->
+- [ ] Leaderboards <!-- CACHE-05 -->
+- [ ] Replay checkpoints <!-- CACHE-06 -->
 
 ---
 
@@ -326,11 +352,11 @@ Use Redis for:
 
 ## Elasticsearch
 Use for:
-- Fast event searching
-- Driver search
-- Telemetry querying
-- Historical filtering
-- Full-text event search
+- [ ] Fast event searching <!-- SEARCH-01 -->
+- [ ] Driver search <!-- SEARCH-02 -->
+- [ ] Telemetry querying <!-- SEARCH-03 -->
+- [ ] Historical filtering <!-- SEARCH-04 -->
+- [ ] Full-text event search <!-- SEARCH-05 -->
 
 ---
 
@@ -338,11 +364,11 @@ Use for:
 
 ## Apache Kafka
 Topics:
-- telemetry-stream
-- race-events
-- replay-events
-- analytics-jobs
-- ingestion-status
+- [ ] telemetry-stream <!-- KAFKA-01 -->
+- [ ] race-events <!-- KAFKA-02 -->
+- [ ] replay-events <!-- KAFKA-03 -->
+- [ ] analytics-jobs <!-- KAFKA-04 -->
+- [ ] ingestion-status <!-- KAFKA-05 -->
 
 Use Kafka for:
 - Event-driven architecture
@@ -356,53 +382,53 @@ Use Kafka for:
 
 ## Sources
 Possible free APIs:
-- OpenF1 API
-- Ergast API
-- FastF1 datasets
-- FIA timing archives (where legal)
-- Public telemetry datasets
+- [ ] OpenF1 API <!-- SRC-01 -->
+- [ ] Ergast API <!-- SRC-02 -->
+- [ ] FastF1 datasets <!-- SRC-03 -->
+- [ ] FIA timing archives (where legal) <!-- SRC-04 -->
+- [ ] Public telemetry datasets <!-- SRC-05 -->
 
 ## Ingestion Services
 ### Scheduled Importers
-- Race importer
-- Telemetry importer
-- Session importer
-- Weather importer
-- Event importer
+- [ ] Race importer <!-- ING-01 -->
+- [ ] Telemetry importer <!-- ING-02 -->
+- [ ] Session importer <!-- ING-03 -->
+- [ ] Weather importer <!-- ING-04 -->
+- [ ] Event importer <!-- ING-05 -->
 
 ### Data Validation
-- Duplicate detection
-- Timestamp validation
-- Lap consistency checks
-- Missing telemetry handling
+- [ ] Duplicate detection <!-- VAL-01 -->
+- [ ] Timestamp validation <!-- VAL-02 -->
+- [ ] Lap consistency checks <!-- VAL-03 -->
+- [ ] Missing telemetry handling <!-- VAL-04 -->
 
 ---
 
 # Replay Engine
 
 ## Responsibilities
-- Reconstruct race state
-- Emit synchronized playback frames
-- Interpolate telemetry
-- Maintain race timing
-- Support rewind
-- Support pause/resume
+- [ ] Reconstruct race state <!-- REPLAY-01 -->
+- [ ] Emit synchronized playback frames <!-- REPLAY-02 -->
+- [ ] Interpolate telemetry <!-- REPLAY-03 -->
+- [ ] Maintain race timing <!-- REPLAY-04 -->
+- [ ] Support rewind <!-- REPLAY-05 -->
+- [ ] Support pause/resume <!-- REPLAY-06 -->
 
 ## Core Concepts
 ### Playback Frame
 Contains:
-- Driver positions
-- Track state
-- Current lap
-- Current flags
-- Weather state
-- Gap data
+- [ ] Driver positions <!-- FRAME-01 -->
+- [ ] Track state <!-- FRAME-02 -->
+- [ ] Current lap <!-- FRAME-03 -->
+- [ ] Current flags <!-- FRAME-04 -->
+- [ ] Weather state <!-- FRAME-05 -->
+- [ ] Gap data <!-- FRAME-06 -->
 
 ### Snapshotting
 Create snapshots every:
-- 5 seconds
-- 1 lap
-- Key events
+- [ ] 5 seconds <!-- SNAP-01 -->
+- [ ] 1 lap <!-- SNAP-02 -->
+- [ ] Key events <!-- SNAP-03 -->
 
 Allows efficient rewind and seeking.
 
@@ -412,106 +438,112 @@ Allows efficient rewind and seeking.
 
 ## REST APIs
 Examples:
-- GET /seasons
-- GET /races/{id}
-- GET /races/{id}/timeline
-- GET /drivers/{id}/stats
-- GET /telemetry/{sessionId}
+- [ ] GET /seasons <!-- API-01 -->
+- [ ] GET /races/{id} <!-- API-02 -->
+- [ ] GET /races/{id}/timeline <!-- API-03 -->
+- [ ] GET /drivers/{id}/stats <!-- API-04 -->
+- [ ] GET /telemetry/{sessionId} <!-- API-05 -->
 
 ## WebSocket APIs
 Used for:
-- Live replay stream
-- Telemetry updates
-- Timeline synchronization
+- [ ] Live replay stream <!-- WS-01 -->
+- [ ] Telemetry updates <!-- WS-02 -->
+- [ ] Timeline synchronization <!-- WS-03 -->
 
 ---
 
 # Authentication
 
 ## Security Features
-- JWT authentication
-- OAuth2 login
-- Role-based permissions
-- Rate limiting
-- API key support
+- [ ] JWT authentication <!-- AUTH-01 -->
+- [ ] OAuth2 login <!-- AUTH-02 -->
+- [ ] Role-based permissions <!-- AUTH-03 -->
+- [ ] Rate limiting <!-- AUTH-04 -->
+- [ ] API key support <!-- AUTH-05 -->
 
 ## Roles
-- USER
-- ADMIN
-- ANALYST
+- [ ] USER <!-- ROLE-01 -->
+- [ ] ADMIN <!-- ROLE-02 -->
+- [ ] ANALYST <!-- ROLE-03 -->
 
 ---
 
 # Observability
 
 ## Logging
-- Structured JSON logging
-- Correlation IDs
+- [ ] Structured JSON logging <!-- OBS-01 -->
+- [ ] Correlation IDs <!-- OBS-02 -->
 
 ## Monitoring
-- Prometheus
-- Grafana
+- [ ] Prometheus <!-- OBS-03 -->
+- [ ] Grafana <!-- OBS-04 -->
 
 ## Tracing
-- OpenTelemetry
-- Jaeger
+- [ ] OpenTelemetry <!-- OBS-05 -->
+- [ ] Jaeger <!-- OBS-06 -->
 
 ---
 
 # Testing Strategy
 
+The whole project is built with **test-driven development**: red → green → refactor, outside-in
+(a failing API / end-to-end test per feature, driven to green by unit tests). No production code is
+written without a failing test that needs it. The working rules and the test type for each layer are
+in [`STEPS.md`](STEPS.md#how-we-work-test-driven-development); every step there starts with the tests
+to write first.
+
 ## Backend Testing
 ### Unit Tests
-- Services
-- Utilities
-- Validators
-- Calculators
+- [ ] Services <!-- TEST-01 -->
+- [ ] Utilities <!-- TEST-02 -->
+- [ ] Validators <!-- TEST-03 -->
+- [ ] Calculators <!-- TEST-04 -->
 
 ### Integration Tests
-- Repository tests
-- Kafka tests
-- Redis tests
-- API tests
+- [ ] Repository tests <!-- TEST-05 -->
+- [ ] Kafka tests <!-- TEST-06 -->
+- [ ] Redis tests <!-- TEST-07 -->
+- [ ] API tests <!-- TEST-08 -->
 
 ### End-to-End Tests
-- Replay pipeline
-- Full ingestion flow
-- Authentication flows
+- [ ] Replay pipeline <!-- TEST-09 -->
+- [ ] Full ingestion flow <!-- TEST-10 -->
+- [ ] Authentication flows <!-- TEST-11 -->
 
 ### Performance Tests
-- Telemetry streaming
-- Replay scalability
-- Database stress tests
+- [ ] Telemetry streaming <!-- TEST-12 -->
+- [ ] Replay scalability <!-- TEST-13 -->
+- [ ] Database stress tests <!-- TEST-14 -->
 
 ### Security Tests
-- JWT validation
-- Authorization checks
-- Injection prevention
+- [ ] JWT validation <!-- TEST-15 -->
+- [ ] Authorization checks <!-- TEST-16 -->
+- [ ] Injection prevention <!-- TEST-17 -->
 
 ---
 
 # Frontend Testing
 
 ## Testing Stack
-- Vitest
-- React Testing Library
-- Cypress
-- Playwright
+- [ ] Vitest <!-- FETEST-01 -->
+- [ ] React Testing Library <!-- FETEST-02 -->
+- [ ] Cypress <!-- FETEST-03 -->
+- [ ] Playwright <!-- FETEST-04 -->
 
 ## Test Areas
-- Timeline controls
-- Playback synchronization
-- Telemetry rendering
-- Race visualization
-- State management
+- [ ] Timeline controls <!-- FETEST-05 -->
+- [ ] Playback synchronization <!-- FETEST-06 -->
+- [ ] Telemetry rendering <!-- FETEST-07 -->
+- [ ] Race visualization <!-- FETEST-08 -->
+- [ ] State management <!-- FETEST-09 -->
 
 ---
 
 # DevOps
 
 ## Containerization
-- Docker
-- Docker Compose
+- [ ] Docker <!-- OPS-01 -->
+- [ ] Docker Compose <!-- OPS-02 -->
 
 ### How Docker Compose composes the stack
 
@@ -527,7 +559,7 @@ only the ports below are published to the host.
                                             ▼
              :8080  ┌──────────────────────────┐
                     │ backend (Spring Boot)    │  Flyway migrates on startup
-                    │  JRE 21, non-root        │
+                    │  JRE 25, non-root        │
                     └────────────┬─────────────┘
                                  │ jdbc:postgresql://postgres:5432
              :5432  ┌────────────▼─────────────┐
@@ -549,10 +581,10 @@ already listed as commented stubs in the file so the growth path stays visible. 
 
 #### Images
 
-- **Backend** — build stage `eclipse-temurin:21-jdk-noble` runs the Gradle wrapper (BuildKit cache
-  mount on `~/.gradle`; build scripts are copied before `src/` so dependencies are cached as a
+- **Backend** — build stage `eclipse-temurin:25-jdk-noble` runs the Maven wrapper (BuildKit cache
+  mount on `~/.m2`; `pom.xml` and `.mvn/` are copied before `src/` so dependencies are cached as a
   layer), produces the Boot jar and extracts it into Spring Boot layers. Runtime stage
-  `eclipse-temurin:21-jre-noble` copies the layers (dependencies first, application last), runs as
+  `eclipse-temurin:25-jre-noble` copies the layers (dependencies first, application last), runs as
   the non-root `spring` user, and sizes the heap with `-XX:MaxRAMPercentage=75`. Tests are not run
   in the image build; they run on the host or in CI, where Testcontainers has Docker available.
 - **Frontend** — build stage `node:22-alpine` runs `npm ci` and `vite build`; runtime stage
@@ -573,7 +605,7 @@ drift apart:
    (`${POSTGRES_DB:-telemetrix}`), so the stack also starts without a `.env`.
 3. Compose passes the same credentials to the backend container as `SPRING_DATASOURCE_*`, with the
    URL pointing at `postgres:5432` on the compose network.
-4. A backend run on the host (`bootRun`) reads `SPRING_DATASOURCE_*` from its shell environment, and
+4. A backend run on the host (`./mvnw spring-boot:run`) reads `SPRING_DATASOURCE_*` from its shell environment, and
    `application.properties` falls back to the compose defaults on `localhost:5432`.
 
 #### State and lifecycle
@@ -594,27 +626,27 @@ docker compose down -v           # stop and DELETE the data volume (full schema 
 #### Development workflow
 
 For fast iteration only `postgres` runs in Docker (`docker compose up -d postgres`) while
-`./gradlew bootRun` and `npm run dev` run on the host with hot reload and a debugger; the Vite dev
+`./mvnw spring-boot:run` and `npm run dev` run on the host with hot reload and a debugger; the Vite dev
 server calls the backend directly on `:8080`, which is why the backend keeps a CORS allowance for
 `:5173`. See `docs/adr/0003-dockerize-backend-and-frontend.md`.
 
 #### Growth path
 
-- **More infrastructure:** add the commented-out services; each gets its own healthcheck, named
+- [ ] **More infrastructure:** add the commented-out services; each gets its own healthcheck, named <!-- OPS-03 -->
   volume and `.env`-driven credentials.
-- **CI:** build both images in GitHub Actions, run the backend tests (Testcontainers) against the
+- [ ] **CI:** build both images in GitHub Actions, run the backend tests (Testcontainers) against the <!-- OPS-04 -->
   runner's Docker, and push tagged images to a registry (e.g. GHCR) for deployment.
 
 ## CI/CD
-- GitHub Actions
+- [ ] GitHub Actions <!-- CI-01 -->
 
 Pipelines:
-- Build
-- Test
-- Lint
-- Security scan
-- Integration tests
-- Deployment
+- [ ] Build <!-- CI-02 -->
+- [ ] Test <!-- CI-03 -->
+- [ ] Lint <!-- CI-04 -->
+- [ ] Security scan <!-- CI-05 -->
+- [ ] Integration tests <!-- CI-06 -->
+- [ ] Deployment <!-- CI-07 -->
 
 ---
 
@@ -622,14 +654,14 @@ Pipelines:
 
 ## Recommended Infrastructure
 ### MVP
-- Railway
-- Render
-- Fly.io
+- [ ] Railway <!-- DEPLOY-01 -->
+- [ ] Render <!-- DEPLOY-02 -->
+- [ ] Fly.io <!-- DEPLOY-03 -->
 
 ### Advanced
-- Kubernetes
-- AWS
-- Terraform
+- [ ] Kubernetes <!-- DEPLOY-04 -->
+- [ ] AWS <!-- DEPLOY-05 -->
+- [ ] Terraform <!-- DEPLOY-06 -->
 
 ---
 
@@ -637,10 +669,10 @@ Pipelines:
 
 ## Python Services
 Use Python separately for:
-- Analytics pipelines
-- Data cleaning
-- Statistical modeling
-- Visualization exports
+- [ ] Analytics pipelines <!-- PY-01 -->
+- [ ] Data cleaning <!-- PY-02 -->
+- [ ] Statistical modeling <!-- PY-03 -->
+- [ ] Visualization exports <!-- PY-04 -->
 
 ## Libraries
 - pandas
@@ -652,57 +684,57 @@ Use Python separately for:
 - jupyter
 
 ## Analytics Features
-- Tire degradation analysis
-- Pit strategy analysis
-- Driver clustering
-- Race pace prediction
-- Overtake probability
-- Sector dominance analysis
+- [ ] Tire degradation analysis <!-- PYA-01 -->
+- [ ] Pit strategy analysis <!-- PYA-02 -->
+- [ ] Driver clustering <!-- PYA-03 -->
+- [ ] Race pace prediction <!-- PYA-04 -->
+- [ ] Overtake probability <!-- PYA-05 -->
+- [ ] Sector dominance analysis <!-- PYA-06 -->
 
 ---
 
 # Non-Functional Requirements
 
 ## Performance
-- Replay latency < 100ms
-- API response < 300ms
-- Support 10k concurrent users
-- Handle millions of telemetry points
+- [ ] Replay latency < 100ms <!-- NFR-01 -->
+- [ ] API response < 300ms <!-- NFR-02 -->
+- [ ] Support 10k concurrent users <!-- NFR-03 -->
+- [ ] Handle millions of telemetry points <!-- NFR-04 -->
 
 ## Reliability
-- 99.9% uptime
-- Graceful degradation
-- Retry mechanisms
+- [ ] 99.9% uptime <!-- NFR-05 -->
+- [ ] Graceful degradation <!-- NFR-06 -->
+- [ ] Retry mechanisms <!-- NFR-07 -->
 
 ## Scalability
-- Horizontal scaling
-- Stateless APIs
-- Distributed caching
+- [ ] Horizontal scaling <!-- NFR-08 -->
+- [ ] Stateless APIs <!-- NFR-09 -->
+- [ ] Distributed caching <!-- NFR-10 -->
 
 ## Security
-- JWT encryption
-- HTTPS everywhere
-- Input sanitization
+- [ ] JWT encryption <!-- NFR-11 -->
+- [ ] HTTPS everywhere <!-- NFR-12 -->
+- [ ] Input sanitization <!-- NFR-13 -->
 
 ## Maintainability
-- Clean architecture
-- SOLID principles
-- Domain-driven design
-- Modular services
+- [ ] Clean architecture <!-- NFR-14 -->
+- [ ] SOLID principles <!-- NFR-15 -->
+- [ ] Domain-driven design <!-- NFR-16 -->
+- [ ] Modular services <!-- NFR-17 -->
 
 ---
 
 # Suggested Backend Modules
 
 ## Modules
-- auth-service
-- race-service
-- telemetry-service
-- replay-service
-- analytics-service
-- ingestion-service
-- championship-service
-- event-service
+- [ ] auth-service <!-- MOD-01 -->
+- [ ] race-service <!-- MOD-02 -->
+- [ ] telemetry-service <!-- MOD-03 -->
+- [ ] replay-service <!-- MOD-04 -->
+- [ ] analytics-service <!-- MOD-05 -->
+- [ ] ingestion-service <!-- MOD-06 -->
+- [ ] championship-service <!-- MOD-07 -->
+- [ ] event-service <!-- MOD-08 -->
 
 ---
 
@@ -738,13 +770,13 @@ Use Python separately for:
 # Recommended Design Patterns
 
 ## Patterns To Use
-- Factory Pattern
-- Strategy Pattern
-- Observer Pattern
-- Builder Pattern
-- CQRS
-- Event Sourcing
-- Repository Pattern
+- [ ] Factory Pattern <!-- PAT-01 -->
+- [ ] Strategy Pattern <!-- PAT-02 -->
+- [ ] Observer Pattern <!-- PAT-03 -->
+- [ ] Builder Pattern <!-- PAT-04 -->
+- [ ] CQRS <!-- PAT-05 -->
+- [ ] Event Sourcing <!-- PAT-06 -->
+- [ ] Repository Pattern <!-- PAT-07 -->
 
 ---
 
@@ -800,24 +832,24 @@ This project demonstrates:
 # Stretch Goals
 
 ## Possible Future Features
-- 3D visualization
-- Live race mode
-- Mobile app
-- AI commentary
-- Voice search
-- Fantasy simulator
-- Race prediction engine
-- Custom telemetry dashboards
-- Historical what-if simulator
-- Driver racing lines
-- ML-generated insights
+- [ ] 3D visualization <!-- STRETCH-01 -->
+- [ ] Live race mode <!-- STRETCH-02 -->
+- [ ] Mobile app <!-- STRETCH-03 -->
+- [ ] AI commentary <!-- STRETCH-04 -->
+- [ ] Voice search <!-- STRETCH-05 -->
+- [ ] Fantasy simulator <!-- STRETCH-06 -->
+- [ ] Race prediction engine <!-- STRETCH-07 -->
+- [ ] Custom telemetry dashboards <!-- STRETCH-08 -->
+- [ ] Historical what-if simulator <!-- STRETCH-09 -->
+- [ ] Driver racing lines <!-- STRETCH-10 -->
+- [ ] ML-generated insights <!-- STRETCH-11 -->
 
 ---
 
 # Final Recommended Stack
 
 ## Core
-- Java 21
+- Java 25
 - Spring Boot
 - PostgreSQL
 - TimescaleDB
@@ -860,15 +892,15 @@ datasets/
 # Final Advice
 
 Treat this project like a real enterprise platform:
-- Write ADRs
-- Write API docs
-- Write architecture diagrams
-- Use migrations
-- Use test coverage reports
-- Use monitoring dashboards
-- Write proper READMEs
-- Track technical debt
-- Benchmark performance
+- [ ] Write ADRs <!-- PRAC-01 -->
+- [ ] Write API docs <!-- PRAC-02 -->
+- [ ] Write architecture diagrams <!-- PRAC-03 -->
+- [ ] Use migrations <!-- PRAC-04 -->
+- [ ] Use test coverage reports <!-- PRAC-05 -->
+- [ ] Use monitoring dashboards <!-- PRAC-06 -->
+- [ ] Write proper READMEs <!-- PRAC-07 -->
+- [ ] Track technical debt <!-- PRAC-08 -->
+- [ ] Benchmark performance <!-- PRAC-09 -->
 
 This can absolutely become:
 - A flagship CV project

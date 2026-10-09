@@ -1,13 +1,91 @@
 # Building Telemetrix step by step
 
-A journal of how this project was built, one small step at a time. Each step says **what** was
-added, **why**, and **how to check it** yourself. Read it top to bottom alongside the code.
+The full path from an empty Spring Boot project to the finished platform described in
+[`plan.md`](plan.md), one small step at a time. Each step says **what** to build, **why**, and **how
+to check it**. Steps 1–3 are done; the rest is the road ahead, in build order.
+
+**The project is built test-first (TDD).** From Step 4 on, every step opens with a **Tests first**
+list: write those tests, watch them fail, and only then write the code under **What**.
 
 Stack: Java 25 · Spring Boot 4.1 · Maven · PostgreSQL 16 · Docker.
 
 > Commands below assume you are in `backend/` unless they say otherwise.
 
+## How we work: test-driven development
+
+Every change follows **red → green → refactor**:
+
+1. **Red** — write one test for the next small piece of behaviour. Run it and watch it fail *for the
+   right reason* (an assertion, not a compile error or a missing bean you forgot).
+2. **Green** — write the least production code that makes it pass. Hard-coding is fine for a moment;
+   the next test will force the real logic.
+3. **Refactor** — clean up code *and* tests while everything stays green. Commit.
+
+Features are driven **outside-in** (double-loop TDD): start with one failing *outer* test that
+describes the feature as a user or client sees it (an API test, a WebSocket test, a Playwright
+journey). It stays red while you drive the pieces underneath with small *inner* unit tests. When the
+outer test passes, the feature is done.
+
+| Layer | Test type | Tools |
+|-------|-----------|-------|
+| Pure logic (calculators, validators, interpolation, parsers) | Unit | JUnit 5, AssertJ, parameterised tests, jqwik for properties |
+| Services | Unit with mocked collaborators | Mockito |
+| Controllers | Web slice | `@WebMvcTest`, MockMvc, JSONPath |
+| Repositories, migrations, SQL | JPA slice on a real database | `@DataJpaTest` + Testcontainers Postgres |
+| External APIs (OpenF1, Jolpica) | Client tests on recorded responses | `MockRestServiceServer`, fixtures in `src/test/resources` |
+| Whole features | Integration | `@SpringBootTest` + Testcontainers (Postgres, Redis, Kafka, …) |
+| Frontend logic and components | Unit / component | Vitest, React Testing Library, MSW for the API |
+| User journeys | End-to-end | Playwright |
+| Python analytics | Unit | pytest |
+
+House rules:
+- **No production code without a failing test that needs it.** Bug fixes start with a test that
+  reproduces the bug.
+- **Time is injected.** Use a `java.time.Clock` bean (a fixed clock in tests), never
+  `Instant.now()` directly, so replay and scheduling are testable without sleeping.
+- **Real data in fixtures.** Save real OpenF1/Jolpica responses as JSON under
+  `src/test/resources/fixtures/` and test against them; never call the live APIs from tests.
+- **Small, known datasets** for SQL and analytics tests, where you can work out the answer by hand.
+- **Tests are never weakened to go green.** If a test is wrong, fix it in its own red → green cycle.
+- **A feature is ticked off only when its tests pass** (`./mvnw verify`, `npm test`) and the
+  coverage report doesn't drop.
+
+Steps 1–3 came before this rule; Step 4's first test covers them retroactively.
+
+## How progress is tracked
+
+Every deliverable in `plan.md` has an id (`PLAY-01`, `DB-03`, …) and a row in
+[`features.csv`](features.csv) with the step that builds it. The **Checks off** list under each step
+is generated from that CSV — never edit it by hand. When you finish something:
+
+```bash
+python3 scripts/sync_features.py done DB-01 DB-02   # repo root: marks them done, updates plan.md + this file
+```
+
+A step is finished when its **Tests first** list is written and green, every box in its list is
+ticked, and its **Check it** passes. Steps whose
+list says *groundwork* have no plan.md item of their own — they make later steps possible.
+
+Phases follow the roadmap in `plan.md`:
+
+| Phase | Steps | Goal |
+|-------|-------|------|
+| 0 — Foundation | 1–3 | A Spring Boot app talking to PostgreSQL |
+| 1 — Data foundation & basic replay | 4–20 | Ingest real F1 data, list races, watch dots move |
+| 2 — Telemetry, timeline & playback | 21–29 | Full replay player, telemetry graphs, event timeline |
+| 3 — Championship & analytics | 30–36 | Standings engine, driver/team stats, comparisons |
+| 4 — Distributed systems & production | 37–48 | Security, Redis, Kafka, observability, CI/CD, deploy |
+| 5 — Data science & polish | 49–54 | Python analytics, predictions, portfolio finish |
+| Stretch | 55 | Everything in *Stretch Goals* |
+
+**Data sources, honestly:** OpenF1 has positions and car telemetry from **2023 onward**; Jolpica
+(the Ergast successor — the original Ergast API was retired after the 2024 season) has results, laps and pit
+stops back to 1950; FastF1 (Python) has telemetry from 2018. So *full* replay works for 2023+, and
+older seasons get results, standings and analytics. Plan for that in the UI.
+
 ---
+
+# Phase 0 — Foundation
 
 ## Step 1 — An empty Spring Boot project
 
@@ -50,7 +128,15 @@ There are no endpoints yet, so `curl localhost:8080` gives a 404 — that is Spr
 > first build failed with `release version 25 not supported`. Fix:
 > `sudo dnf install java-25-openjdk-devel`.
 
+<!-- features:1 -->
+**Checks off (2/2):**
+
+- [x] `STACK-01` Java 25
+- [x] `STACK-02` Spring Boot 4
+<!-- /features -->
+
 ---
+
 
 ## Step 2 — A PostgreSQL database in Docker
 
@@ -79,7 +165,12 @@ docker compose exec postgres psql -U telemetrix -c 'select version();'
 docker compose logs -f postgres    # Ctrl+C to stop following
 ```
 
+<!-- features:2 -->
+_No plan.md checklist items — this step is groundwork._
+<!-- /features -->
+
 ---
+
 
 ## Step 3 — Connect Spring to the database
 
@@ -105,11 +196,1619 @@ docker compose up -d --wait     # (repo root) the database must be running
 ./mvnw spring-boot:run          # starts, connects to Postgres, Flyway reports no migrations yet
 ```
 
+<!-- features:3 -->
+**Checks off (1/1):**
+
+- [x] `STACK-05` Spring Data JPA
+<!-- /features -->
+
 ---
 
-## From here on: you
+# Phase 1 — Data foundation & basic replay
 
-The project is an empty but working skeleton. Every part you'll need next (migrations, entities,
-repositories, services, controllers, error handling, calling OpenF1, scheduling, tests, the
-Dockerfile) is explained with commented example code in [`templates/`](templates/README.md).
-Start with `templates/03-migration/` and your first Telemetrix table.
+Goal: real F1 data in PostgreSQL, a list of races over a REST API, and a browser page where driver
+dots move around a track. Everything later builds on this.
+
+---
+
+## Step 4 — Test harness: Testcontainers and coverage
+
+**Tests first:**
+- `ApplicationIntegrationTest.contextLoads()` with `@SpringBootTest`. It fails until a Postgres
+  Testcontainer is wired in through `@ServiceConnection`, which is the point: it proves Steps 1–3
+  end to end.
+- A test that Flyway ran: query `flyway_schema_history` through `JdbcTemplate`.
+- A deliberately failing assertion, run once, to confirm the test runner actually reports failures.
+
+**What:**
+- Test dependencies: `spring-boot-testcontainers`, `testcontainers-postgresql`,
+  `testcontainers-junit-jupiter`, `spring-boot-starter-data-jpa-test`.
+- `TestcontainersConfiguration` with a `@ServiceConnection` `postgres:16` container, and one
+  `@SpringBootTest` that only checks that the context starts.
+- The `jacoco-maven-plugin`, so `./mvnw verify` writes `target/site/jacoco/index.html`.
+
+**Why:** the plan calls this a *testing-heavy* application. Tests against a real Postgres catch SQL
+and migration mistakes an in-memory database would hide. Set it up before there is anything to
+break.
+
+**Learn:** `templates/13-tests/` (read its README first).
+
+**Check it:** `./mvnw verify` is green with Docker running, and the JaCoCo report opens in a browser.
+
+<!-- features:4 -->
+**Checks off (0/1):**
+
+- [ ] `PRAC-05` Use test coverage reports
+<!-- /features -->
+
+---
+
+## Step 5 — Docs, ADRs and shared error handling
+
+**Tests first:**
+- `@WebMvcTest` against a small test-only controller:
+  - throwing `NotFoundException` → 404, `application/problem+json`, with a `title` and `detail`;
+  - `ConflictException` → 409;
+  - an invalid `@Valid` body → 400 with the failing field named.
+
+**What:**
+- `docs/adr/` with `0001-record-architecture-decisions.md` and `0002-lean-infra-postgres-first.md`
+  (why Redis/Kafka/Elasticsearch wait until Phase 4). Keep them short: context, decision,
+  consequences.
+- `docs/api.md`, an empty API reference you fill in as controllers appear.
+- `com.telemetrix.common`: `NotFoundException`, `ConflictException` and a `@RestControllerAdvice`
+  that turns them into RFC 9457 problem details (404 / 409).
+- `spring-boot-starter-validation` in `pom.xml`, so `@Valid` request bodies return 400s.
+
+**Why:** every later step throws "not found" and records decisions. Building the plumbing once keeps
+controllers small and gives the project the paper trail `plan.md` asks for.
+
+**Learn:** `templates/09-errors/`, `templates/06-dto/` (validation).
+
+**Check it:** `./mvnw package` still passes; `docs/adr/` has two ADRs.
+
+<!-- features:5 -->
+**Checks off (0/1):**
+
+- [ ] `PRAC-01` Write ADRs
+<!-- /features -->
+
+---
+
+## Step 6 — Core schema (`V1`)
+
+**Tests first:**
+- A `@DataJpaTest` (no entities yet, so use `JdbcTemplate`) that inserts season → circuit → race
+  → session and reads them back. It's red because the tables don't exist.
+- A duplicate `session_key` is rejected by the unique constraint.
+- A session pointing at a missing race is rejected by the foreign key.
+
+**What:** `src/main/resources/db/migration/V1__core_schema.sql` with the reference tables:
+`seasons`, `circuits`, `drivers`, `constructors`, `races` (one Grand Prix weekend = OpenF1
+*meeting*) and `sessions` (FP1…Race, with OpenF1's `session_key`). Use natural unique keys from
+the sources (`session_key`, `meeting_key`, driver number + season) so imports can upsert.
+Add foreign keys and indexes on every column you will filter by.
+
+**Why:** everything hangs off these tables. Keying by the source ids makes re-running an import
+idempotent instead of creating duplicates.
+
+**Learn:** `templates/03-migration/`.
+
+**Check it:** start the app; `docker compose exec postgres psql -U telemetrix -c '\dt'` lists the
+tables plus `flyway_schema_history`.
+
+<!-- features:6 -->
+**Checks off (0/7):**
+
+- [ ] `DB-01` seasons
+- [ ] `DB-02` races
+- [ ] `DB-03` circuits
+- [ ] `DB-04` drivers
+- [ ] `DB-05` constructors
+- [ ] `DB-15` sessions
+- [ ] `PRAC-04` Use migrations
+<!-- /features -->
+
+---
+
+## Step 7 — Entities and repositories
+
+**Tests first:**
+- One repository test per query before writing it: save, `findBy…`, and ordering by date.
+- Saving and loading a `Race` keeps its `Session`s.
+- Loading a season's races with sessions runs a bounded number of SQL statements. Count them with
+  Hibernate statistics; this catches N+1 queries.
+
+**What:** a JPA entity and a Spring Data repository per table from Step 6, in feature packages
+(`com.telemetrix.race`, `com.telemetrix.driver`, …). Use `@ManyToOne(fetch = LAZY)` everywhere.
+Add derived queries you know you'll need (`findBySeasonYearOrderByDateStart`) and `@DataJpaTest`
+tests against the Testcontainer.
+
+**Why:** `ddl-auto=validate` now proves that the entities and the migration agree every time the
+app starts. Repository tests pin the queries down.
+
+**Learn:** `templates/04-entity/`, `templates/05-repository/`, `templates/13-tests/BookRepositoryTest.java`.
+
+**Check it:** `./mvnw test` is green; the app starts without schema validation errors.
+
+<!-- features:7 -->
+**Checks off (0/2):**
+
+- [ ] `TEST-05` Repository tests
+- [ ] `PAT-07` Repository Pattern
+<!-- /features -->
+
+---
+
+## Step 8 — OpenF1 HTTP client
+
+**Tests first:**
+- With `MockRestServiceServer`, assert the client requests the right URL and query parameters
+  (`/meetings?year=2024`).
+- A recorded fixture (`fixtures/openf1/meetings_2024.json`) maps to the expected records, including
+  nulls and odd date formats.
+- A 429 followed by a 200 makes the client retry and succeed. Repeated 5xx errors make it give up
+  after N attempts with a clear exception.
+
+**What:** `spring-boot-starter-restclient`, an `OpenF1Properties` record (`openf1.base-url`,
+default `https://api.openf1.org/v1`, timeouts), and an `OpenF1Client` with one method per endpoint
+you need (`meetings`, `sessions`, `drivers`, then more later). Map responses into records. Add
+retry with backoff on 429/5xx and stay under OpenF1's published rate limits.
+
+**Why:** one class owns *how* to talk to OpenF1. Importers only say *what* they want, and tests can
+mock the client.
+
+**Learn:** `templates/10-config-properties/`, `templates/11-http-client/`.
+
+**Check it:** a test against a `MockRestServiceServer`, plus one manual run that logs the 2024
+meetings.
+
+<!-- features:8 -->
+**Checks off (0/1):**
+
+- [ ] `SRC-01` OpenF1 API
+<!-- /features -->
+
+---
+
+## Step 9 — Meeting & session importer
+
+**Tests first:**
+- Service tests with a mocked `OpenF1Client`:
+  - a new meeting → inserted;
+  - the same meeting again → nothing new (upsert);
+  - a changed field → updated;
+  - an invalid row → rejected by the validator and counted as skipped.
+- Validator unit tests: duplicate keys, missing dates, a session outside its meeting's dates.
+- `ImporterFactory` returns the right importer per source and fails loudly for an unknown one.
+- **Outer test:** a `@SpringBootTest` that imports from fixtures twice and gets identical row counts.
+- Test the job's method directly with a fixed `Clock`; don't wait for cron.
+
+**What:** the `ingestion` package. An `Importer` interface with an `ImporterFactory` that picks the
+implementation for a source (the Factory pattern), a race/meeting importer and a session importer
+that upsert by source key, and a `@Scheduled` nightly job that imports anything new. Also an
+admin-only `POST /api/admin/import/{year}` for manual runs (keep it unsecured until Step 37, then
+lock it down). Log counts of inserted, updated and skipped rows. Unit-test the validators that
+reject duplicate or broken rows.
+
+**Why:** real data from now on. Upserts make the job safe to re-run, which matters because every
+import will be re-run during development.
+
+**Learn:** `templates/12-scheduling/`, `templates/07-service/`.
+
+**Check it:** importing 2023–2025 twice leaves the same row counts.
+
+<!-- features:9 -->
+**Checks off (0/7):**
+
+- [ ] `STACK-08` Spring Scheduler
+- [ ] `ING-01` Race importer
+- [ ] `ING-03` Session importer
+- [ ] `VAL-01` Duplicate detection
+- [ ] `TEST-03` Validators
+- [ ] `MOD-06` ingestion-service
+- [ ] `PAT-01` Factory Pattern
+<!-- /features -->
+
+---
+
+## Step 10 — Historical results from Jolpica (Ergast)
+
+**Tests first:**
+- Jolpica client mapping tests from fixtures (results, qualifying, and a 1950s race with sparse
+  data).
+- Driver matching across sources: the same number, name and season → linked; ambiguous → left
+  unresolved in the mapping table, never merged.
+- Paging through Jolpica's `limit`/`offset` fetches every page.
+
+**What:** a second client for Jolpica-F1 (`https://api.jolpi.ca/ergast/f1/`, the drop-in Ergast
+replacement): seasons, circuits, drivers, constructors, results and qualifying back to 1950. Add a
+`results` table (`V2__…`). Match Jolpica drivers and constructors to OpenF1 ones where they overlap
+(2023+), and keep a mapping table rather than merging blindly. Respect its rate limits by throttling.
+
+**Why:** OpenF1 only reaches back to 2023. Standings, analytics and "any season" navigation need
+the full history.
+
+**Check it:** `select count(*) from races` gives ~1,100+ Grands Prix after a full backfill, and
+re-running changes nothing.
+
+<!-- features:10 -->
+**Checks off (0/1):**
+
+- [ ] `SRC-02` Ergast API
+<!-- /features -->
+
+---
+
+## Step 11 — Race list REST API
+
+**Tests first:**
+- Write the contract in `docs/api.md` first, then turn it into `@WebMvcTest` tests: status codes,
+  JSON shape (JSONPath), paging parameters, and the 404 problem detail for an unknown id.
+- Service unit tests with Mockito: entity → DTO mapping, and filtering by year.
+- **Outer test:** `@SpringBootTest` + Testcontainers calling the real endpoint over HTTP.
+
+**What:** the `race` package's web layer: `GET /api/seasons`, `GET /api/seasons/{year}/races`,
+`GET /api/races/{id}` (with its sessions). Use DTO records, never entities, and paging where lists
+grow. Add `springdoc-openapi` for a Swagger UI and keep `docs/api.md` current. Write service unit
+tests (Mockito) and `@WebMvcTest` controller tests.
+
+**Why:** the first thing the frontend needs. It's also the template every later endpoint copies.
+
+**Learn:** `templates/06-dto/`, `templates/08-controller/`, `templates/13-tests/BookControllerTest.java`.
+
+**Check it:** `curl localhost:8080/api/seasons` returns JSON, `/swagger-ui.html` lists the
+endpoints, and an unknown id gives a 404 problem detail.
+
+<!-- features:11 -->
+**Checks off (0/7):**
+
+- [ ] `API-01` GET /seasons
+- [ ] `API-02` GET /races/{id}
+- [ ] `TEST-01` Services
+- [ ] `TEST-02` Utilities
+- [ ] `TEST-08` API tests
+- [ ] `MOD-02` race-service
+- [ ] `PRAC-02` Write API docs
+<!-- /features -->
+
+---
+
+## Step 12 — Laps, sectors, stints and pit stops
+
+**Tests first:**
+- Lap-consistency validator unit tests on hand-built laps: a gap in lap numbers → error; sectors not
+  adding up to the lap time → error; a pit lap without a stint change → warning; a clean race →
+  no findings.
+- Importer tests for laps, stints and pit stops from fixtures.
+- **Outer test:** import one recorded race; laps per driver equal the classified laps.
+
+**What:** `V3__` tables `laps`, `sectors` (or sector columns on `laps`), `tire_stints` and
+`pit_stops`, plus importers for OpenF1 `laps`, `stints` and `pit`, and Jolpica laps and pit stops
+for older races. Add a lap-consistency validator: lap numbers are contiguous per driver, sector
+times add up to the lap time within a tolerance, and pit laps line up with stint changes.
+
+**Why:** laps are the backbone of every lap chart, strategy view and pace analysis.
+
+**Check it:** for one 2024 race, laps per driver equal the classified laps, and the validator
+report shows no errors.
+
+<!-- features:12 -->
+**Checks off (0/5):**
+
+- [ ] `DB-06` laps
+- [ ] `DB-07` sectors
+- [ ] `DB-10` pit_stops
+- [ ] `DB-13` tire_stints
+- [ ] `VAL-03` Lap consistency checks
+<!-- /features -->
+
+---
+
+## Step 13 — Telemetry & location ingestion
+
+**Tests first:**
+- Processor unit tests:
+  - merging `car_data` and `location` by nearest timestamp;
+  - out-of-window timestamps rejected;
+  - a gap recorded, not filled.
+- A Spring Batch job test (`JobLauncherTestUtils`) on a small fixture, checking row counts and
+  idempotency.
+- A forced failure halfway through, then a restart, continues from the last chunk.
+- **Outer test (end to end):** full ingestion of one recorded session.
+
+**What:** the `telemetry` package and a `telemetry_points` table (`V4__`): session, driver, timestamp
+(`timestamptz`), speed, throttle, brake, gear, rpm, DRS, x/y/z. Import OpenF1 `car_data` and
+`location` (~3.7 Hz each) and merge them on timestamp. One race is roughly 1M rows, so use **Spring
+Batch** (chunked reader → processor → JDBC batch writer, restartable) instead of saving JPA entities
+one by one. Validate timestamps (monotonic, inside the session window) and record gaps instead of
+inventing data. Write an end-to-end test that runs a whole ingestion against recorded JSON
+fixtures.
+
+**Why:** this is the data the replay and telemetry views run on. Batching makes it take minutes
+instead of hours, and a restartable job survives an API hiccup halfway through.
+
+**Check it:** import one race in under a few minutes, then run the same row count query twice and
+get the same answer. A deliberately interrupted job resumes where it stopped.
+
+<!-- features:13 -->
+**Checks off (0/7):**
+
+- [ ] `STACK-06` Spring Batch
+- [ ] `DB-08` telemetry_points
+- [ ] `ING-02` Telemetry importer
+- [ ] `VAL-02` Timestamp validation
+- [ ] `VAL-04` Missing telemetry handling
+- [ ] `TEST-10` Full ingestion flow
+- [ ] `MOD-03` telemetry-service
+<!-- /features -->
+
+---
+
+## Step 14 — Track geometry
+
+**Tests first:**
+- Unit tests on synthetic tracks (a square, a circle) where the answer is known:
+  - downsampling keeps the shape and reduces the point count;
+  - smoothing moves no point more than the tolerance;
+  - the loop is closed;
+  - the bounding box is correct.
+- A `@WebMvcTest` for `/api/circuits/{id}/layout`.
+
+**What:** derive each circuit's outline from location data: take one clean lap of one driver, then
+downsample and smooth it. Store it as a polyline (JSON column or a `circuit_layouts` table, per
+circuit and year, because layouts change). Also store the bounding box, the start/finish point and
+the sector boundaries. Serve it with `GET /api/circuits/{id}/layout`.
+
+**Why:** the replay player needs something to draw the dots on. Deriving it from data means you need
+no licensed track maps.
+
+**Check it:** plot the polyline (even in a quick HTML page or a notebook) and it looks like the
+circuit.
+
+<!-- features:14 -->
+_No plan.md checklist items — this step is groundwork._
+<!-- /features -->
+
+---
+
+## Step 15 — Replay engine v1
+
+**Tests first:**
+- Interpolation unit tests:
+  - halfway between samples → the midpoint;
+  - exactly on a sample → that sample;
+  - before the first or after the last sample → clamped;
+  - a driver with no data → absent, not zero.
+- Frame builder tests: drivers ordered by position, and the current lap is right at lap boundaries.
+- `@WebMvcTest` for the chunk endpoint: window parameters and validation (`to > from`, `hz` within
+  limits).
+- Keep timing out of unit tests; measure performance separately.
+
+**What:** the `replay` package. A `PlaybackFrame` record (session time, current lap, and position,
+speed and lap for each driver) built with a builder. A `ReplayService` that, for a session and a
+time window, reads telemetry and **interpolates** each driver to a fixed tick (e.g. 10 Hz) so all
+cars line up in time. Serve it with `GET /api/telemetry/{sessionId}?from=&to=&hz=`, returned in
+chunks of about 30 s so the client can buffer.
+
+**Why:** the raw samples arrive at slightly different times per car. Interpolating to a shared clock
+is what makes smooth, synchronised playback possible.
+
+**Check it:** unit tests for the interpolation (a point halfway between two samples gets the
+midpoint), and a chunk for 20 drivers × 30 s × 10 Hz returns quickly (time it).
+
+<!-- features:15 -->
+**Checks off (0/10):**
+
+- [ ] `STATE-01` Driver positions
+- [ ] `REPLAY-01` Reconstruct race state
+- [ ] `REPLAY-02` Emit synchronized playback frames
+- [ ] `REPLAY-03` Interpolate telemetry
+- [ ] `REPLAY-04` Maintain race timing
+- [ ] `FRAME-01` Driver positions
+- [ ] `FRAME-03` Current lap
+- [ ] `API-05` GET /telemetry/{sessionId}
+- [ ] `MOD-04` replay-service
+- [ ] `PAT-04` Builder Pattern
+<!-- /features -->
+
+---
+
+## Step 16 — Frontend scaffold
+
+**Tests first:**
+- Set up Vitest and React Testing Library *first*, and run a failing test to prove they work.
+- `getJson<T>`: parses JSON; throws a typed error with the status on a non-2xx response (mock
+  `fetch`).
+- `<App />` renders without crashing.
+
+**What:** `frontend/` from `npm create vite@latest` (React + TypeScript), then TailwindCSS, React
+Router, TanStack React Query, a typed `api/client.ts` (`getJson<T>`), ESLint and Prettier, and Vitest
++ React Testing Library with one smoke test. Point the Vite dev server's proxy for `/api` at
+`localhost:8080`, so no CORS setup is needed in development.
+
+**Why:** a clean, typed base before any pages. React Query handles caching and loading states, so
+components stay simple.
+
+**Check it:** `npm run dev` serves on :5173, `npm test` is green, and a page shows data from
+`/api/seasons`.
+
+<!-- features:16 -->
+**Checks off (0/7):**
+
+- [ ] `FE-01` React
+- [ ] `FE-02` TypeScript
+- [ ] `FE-03` Vite
+- [ ] `FE-04` React Query
+- [ ] `FE-06` TailwindCSS
+- [ ] `FETEST-01` Vitest
+- [ ] `FETEST-02` React Testing Library
+<!-- /features -->
+
+---
+
+## Step 17 — Landing, dashboard hub and Grand Prix list
+
+**Tests first:**
+- RTL tests with MSW mocking the API:
+  - the hub renders four lens cards;
+  - `/races/2024` lists that year's races;
+  - changing the year updates the URL;
+  - breadcrumbs link back up;
+  - loading and error states render.
+
+**What:** the `/` landing page with an "Enter Dashboard" call to action, the `/dashboard` hub with the
+four lens cards (only Grand Prix wired up for now), `/races/:year` (a GP list with a year filter), and
+breadcrumbs. All selection state lives in the URL.
+
+**Why:** this sets up the drill-down navigation from `plan.md` early, so every later page slots in.
+
+**Check it:** go from landing → dashboard → 2024 → a race, then reload; the deep link still
+works.
+
+<!-- features:17 -->
+**Checks off (0/1):**
+
+- [ ] `NAV-05` / landing → /dashboard hub.
+<!-- /features -->
+
+---
+
+## Step 18 — Basic replay player
+
+**Tests first:**
+- Pure functions first, with no canvas needed:
+  - the world → canvas transform (fits the bounding box, preserves aspect ratio);
+  - the client-side frame buffer (picks the right frame for a clock time, asks for the next chunk
+    early);
+  - the clock advancing by elapsed time × speed.
+- A component test: play/pause toggles the clock, and drawing is called with the expected dot
+  positions (a mocked 2D context).
+- **Outer test:** the first Playwright journey: open a race, press play, and the lap counter
+  advances.
+
+**What:** `/races/:year/:sessionKey/replay`: a `<canvas>` that draws the circuit polyline (Step 14)
+scaled to fit, plus one coloured dot per driver (team colour) with its position number. A
+`requestAnimationFrame` loop advances a clock and draws interpolated frames from buffered chunks
+(Step 15), fetching the next chunk ahead of time. Only play and pause for now. Add component tests
+for the rendering maths (world→canvas transform).
+
+**Why:** this is the **Phase 1 milestone**: you can watch a real race. Canvas, not SVG or DOM,
+because 20 dots at 60 fps would otherwise mean constant layout work.
+
+**Check it:** a 2024 race plays smoothly, overtakes on screen match reality, and pause freezes it.
+
+<!-- features:18 -->
+**Checks off (0/7):**
+
+- [ ] `PLAY-01` Play
+- [ ] `PLAY-02` Pause
+- [ ] `TRACK-01` 2D track rendering
+- [ ] `TRACK-02` Driver dots
+- [ ] `TRACK-04` Position indicators
+- [ ] `FE-08` Canvas API
+- [ ] `FETEST-08` Race visualization
+<!-- /features -->
+
+---
+
+## Step 19 — Dockerize the stack
+
+**Tests first:**
+- A failing compose smoke test (a script, or a Testcontainers `ComposeContainer` test):
+  - `docker compose up` reaches healthy;
+  - `/actuator/health` returns UP;
+  - `http://localhost:3000/api/seasons` (through nginx) returns 200.
+- Actuator health test in the backend suite.
+
+**What:** `backend/Dockerfile` (multi-stage: a `eclipse-temurin:25-jdk` stage builds with
+`./mvnw`, caching `~/.m2`, then a `25-jre` runtime with Spring Boot layers, run as non-root) and
+`frontend/Dockerfile` (build with `node:22-alpine`, serve with `nginx:stable-alpine` and proxy
+`/api/` to the backend). Add `.dockerignore` files, `spring-boot-starter-actuator` for
+`/actuator/health`, a `docker-compose.yml` with `backend` and `frontend` services gated on
+healthchecks, and a `.env.example`. `plan.md` → *DevOps* describes the target in detail.
+
+**Why:** one command runs everything on any machine. It's also the unit you deploy later.
+
+**Learn:** `templates/14-docker/`.
+
+**Check it:** `docker compose up --build -d`, then http://localhost:3000 plays a replay.
+
+<!-- features:19 -->
+**Checks off (0/2):**
+
+- [ ] `OPS-01` Docker
+- [ ] `OPS-02` Docker Compose
+<!-- /features -->
+
+---
+
+## Step 20 — CI pipeline
+
+**Tests first:**
+- Push a branch with a deliberately failing test and confirm CI goes red. Then fix it and confirm
+  green.
+- Add the JaCoCo `check` goal with a minimum line coverage (start at ~80% for `domain`/`service`
+  packages). The build must fail below it.
+
+**What:** `.github/workflows/ci.yml` with these jobs:
+- Backend: `./mvnw verify`. Testcontainers works on GitHub's Ubuntu runners, and the JaCoCo report
+  is uploaded as an artifact.
+- Frontend: `npm ci && npm run lint && npm test && npm run build`.
+- `python3 scripts/sync_features.py --check`, so the checklist never drifts.
+
+Add a Checkstyle or Spotless check for Java formatting.
+
+**Why:** every push is proven to build and pass tests. That's the minimum for the "enterprise-style"
+claim.
+
+**Check it:** open a PR and every job is green. Break a test on purpose and the job goes red.
+
+<!-- features:20 -->
+**Checks off (0/5):**
+
+- [ ] `CI-01` GitHub Actions
+- [ ] `CI-02` Build
+- [ ] `CI-03` Test
+- [ ] `CI-04` Lint
+- [ ] `CI-06` Integration tests
+<!-- /features -->
+
+---
+
+# Phase 2 — Telemetry, timeline & playback
+
+Goal: the full replay experience, with every control, overlays, telemetry graphs and a clickable
+event timeline.
+
+---
+
+## Step 21 — Weather, race control and penalties
+
+**Tests first:**
+- Parameterised parser tests: a table of real race-control message strings → the expected flag,
+  SC/VSC state, or penalty (driver, seconds, reason).
+- Importer tests for weather, race control and team radio from fixtures.
+
+**What:** `V5__` tables `weather_data`, `race_events` (raw race-control messages: flags, SC/VSC,
+red flags, investigations) and `penalties`. Add importers for OpenF1 `weather`, `race_control` and
+`team_radio`, and parse penalties out of race-control text into structured rows.
+
+**Why:** these are the facts the timeline and the track overlays are built from.
+
+**Check it:** for a race with a safety car, the `race_events` rows show SC deployed and in, at
+the right times.
+
+<!-- features:21 -->
+**Checks off (0/5):**
+
+- [ ] `DB-09` race_events
+- [ ] `DB-11` weather_data
+- [ ] `DB-14` penalties
+- [ ] `ING-04` Weather importer
+- [ ] `ING-05` Event importer
+<!-- /features -->
+
+---
+
+## Step 22 — Race events & timeline API
+
+**Tests first:**
+- One detector test class per event type, each on a tiny hand-built fixture:
+  - an overtake is detected;
+  - a pit-cycle position swap is *not*;
+  - fastest lap, DNF, SC start/end, yellow flags.
+- An Observer test: publishing a detected event notifies listeners (`@RecordApplicationEvents`).
+- **Outer test:** `GET /api/races/{id}/timeline` returns events ordered by time and filterable by
+  type.
+
+**What:** the `event` package. A `RaceEvent` domain model (type, timestamp, lap, severity,
+participants) and one detector per event type, all implementing an interface:
+- Overtakes, from position changes, excluding pit-cycle swaps.
+- Pit stops and tyre changes, from Step 12.
+- Fastest laps, from laps.
+- DNFs and crashes, from results and race control.
+- SC / VSC / yellow / red flags, from race control.
+- Team radio markers and weather changes.
+
+Detectors publish Spring application events that other modules listen to (the Observer pattern).
+Serve the result with `GET /api/races/{id}/timeline`.
+
+**Why:** the timeline is the event-driven heart of the app. Separate detectors keep each rule
+testable on its own.
+
+**Check it:** a detector unit test per event type, using a small hand-made fixture. For a famous
+race, the timeline matches what happened.
+
+<!-- features:22 -->
+**Checks off (0/16):**
+
+- [ ] `TIME-01` Overtakes
+- [ ] `TIME-02` Pit stops
+- [ ] `TIME-03` Safety car
+- [ ] `TIME-04` VSC
+- [ ] `TIME-05` Yellow flags
+- [ ] `TIME-06` Red flags
+- [ ] `TIME-07` Crashes
+- [ ] `TIME-08` DNFs
+- [ ] `TIME-09` Fastest laps
+- [ ] `TIME-10` Penalties
+- [ ] `TIME-11` Team radio markers
+- [ ] `TIME-12` Tire changes
+- [ ] `TIME-13` Weather changes
+- [ ] `API-03` GET /races/{id}/timeline
+- [ ] `MOD-08` event-service
+- [ ] `PAT-03` Observer Pattern
+<!-- /features -->
+
+---
+
+## Step 23 — Race state engine & snapshots
+
+**Tests first:**
+- Fold unit tests: given events → expected `RaceState` (order, gaps, tyres, flags, penalties).
+- A jqwik **property test**: for any time *t*, the state from scratch equals the state from the
+  nearest snapshot plus replay.
+- Snapshot-policy tests: one every 5 s, one per lap, one per key event.
+- Seek tests: the nearest-snapshot lookup picks the latest snapshot ≤ *t*.
+
+**What:** a `RaceStateEngine` that folds events and telemetry into a complete `RaceState` (order,
+gaps, tyres, penalties, flags, pit-window status) at any timestamp. Persist **snapshots** every 5 s,
+every lap and at each key event. Seeking means "load the nearest snapshot before *t*, then replay
+forward". Add a `GET /api/replay/{sessionId}/state?t=` endpoint.
+
+**Why:** without snapshots, jumping to lap 50 means recomputing 49 laps. With them, any seek is
+fast, which is what makes rewind and scrubbing possible.
+
+**Check it:** state at *t* computed from scratch equals state from snapshot + replay (a property
+test over random *t*). Seeking anywhere returns in well under 100 ms.
+
+<!-- features:23 -->
+**Checks off (0/4):**
+
+- [ ] `REPLAY-05` Support rewind
+- [ ] `SNAP-01` 5 seconds
+- [ ] `SNAP-02` 1 lap
+- [ ] `SNAP-03` Key events
+<!-- /features -->
+
+---
+
+## Step 24 — WebSocket replay streaming
+
+**Tests first:**
+- **Outer test:** a WebSocket integration test with `WebSocketStompClient` on a random port:
+  - subscribe → play → frames arrive in order;
+  - pause stops them;
+  - seek jumps;
+  - 2× speed halves the interval.
+- The clock is a controllable `Clock`/scheduler, so the test runs in milliseconds, not real time.
+- Unit tests for the per-session playback clock.
+
+**What:** a WebSocket endpoint (STOMP over Spring WebSocket, or WebFlux; decide in **ADR 0003** and
+tick `STACK-03` once it's implemented). The server owns the playback clock per client session and
+pushes frames at the chosen speed. Clients send `play`, `pause`, `seek` and `speed` commands. Add an
+end-to-end test: open a socket, play 10 s, and assert the frame count and ordering.
+
+**Why:** server-paced streaming keeps several views perfectly in sync and keeps the client simple.
+The plan targets under 100 ms replay latency.
+
+**Check it:** two browser tabs on the same session stay frame-for-frame in sync. Measure command →
+frame latency.
+
+<!-- features:24 -->
+**Checks off (0/7):**
+
+- [ ] `STACK-03` Spring WebFlux
+- [ ] `FE-09` WebSockets
+- [ ] `REPLAY-06` Support pause/resume
+- [ ] `WS-01` Live replay stream
+- [ ] `WS-02` Telemetry updates
+- [ ] `TEST-09` Replay pipeline
+- [ ] `NFR-01` Replay latency < 100ms
+<!-- /features -->
+
+---
+
+## Step 25 — Full playback controls & Replay Theater
+
+**Tests first:**
+- Zustand store unit tests: each action → the expected state (play, pause, seek, speed, follow,
+  focus set).
+- RTL tests: each control calls the right store action; keyboard shortcuts work.
+- **Outer test:** the Playwright journey from the Check-it below, written before the controls.
+
+**What:** rewind and fast forward, jump to lap or timestamp, speed (0.25×–8×), a scrubbable timeline
+bar, auto-follow a selected driver, and multi-driver focus (zoom the canvas to fit selected cars).
+Keep player state in a Zustand store. Build the `/replay` Replay Theater lens (year → GP picker →
+player). Add Playwright tests for the controls.
+
+**Why:** this turns the player into the product.
+
+**Check it:** Playwright: play → 4× → seek to lap 30 → pause. Assert the lap counter and that the
+followed driver stays centred.
+
+<!-- features:25 -->
+**Checks off (0/14):**
+
+- [ ] `PLAY-03` Rewind
+- [ ] `PLAY-04` Fast forward
+- [ ] `PLAY-05` Jump to lap
+- [ ] `PLAY-06` Jump to timestamp
+- [ ] `PLAY-07` Variable playback speed
+- [ ] `PLAY-08` Auto-follow selected driver
+- [ ] `PLAY-09` Multi-driver camera focus mode
+- [ ] `PLAY-10` Timeline scrubbing
+- [ ] `FE-05` Zustand
+- [ ] `NAV-04` Replay Theater — jump straight to watching a race's animated playback.
+- [ ] `NAV-09` Replay Theater: /replay (year → GP picker) → reuses the race-hub replay leaf.
+- [ ] `FETEST-04` Playwright
+- [ ] `FETEST-05` Timeline controls
+- [ ] `FETEST-09` State management
+<!-- /features -->
+
+---
+
+## Step 26 — Track overlays & full frame state
+
+**Tests first:**
+- Backend unit tests: gap calculation (leader, lapped cars), tyre age, pit-window status, and
+  active penalties expiring.
+- Frontend pure-function tests: state → overlay draw commands (sector colour rules for
+  purple/green/yellow, the SC banner, yellow-sector highlighting).
+
+**What:** extend `PlaybackFrame` and `RaceState` with gaps, tyre state, active penalties, flags,
+pit-window status and weather. Draw them: sector colouring (purple, green, yellow), gap labels, DRS
+indicator, the pit lane (derived like Step 14), SC car and flag colouring, yellow-flag sectors, a
+weather badge, sector markers and a mini-map. Use D3 scales and colours for consistency.
+
+**Why:** dots alone don't tell the race story. Overlays do.
+
+**Check it:** during a known SC period the overlay shows it, and yellow sectors match race
+control messages.
+
+<!-- features:26 -->
+**Checks off (0/19):**
+
+- [ ] `TRACK-03` Real-time sector coloring
+- [ ] `TRACK-05` Gap visualization
+- [ ] `TRACK-06` DRS indicators
+- [ ] `TRACK-07` Pit lane rendering
+- [ ] `TRACK-08` Safety car visualization
+- [ ] `TRACK-09` Yellow flag visualization
+- [ ] `TRACK-10` Weather overlays
+- [ ] `TRACK-11` Track sectors
+- [ ] `TRACK-12` Mini-map mode
+- [ ] `STATE-02` Gap calculations
+- [ ] `STATE-03` Tire states
+- [ ] `STATE-04` Active penalties
+- [ ] `STATE-05` Current flags
+- [ ] `STATE-06` Pit window status
+- [ ] `FE-07` D3.js
+- [ ] `FRAME-02` Track state
+- [ ] `FRAME-04` Current flags
+- [ ] `FRAME-05` Weather state
+- [ ] `FRAME-06` Gap data
+<!-- /features -->
+
+---
+
+## Step 27 — Telemetry visualization
+
+**Tests first:**
+- Backend: distance-based alignment of two laps; the lap-delta trace ends at the lap-time
+  difference; sector delta maths.
+- Fuel/ERS estimate models tested against hand-calculated values, and labelled as estimates.
+- Frontend: transformation functions (API → chart series) tested. RTL renders a chart for given
+  data.
+
+**What:** `/races/:year/:sessionKey/telemetry?driver=VER&lap=…`, with Recharts traces for speed,
+throttle, brake, gear and RPM against distance. Add tyre compound, age and stint, fuel and ERS
+*estimates* (label them as models, not data), sector deltas, and lap-vs-lap delta between two
+drivers. Charts sync to the replay clock over the socket.
+
+**Why:** this is the "full telemetry playback" half of the vision.
+
+**Check it:** compare two drivers' fastest laps; the delta trace ends at their lap-time
+difference.
+
+<!-- features:27 -->
+**Checks off (0/14):**
+
+- [ ] `TELE-01` Speed graph
+- [ ] `TELE-02` Throttle graph
+- [ ] `TELE-03` Brake graph
+- [ ] `TELE-04` Gear display
+- [ ] `TELE-05` RPM estimate
+- [ ] `TELE-06` Tire compound
+- [ ] `TELE-07` Tire age
+- [ ] `TELE-08` Tire stint
+- [ ] `TELE-09` Fuel estimate
+- [ ] `TELE-10` ERS estimate
+- [ ] `TELE-11` Sector deltas
+- [ ] `TELE-12` Lap delta comparisons
+- [ ] `FE-10` Recharts
+- [ ] `FETEST-07` Telemetry rendering
+<!-- /features -->
+
+---
+
+## Step 28 — Timeline UI & synchronisation
+
+**Tests first:**
+- RTL tests:
+  - clicking an event calls `seek(event.timestamp)`;
+  - the current event is highlighted for a given clock;
+  - filters hide event types.
+- **Outer test:** the Playwright journey from the Check-it below.
+
+**What:** event markers on the scrub bar and a filterable event list, both from Step 22. Clicking an
+event seeks the player, and the list highlights the current event during playback. Push timeline
+updates over the WebSocket.
+
+**Why:** the timeline is how users find the interesting moments.
+
+**Check it:** Playwright: click "Safety car" and the player seeks there, with all views in sync.
+
+<!-- features:28 -->
+**Checks off (0/2):**
+
+- [ ] `WS-03` Timeline synchronization
+- [ ] `FETEST-06` Playback synchronization
+<!-- /features -->
+
+---
+
+## Step 29 — Race hub pages
+
+**Tests first:**
+- RTL with MSW: the hub lists the available leaves; a pre-2023 race shows replay disabled with
+  the explanation.
+- **Outer test:** a Playwright journey through every leaf of one race.
+
+**What:** `/races/:year/:sessionKey` as a hub linking to the leaves: results, timeline, lap-pace
+chart, telemetry and replay. Mark the Grand Prix lens as done on the dashboard. Pre-2023 races show
+results and analytics, with replay greyed out and an explanation.
+
+**Why:** this completes the Grand Prix branch of the information architecture, and **Phase 2 is
+done**.
+
+**Check it:** every leaf works for a 2024 race. A 1998 race shows results and explains why there's
+no replay.
+
+<!-- features:29 -->
+**Checks off (0/2):**
+
+- [ ] `NAV-02` Grand Prix — explore a single event: results, timeline, analytics, telemetry, replay.
+- [ ] `NAV-07` Grand Prix: /races/:year (GP list, year filter) → /races/:year/:sessionKey (race hub) →
+<!-- /features -->
+
+---
+
+# Phase 3 — Championship & analytics
+
+---
+
+## Step 30 — Championship engine
+
+**Tests first:**
+- Parameterised tests per `PointsSystem`: finishing position → points for each era, plus the
+  fastest-lap bonus rules, sprint points and half points.
+- Calculator tests: tie-breaks (count of wins, then seconds, …).
+- **Outer test:** final standings for 1950, 2008, 2021 and 2024 equal the official tables (stored
+  as fixtures).
+- Dynamic in-race standings: the "if they finished now" points for a given race order.
+
+**What:** the `championship` package. A `PointsSystem` strategy per era (pre-1991, 1991–2002,
+2003–2009, 2010+, fastest-lap bonus 2019–2024, sprint formats 2021+, and half points for shortened
+races), and a calculator that rebuilds standings race by race into `championship_snapshots`. Add
+in-race dynamic standings ("if they finished now") for the replay, and a "championship lead
+change" timeline event.
+
+**Why:** "standings as they stand during playback" is a signature feature, and points rules are a
+textbook use of the Strategy pattern.
+
+**Check it:** final standings for 1950, 2008, 2021 and 2024 match the official ones (a
+parameterised test).
+
+<!-- features:30 -->
+**Checks off (0/9):**
+
+- [ ] `TIME-14` Championship lead changes
+- [ ] `CHAMP-04` Dynamic standings during race playback
+- [ ] `CHAMP-05` Historical points systems
+- [ ] `CHAMP-06` Sprint race support
+- [ ] `STATE-07` Championship standings
+- [ ] `DB-12` championship_snapshots
+- [ ] `TEST-04` Calculators
+- [ ] `MOD-07` championship-service
+- [ ] `PAT-02` Strategy Pattern
+<!-- /features -->
+
+---
+
+## Step 31 — Championship explorer UI
+
+**Tests first:**
+- RTL with MSW: the standings table renders and sorts; every results-grid cell links to the right
+  race hub; the season comparison draws two series.
+
+**What:** the Seasons lens: `/seasons` (year grid) → `/seasons/:year` hub → driver and constructor
+standings, a race-by-race results grid, and a race list. Add season comparison: points-progression
+lines for two seasons or two drivers.
+
+**Check it:** 2021's grid shows the Abu Dhabi finale, and every cell links to that race's hub.
+
+<!-- features:31 -->
+**Checks off (0/6):**
+
+- [ ] `CHAMP-01` Select any season
+- [ ] `CHAMP-02` View constructor standings
+- [ ] `CHAMP-03` View driver standings
+- [ ] `CHAMP-07` Compare seasons
+- [ ] `NAV-01` Seasons — explore a championship year: standings and full season results.
+- [ ] `NAV-06` Seasons: /seasons (year grid) → /seasons/:year (season hub) → leaves
+<!-- /features -->
+
+---
+
+## Step 32 — Driver analytics
+
+**Tests first:**
+- SQL tests against Testcontainers with a **seeded mini-dataset** (3 races, 4 drivers), where
+  every stat is worked out by hand first: wins, podiums, DNFs, poles, average finish, wet vs dry.
+- **Outer test:** `GET /api/drivers/{id}/stats` returns those numbers.
+
+**What:** the `analytics` package. Compute wins, podiums, DNFs, fastest laps, poles, average finish,
+overtakes, pit-stop averages, tyre tendencies, wet vs dry (from weather) and per-track performance.
+Use SQL (window functions, materialized views refreshed after imports) rather than Java loops.
+Serve it with `GET /api/drivers/{id}/stats`.
+
+**Why:** this is where the "advanced PostgreSQL" goal is learnt.
+
+**Check it:** career wins and poles for a few drivers match public records, and `EXPLAIN ANALYZE`
+shows index use.
+
+<!-- features:32 -->
+**Checks off (0/13):**
+
+- [ ] `DRV-01` Wins
+- [ ] `DRV-02` Podiums
+- [ ] `DRV-03` DNFs
+- [ ] `DRV-04` Fastest laps
+- [ ] `DRV-05` Pole positions
+- [ ] `DRV-06` Average finish
+- [ ] `DRV-07` Overtake statistics
+- [ ] `DRV-08` Pit stop averages
+- [ ] `DRV-09` Tire strategy tendencies
+- [ ] `DRV-10` Wet vs dry performance
+- [ ] `DRV-11` Track-specific performance
+- [ ] `API-04` GET /drivers/{id}/stats
+- [ ] `MOD-05` analytics-service
+<!-- /features -->
+
+---
+
+## Step 33 — Constructor analytics
+
+**Tests first:**
+- The same seeded-dataset approach for each constructor metric: reliability, pit-stop medians,
+  race and qualifying pace gaps, and development trend.
+
+**What:** reliability (DNFs by cause), pit-stop efficiency, race pace and qualifying pace (median
+gap to the fastest), development trend across a season, and strategy performance (positions
+gained per strategy).
+
+**Check it:** pit-stop medians per team for one season look plausible against published data.
+
+<!-- features:33 -->
+**Checks off (0/6):**
+
+- [ ] `CON-01` Reliability
+- [ ] `CON-02` Pit stop efficiency
+- [ ] `CON-03` Race pace
+- [ ] `CON-04` Qualifying pace
+- [ ] `CON-05` Development trend visualization
+- [ ] `CON-06` Strategy performance
+<!-- /features -->
+
+---
+
+## Step 34 — Drivers & Teams UI
+
+**Tests first:**
+- RTL with MSW: directories, hubs and tabs render; cross-links point at the right routes;
+  breadcrumbs work.
+
+**What:** `/drivers` → `/drivers/:acronym` (Stats · Season-by-season · Race log) and `/teams` →
+`/teams/:name` (Overview · Reliability · Pace), plus cross-links: standings rows → driver hub, and
+results cells → race hub.
+
+**Check it:** you can go from any table row to the entity's page and back with breadcrumbs.
+
+<!-- features:34 -->
+**Checks off (0/2):**
+
+- [ ] `NAV-03` Drivers & Teams — explore competitors: per-driver and per-constructor stats/analytics.
+- [ ] `NAV-08` Drivers & Teams: /drivers directory → /drivers/:acronym hub (Stats · Season-by-season ·
+<!-- /features -->
+
+---
+
+## Step 35 — Multi-race comparison
+
+**Tests first:**
+- Service tests over seeded data: the same circuit across two years and driver vs driver.
+- API tests for `/api/compare/...`, including validation (the circuit must exist in both years).
+
+**What:** the same circuit across years (lap times, pace evolution, strategies) and driver vs driver
+across races. Add `GET /api/compare/...` endpoints and a comparison page with overlaid charts.
+
+**Check it:** Monza 2023 vs 2024 shows both strategies side by side.
+
+<!-- features:35 -->
+**Checks off (0/4):**
+
+- [ ] `CMP-01` Compare same track across years
+- [ ] `CMP-02` Compare driver performance
+- [ ] `CMP-03` Compare tire strategies
+- [ ] `CMP-04` Compare race pace evolution
+<!-- /features -->
+
+---
+
+## Step 36 — Event sourcing & CQRS
+
+**Tests first:**
+- The existing replay, timeline and standings tests are the safety net. They must stay green
+  throughout this refactor.
+- New tests:
+  - the event store is append-only (update and delete are rejected);
+  - rebuilding read models from events equals the current read models (a golden test);
+  - time travel: state at event #n is deterministic.
+
+**What:** make the race event stream the source of truth for replay. Every state change is an
+append-only event, `RaceState` is a fold over events, and snapshots are a cache. Split read models
+(timeline, standings, stats tables) from the write side that ingests and derives events. Add
+"time travel" debugging: dump state at any event number.
+
+**Why:** the plan's architecture section asks for both. This is also the step that makes Phase 4's
+Kafka natural, because events are already the interface.
+
+**Check it:** delete all snapshots and read models, rebuild from events, and every replay and
+standings test still passes.
+
+<!-- features:36 -->
+**Checks off (0/6):**
+
+- [ ] `ES-01` Easier replay reconstruction
+- [ ] `ES-02` Time travel debugging
+- [ ] `ES-03` Efficient playback
+- [ ] `ES-04` Historical querying
+- [ ] `PAT-05` CQRS
+- [ ] `PAT-06` Event Sourcing
+<!-- /features -->
+
+---
+
+# Phase 4 — Distributed systems & production
+
+---
+
+## Step 37 — Security
+
+**Tests first:**
+- Write the **authorization matrix** as one parameterised test first: (anonymous / USER / ANALYST /
+  ADMIN) × endpoint → expected status.
+- JWT tests: valid, expired, wrong signature, wrong issuer, refresh flow.
+- API-key and rate-limit (429) tests.
+- Injection attempts (SQL in query parameters, script in text fields) are rejected or escaped.
+- **Outer test:** the OAuth2 login → JWT → protected call flow.
+
+**What:** Spring Security with stateless JWT (access and refresh tokens), OAuth2 login (GitHub or
+Google) that issues your JWT, and roles USER / ANALYST / ADMIN (import endpoints are ADMIN only,
+heavy analytics ANALYST). Add API keys for programmatic access, rate limiting (Bucket4j), and input
+validation and sanitisation everywhere. Write tests for token validation, every role × endpoint
+rule, and SQL-injection attempts.
+
+**Why:** the plan's authentication section, and a must-have for anything deployed publicly.
+
+**Check it:** an anonymous user can read races but gets 401 on admin endpoints, a USER gets 403, an
+ADMIN gets 200, and a burst of requests hits 429.
+
+<!-- features:37 -->
+**Checks off (0/16):**
+
+- [ ] `STACK-04` Spring Security
+- [ ] `AUTH-01` JWT authentication
+- [ ] `AUTH-02` OAuth2 login
+- [ ] `AUTH-03` Role-based permissions
+- [ ] `AUTH-04` Rate limiting
+- [ ] `AUTH-05` API key support
+- [ ] `ROLE-01` USER
+- [ ] `ROLE-02` ADMIN
+- [ ] `ROLE-03` ANALYST
+- [ ] `TEST-11` Authentication flows
+- [ ] `TEST-15` JWT validation
+- [ ] `TEST-16` Authorization checks
+- [ ] `TEST-17` Injection prevention
+- [ ] `NFR-11` JWT encryption
+- [ ] `NFR-13` Input sanitization
+- [ ] `MOD-01` auth-service
+<!-- /features -->
+
+---
+
+## Step 38 — Redis caching
+
+**Tests first:**
+- Testcontainers Redis tests:
+  - the second call doesn't reach the repository (verify the mock is called once);
+  - an import evicts the affected caches;
+  - WebSocket session state survives a context restart.
+
+**What:** add a `redis` service to compose and `spring-boot-starter-data-redis` with Spring Cache.
+Cache timelines, replay snapshots and checkpoints, hot telemetry chunks and leaderboards, and store
+WebSocket session state in Redis so any instance can serve any client. Write Testcontainers Redis
+tests.
+
+**Check it:** the second request for a timeline is served from cache (check logs or metrics), and a
+backend restart doesn't drop replay sessions.
+
+<!-- features:38 -->
+**Checks off (0/9):**
+
+- [ ] `STACK-07` Spring Cache
+- [ ] `CACHE-01` Timeline caching
+- [ ] `CACHE-02` Race playback snapshots
+- [ ] `CACHE-03` Session state
+- [ ] `CACHE-04` Frequently accessed telemetry
+- [ ] `CACHE-05` Leaderboards
+- [ ] `CACHE-06` Replay checkpoints
+- [ ] `TEST-07` Redis tests
+- [ ] `NFR-10` Distributed caching
+<!-- /features -->
+
+---
+
+## Step 39 — TimescaleDB for telemetry
+
+**Tests first:**
+- A migration test on the `timescale/timescaledb` image: `telemetry_points` is a hypertable
+  (`timescaledb_information.hypertables`), and the compression policy exists.
+- The whole existing telemetry and replay suite passes unchanged on the new image.
+
+**What:** switch the Postgres image to `timescale/timescaledb` (PG16). In a Flyway migration, turn
+`telemetry_points` into a hypertable partitioned by time, add compression for old chunks, and add
+continuous aggregates for downsampled views. Benchmark before and after.
+
+**Why:** millions of rows per season. This is the "handle millions of telemetry points"
+requirement.
+
+**Check it:** storage drops after compression, and a time-range query is faster than it was in the
+Step 13 benchmark.
+
+<!-- features:39 -->
+**Checks off (0/5):**
+
+- [ ] `TSDB-01` Telemetry time-series storage
+- [ ] `TSDB-02` Efficient timestamp querying
+- [ ] `TSDB-03` Compression
+- [ ] `TSDB-04` Fast analytics
+- [ ] `NFR-04` Handle millions of telemetry points
+<!-- /features -->
+
+---
+
+## Step 40 — Kafka event streaming
+
+**Tests first:**
+- Testcontainers Kafka tests:
+  - publish → the consumer handles it;
+  - an idempotent consumer (the same message twice → one effect);
+  - a transaction rolled back → nothing published (the outbox);
+  - a consumer stopped and restarted catches up.
+
+**What:** add Kafka to compose (KRaft mode, no ZooKeeper) and the topics `telemetry-stream`,
+`race-events`, `replay-events`, `analytics-jobs` and `ingestion-status`. Ingestion publishes, while
+detectors, the read models from Step 36 and analytics consume. Use an outbox table for reliable
+publishing. Write Testcontainers Kafka tests.
+
+**Why:** decoupled, scalable ingestion and async analytics. Phase 4's headline.
+
+**Check it:** stop the analytics consumer, run an import, start it again, and it catches up with
+nothing lost.
+
+<!-- features:40 -->
+**Checks off (0/7):**
+
+- [ ] `KAFKA-01` telemetry-stream
+- [ ] `KAFKA-02` race-events
+- [ ] `KAFKA-03` replay-events
+- [ ] `KAFKA-04` analytics-jobs
+- [ ] `KAFKA-05` ingestion-status
+- [ ] `TEST-06` Kafka tests
+- [ ] `OPS-03` More infrastructure: add the commented-out services; each gets its own healthcheck, named
+<!-- /features -->
+
+---
+
+## Step 41 — Elasticsearch search
+
+**Tests first:**
+- Testcontainers Elasticsearch: index then search; typo tolerance; filters by season, type and
+  driver; a deleted entity disappears from results.
+
+**What:** add an Elasticsearch service and index drivers, races and events (fed from Kafka). Add
+`GET /api/search?q=` with full-text and filters (season, type, driver), and a search box in the
+frontend.
+
+**Check it:** "safety car monza" finds the right events, and typos still match.
+
+<!-- features:41 -->
+**Checks off (0/5):**
+
+- [ ] `SEARCH-01` Fast event searching
+- [ ] `SEARCH-02` Driver search
+- [ ] `SEARCH-03` Telemetry querying
+- [ ] `SEARCH-04` Historical filtering
+- [ ] `SEARCH-05` Full-text event search
+<!-- /features -->
+
+---
+
+## Step 42 — Observability
+
+**Tests first:**
+- The correlation id from the request header (or a generated one) appears in the response header
+  and in every log line's MDC.
+- A log line parses as JSON with `traceId`.
+- `/actuator/prometheus` exposes your custom metrics.
+
+**What:**
+- Structured JSON logs (Spring Boot's built-in structured logging) with a correlation id per request
+  and per job.
+- Micrometer → Prometheus, and Grafana dashboards for API latency, replay sessions, import
+  throughput and Kafka lag.
+- OpenTelemetry tracing exported to Jaeger.
+- All of the above as compose services.
+
+**Check it:** one request can be followed from browser → API → DB in Jaeger, and the dashboards show
+live data.
+
+<!-- features:42 -->
+**Checks off (0/7):**
+
+- [ ] `OBS-01` Structured JSON logging
+- [ ] `OBS-02` Correlation IDs
+- [ ] `OBS-03` Prometheus
+- [ ] `OBS-04` Grafana
+- [ ] `OBS-05` OpenTelemetry
+- [ ] `OBS-06` Jaeger
+- [ ] `PRAC-06` Use monitoring dashboards
+<!-- /features -->
+
+---
+
+## Step 43 — Module boundaries
+
+**Tests first:**
+- `ApplicationModules.of(TelemetrixBackendApplication.class).verify()`. It's red until the
+  module violations are fixed.
+
+**What:** add Spring Modulith and a test that verifies module dependencies (for example, `race` must
+not reach into `replay` internals). Document the module map and clean up violations. Record the
+"modular monolith now, split services later" decision in an ADR.
+
+**Why:** this is the plan's maintainability goals (clean architecture, DDD, modular services),
+enforced by a test rather than by hope.
+
+**Check it:** the Modulith verification test passes and generates module diagrams.
+
+<!-- features:43 -->
+**Checks off (0/4):**
+
+- [ ] `NFR-14` Clean architecture
+- [ ] `NFR-15` SOLID principles
+- [ ] `NFR-16` Domain-driven design
+- [ ] `NFR-17` Modular services
+<!-- /features -->
+
+---
+
+## Step 44 — Performance & scalability
+
+**Tests first:**
+- Load tests are tests too: write the Gatling/k6 scenarios **with assertions** (p95 < 300 ms, error
+  rate < 1%) first, run them red, then optimise until green.
+
+**What:** load tests with Gatling or k6 for the REST API, WebSocket replay at scale (aim for the 10k
+concurrent users target), and database stress. Profile and fix the hot spots: indexes, N+1 queries,
+caching. Run two backend instances behind a load balancer to prove the API is stateless.
+
+**Check it:** p95 API latency is under 300 ms at the target load. Publish the results in
+`docs/benchmarks.md`.
+
+<!-- features:44 -->
+**Checks off (0/8):**
+
+- [ ] `TEST-12` Telemetry streaming
+- [ ] `TEST-13` Replay scalability
+- [ ] `TEST-14` Database stress tests
+- [ ] `NFR-02` API response < 300ms
+- [ ] `NFR-03` Support 10k concurrent users
+- [ ] `NFR-08` Horizontal scaling
+- [ ] `NFR-09` Stateless APIs
+- [ ] `PRAC-09` Benchmark performance
+<!-- /features -->
+
+---
+
+## Step 45 — Resilience
+
+**Tests first:**
+- WireMock (or Toxiproxy via Testcontainers) tests:
+  - OpenF1 returning 500s → retries, then the circuit opens;
+  - a slow response → timeout;
+  - Redis down → results served from the DB;
+  - Elasticsearch down → SQL search.
+
+**What:** Resilience4j retries, circuit breakers and timeouts around OpenF1, Jolpica, Redis and
+Elasticsearch. Add graceful degradation: no Redis means serving from DB, no Elasticsearch means
+basic SQL search.
+
+**Check it:** kill Redis mid-replay and playback continues, only slower.
+
+<!-- features:45 -->
+**Checks off (0/2):**
+
+- [ ] `NFR-06` Graceful degradation
+- [ ] `NFR-07` Retry mechanisms
+<!-- /features -->
+
+---
+
+## Step 46 — Full CI/CD
+
+**Tests first:**
+- The Playwright suite runs against the compose stack in CI.
+- Prove the security scan works by adding a known-vulnerable dependency on a branch: the scan goes
+  red.
+
+**What:** extend CI with dependency and image security scans (OWASP Dependency-Check or Trivy, plus
+CodeQL), Playwright end-to-end tests (optionally Cypress, if you want to compare) against the
+compose stack, and image builds pushed to GHCR on `main`.
+
+**Check it:** a PR runs the full matrix, and a merge to `main` publishes tagged images.
+
+<!-- features:46 -->
+**Checks off (0/3):**
+
+- [ ] `FETEST-03` Cypress
+- [ ] `OPS-04` CI: build both images in GitHub Actions, run the backend tests (Testcontainers) against...
+- [ ] `CI-05` Security scan
+<!-- /features -->
+
+---
+
+## Step 47 — Deploy the MVP
+
+**Tests first:**
+- A post-deploy smoke test job hits the public `/actuator/health` and one replay endpoint. If it
+  fails, the deploy fails.
+
+**What:** deploy to Railway, Render or Fly.io (pick one and record the choice in an ADR) with managed
+Postgres, HTTPS, secrets in the platform, and a CI job that deploys on tag. Add uptime monitoring
+and an SLO page for the 99.9% target.
+
+**Check it:** a public URL plays a replay, and the uptime monitor reports it.
+
+<!-- features:47 -->
+**Checks off (0/6):**
+
+- [ ] `CI-07` Deployment
+- [ ] `DEPLOY-01` Railway
+- [ ] `DEPLOY-02` Render
+- [ ] `DEPLOY-03` Fly.io
+- [ ] `NFR-05` 99.9% uptime
+- [ ] `NFR-12` HTTPS everywhere
+<!-- /features -->
+
+---
+
+## Step 48 — Advanced infrastructure
+
+**Tests first:**
+- `terraform validate` + `tflint` + `terraform plan` in CI. Optionally, Terratest to apply to a
+  sandbox account and assert outputs.
+
+**What:** Terraform for AWS (or another cloud): VPC, RDS or EKS, MSK or self-hosted Kafka,
+ElastiCache. Add Kubernetes manifests or a Helm chart with HPA autoscaling, and move compose's
+optional services into the cluster.
+
+**Check it:** `terraform apply` from scratch brings up a working environment, and
+`terraform destroy` removes it.
+
+<!-- features:48 -->
+**Checks off (0/3):**
+
+- [ ] `DEPLOY-04` Kubernetes
+- [ ] `DEPLOY-05` AWS
+- [ ] `DEPLOY-06` Terraform
+<!-- /features -->
+
+---
+
+# Phase 5 — Data science & polish
+
+---
+
+## Step 49 — Python analytics workspace
+
+**Tests first:**
+- pytest set up first. Cleaning functions are tested on small hand-made DataFrames (duplicates
+  dropped, units normalised, missing laps flagged) before any pipeline uses them.
+
+**What:** `analytics/` as a Python project (`uv` or `pip` + `pyproject.toml`) with pandas, numpy,
+scipy, matplotlib, plotly, scikit-learn and Jupyter. Read from the Telemetrix Postgres (read-only
+user), and also pull FastF1 for 2018–2022 telemetry and any public datasets. Write cleaning
+pipelines as scripts, not only notebooks, and check the FIA document licences before using them.
+
+**Check it:** `python -m analytics.pipelines.clean --season 2024` writes a clean parquet dataset.
+
+<!-- features:49 -->
+**Checks off (0/5):**
+
+- [ ] `SRC-03` FastF1 datasets
+- [ ] `SRC-04` FIA timing archives (where legal)
+- [ ] `SRC-05` Public telemetry datasets
+- [ ] `PY-01` Analytics pipelines
+- [ ] `PY-02` Data cleaning
+<!-- /features -->
+
+---
+
+## Step 50 — Tyre degradation & pit strategy
+
+**Tests first:**
+- pytest on synthetic data with a known degradation slope: the fit recovers it within tolerance.
+- Undercut maths tested on a hand-made two-car scenario.
+
+**What:** fuel-corrected lap-time regression per compound and stint for degradation curves, and
+undercut/overcut analysis on stop timing. Use statistical modelling with scipy and statsmodels.
+
+**Check it:** degradation curves look sensible for a known high-deg race.
+
+<!-- features:50 -->
+**Checks off (0/3):**
+
+- [ ] `PY-03` Statistical modeling
+- [ ] `PYA-01` Tire degradation analysis
+- [ ] `PYA-02` Pit strategy analysis
+<!-- /features -->
+
+---
+
+## Step 51 — Driver clustering & sector dominance
+
+**Tests first:**
+- pytest: the clustering pipeline is deterministic with a fixed seed. Sector dominance on
+  synthetic data where the winner per sector is known.
+
+**What:** cluster drivers by style features (braking points, throttle application, sector
+strengths) with k-means and PCA, and build sector dominance maps per circuit.
+
+<!-- features:51 -->
+**Checks off (0/2):**
+
+- [ ] `PYA-03` Driver clustering
+- [ ] `PYA-06` Sector dominance analysis
+<!-- /features -->
+
+---
+
+## Step 52 — Predictions
+
+**Tests first:**
+- pytest with evaluation thresholds: each model must beat a naive baseline on held-out races.
+  The test asserts it, so a regression fails the build.
+
+**What:** race pace prediction from practice long runs, and overtake probability from gap, tyre
+delta and DRS. Use scikit-learn with proper train/test splits by race, and write up the
+evaluation.
+
+<!-- features:52 -->
+**Checks off (0/2):**
+
+- [ ] `PYA-04` Race pace prediction
+- [ ] `PYA-05` Overtake probability
+<!-- /features -->
+
+---
+
+## Step 53 — Analytics in the app
+
+**Tests first:**
+- **Outer test:** an integration test (Testcontainers Kafka + Postgres) where an
+  `analytics-jobs` message → a results row appears and the API returns it.
+
+**What:** analytics jobs triggered through Kafka `analytics-jobs`, with results written back to
+Postgres tables or exported files the frontend shows (degradation charts on the race hub, cluster
+plots on driver pages).
+
+**Check it:** a new import automatically produces updated analytics in the UI.
+
+<!-- features:53 -->
+**Checks off (0/1):**
+
+- [ ] `PY-04` Visualization exports
+<!-- /features -->
+
+---
+
+## Step 54 — Portfolio polish
+
+**Tests first:**
+- No new behaviour, so no new tests. Check that the coverage report is published and the README
+  explains how to run every test suite.
+
+**What:** architecture diagrams (C4: context, containers, components) in `docs/`, proper READMEs for
+each top-level folder, a `docs/tech-debt.md` register, and screenshots and a demo GIF in the root
+README.
+
+**Check it:** someone new can clone the repo, run it and understand the architecture in 15 minutes.
+
+<!-- features:54 -->
+**Checks off (0/3):**
+
+- [ ] `PRAC-03` Write architecture diagrams
+- [ ] `PRAC-07` Write proper READMEs
+- [ ] `PRAC-08` Track technical debt
+<!-- /features -->
+
+---
+
+# Stretch
+
+## Step 55 — Stretch goals
+
+Pick any, in any order, once the core is done. Each one is its own mini-project: write an ADR first.
+
+**Tests first:**
+- The same rule as everywhere: each stretch feature starts with a failing outer test.
+
+<!-- features:55 -->
+**Checks off (0/11):**
+
+- [ ] `STRETCH-01` 3D visualization
+- [ ] `STRETCH-02` Live race mode
+- [ ] `STRETCH-03` Mobile app
+- [ ] `STRETCH-04` AI commentary
+- [ ] `STRETCH-05` Voice search
+- [ ] `STRETCH-06` Fantasy simulator
+- [ ] `STRETCH-07` Race prediction engine
+- [ ] `STRETCH-08` Custom telemetry dashboards
+- [ ] `STRETCH-09` Historical what-if simulator
+- [ ] `STRETCH-10` Driver racing lines
+- [ ] `STRETCH-11` ML-generated insights
+<!-- /features -->

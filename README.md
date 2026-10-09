@@ -4,149 +4,122 @@ A full-stack platform that replays Formula 1 races from free/open telemetry and 
 (no video): animated driver dots on a track map, telemetry playback, an event timeline,
 championship simulations and historical analytics.
 
-**This repository is an empty scaffold.** Build tooling, infrastructure, configuration and the
-module skeleton are in place and run end to end — there is no domain logic yet. Everything to be
-built is specified in [`plan.md`](plan.md).
+**This repository is an early skeleton.** The Spring Boot backend starts, connects to PostgreSQL
+and runs Flyway — there are no tables, endpoints or domain logic yet. Everything to be built is
+specified in [`plan.md`](plan.md), and [`STEPS.md`](STEPS.md) breaks it into 55 build steps (1–3 done).
+Progress is tracked in [`features.csv`](features.csv); see the top of `plan.md`.
 
 ## Layout
 
-| Path                | What it is                                                                 |
-|---------------------|----------------------------------------------------------------------------|
-| `backend/`          | Spring Boot 3 modular monolith (Java 21, Gradle) — empty module packages    |
-| `frontend/`         | Vite + React + TypeScript app — router, React Query and Tailwind wired up   |
-| `docker-compose.yml`| The full stack: PostgreSQL 16, backend and frontend images                 |
-| `docs/`             | ADRs, architecture overview, API reference                                  |
-| `datasets/`         | Fixtures and raw/exported data (mostly git-ignored)                         |
-| `plan.md`           | The full product & system design this scaffold is meant to grow into        |
+| Path                 | What it is                                                                  |
+|----------------------|-----------------------------------------------------------------------------|
+| `backend/`           | Spring Boot 4 app (Java 25, Maven) — entry point and configuration only      |
+| `docker-compose.yml` | Local infrastructure: PostgreSQL 16                                          |
+| `templates/`         | Commented reference code for every Spring Boot layer (read, don't run)       |
+| `STEPS.md`           | Every build step from empty project to finished platform, with checks       |
+| `plan.md`            | The full product & system design, as a checklist with a progress table      |
+| `features.csv`       | Source of truth for that checklist: one row per feature, its step and status |
+| `scripts/`           | `sync_features.py` — marks features done and syncs `plan.md` / `STEPS.md`    |
+
+Not there yet, but planned: `frontend/` (React + TypeScript + Vite), `docs/` (ADRs, API reference),
+Dockerfiles for the backend and frontend, and `analytics/` (Python).
 
 ## Prerequisites
 
+- **JDK 25** (with `javac`, not just the runtime). Check with `javac -version`.
 - **Docker** with the Compose plugin (`docker compose`), and the daemon running.
 
-That is all you need to run the app. To develop with hot reload (below) you also need:
+Maven does not need to be installed: the **Maven wrapper** (`backend/mvnw`) downloads the right
+version on first run. Always use `./mvnw`, never `mvn`.
 
-- **A JDK** (any recent one, 17+). Gradle downloads the Java 21 toolchain the backend builds with.
-- **Node 20+** and npm.
+## Run it
 
-## Run the whole stack in Docker
+From the repo root, start the database:
 
 ```bash
-docker compose up --build -d      # builds both images, starts postgres → backend → frontend
+docker compose up -d --wait        # starts postgres:16 and waits until it is healthy
 ```
 
-| URL                              | What                                                    |
-|----------------------------------|---------------------------------------------------------|
-| http://localhost:3000            | The app (nginx serves the React build, proxies `/api`)  |
-| http://localhost:8080/api/status | Backend directly                                        |
-| `localhost:5432`                 | PostgreSQL, for `psql` or your IDE                      |
-
-Startup is ordered by healthchecks: the backend waits for Postgres to accept connections, and the
-frontend waits for the backend's `/actuator/health`. Useful commands:
+Then, from `backend/`, run the app:
 
 ```bash
+./mvnw spring-boot:run             # http://localhost:8080 — Ctrl+C to stop
+```
+
+It connects to Postgres and Flyway applies any migrations in
+`src/main/resources/db/migration/` (none yet). There are no endpoints yet, so
+`curl localhost:8080` returns a 404 — that is Spring answering.
+
+Other useful commands:
+
+```bash
+# backend/
+./mvnw package                     # compile, test and build target/backend-0.0.1-SNAPSHOT.jar
+./mvnw package -DskipTests         # ...without the tests
+./mvnw test                        # run the tests only
+java -jar target/backend-0.0.1-SNAPSHOT.jar   # run the built jar
+
+# repo root
 docker compose ps                  # status and health
-docker compose logs -f backend     # follow a service's logs
-docker compose up --build -d backend   # rebuild and restart one service after a change
-docker compose down                # stop everything, keep the database volume
-docker compose down -v             # ...and wipe the database
-```
-
-How the images are built:
-
-- **`backend/Dockerfile`**: multi-stage. A JDK 21 stage runs the Gradle wrapper (with a BuildKit
-  cache for `~/.gradle`) and produces the Boot jar, which is then split into Spring Boot layers.
-  The runtime stage is a JRE 21 image and runs as a non-root `spring` user. Dependency layers
-  come before application classes, so a code-only change rebuilds one small layer.
-- **`frontend/Dockerfile`**: multi-stage. `npm ci` + `vite build` in `node:22-alpine`, then the
-  static `dist/` is served by `nginx:stable-alpine` using `frontend/nginx.conf`. nginx
-  reverse-proxies `/api/` to `backend:8080`, so the browser sees one origin and no CORS is involved.
-
-## Develop with hot reload
-
-Rebuilding images on every edit is slow, so day to day you run only the database in Docker and
-the apps on the host. This is the usual split in practice.
-
-First-time setup, from the repo root:
-
-```bash
-npm --prefix frontend install                  # frontend dependencies
-./backend/gradlew -p backend build -x test     # downloads Gradle, JDK 21 and dependencies
-```
-
-No `.env` is needed: every setting has a default that matches `docker-compose.yml`. See
-[Configuration](#configuration) if you want to change a port or password.
-
-Every dev run, in three terminals from the repo root (stop the `backend` and `frontend`
-containers first if they are running: `docker compose stop backend frontend`):
-
-```bash
-# 1. Database (runs in the background; the first run pulls postgres:16)
-docker compose up -d postgres
-
-# 2. Backend — http://localhost:8080 (Flyway applies migrations on startup)
-./backend/gradlew -p backend bootRun
-
-# 3. Frontend — http://localhost:5173
-npm --prefix frontend run dev
-```
-
-Check it is up:
-
-```bash
-curl localhost:8080/actuator/health     # {"status":"UP"}
-curl localhost:8080/api/status          # {"service":"telemetrix-backend","status":"ok"}
-```
-
-The landing page calls `/api/status`, so it shows straight away whether the frontend can reach the
-backend.
-
-**Stopping:** Ctrl+C the backend and frontend, then `docker compose stop` for the database. Data
-is kept in a named volume; `docker compose down -v` removes the container *and* wipes the data.
-
-**Running the backend tests:**
-
-```bash
-./backend/gradlew -p backend test    # Testcontainers starts its own throwaway Postgres via Docker
+docker compose logs -f postgres    # follow the database logs
+docker compose exec postgres psql -U telemetrix   # open a SQL shell
+docker compose down                # stop, keep the data volume
+docker compose down -v             # stop and wipe the database
 ```
 
 ## Configuration
 
-Nothing to configure for local dev — the defaults in `docker-compose.yml`,
-`application.properties` and `frontend/src/api/client.ts` all line up. To override something:
+Nothing to configure for local dev: the defaults in `backend/src/main/resources/application.properties`
+match `docker-compose.yml` (database, user and password are all `telemetrix`, on `localhost:5432`).
 
-- **Docker stack** — `cp .env.example .env` and edit the `POSTGRES_*` values or the published
-  `*_PORT`s; compose reads the root `.env` automatically and passes the credentials to both
-  Postgres and the backend container.
-- **Backend on the host** — set the `SPRING_DATASOURCE_*` / `OPENF1_BASE_URL` environment variables in the
-  shell that runs `bootRun` (Spring does not read `.env` files), e.g.
-  `SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5433/telemetrix ./backend/gradlew -p backend bootRun`.
-- **Frontend on the host** — `cp frontend/.env.example frontend/.env` and set `VITE_API_BASE_URL`.
-  The Docker image leaves it empty on purpose, so API calls go to nginx's `/api` proxy on the same origin.
+To point the backend somewhere else, set environment variables in the shell that runs it:
 
-**Port 5432 already in use?** Another Postgres is running on the host. Stop it, or move this one:
-put `POSTGRES_PORT=5433` in `.env` and start the backend with
-`SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5433/telemetrix`.
+```bash
+SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5433/telemetrix ./mvnw spring-boot:run
+```
+
+Supported: `SPRING_DATASOURCE_URL`, `SPRING_DATASOURCE_USERNAME`, `SPRING_DATASOURCE_PASSWORD`.
+
+Other settings worth knowing:
+
+- `spring.jpa.hibernate.ddl-auto=validate` — Flyway owns the schema; Hibernate only checks at
+  startup that the entities match the tables.
+- `spring.mvc.problemdetails.enabled=true` — errors come back as RFC 9457 JSON, not an HTML page.
+
+**Port 5432 already in use?** Another Postgres is running on the host. Stop it, or change the
+compose port mapping to `"5433:5432"` and start the backend with the URL above.
+
+## How it's built: test-driven
+
+Every feature is written **test-first**: a failing test, then the least code to pass it, then a
+refactor with everything green. Features start from an outside test (API, WebSocket or browser
+journey) and are driven inward with unit tests. The rules and the test tools for each layer are in
+[`STEPS.md` → How we work](STEPS.md#how-we-work-test-driven-development).
 
 ## Where to start implementing
 
-**Backend** — `backend/src/main/java/com/telemetrix/`. One package per domain module (`race`,
-`driver`, `telemetry`, `event`, `ingestion`, `analytics`, `replay`, `championship`, plus `common`);
-each `package-info.java` states the module's responsibility and the `domain` / `repo` / `dto` /
-`web` convention. Schema changes go in `src/main/resources/db/migration/` as Flyway
-`V<n>__<name>.sql` files — `V1__init.sql` is the placeholder to fill in. Tests already have a
-Postgres Testcontainer wired up (`TestcontainersConfiguration`).
+Follow [`STEPS.md`](STEPS.md) from **Step 4**, using [`templates/README.md`](templates/README.md) as the
+reference for each Spring layer. Step 4 sets up the test harness (Testcontainers + JaCoCo) so
+every later step can start with a failing test. The first schema work is Step 6
+(`templates/03-migration/`): write `V1__<name>.sql` in `backend/src/main/resources/db/migration/`
+with your first Telemetrix tables, then an entity, repository, service and controller for them,
+each driven by its tests. When a feature's tests pass, tick it off: `python3 scripts/sync_features.py done <ID>`.
 
-**Frontend** — `frontend/src/`. `routes.tsx` holds a single placeholder route; the full drill-down
-route tree is specified in `plan.md`. `api/client.ts` has the typed `getJson` helper to build
-endpoint functions on.
-
-**Docs** — record decisions as ADRs in `docs/adr/`, and keep `docs/api.md` in step with the
-controllers as you add them.
+- **Code** goes under `backend/src/main/java/com/telemetrix/`, one package per feature (`race`,
+  `driver`, `telemetry`, …) holding its entity, repository, service, DTOs and controller.
+  Shared pieces (exceptions, config) go in `com.telemetrix.common`.
+- **Schema changes** are always new Flyway files `V<n>__<name>.sql`; never edit one that has
+  already run.
+- **Tests** go in `backend/src/test/java/`. See `templates/13-tests/README.md` for the extra
+  dependencies (Testcontainers etc.).
 
 ## Stack
 
-Docker · Docker Compose · nginx · Java 21 · Spring Boot 3.5 · Spring Data JPA · Flyway · PostgreSQL 16 · Gradle · JUnit 5 ·
-Testcontainers · React 18 · TypeScript · Vite · React Query · React Router · TailwindCSS · Recharts.
+Java 25 · Spring Boot 4.1 · Spring MVC · Spring Data JPA · Flyway · PostgreSQL 16 · Maven ·
+Docker Compose.
+
+Planned (see [`plan.md`](plan.md#final-recommended-stack)): React + TypeScript + Vite frontend,
+TimescaleDB, Redis, Kafka, Testcontainers, Prometheus/Grafana, Python analytics.
 
 ## Roadmap
 

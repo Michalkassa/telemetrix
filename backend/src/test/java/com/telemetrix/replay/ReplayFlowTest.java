@@ -120,6 +120,15 @@ class ReplayFlowTest {
 	}
 
 	@Test
+	void eachCarsPitStopsAreInTimeOrder() {
+		var replay = replays.replay(sessionId);
+
+		assertThat(replay.pits().get(1)).extracting(RaceReplay.PitWindow::lap).containsExactly(17, 37);
+		replay.pits().values().forEach(stops -> assertThat(stops)
+				.isSortedAccordingTo(Comparator.comparing(RaceReplay.PitWindow::from)));
+	}
+
+	@Test
 	void theWholeRaceDownloadsInOneSmallResponse() {
 		byte[] body = http.get().uri("/api/sessions/{id}/replay", sessionId).exchange()
 				.expectStatus().isOk()

@@ -12,6 +12,7 @@ import com.telemetrix.replay.PlaybackFrame.Status;
 import com.telemetrix.timing.Lap;
 import com.telemetrix.timing.LapRepository;
 import com.telemetrix.timing.SessionDriverRepository;
+import com.telemetrix.timing.SessionPitStop;
 import com.telemetrix.timing.SessionPitStopRepository;
 import java.time.Duration;
 import java.time.Instant;
@@ -87,6 +88,7 @@ public class ReplayService {
 
 		Map<Integer, List<RaceReplay.PitWindow>> pits = pitStops.findBySessionOrderByDriverNumberAsc(session).stream()
 				.filter(p -> p.getEnteredAt() != null)
+				.sorted(Comparator.comparing(SessionPitStop::getEnteredAt)) // each car's in time order
 				.collect(Collectors.groupingBy(p -> p.getDriverNumber(), Collectors.mapping(p -> new RaceReplay.PitWindow(
 						p.getLapNumber() == null ? null : p.getLapNumber().intValue(), p.getEnteredAt(),
 						p.getLaneDurationMs() != null ? p.getEnteredAt().plusMillis(p.getLaneDurationMs())

@@ -161,7 +161,7 @@ are just changes to the playback clock. Open the race first (`POST /api/races/{i
   "layout": { "...": "the same shape as GET /api/circuits/{ref}/layout" },
   "drivers": [{"number": 1, "code": "VER", "name": "Max VERSTAPPEN", "team": "Red Bull Racing", "teamColour": "3671c6"}],
   "timing": [{"number": 1, "t": [0, 32877, 74143, 97758], "laps": [0.0, 0.3279, 0.7362, 1.0],
-              "pits": [{"lap": 37, "from": 3612188, "to": 3636388}], "finished": true, "retiredAt": null}]
+              "pits": [{"lap": 17, "from": 1675484, "to": 1700484}], "finished": true, "retiredAt": null}]
 }
 ```
 

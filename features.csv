@@ -299,7 +299,7 @@ PRAC-01,1,5,Final Advice,Write ADRs,todo,
 PRAC-02,1,11,Final Advice,Write API docs,todo,
 PRAC-03,5,54,Final Advice,Write architecture diagrams,todo,
 PRAC-04,1,6,Final Advice,Use migrations,todo,
-PRAC-05,1,4,Final Advice,Use test coverage reports,todo,
+PRAC-05,1,4,Final Advice,Use test coverage reports,done,2026-10-09
 PRAC-06,4,42,Final Advice,Use monitoring dashboards,todo,
 PRAC-07,5,54,Final Advice,Write proper READMEs,todo,
 PRAC-08,5,54,Final Advice,Track technical debt,todo,

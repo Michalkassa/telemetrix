@@ -236,9 +236,9 @@ break.
 **Check it:** `./mvnw verify` is green with Docker running, and the JaCoCo report opens in a browser.
 
 <!-- features:4 -->
-**Checks off (0/1):**
+**Checks off (1/1):**
 
-- [ ] `PRAC-05` Use test coverage reports
+- [x] `PRAC-05` Use test coverage reports
 <!-- /features -->
 
 ---

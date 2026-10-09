@@ -4,12 +4,13 @@ A full-stack platform that replays Formula 1 races from free/open telemetry and 
 (no video): animated driver dots on a track map, telemetry playback, an event timeline,
 championship simulations and historical analytics.
 
-**Status: the backend for Phase 1 is done (Steps 1–15 of 55).** It imports the full race history from
+**Status: Phase 1 in progress (Steps 1–16 of 55).** The backend imports the full race history from
 1950 (Jolpica) and each season's calendar; a race's OpenF1 data (sessions, laps with sector splits,
-tyre stints, pit stops, the circuit's track map) downloads in the background the first time someone opens it, and a car's full
-telemetry the first time someone asks for it. Seasons, races, import status, track maps, telemetry
-and the **replay** (a whole race's timing points in one ~80 KB response, played like a video in the
-browser) are served over a REST API. The frontend (Steps 16–18) is next. No frontend or replay yet. Everything to be built is specified in
+tyre stints, pit stops, the circuit's track map) downloads in the background the first time someone
+opens it, and a car's full telemetry the first time someone asks for it. Seasons, races, import status,
+track maps, telemetry and the **replay** (a whole race's timing points in one ~80 KB response) are
+served over a REST API. The React frontend is scaffolded; its pages and the replay player come next
+(Steps 17–18). Everything to be built is specified in
 [`plan.md`](plan.md), and [`STEPS.md`](STEPS.md) breaks it into 55 build steps.
 Progress is tracked in [`features.csv`](features.csv); see the top of `plan.md`.
 
@@ -19,6 +20,7 @@ Progress is tracked in [`features.csv`](features.csv); see the top of `plan.md`.
 |----------------------|-----------------------------------------------------------------------------|
 | `backend/`           | Spring Boot 4 app (Java 25, Maven): importers, schema, REST API              |
 | `docker-compose.yml` | Local infrastructure: PostgreSQL 16                                          |
+| `frontend/`          | React 19 + TypeScript + Vite app: React Router, React Query, Tailwind        |
 | `docs/`              | ADRs (`docs/adr/`) and the API reference (`docs/api.md`)                     |
 | `templates/`         | Commented reference code for every Spring Boot layer (read, don't run)       |
 | `STEPS.md`           | Every build step from empty project to finished platform, with checks       |
@@ -26,7 +28,7 @@ Progress is tracked in [`features.csv`](features.csv); see the top of `plan.md`.
 | `features.csv`       | Source of truth for that checklist: one row per feature, its step and status |
 | `scripts/`           | `sync_features.py` — marks features done and syncs `plan.md` / `STEPS.md`    |
 
-Not there yet, but planned: `frontend/` (React + TypeScript + Vite),
+Not there yet, but planned:
 Dockerfiles for the backend and frontend, and `analytics/` (Python).
 
 ## Prerequisites
@@ -61,7 +63,15 @@ curl -X POST localhost:8080/api/admin/import/seasons/2024     # a season's calen
 curl -X POST localhost:8080/api/admin/import/races/1102       # one race's OpenF1 sessions, laps, stints, pit stops
 ```
 
-Then browse: `curl localhost:8080/api/seasons`, `/api/seasons/2024/races`, `/api/races/{id}`, or
+Then the frontend, from `frontend/` (first time: `npm install`):
+
+```bash
+npm run dev                        # http://localhost:5173 — calls the backend through Vite's /api proxy
+npm test                           # unit and component tests (Vitest)
+npm run e2e                        # browser journeys (Playwright; first time: npx playwright install chromium)
+```
+
+Or browse the API directly: `curl localhost:8080/api/seasons`, `/api/seasons/2024/races`, `/api/races/{id}`, or
 the interactive **Swagger UI** at http://localhost:8080/swagger-ui.html. The API is described in
 [`docs/api.md`](docs/api.md). The admin endpoints are unsecured until Step 37 — don't expose the app.
 
@@ -113,7 +123,7 @@ journey) and are driven inward with unit tests. The rules and the test tools for
 
 ## Where to start implementing
 
-Follow [`STEPS.md`](STEPS.md) from **Step 16** (the frontend scaffold), using [`templates/README.md`](templates/README.md) as the reference for each Spring
+Follow [`STEPS.md`](STEPS.md) from **Step 17** (landing page, dashboard and Grand Prix list), using [`templates/README.md`](templates/README.md) as the reference for each Spring
 layer. Every step starts with its **Tests first** list. When a feature's tests pass, tick it off:
 `python3 scripts/sync_features.py done <ID>`.
 
@@ -131,8 +141,10 @@ layer. Every step starts with its **Tests first** list. When a feature's tests p
 Java 25 · Spring Boot 4.1 · Spring MVC · Spring Data JPA · Spring Batch · Flyway · PostgreSQL 16 ·
 RestClient · springdoc-openapi · Maven · Docker Compose · JUnit 5 · Testcontainers · JaCoCo.
 
-Planned (see [`plan.md`](plan.md#final-recommended-stack)): React + TypeScript + Vite frontend,
-TimescaleDB, Redis, Kafka, Prometheus/Grafana, Python analytics.
+Frontend: React 19 · TypeScript · Vite · React Router · TanStack Query · TailwindCSS · Vitest ·
+Testing Library · MSW · Playwright.
+
+Planned (see [`plan.md`](plan.md#final-recommended-stack)): TimescaleDB, Redis, Kafka, Prometheus/Grafana, Python analytics.
 
 ## Roadmap
 

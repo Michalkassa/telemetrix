@@ -14,12 +14,12 @@ python3 scripts/sync_features.py --check                # CI: fail if plan.md/ST
 ```
 
 <!-- progress:start -->
-**51 / 305 features done (16%)**
+**58 / 305 features done (19%)**
 
 | Phase | Done | Total | Progress |
 |---|---:|---:|---|
 | 0 — Foundation | 3 | 3 | `██████████` |
-| 1 — Data foundation & basic replay | 48 | 71 | `███████░░░` |
+| 1 — Data foundation & basic replay | 55 | 71 | `████████░░` |
 | 2 — Telemetry, timeline & playback | 0 | 83 | `░░░░░░░░░░` |
 | 3 — Championship & analytics | 0 | 46 | `░░░░░░░░░░` |
 | 4 — Distributed systems & production | 0 | 75 | `░░░░░░░░░░` |
@@ -233,12 +233,12 @@ Store race state as events:
 # Frontend
 
 ## Frontend Stack
-- [ ] React <!-- FE-01 -->
-- [ ] TypeScript <!-- FE-02 -->
-- [ ] Vite <!-- FE-03 -->
-- [ ] React Query <!-- FE-04 -->
+- [x] React <!-- FE-01 -->
+- [x] TypeScript <!-- FE-02 -->
+- [x] Vite <!-- FE-03 -->
+- [x] React Query <!-- FE-04 -->
 - [ ] Zustand <!-- FE-05 -->
-- [ ] TailwindCSS <!-- FE-06 -->
+- [x] TailwindCSS <!-- FE-06 -->
 - [ ] D3.js <!-- FE-07 -->
 - [ ] Canvas API <!-- FE-08 -->
 - [ ] WebSockets <!-- FE-09 -->
@@ -532,8 +532,8 @@ to write first.
 # Frontend Testing
 
 ## Testing Stack
-- [ ] Vitest <!-- FETEST-01 -->
-- [ ] React Testing Library <!-- FETEST-02 -->
+- [x] Vitest <!-- FETEST-01 -->
+- [x] React Testing Library <!-- FETEST-02 -->
 - [ ] Cypress <!-- FETEST-03 -->
 - [ ] Playwright <!-- FETEST-04 -->
 

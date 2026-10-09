@@ -687,15 +687,15 @@ components stay simple.
 `/api/seasons`.
 
 <!-- features:16 -->
-**Checks off (0/7):**
+**Checks off (7/7):**
 
-- [ ] `FE-01` React
-- [ ] `FE-02` TypeScript
-- [ ] `FE-03` Vite
-- [ ] `FE-04` React Query
-- [ ] `FE-06` TailwindCSS
-- [ ] `FETEST-01` Vitest
-- [ ] `FETEST-02` React Testing Library
+- [x] `FE-01` React
+- [x] `FE-02` TypeScript
+- [x] `FE-03` Vite
+- [x] `FE-04` React Query
+- [x] `FE-06` TailwindCSS
+- [x] `FETEST-01` Vitest
+- [x] `FETEST-02` React Testing Library
 <!-- /features -->
 
 ---

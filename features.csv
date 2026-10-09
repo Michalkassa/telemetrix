@@ -94,12 +94,12 @@ STACK-05,0,3,Primary Stack,Spring Data JPA,done,2026-09-22
 STACK-06,1,10,Primary Stack,Spring Batch,done,2026-10-09
 STACK-07,4,38,Primary Stack,Spring Cache,todo,
 STACK-08,1,9,Primary Stack,Spring Scheduler,done,2026-10-09
-FE-01,1,16,Frontend Stack,React,todo,
-FE-02,1,16,Frontend Stack,TypeScript,todo,
-FE-03,1,16,Frontend Stack,Vite,todo,
-FE-04,1,16,Frontend Stack,React Query,todo,
+FE-01,1,16,Frontend Stack,React,done,2026-10-09
+FE-02,1,16,Frontend Stack,TypeScript,done,2026-10-09
+FE-03,1,16,Frontend Stack,Vite,done,2026-10-09
+FE-04,1,16,Frontend Stack,React Query,done,2026-10-09
 FE-05,2,25,Frontend Stack,Zustand,todo,
-FE-06,1,16,Frontend Stack,TailwindCSS,todo,
+FE-06,1,16,Frontend Stack,TailwindCSS,done,2026-10-09
 FE-07,2,26,Frontend Stack,D3.js,todo,
 FE-08,1,18,Frontend Stack,Canvas API,todo,
 FE-09,2,24,Frontend Stack,WebSockets,todo,
@@ -216,8 +216,8 @@ TEST-14,4,44,Performance Tests,Database stress tests,todo,
 TEST-15,4,37,Security Tests,JWT validation,todo,
 TEST-16,4,37,Security Tests,Authorization checks,todo,
 TEST-17,4,37,Security Tests,Injection prevention,todo,
-FETEST-01,1,16,Testing Stack,Vitest,todo,
-FETEST-02,1,16,Testing Stack,React Testing Library,todo,
+FETEST-01,1,16,Testing Stack,Vitest,done,2026-10-09
+FETEST-02,1,16,Testing Stack,React Testing Library,done,2026-10-09
 FETEST-03,4,46,Testing Stack,Cypress,todo,
 FETEST-04,2,25,Testing Stack,Playwright,todo,
 FETEST-05,2,25,Test Areas,Timeline controls,todo,

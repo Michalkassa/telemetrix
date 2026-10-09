@@ -1,0 +1,25 @@
+id,api_id,has_time_data,is_cancelled,number,point_system_id,round_id,scheduled_laps,timestamp,timezone,type
+1,session_8sj3ZIRr,f,f,3,2,1,70,1950-05-13 00:00:00+00:00,Europe/London,R
+2,session_wekmWw64,f,f,1,1,1,,1950-05-11 00:00:00+00:00,Europe/London,QB
+3,session_OqpKUX18,f,f,2,1,1,,1950-05-12 00:00:00+00:00,Europe/London,QB
+2367,session_eJ1MrwpM,t,f,7,15,786,58,2008-03-16 04:30:00+00:00,Australia/Melbourne,R
+2368,session_MpnoE0nF,f,f,3,1,786,,2008-03-15 00:00:00+00:00,Australia/Melbourne,Q1
+2369,session_EoD73EKW,f,f,4,1,786,,2008-03-15 00:00:00+00:00,Australia/Melbourne,Q2
+2370,session_reBsrDrL,f,f,5,1,786,,2008-03-15 00:00:00+00:00,Australia/Melbourne,Q3
+2371,session_fih4SRnz,f,f,1,1,786,,2008-03-14 00:00:00+00:00,Australia/Melbourne,FP1
+2372,session_45mNiN8a,f,f,2,1,786,,2008-03-14 00:00:00+00:00,Australia/Melbourne,FP2
+2373,session_FmaCFzqV,f,f,6,1,786,,2008-03-15 00:00:00+00:00,Australia/Melbourne,FP3
+4591,session_TAmdOOz5,t,f,7,22,1102,57,2024-03-02 15:00:00+00:00,Asia/Bahrain,R
+4592,session_2HCrzVCV,t,f,4,1,1102,,2024-03-01 16:00:00+00:00,Asia/Bahrain,Q1
+4593,session_uGRAULzs,t,f,5,1,1102,,2024-03-01 16:00:00+00:00,Asia/Bahrain,Q2
+4594,session_05ODp9EX,t,f,6,1,1102,,2024-03-01 16:00:00+00:00,Asia/Bahrain,Q3
+4595,session_hmmsSTb1,t,f,1,1,1102,,2024-02-29 11:30:00+00:00,Asia/Bahrain,FP1
+4596,session_MdP4UBZ5,t,f,2,1,1102,,2024-02-29 15:00:00+00:00,Asia/Bahrain,FP2
+4597,session_E6Fimw7v,t,f,3,1,1102,,2024-03-01 12:30:00+00:00,Asia/Bahrain,FP3
+5161,session_pfyYRWEc,t,t,,1,1178,,2026-04-17 13:30:00+00:00,Asia/Riyadh,FP1
+5162,session_XuSoBMNK,t,t,,1,1178,,2026-04-17 17:00:00+00:00,Asia/Riyadh,FP2
+5163,session_HA9oHYWT,t,t,,1,1178,,2026-04-18 13:30:00+00:00,Asia/Riyadh,FP3
+5164,session_On4VFVF9,t,t,,1,1178,,2026-04-18 17:00:00+00:00,Asia/Riyadh,Q1
+5165,session_OtZkf2bQ,t,t,,1,1178,,2026-04-18 17:00:00+00:00,Asia/Riyadh,Q2
+5166,session_pqZOb4VR,t,t,,1,1178,,2026-04-18 17:00:00+00:00,Asia/Riyadh,Q3
+5167,session_KLzgDnFy,t,t,,24,1178,50,2026-04-19 17:00:00+00:00,Asia/Riyadh,R

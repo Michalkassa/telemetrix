@@ -1,0 +1,5 @@
+wikipedia,reference,name,longitude,locality,latitude,country_code,country,api_id,altitude,id
+https://en.wikipedia.org/wiki/Silverstone_Circuit,silverstone,Silverstone Circuit,-1.01694,Silverstone,52.0786,GBR,UK,circuit_W8rwFAJs,153,1
+https://en.wikipedia.org/wiki/Albert_Park_Circuit,albert_park,Albert Park Grand Prix Circuit,144.968,Melbourne,-37.8497,AUS,Australia,circuit_5jHWvmoM,10,59
+https://en.wikipedia.org/wiki/Bahrain_International_Circuit,bahrain,Bahrain International Circuit,50.5106,Sakhir,26.0325,BHR,Bahrain,circuit_vgMkq5S2,7,61
+https://en.wikipedia.org/wiki/Jeddah_Corniche_Circuit,jeddah,Jeddah Corniche Circuit,39.1044,Jeddah,21.6319,SAU,Saudi Arabia,circuit_gtqp9VKv,15,75

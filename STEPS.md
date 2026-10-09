@@ -442,31 +442,45 @@ appear; import it again — the log shows no OpenF1 call.
 ## Step 10 — Full history from the Jolpica database dump
 
 **Tests first:**
-- CSV-mapping tests on a trimmed copy of the dump (a few rows per file, committed as a fixture):
-  drivers, constructors, results, qualifying, lap times, pit stops, status — column lookup **by
-  name** (Jolpica doesn't guarantee column order).
-- Driver matching across sources: the same number + name + season → linked; ambiguous → left
-  unresolved in the mapping table, never merged.
-- **Outer test:** loading the fixture dump twice gives identical row counts; a job forced to fail
-  halfway resumes from its last chunk.
+- Unit tests: Jolpica times (`hh:mm:ss` with 0–3 decimals) → milliseconds; status codes → a
+  readable classification (0 finished, 1 lapped, 10 retired after an incident, 11 mechanical,
+  20 disqualified, 30 did not start, 40 did not qualify); CSV rows read **by column name** (the
+  fixture deliberately reverses the columns of two files — Jolpica doesn't guarantee column order).
+- Downloader test: metadata → zip download → SHA-256 verified → unzipped; a hash mismatch fails.
+- **Outer tests** (Spring Batch job on the Testcontainers database, against a trimmed copy of the
+  real dump — British GP 1950, Australian GP 2008, Bahrain 2024 and a cancelled round):
+  - every table gets the expected rows; the cancelled round is skipped;
+  - 2008: retirements keep their reason ("Accident", "Collision") and classification;
+  - 2024: Verstappen won from pole with 26 points; qualifying has his Q1/Q2/Q3 times; lap times and
+    pit stops are stored;
+  - importing twice gives identical row counts; a race created by Step 9 keeps its OpenF1 link;
+  - a job that fails halfway (a corrupt lap file) **restarts from where it stopped** once fixed.
 
-**What:** a restartable **Spring Batch** job (chunked CSV reader → processor → JDBC batch writer)
-that downloads the free, 14-day-delayed CSV dump (`GET https://api.jolpi.ca/data/dumps/download/`
-→ `delayed_dumps.csv.download_url`, verify the SHA-256), unzip, and upsert seasons, circuits, races,
-drivers, constructors, results, qualifying, lap times and pit stops (`V2__…` tables for results,
-qualifying, lap times). Map Jolpica's integer enums (finishing status etc.). Races newer than the dump
-come from the API (Step 9's client). Keep a `driver_source_ids` mapping table for OpenF1 ↔ Jolpica.
+**What:** a restartable **Spring Batch** job (Batch metadata tables in a Flyway migration):
+- `JolpicaDumpDownloader`: `GET https://api.jolpi.ca/data/dumps/download/` →
+  `delayed_dumps.csv.download_url`, download, verify the SHA-256, unzip.
+- Steps: index the dump's small tables → upsert seasons, circuits, drivers, constructors, races
+  (official round; cancelled rounds skipped) → `race_entries` (race + driver + constructor + car
+  number) → `session_results` (every session: position, grid, points, laps, time, status +
+  reason, best lap) → `lap_times` (races and sprints, 1996 →) → `pit_stops` (2011 →). Chunked
+  CSV reader → processor → JDBC batch upsert (`INSERT … ON CONFLICT`).
+- A `qualifying` view: final position = the last knockout segment reached (Q3, else Q2, else Q1),
+  with each segment's best lap.
+- `POST /api/admin/import/history` starts it in the background; `GET` shows the last run.
+
+`race_entries` also solve source matching exactly: an OpenF1 `driver_number` in a race is that
+race's entry `car_number`, so Step 12 needs no fuzzy name matching.
 
 **Why:** the whole 1950 → history in one 15 MB download instead of ~40 hours of API calls at 500
 requests/hour (ADR 0003). Non-commercial use only — fine for this project, recheck before Step 47.
 
-**Check it:** `select count(*) from races` ≈ 1,100+; Hamilton's and Schumacher's win counts match
-public records.
+**Check it:** after a full import, `select count(*) from races` ≈ 1,170; Hamilton's and
+Schumacher's win counts match public records.
 
 <!-- features:10 -->
-**Checks off (0/1):**
+**Checks off (1/1):**
 
-- [ ] `STACK-06` Spring Batch
+- [x] `STACK-06` Spring Batch
 <!-- /features -->
 
 ---
@@ -492,15 +506,15 @@ tests (Mockito) and `@WebMvcTest` controller tests.
 endpoints, and an unknown id gives a 404 problem detail.
 
 <!-- features:11 -->
-**Checks off (0/7):**
+**Checks off (7/7):**
 
-- [ ] `API-01` GET /seasons
-- [ ] `API-02` GET /races/{id}
-- [ ] `TEST-01` Services
-- [ ] `TEST-02` Utilities
-- [ ] `TEST-08` API tests
-- [ ] `MOD-02` race-service
-- [ ] `PRAC-02` Write API docs
+- [x] `API-01` GET /seasons
+- [x] `API-02` GET /races/{id}
+- [x] `TEST-01` Services
+- [x] `TEST-02` Utilities
+- [x] `TEST-08` API tests
+- [x] `MOD-02` race-service
+- [x] `PRAC-02` Write API docs
 <!-- /features -->
 
 ---
@@ -515,7 +529,7 @@ endpoints, and an unknown id gives a 404 problem detail.
 - **Outer test:** import one recorded race; laps per driver equal the classified laps, and every
   complete lap yields 4 timing points (start, S1, S2, finish).
 
-**What:** `V3__` tables `laps` (session, driver, lap number, `starts_at`, sector 1–3 durations, lap
+**What:** New migration tables `laps` (session, driver, lap number, `starts_at`, sector 1–3 durations, lap
 duration, speed traps, pit-out flag), `tire_stints` and `pit_stops`. Importers for OpenF1 `laps`,
 `stints` and `pit` — **one request per session for all drivers** each — added to Step 9's
 **per-race, on-demand** `RaceImporter`. For 1996–2022, Jolpica lap
@@ -556,7 +570,7 @@ lap charts, strategy views and pace analysis.
 **What:** wire Step 9's `RaceImporter` to the user: `GET /api/races/{id}/import-status` and an
 async import (a single-flight lock per race) that runs when a race page is opened and isn't imported
 yet — the page shows "downloading race data…" for the ~30 s it takes, then is instant forever after.
-A `telemetry_points` table (`V4__`) filled **only on demand**, per driver and session, when the
+A `telemetry_points` table (a new migration) filled **only on demand**, per driver and session, when the
 telemetry view asks for it (ADR 0003).
 
 **Why:** the user picks the races that get downloaded; nothing is fetched for races nobody opens, and
@@ -835,7 +849,7 @@ event timeline.
   race-control messages when it's disabled or the file is missing (both produce the same periods).
 - Importer tests for weather, race control and team radio from fixtures.
 
-**What:** `V5__` tables `weather_data`, `race_events` (raw race-control messages), `penalties` and
+**What:** New migration tables `weather_data`, `race_events` (raw race-control messages), `penalties` and
 `track_status` (green / yellow / SC / VSC / red periods). Importers for OpenF1 `weather`,
 `race_control` and `team_radio` (1 request per session each), and the optional F1-archive
 `TrackStatus` source (ADR 0003, `f1archive.enabled`), all part of the per-race on-demand import.
@@ -1229,6 +1243,9 @@ Use SQL (window functions, materialized views refreshed after imports) rather th
 Serve it with `GET /api/drivers/{id}/stats`.
 
 **Why:** this is where the "advanced PostgreSQL" goal is learnt.
+
+Count poles as **race grid position 1**, not qualifying P1: the `qualifying` view is the order before
+penalties (Step 10 found Hamilton 107 "fastest in qualifying" vs 104 official poles).
 
 **Check it:** career wins and poles for a few drivers match public records, and `EXPLAIN ANALYZE`
 shows index use.

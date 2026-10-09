@@ -11,6 +11,14 @@ public interface RaceRepository extends JpaRepository<Race, Long> {
 	@EntityGraph(attributePaths = "sessions")
 	List<Race> findBySeasonYearOrderByRaceDate(short year);
 
+	// The season's calendar with circuits, in one query.
+	@EntityGraph(attributePaths = "circuit")
+	List<Race> findAllBySeasonYearOrderByRound(short year);
+
+	// One race with everything its page shows, in one query.
+	@EntityGraph(attributePaths = { "season", "circuit", "sessions" })
+	Optional<Race> findWithDetailsById(Long id);
+
 	Optional<Race> findBySeasonYearAndRound(short year, short round);
 
 	Optional<Race> findByOpenf1MeetingKey(Integer meetingKey);

@@ -4,16 +4,17 @@ A full-stack platform that replays Formula 1 races from free/open telemetry and 
 (no video): animated driver dots on a track map, telemetry playback, an event timeline,
 championship simulations and historical analytics.
 
-**This repository is an early skeleton.** The Spring Boot backend starts, connects to PostgreSQL
-and runs Flyway — there are no tables, endpoints or domain logic yet. Everything to be built is
-specified in [`plan.md`](plan.md), and [`STEPS.md`](STEPS.md) breaks it into 55 build steps (1–3 done).
+**Status: the backend's data foundation (Steps 1–11 of 55).** It imports the full race history from
+1950 (Jolpica), each season's calendar, and on demand a race's OpenF1 sessions, and serves seasons and
+races over a REST API. No frontend or replay yet. Everything to be built is specified in
+[`plan.md`](plan.md), and [`STEPS.md`](STEPS.md) breaks it into 55 build steps.
 Progress is tracked in [`features.csv`](features.csv); see the top of `plan.md`.
 
 ## Layout
 
 | Path                 | What it is                                                                  |
 |----------------------|-----------------------------------------------------------------------------|
-| `backend/`           | Spring Boot 4 app (Java 25, Maven) — entry point and configuration only      |
+| `backend/`           | Spring Boot 4 app (Java 25, Maven): importers, schema, REST API              |
 | `docker-compose.yml` | Local infrastructure: PostgreSQL 16                                          |
 | `docs/`              | ADRs (`docs/adr/`) and the API reference (`docs/api.md`)                     |
 | `templates/`         | Commented reference code for every Spring Boot layer (read, don't run)       |
@@ -47,9 +48,19 @@ Then, from `backend/`, run the app:
 ./mvnw spring-boot:run             # http://localhost:8080 — Ctrl+C to stop
 ```
 
-It connects to Postgres and Flyway applies any migrations in
-`src/main/resources/db/migration/` (none yet). There are no endpoints yet, so
-`curl localhost:8080` returns a 404 — that is Spring answering.
+It connects to Postgres and Flyway applies the migrations in `src/main/resources/db/migration/`.
+The database starts empty; fill it (all data sources are free — `docs/adr/0003`):
+
+```bash
+curl -X POST localhost:8080/api/admin/import/history         # 1950 → today from Jolpica's dump (~20 s, runs in the background)
+curl localhost:8080/api/admin/import/history                 # ...until "status": "COMPLETED"
+curl -X POST localhost:8080/api/admin/import/seasons/2024     # a season's calendar + OpenF1 links (also nightly for the current season)
+curl -X POST localhost:8080/api/admin/import/races/1102       # one race's OpenF1 data, on demand
+```
+
+Then browse: `curl localhost:8080/api/seasons`, `/api/seasons/2024/races`, `/api/races/{id}`, or
+the interactive **Swagger UI** at http://localhost:8080/swagger-ui.html. The API is described in
+[`docs/api.md`](docs/api.md). The admin endpoints are unsecured until Step 37 — don't expose the app.
 
 Other useful commands:
 
@@ -99,28 +110,27 @@ journey) and are driven inward with unit tests. The rules and the test tools for
 
 ## Where to start implementing
 
-Follow [`STEPS.md`](STEPS.md) from **Step 4**, using [`templates/README.md`](templates/README.md) as the
-reference for each Spring layer. Step 4 sets up the test harness (Testcontainers + JaCoCo) so
-every later step can start with a failing test. The first schema work is Step 6
-(`templates/03-migration/`): write `V1__<name>.sql` in `backend/src/main/resources/db/migration/`
-with your first Telemetrix tables, then an entity, repository, service and controller for them,
-each driven by its tests. When a feature's tests pass, tick it off: `python3 scripts/sync_features.py done <ID>`.
+Follow [`STEPS.md`](STEPS.md) from **Step 12** (laps, sector splits, stints and pit stops — the replay
+timing points), using [`templates/README.md`](templates/README.md) as the reference for each Spring
+layer. Every step starts with its **Tests first** list. When a feature's tests pass, tick it off:
+`python3 scripts/sync_features.py done <ID>`.
 
 - **Code** goes under `backend/src/main/java/com/telemetrix/`, one package per feature (`race`,
   `driver`, `telemetry`, …) holding its entity, repository, service, DTOs and controller.
   Shared pieces (exceptions, config) go in `com.telemetrix.common`.
 - **Schema changes** are always new Flyway files `V<n>__<name>.sql`; never edit one that has
   already run.
-- **Tests** go in `backend/src/test/java/`. See `templates/13-tests/README.md` for the extra
-  dependencies (Testcontainers etc.).
+- **Tests** go in `backend/src/test/java/`, written first (see *How it's built*). Database tests run
+  against a throwaway PostgreSQL from Testcontainers, so Docker must be running; recorded API
+  responses live in `src/test/resources/fixtures/`.
 
 ## Stack
 
-Java 25 · Spring Boot 4.1 · Spring MVC · Spring Data JPA · Flyway · PostgreSQL 16 · Maven ·
-Docker Compose.
+Java 25 · Spring Boot 4.1 · Spring MVC · Spring Data JPA · Spring Batch · Flyway · PostgreSQL 16 ·
+RestClient · springdoc-openapi · Maven · Docker Compose · JUnit 5 · Testcontainers · JaCoCo.
 
 Planned (see [`plan.md`](plan.md#final-recommended-stack)): React + TypeScript + Vite frontend,
-TimescaleDB, Redis, Kafka, Testcontainers, Prometheus/Grafana, Python analytics.
+TimescaleDB, Redis, Kafka, Prometheus/Grafana, Python analytics.
 
 ## Roadmap
 

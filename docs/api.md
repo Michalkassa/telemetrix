@@ -4,7 +4,7 @@ The REST API served by the backend under `http://localhost:8080`. Keep this file
 controllers: each endpoint is documented here **before** it is implemented (its tests are written
 from this contract).
 
-The public read API arrives in Step 11 (`STEPS.md`); the admin import endpoints below exist now.
+Interactive docs: **Swagger UI** at `/swagger-ui.html`, the OpenAPI document at `/v3/api-docs`.
 
 ## Conventions
 
@@ -39,12 +39,65 @@ Implemented by `com.telemetrix.common.GlobalExceptionHandler`.
 
 ## Endpoints
 
+### Seasons and races
+
+#### `GET /api/seasons`
+
+Every season, newest first, with how many races it has.
+
+```json
+[{"year": 2024, "raceCount": 24}, {"year": 2023, "raceCount": 22}]
+```
+
+#### `GET /api/seasons/{year}/races`
+
+A season's calendar in round order. `hasOpenF1Data` says whether the race can have full replay and
+session data (2023 on, linked to an OpenF1 meeting).
+
+```json
+{
+  "year": 2024,
+  "races": [
+    {"id": 1, "round": 1, "name": "Bahrain Grand Prix", "date": "2024-03-02",
+     "circuit": {"ref": "bahrain", "name": "Bahrain International Circuit", "locality": "Sakhir", "country": "Bahrain"},
+     "hasOpenF1Data": true}
+  ]
+}
+```
+
+| Status | When |
+|--------|------|
+| 200 | The season exists (`races` may be empty) |
+| 400 | `year` is outside 1950–2100 |
+| 404 | No such season imported |
+
+#### `GET /api/races/{id}`
+
+One race weekend with its circuit and sessions (in start order). `importedAt` is when its data was
+downloaded (null: not yet — see `POST /api/admin/import/races/{id}`).
+
+```json
+{
+  "id": 1, "season": 2024, "round": 1, "name": "Bahrain Grand Prix", "date": "2024-03-02",
+  "circuit": {"ref": "bahrain", "name": "Bahrain International Circuit", "locality": "Sakhir", "country": "Bahrain"},
+  "openf1MeetingKey": 1229, "importedAt": "2026-10-09T14:35:47Z",
+  "sessions": [
+    {"id": 5, "name": "Race", "startsAt": "2024-03-02T15:00:00Z", "endsAt": "2024-03-02T17:00:00Z"}
+  ]
+}
+```
+
+| Status | When |
+|--------|------|
+| 200 | Found |
+| 404 | No race with this id |
+
 ### Admin: imports
 
 > **Unsecured until Step 37** (Security), when they become ADMIN-only. Don't expose them publicly
 > before then.
 
-Both return an **import report**: per kind of row, how many were inserted, updated, unchanged or
+The season and race imports return an **import report**: per kind of row, how many were inserted, updated, unchanged or
 skipped, plus notes (why rows were skipped, "already imported", ...).
 
 ```json
@@ -80,3 +133,22 @@ Races before 2023 have no OpenF1 data; the report says so.
 | 200 | Imported (or already imported); the body is the report |
 | 404 | No race with this id |
 | 502 | OpenF1 failed |
+
+#### `POST /api/admin/import/history` · `GET /api/admin/import/history`
+
+Imports the whole history (1950 on: seasons, circuits, drivers, constructors, races, entries, every
+session's results, lap times from 1996, pit stops from 2011) from Jolpica's free CSV dump, as a
+restartable Spring Batch job. `POST` answers **202 Accepted** at once and runs in the background (about
+20 s: download + import); `GET` shows the last run.
+
+```json
+{"executionId": 1, "status": "COMPLETED", "startedAt": "2026-10-09T14:50:56Z",
+ "endedAt": "2026-10-09T14:51:11Z", "exitCode": "COMPLETED"}
+```
+
+| Status | When |
+|--------|------|
+| 202 | `POST`: started (`status` `STARTING`, `executionId` still null while the dump downloads) |
+| 200 | `GET`: the last run |
+| 404 | `GET`: no run yet |
+| 409 | `POST`: a run is already in progress |

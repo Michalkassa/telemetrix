@@ -2,7 +2,9 @@ package com.telemetrix.ingestion.jolpica;
 
 import com.telemetrix.common.Sleeper;
 import com.telemetrix.ingestion.RateLimitedClient;
+import com.telemetrix.ingestion.history.JolpicaDumpDownloader;
 import java.time.Clock;
+import java.time.Duration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.http.client.ClientHttpRequestFactoryBuilder;
 import org.springframework.boot.http.client.HttpClientSettings;
@@ -25,6 +27,16 @@ class JolpicaConfig {
 				.build();
 		return new JolpicaClient(new RateLimitedClient("Jolpica", http, props.maxAttempts(), props.initialBackoff(),
 				props.minRequestInterval(), clock, sleeper));
+	}
+
+	@Bean
+	JolpicaDumpDownloader jolpicaDumpDownloader(RestClient.Builder builder, JolpicaProperties props) {
+		var settings = HttpClientSettings.defaults()
+				.withConnectTimeout(props.timeout())
+				.withReadTimeout(Duration.ofMinutes(5)); // ~15 MB
+		return new JolpicaDumpDownloader(builder.clone()
+				.requestFactory(ClientHttpRequestFactoryBuilder.detect().build(settings))
+				.build(), props.dumpsUrl());
 	}
 
 }

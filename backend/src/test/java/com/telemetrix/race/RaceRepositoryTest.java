@@ -128,6 +128,42 @@ class RaceRepositoryTest {
 		assertThat(stats.getPrepareStatementCount()).as("SQL statements (N+1 check)").isEqualTo(1);
 	}
 
+	@Test
+	void listsASeasonsRacesByRoundWithTheirCircuitsInOneQuery() {
+		var spa = circuits.save(new Circuit("spa", "Circuit de Spa-Francorchamps"));
+		races.save(new Race(season2024, (short) 2, spa, "Belgian Grand Prix", LocalDate.parse("2024-07-28")));
+		saveRace(1, "Italian Grand Prix", "2024-09-01", null);
+		em.flush();
+		em.clear();
+		Statistics stats = emf.unwrap(SessionFactory.class).getStatistics();
+		stats.clear();
+
+		var found = races.findAllBySeasonYearOrderByRound(YEAR);
+
+		assertThat(found).extracting(r -> r.getCircuit().getName())
+				.containsExactly("Autodromo Nazionale di Monza", "Circuit de Spa-Francorchamps");
+		assertThat(stats.getPrepareStatementCount()).as("SQL statements (N+1 check)").isEqualTo(1);
+	}
+
+	@Test
+	void loadsARaceWithItsSeasonCircuitAndSessionsInOneQuery() {
+		var race = saveRace(16, "Italian Grand Prix", "2024-09-01", 1244);
+		race.addSession(new Session("Race", Instant.parse("2024-09-01T13:00:00Z")));
+		race.addSession(new Session("Qualifying", Instant.parse("2024-08-31T14:00:00Z")));
+		em.flush();
+		em.clear();
+		Statistics stats = emf.unwrap(SessionFactory.class).getStatistics();
+		stats.clear();
+
+		var found = races.findWithDetailsById(race.getId()).orElseThrow();
+
+		assertThat(found.getSeason().getYear()).isEqualTo(YEAR);
+		assertThat(found.getCircuit().getRef()).isEqualTo("monza");
+		assertThat(found.getSessions()).extracting(Session::getName).containsExactly("Qualifying", "Race");
+		assertThat(stats.getPrepareStatementCount()).as("SQL statements (N+1 check)").isEqualTo(1);
+		assertThat(races.findWithDetailsById(999_999L)).isEmpty();
+	}
+
 	private Race saveRace(int round, String name, String date, Integer meetingKey) {
 		var race = new Race(season2024, (short) round, monza, name, LocalDate.parse(date));
 		race.setOpenf1MeetingKey(meetingKey);

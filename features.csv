@@ -91,7 +91,7 @@ STACK-02,0,1,Primary Stack,Spring Boot 4,done,2026-09-22
 STACK-03,2,24,Primary Stack,Spring WebFlux,todo,
 STACK-04,4,37,Primary Stack,Spring Security,todo,
 STACK-05,0,3,Primary Stack,Spring Data JPA,done,2026-09-22
-STACK-06,1,10,Primary Stack,Spring Batch,todo,
+STACK-06,1,10,Primary Stack,Spring Batch,done,2026-10-09
 STACK-07,4,38,Primary Stack,Spring Cache,todo,
 STACK-08,1,9,Primary Stack,Spring Scheduler,done,2026-10-09
 FE-01,1,16,Frontend Stack,React,todo,
@@ -177,8 +177,8 @@ FRAME-06,2,26,Playback Frame,Gap data,todo,
 SNAP-01,2,23,Snapshotting,5 seconds,todo,
 SNAP-02,2,23,Snapshotting,1 lap,todo,
 SNAP-03,2,23,Snapshotting,Key events,todo,
-API-01,1,11,REST APIs,GET /seasons,todo,
-API-02,1,11,REST APIs,GET /races/{id},todo,
+API-01,1,11,REST APIs,GET /seasons,done,2026-10-09
+API-02,1,11,REST APIs,GET /races/{id},done,2026-10-09
 API-03,2,22,REST APIs,GET /races/{id}/timeline,todo,
 API-04,3,32,REST APIs,GET /drivers/{id}/stats,todo,
 API-05,1,13,REST APIs,GET /telemetry/{sessionId},todo,
@@ -199,14 +199,14 @@ OBS-03,4,42,Monitoring,Prometheus,todo,
 OBS-04,4,42,Monitoring,Grafana,todo,
 OBS-05,4,42,Tracing,OpenTelemetry,todo,
 OBS-06,4,42,Tracing,Jaeger,todo,
-TEST-01,1,11,Unit Tests,Services,todo,
-TEST-02,1,11,Unit Tests,Utilities,todo,
+TEST-01,1,11,Unit Tests,Services,done,2026-10-09
+TEST-02,1,11,Unit Tests,Utilities,done,2026-10-09
 TEST-03,1,9,Unit Tests,Validators,done,2026-10-09
 TEST-04,3,30,Unit Tests,Calculators,todo,
 TEST-05,1,7,Integration Tests,Repository tests,done,2026-10-09
 TEST-06,4,40,Integration Tests,Kafka tests,todo,
 TEST-07,4,38,Integration Tests,Redis tests,todo,
-TEST-08,1,11,Integration Tests,API tests,todo,
+TEST-08,1,11,Integration Tests,API tests,done,2026-10-09
 TEST-09,2,24,End-to-End Tests,Replay pipeline,todo,
 TEST-10,1,13,End-to-End Tests,Full ingestion flow,todo,
 TEST-11,4,37,End-to-End Tests,Authentication flows,todo,
@@ -270,7 +270,7 @@ NFR-15,4,43,Maintainability,SOLID principles,todo,
 NFR-16,4,43,Maintainability,Domain-driven design,todo,
 NFR-17,4,43,Maintainability,Modular services,todo,
 MOD-01,4,37,Modules,auth-service,todo,
-MOD-02,1,11,Modules,race-service,todo,
+MOD-02,1,11,Modules,race-service,done,2026-10-09
 MOD-03,1,13,Modules,telemetry-service,todo,
 MOD-04,1,15,Modules,replay-service,todo,
 MOD-05,3,32,Modules,analytics-service,todo,
@@ -296,7 +296,7 @@ STRETCH-09,stretch,55,Possible Future Features,Historical what-if simulator,todo
 STRETCH-10,stretch,55,Possible Future Features,Driver racing lines,todo,
 STRETCH-11,stretch,55,Possible Future Features,ML-generated insights,todo,
 PRAC-01,1,5,Final Advice,Write ADRs,done,2026-10-09
-PRAC-02,1,11,Final Advice,Write API docs,todo,
+PRAC-02,1,11,Final Advice,Write API docs,done,2026-10-09
 PRAC-03,5,54,Final Advice,Write architecture diagrams,todo,
 PRAC-04,1,6,Final Advice,Use migrations,done,2026-10-09
 PRAC-05,1,4,Final Advice,Use test coverage reports,done,2026-10-09

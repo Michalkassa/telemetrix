@@ -4,7 +4,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
 import com.telemetrix.common.NotFoundException;
+import com.telemetrix.ingestion.history.HistoryImportService;
+import com.telemetrix.ingestion.history.HistoryImportStatus;
+import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +29,9 @@ class ImportAdminControllerTest {
 
 	@MockitoBean
 	RaceImporter raceImporter;
+
+	@MockitoBean
+	HistoryImportService historyImport;
 
 	@Test
 	void importsASeasonAndReturnsTheReport() {
@@ -62,6 +69,38 @@ class ImportAdminControllerTest {
 		given(raceImporter.importRace(42)).willThrow(new NotFoundException("Race", 42));
 
 		assertThat(mvc.post().uri("/api/admin/import/races/42")).hasStatus(HttpStatus.NOT_FOUND);
+	}
+
+	@Test
+	void startsTheHistoryImportInTheBackground() {
+		given(historyImport.start()).willReturn(new HistoryImportStatus(7L, "STARTING", null, null, null));
+
+		assertThat(mvc.post().uri("/api/admin/import/history"))
+				.hasStatus(HttpStatus.ACCEPTED)
+				.bodyJson()
+				.isLenientlyEqualTo("""
+						{"executionId": 7, "status": "STARTING"}
+						""");
+	}
+
+	@Test
+	void showsTheLastHistoryImport() {
+		given(historyImport.lastRun()).willReturn(Optional.of(new HistoryImportStatus(7L, "COMPLETED",
+				Instant.parse("2026-10-09T10:00:00Z"), Instant.parse("2026-10-09T10:03:00Z"), "COMPLETED")));
+
+		assertThat(mvc.get().uri("/api/admin/import/history"))
+				.hasStatusOk()
+				.bodyJson()
+				.isLenientlyEqualTo("""
+						{"executionId": 7, "status": "COMPLETED", "startedAt": "2026-10-09T10:00:00Z"}
+						""");
+	}
+
+	@Test
+	void noHistoryImportYetIs404() {
+		given(historyImport.lastRun()).willReturn(Optional.empty());
+
+		assertThat(mvc.get().uri("/api/admin/import/history")).hasStatus(HttpStatus.NOT_FOUND);
 	}
 
 	@Test

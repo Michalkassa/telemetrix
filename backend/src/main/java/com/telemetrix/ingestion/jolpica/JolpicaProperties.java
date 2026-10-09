@@ -16,5 +16,7 @@ public record JolpicaProperties(
 		@DefaultValue("4") @Min(1) int maxAttempts,
 		@DefaultValue("2s") Duration initialBackoff,
 		// unauthenticated: 4 requests/s burst, 500 requests/hour sustained -> one every 7.2 s
-		@DefaultValue("8s") Duration minRequestInterval) {
+		@DefaultValue("8s") Duration minRequestInterval,
+		// the free database dumps: one download for the whole history (14 days delayed)
+		@DefaultValue("https://api.jolpi.ca/data/dumps/download/") @NotBlank String dumpsUrl) {
 }

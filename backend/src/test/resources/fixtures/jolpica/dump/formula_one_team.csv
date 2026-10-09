@@ -1,0 +1,23 @@
+id,api_id,base_team_id,country_code,name,nationality,primary_color,reference,wikipedia
+1,team_1XDKqgNu,,CHE,Alfa Romeo,Swiss,,alfa,https://en.wikipedia.org/wiki/Alfa_Romeo_in_Formula_One
+2,team_e9i5UU0k,,ITA,Maserati,Italian,,maserati,https://en.wikipedia.org/wiki/Maserati
+3,team_R6ZNEH9U,,GBR,Alta,British,,alta,https://en.wikipedia.org/wiki/Alta_Car_and_Engineering_Company
+4,team_88ODtUbG,,GBR,ERA,British,,era,https://en.wikipedia.org/wiki/English_Racing_Automobiles
+5,team_IlAsz4uS,,FRA,Talbot-Lago,French,,lago,https://en.wikipedia.org/wiki/Talbot-Lago
+6,team_LjEBz7Xq,,ITA,Ferrari,Italian,#ED1131,ferrari,https://en.wikipedia.org/wiki/Scuderia_Ferrari
+48,team_tdiMmtQx,,DEU,Mercedes,German,#00D7B6,mercedes,https://en.wikipedia.org/wiki/Mercedes-Benz_in_Formula_One
+64,team_fhnXl3cF,,GBR,Aston Martin,British,#229971,aston_martin,https://en.wikipedia.org/wiki/Aston_Martin_in_Formula_One
+98,team_tAKj8cc3,,JPN,Honda,Japanese,,honda,https://en.wikipedia.org/wiki/Honda_in_Formula_One
+117,team_jJ6cuwXz,,GBR,McLaren,British,#F47600,mclaren,https://en.wikipedia.org/wiki/McLaren
+141,team_IJAI583X,,GBR,Williams,British,#1868DB,williams,https://en.wikipedia.org/wiki/Williams_Racing
+152,team_YPoaJdbN,,FRA,Renault,French,,renault,https://en.wikipedia.org/wiki/Renault_in_Formula_One
+182,team_z7SnOy4M,,CHE,Sauber,Swiss,#01C00E,sauber,https://en.wikipedia.org/wiki/Sauber_Motorsport
+190,team_nc8ZzG9D,,JPN,Toyota,Japanese,,toyota,https://en.wikipedia.org/wiki/Toyota_Racing
+191,team_SYB8m2Vp,,AUT,Red Bull,Austrian,#4781D7,red_bull,https://en.wikipedia.org/wiki/Red_Bull_Racing
+192,team_h9jIxD44,,DEU,BMW Sauber,German,,bmw_sauber,https://en.wikipedia.org/wiki/BMW_in_Formula_One
+193,team_86WATmhR,,JPN,Super Aguri,Japanese,,super_aguri,https://en.wikipedia.org/wiki/Super_Aguri_F1
+195,team_PTRFDxzW,,ITA,Toro Rosso,Italian,,toro_rosso,https://en.wikipedia.org/wiki/Scuderia_Toro_Rosso
+198,team_s34AZB1b,,IND,Force India,Indian,,force_india,https://en.wikipedia.org/wiki/Racing_Point_Force_India
+207,team_aDYlrycX,,USA,Haas F1 Team,American,#9C9FA2,haas,https://en.wikipedia.org/wiki/Haas_F1_Team
+210,team_LJ6hqyXM,,FRA,Alpine F1 Team,French,#00A1E8,alpine,https://en.wikipedia.org/wiki/Alpine_F1_Team
+211,team_M2xA0S6V,,ITA,RB F1 Team,Italian,#6C98FF,rb,https://en.wikipedia.org/wiki/Racing_Bulls

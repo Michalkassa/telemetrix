@@ -14,12 +14,12 @@ python3 scripts/sync_features.py --check                # CI: fail if plan.md/ST
 ```
 
 <!-- progress:start -->
-**22 / 305 features done (7%)**
+**30 / 305 features done (9%)**
 
 | Phase | Done | Total | Progress |
 |---|---:|---:|---|
 | 0 — Foundation | 3 | 3 | `██████████` |
-| 1 — Data foundation & basic replay | 19 | 71 | `███░░░░░░░` |
+| 1 — Data foundation & basic replay | 27 | 71 | `████░░░░░░` |
 | 2 — Telemetry, timeline & playback | 0 | 83 | `░░░░░░░░░░` |
 | 3 — Championship & analytics | 0 | 46 | `░░░░░░░░░░` |
 | 4 — Distributed systems & production | 0 | 75 | `░░░░░░░░░░` |
@@ -219,7 +219,7 @@ Store race state as events:
 - [ ] Spring WebFlux <!-- STACK-03 -->
 - [ ] Spring Security <!-- STACK-04 -->
 - [x] Spring Data JPA <!-- STACK-05 -->
-- [ ] Spring Batch <!-- STACK-06 -->
+- [x] Spring Batch <!-- STACK-06 -->
 - [ ] Spring Cache <!-- STACK-07 -->
 - [x] Spring Scheduler <!-- STACK-08 -->
 
@@ -445,8 +445,8 @@ Allows efficient rewind and seeking.
 
 ## REST APIs
 Examples:
-- [ ] GET /seasons <!-- API-01 -->
-- [ ] GET /races/{id} <!-- API-02 -->
+- [x] GET /seasons <!-- API-01 -->
+- [x] GET /races/{id} <!-- API-02 -->
 - [ ] GET /races/{id}/timeline <!-- API-03 -->
 - [ ] GET /drivers/{id}/stats <!-- API-04 -->
 - [ ] GET /telemetry/{sessionId} <!-- API-05 -->
@@ -501,8 +501,8 @@ to write first.
 
 ## Backend Testing
 ### Unit Tests
-- [ ] Services <!-- TEST-01 -->
-- [ ] Utilities <!-- TEST-02 -->
+- [x] Services <!-- TEST-01 -->
+- [x] Utilities <!-- TEST-02 -->
 - [x] Validators <!-- TEST-03 -->
 - [ ] Calculators <!-- TEST-04 -->
 
@@ -510,7 +510,7 @@ to write first.
 - [x] Repository tests <!-- TEST-05 -->
 - [ ] Kafka tests <!-- TEST-06 -->
 - [ ] Redis tests <!-- TEST-07 -->
-- [ ] API tests <!-- TEST-08 -->
+- [x] API tests <!-- TEST-08 -->
 
 ### End-to-End Tests
 - [ ] Replay pipeline <!-- TEST-09 -->
@@ -735,7 +735,7 @@ Use Python separately for:
 
 ## Modules
 - [ ] auth-service <!-- MOD-01 -->
-- [ ] race-service <!-- MOD-02 -->
+- [x] race-service <!-- MOD-02 -->
 - [ ] telemetry-service <!-- MOD-03 -->
 - [ ] replay-service <!-- MOD-04 -->
 - [ ] analytics-service <!-- MOD-05 -->
@@ -900,7 +900,7 @@ datasets/
 
 Treat this project like a real enterprise platform:
 - [x] Write ADRs <!-- PRAC-01 -->
-- [ ] Write API docs <!-- PRAC-02 -->
+- [x] Write API docs <!-- PRAC-02 -->
 - [ ] Write architecture diagrams <!-- PRAC-03 -->
 - [x] Use migrations <!-- PRAC-04 -->
 - [x] Use test coverage reports <!-- PRAC-05 -->

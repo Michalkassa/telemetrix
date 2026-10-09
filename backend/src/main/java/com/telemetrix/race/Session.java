@@ -10,6 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.Instant;
+import java.util.Objects;
 
 // One session of a weekend: 'Practice 1', 'Qualifying', 'Sprint', 'Race', ...
 // Created through Race.addSession(...).
@@ -42,6 +43,16 @@ public class Session {
 	public Session(String name, Instant startsAt) {
 		this.name = name;
 		this.startsAt = startsAt;
+	}
+
+	// Takes the latest values from the source; returns whether anything changed.
+	public boolean update(String name, Instant startsAt, Instant endsAt) {
+		boolean changed = !Objects.equals(this.name, name) || !Objects.equals(this.startsAt, startsAt)
+				|| !Objects.equals(this.endsAt, endsAt);
+		this.name = name;
+		this.startsAt = startsAt;
+		this.endsAt = endsAt;
+		return changed;
 	}
 
 	void setRace(Race race) {

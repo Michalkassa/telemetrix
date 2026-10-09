@@ -2,6 +2,7 @@ package com.telemetrix;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.telemetrix.ingestion.jolpica.JolpicaProperties;
 import com.telemetrix.ingestion.openf1.OpenF1Properties;
 import java.time.Duration;
 import org.junit.jupiter.api.Test;
@@ -21,6 +22,9 @@ class ApplicationIntegrationTest {
 	@Autowired
 	OpenF1Properties openF1;
 
+	@Autowired
+	JolpicaProperties jolpica;
+
 	@Test
 	void contextLoads() {
 	}
@@ -39,6 +43,13 @@ class ApplicationIntegrationTest {
 		// free tier: 3 requests/s and 30 requests/min, so at most one request every 2 s
 		assertThat(openF1.minRequestInterval()).isEqualTo(Duration.ofSeconds(2));
 		assertThat(openF1.maxAttempts()).isGreaterThan(1);
+	}
+
+	@Test
+	void jolpicaDefaultsTargetTheRealApiWithinItsRateLimit() {
+		assertThat(jolpica.baseUrl()).isEqualTo("https://api.jolpi.ca/ergast/f1");
+		// unauthenticated: 500 requests/hour sustained, so at most one request every 7.2 s
+		assertThat(jolpica.minRequestInterval()).isGreaterThanOrEqualTo(Duration.ofMillis(7200));
 	}
 
 }

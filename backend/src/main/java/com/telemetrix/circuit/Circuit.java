@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
+import java.util.Objects;
 
 @Entity
 @Table(name = "circuits")
@@ -42,6 +43,32 @@ public class Circuit {
 	public Circuit(String ref, String name) {
 		this.ref = ref;
 		this.name = name;
+	}
+
+	// Takes the latest values from the source; returns whether anything changed.
+	public boolean update(String name, String locality, String country, BigDecimal latitude, BigDecimal longitude) {
+		boolean changed = !Objects.equals(this.name, name) || !Objects.equals(this.locality, locality)
+				|| !Objects.equals(this.country, country) || !sameNumber(this.latitude, latitude)
+				|| !sameNumber(this.longitude, longitude);
+		if (changed) {
+			this.name = name;
+			this.locality = locality;
+			this.country = country;
+			this.latitude = latitude;
+			this.longitude = longitude;
+		}
+		return changed;
+	}
+
+	public boolean linkOpenF1Circuit(Integer circuitKey) {
+		boolean changed = !Objects.equals(this.openf1CircuitKey, circuitKey);
+		this.openf1CircuitKey = circuitKey;
+		return changed;
+	}
+
+	// 26.0325 and 26.032500 (as stored) are the same coordinate
+	private static boolean sameNumber(BigDecimal a, BigDecimal b) {
+		return a == null ? b == null : b != null && a.compareTo(b) == 0;
 	}
 
 	public Long getId() {

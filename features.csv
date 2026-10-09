@@ -93,7 +93,7 @@ STACK-04,4,37,Primary Stack,Spring Security,todo,
 STACK-05,0,3,Primary Stack,Spring Data JPA,done,2026-09-22
 STACK-06,1,10,Primary Stack,Spring Batch,todo,
 STACK-07,4,38,Primary Stack,Spring Cache,todo,
-STACK-08,1,9,Primary Stack,Spring Scheduler,todo,
+STACK-08,1,9,Primary Stack,Spring Scheduler,done,2026-10-09
 FE-01,1,16,Frontend Stack,React,todo,
 FE-02,1,16,Frontend Stack,TypeScript,todo,
 FE-03,1,16,Frontend Stack,Vite,todo,
@@ -149,16 +149,16 @@ KAFKA-03,4,40,Apache Kafka,replay-events,todo,
 KAFKA-04,4,40,Apache Kafka,analytics-jobs,todo,
 KAFKA-05,4,40,Apache Kafka,ingestion-status,todo,
 SRC-01,1,8,Sources,OpenF1 API,done,2026-10-09
-SRC-02,1,9,Sources,Ergast API,todo,
+SRC-02,1,9,Sources,Ergast API,done,2026-10-09
 SRC-03,5,49,Sources,FastF1 datasets,todo,
 SRC-04,5,49,Sources,FIA timing archives (where legal),todo,
 SRC-05,5,49,Sources,Public telemetry datasets,todo,
-ING-01,1,9,Scheduled Importers,Race importer,todo,
+ING-01,1,9,Scheduled Importers,Race importer,done,2026-10-09
 ING-02,1,13,Scheduled Importers,Telemetry importer,todo,
-ING-03,1,9,Scheduled Importers,Session importer,todo,
+ING-03,1,9,Scheduled Importers,Session importer,done,2026-10-09
 ING-04,2,21,Scheduled Importers,Weather importer,todo,
 ING-05,2,21,Scheduled Importers,Event importer,todo,
-VAL-01,1,9,Data Validation,Duplicate detection,todo,
+VAL-01,1,9,Data Validation,Duplicate detection,done,2026-10-09
 VAL-02,1,13,Data Validation,Timestamp validation,todo,
 VAL-03,1,12,Data Validation,Lap consistency checks,todo,
 VAL-04,1,13,Data Validation,Missing telemetry handling,todo,
@@ -201,7 +201,7 @@ OBS-05,4,42,Tracing,OpenTelemetry,todo,
 OBS-06,4,42,Tracing,Jaeger,todo,
 TEST-01,1,11,Unit Tests,Services,todo,
 TEST-02,1,11,Unit Tests,Utilities,todo,
-TEST-03,1,9,Unit Tests,Validators,todo,
+TEST-03,1,9,Unit Tests,Validators,done,2026-10-09
 TEST-04,3,30,Unit Tests,Calculators,todo,
 TEST-05,1,7,Integration Tests,Repository tests,done,2026-10-09
 TEST-06,4,40,Integration Tests,Kafka tests,todo,
@@ -274,7 +274,7 @@ MOD-02,1,11,Modules,race-service,todo,
 MOD-03,1,13,Modules,telemetry-service,todo,
 MOD-04,1,15,Modules,replay-service,todo,
 MOD-05,3,32,Modules,analytics-service,todo,
-MOD-06,1,9,Modules,ingestion-service,todo,
+MOD-06,1,9,Modules,ingestion-service,done,2026-10-09
 MOD-07,3,30,Modules,championship-service,todo,
 MOD-08,2,22,Modules,event-service,todo,
 PAT-01,1,21,Patterns To Use,Factory Pattern,todo,

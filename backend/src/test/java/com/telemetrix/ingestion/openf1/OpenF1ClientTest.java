@@ -13,6 +13,8 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withTooManyRequests;
 
 import com.telemetrix.FakeTime;
+import com.telemetrix.ingestion.ExternalApiException;
+import com.telemetrix.ingestion.RateLimitedClient;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.OffsetDateTime;
@@ -46,7 +48,8 @@ class OpenF1ClientTest {
 		RestClient.Builder builder = RestClient.builder().baseUrl(BASE);
 		server = MockRestServiceServer.bindTo(builder).build();
 		time = new FakeTime(Instant.parse("2026-01-01T00:00:00Z"));
-		client = new OpenF1Client(builder.build(), PROPS, time, time);
+		client = new OpenF1Client(new RateLimitedClient("OpenF1", builder.build(), PROPS.maxAttempts(),
+				PROPS.initialBackoff(), PROPS.minRequestInterval(), time, time));
 	}
 
 	@Test
@@ -132,8 +135,8 @@ class OpenF1ClientTest {
 	void backsOffExponentiallyOnServerErrorsThenGivesUp() {
 		server.expect(times(3), requestTo(BASE + "/meetings?year=2024")).andRespond(withServerError());
 
-		assertThatThrownBy(() -> client.meetings(2024)).isInstanceOf(OpenF1Exception.class)
-				.hasMessageContaining("/meetings?year=2024")
+		assertThatThrownBy(() -> client.meetings(2024)).isInstanceOf(ExternalApiException.class)
+				.hasMessageContaining("OpenF1 GET /meetings?year=2024")
 				.hasMessageContaining("3 attempts");
 		server.verify();
 		assertThat(time.sleeps()).containsExactly(Duration.ofSeconds(1), Duration.ofSeconds(2));
@@ -143,7 +146,7 @@ class OpenF1ClientTest {
 	void doesNotRetryARejectedRequest() {
 		server.expect(times(1), requestTo(BASE + "/meetings?year=2024")).andRespond(withBadRequest());
 
-		assertThatThrownBy(() -> client.meetings(2024)).isInstanceOf(OpenF1Exception.class)
+		assertThatThrownBy(() -> client.meetings(2024)).isInstanceOf(ExternalApiException.class)
 				.hasMessageContaining("400");
 		server.verify();
 		assertThat(time.sleeps()).isEmpty();
@@ -166,7 +169,7 @@ class OpenF1ClientTest {
 	void treatsAnUnexpectedStatusAsAnError() {
 		server.expect(requestTo(BASE + "/meetings?year=2024")).andRespond(withStatus(HttpStatus.UNAUTHORIZED));
 
-		assertThatThrownBy(() -> client.meetings(2024)).isInstanceOf(OpenF1Exception.class)
+		assertThatThrownBy(() -> client.meetings(2024)).isInstanceOf(ExternalApiException.class)
 				.hasMessageContaining("401");
 	}
 

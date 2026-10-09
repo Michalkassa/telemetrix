@@ -13,10 +13,12 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 // One Grand Prix weekend (an OpenF1 "meeting"). Owns its sessions: saving or deleting a race
 // saves or deletes them too.
@@ -48,6 +50,9 @@ public class Race {
 	@Column(unique = true)
 	private Integer openf1MeetingKey;
 
+	// When this race's data was fully downloaded (null: not yet, or the race hasn't happened yet)
+	private Instant importedAt;
+
 	@OneToMany(mappedBy = "race", cascade = CascadeType.ALL, orphanRemoval = true)
 	@OrderBy("startsAt")
 	private List<Session> sessions = new ArrayList<>();
@@ -61,6 +66,27 @@ public class Race {
 		this.circuit = circuit;
 		this.name = name;
 		this.raceDate = raceDate;
+	}
+
+	// Takes the latest calendar values; returns whether anything changed.
+	public boolean update(String name, LocalDate raceDate, Circuit circuit) {
+		boolean changed = !Objects.equals(this.name, name) || !Objects.equals(this.raceDate, raceDate)
+				|| !Objects.equals(this.circuit.getId(), circuit.getId());
+		this.name = name;
+		this.raceDate = raceDate;
+		this.circuit = circuit;
+		return changed;
+	}
+
+	// Links this race to its OpenF1 meeting; returns whether the link changed.
+	public boolean linkOpenF1Meeting(int meetingKey) {
+		boolean changed = !Objects.equals(this.openf1MeetingKey, meetingKey);
+		this.openf1MeetingKey = meetingKey;
+		return changed;
+	}
+
+	public void markImported(Instant at) {
+		this.importedAt = at;
 	}
 
 	// Keeps both sides of the relationship in step.
@@ -95,6 +121,10 @@ public class Race {
 
 	public Integer getOpenf1MeetingKey() {
 		return openf1MeetingKey;
+	}
+
+	public Instant getImportedAt() {
+		return importedAt;
 	}
 
 	public List<Session> getSessions() {

@@ -34,6 +34,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		return ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, e.getMessage());
 	}
 
+	// An external API we depend on failed. Its request and status are useful to the caller and aren't
+	// internals of ours, so they go in the detail.
+	@ExceptionHandler(UpstreamServiceException.class)
+	ProblemDetail handleUpstream(UpstreamServiceException e) {
+		log.warn("Upstream service failed: {}", e.getMessage());
+		return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_GATEWAY, e.getMessage());
+	}
+
 	// Anything else is a bug: log it in full, but never send internals (SQL, class names) to the client.
 	@ExceptionHandler(Exception.class)
 	ProblemDetail handleUnexpected(Exception e) {

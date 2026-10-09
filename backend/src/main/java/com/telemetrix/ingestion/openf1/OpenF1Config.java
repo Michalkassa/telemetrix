@@ -1,6 +1,7 @@
 package com.telemetrix.ingestion.openf1;
 
 import com.telemetrix.common.Sleeper;
+import com.telemetrix.ingestion.RateLimitedClient;
 import java.time.Clock;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.http.client.ClientHttpRequestFactoryBuilder;
@@ -18,10 +19,11 @@ class OpenF1Config {
 		var settings = HttpClientSettings.defaults()
 				.withConnectTimeout(props.timeout())
 				.withReadTimeout(props.timeout());
-		RestClient http = builder.baseUrl(props.baseUrl())
+		RestClient http = builder.clone().baseUrl(props.baseUrl())
 				.requestFactory(ClientHttpRequestFactoryBuilder.detect().build(settings))
 				.build();
-		return new OpenF1Client(http, props, clock, sleeper);
+		return new OpenF1Client(new RateLimitedClient("OpenF1", http, props.maxAttempts(), props.initialBackoff(),
+				props.minRequestInterval(), clock, sleeper));
 	}
 
 }

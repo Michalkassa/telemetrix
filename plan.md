@@ -14,12 +14,12 @@ python3 scripts/sync_features.py --check                # CI: fail if plan.md/ST
 ```
 
 <!-- progress:start -->
-**15 / 305 features done (4%)**
+**22 / 305 features done (7%)**
 
 | Phase | Done | Total | Progress |
 |---|---:|---:|---|
 | 0 — Foundation | 3 | 3 | `██████████` |
-| 1 — Data foundation & basic replay | 12 | 71 | `██░░░░░░░░` |
+| 1 — Data foundation & basic replay | 19 | 71 | `███░░░░░░░` |
 | 2 — Telemetry, timeline & playback | 0 | 83 | `░░░░░░░░░░` |
 | 3 — Championship & analytics | 0 | 46 | `░░░░░░░░░░` |
 | 4 — Distributed systems & production | 0 | 75 | `░░░░░░░░░░` |
@@ -221,7 +221,7 @@ Store race state as events:
 - [x] Spring Data JPA <!-- STACK-05 -->
 - [ ] Spring Batch <!-- STACK-06 -->
 - [ ] Spring Cache <!-- STACK-07 -->
-- [ ] Spring Scheduler <!-- STACK-08 -->
+- [x] Spring Scheduler <!-- STACK-08 -->
 
 ### Why WebFlux?
 - High-frequency telemetry streaming
@@ -386,21 +386,21 @@ Race data is downloaded per race when a user first opens it; only the calendar i
 
 Possible free APIs:
 - [x] OpenF1 API <!-- SRC-01 -->
-- [ ] Ergast API <!-- SRC-02 -->
+- [x] Ergast API <!-- SRC-02 -->
 - [ ] FastF1 datasets <!-- SRC-03 -->
 - [ ] FIA timing archives (where legal) <!-- SRC-04 -->
 - [ ] Public telemetry datasets <!-- SRC-05 -->
 
 ## Ingestion Services
 ### Scheduled Importers
-- [ ] Race importer <!-- ING-01 -->
+- [x] Race importer <!-- ING-01 -->
 - [ ] Telemetry importer <!-- ING-02 -->
-- [ ] Session importer <!-- ING-03 -->
+- [x] Session importer <!-- ING-03 -->
 - [ ] Weather importer <!-- ING-04 -->
 - [ ] Event importer <!-- ING-05 -->
 
 ### Data Validation
-- [ ] Duplicate detection <!-- VAL-01 -->
+- [x] Duplicate detection <!-- VAL-01 -->
 - [ ] Timestamp validation <!-- VAL-02 -->
 - [ ] Lap consistency checks <!-- VAL-03 -->
 - [ ] Missing telemetry handling <!-- VAL-04 -->
@@ -503,7 +503,7 @@ to write first.
 ### Unit Tests
 - [ ] Services <!-- TEST-01 -->
 - [ ] Utilities <!-- TEST-02 -->
-- [ ] Validators <!-- TEST-03 -->
+- [x] Validators <!-- TEST-03 -->
 - [ ] Calculators <!-- TEST-04 -->
 
 ### Integration Tests
@@ -739,7 +739,7 @@ Use Python separately for:
 - [ ] telemetry-service <!-- MOD-03 -->
 - [ ] replay-service <!-- MOD-04 -->
 - [ ] analytics-service <!-- MOD-05 -->
-- [ ] ingestion-service <!-- MOD-06 -->
+- [x] ingestion-service <!-- MOD-06 -->
 - [ ] championship-service <!-- MOD-07 -->
 - [ ] event-service <!-- MOD-08 -->
 

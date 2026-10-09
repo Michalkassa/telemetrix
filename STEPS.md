@@ -426,15 +426,15 @@ every import safe to re-run.
 appear; import it again — the log shows no OpenF1 call.
 
 <!-- features:9 -->
-**Checks off (0/7):**
+**Checks off (7/7):**
 
-- [ ] `STACK-08` Spring Scheduler
-- [ ] `SRC-02` Ergast API
-- [ ] `ING-01` Race importer
-- [ ] `ING-03` Session importer
-- [ ] `VAL-01` Duplicate detection
-- [ ] `TEST-03` Validators
-- [ ] `MOD-06` ingestion-service
+- [x] `STACK-08` Spring Scheduler
+- [x] `SRC-02` Ergast API
+- [x] `ING-01` Race importer
+- [x] `ING-03` Session importer
+- [x] `VAL-01` Duplicate detection
+- [x] `TEST-03` Validators
+- [x] `MOD-06` ingestion-service
 <!-- /features -->
 
 ---

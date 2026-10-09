@@ -4,9 +4,11 @@ A full-stack platform that replays Formula 1 races from free/open telemetry and 
 (no video): animated driver dots on a track map, telemetry playback, an event timeline,
 championship simulations and historical analytics.
 
-**Status: the backend's data foundation (Steps 1–12 of 55).** It imports the full race history from
-1950 (Jolpica), each season's calendar, and on demand a race's OpenF1 sessions, laps with sector
-splits, tyre stints and pit stops, and serves seasons and races over a REST API. No frontend or replay yet. Everything to be built is specified in
+**Status: the backend's data foundation (Steps 1–13 of 55).** It imports the full race history from
+1950 (Jolpica) and each season's calendar; a race's OpenF1 data (sessions, laps with sector splits,
+tyre stints, pit stops) downloads in the background the first time someone opens it, and a car's full
+telemetry the first time someone asks for it. Seasons, races, import status and telemetry are served
+over a REST API. No frontend or replay yet. Everything to be built is specified in
 [`plan.md`](plan.md), and [`STEPS.md`](STEPS.md) breaks it into 55 build steps.
 Progress is tracked in [`features.csv`](features.csv); see the top of `plan.md`.
 
@@ -110,8 +112,7 @@ journey) and are driven inward with unit tests. The rules and the test tools for
 
 ## Where to start implementing
 
-Follow [`STEPS.md`](STEPS.md) from **Step 13** (race import when a race is opened, and on-demand
-telemetry), using [`templates/README.md`](templates/README.md) as the reference for each Spring
+Follow [`STEPS.md`](STEPS.md) from **Step 14** (track maps), using [`templates/README.md`](templates/README.md) as the reference for each Spring
 layer. Every step starts with its **Tests first** list. When a feature's tests pass, tick it off:
 `python3 scripts/sync_features.py done <ID>`.
 

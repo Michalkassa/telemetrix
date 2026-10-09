@@ -120,7 +120,7 @@ DB-04,1,6,Core Tables,drivers,done,2026-10-09
 DB-05,1,6,Core Tables,constructors,done,2026-10-09
 DB-06,1,12,Core Tables,laps,done,2026-10-09
 DB-07,1,12,Core Tables,sectors,done,2026-10-09
-DB-08,1,13,Core Tables,telemetry_points,todo,
+DB-08,1,13,Core Tables,telemetry_points,done,2026-10-09
 DB-09,2,21,Core Tables,race_events,todo,
 DB-10,1,12,Core Tables,pit_stops,done,2026-10-09
 DB-11,2,21,Core Tables,weather_data,todo,
@@ -154,14 +154,14 @@ SRC-03,5,49,Sources,FastF1 datasets,todo,
 SRC-04,5,49,Sources,FIA timing archives (where legal),todo,
 SRC-05,5,49,Sources,Public telemetry datasets,todo,
 ING-01,1,9,Scheduled Importers,Race importer,done,2026-10-09
-ING-02,1,13,Scheduled Importers,Telemetry importer,todo,
+ING-02,1,13,Scheduled Importers,Telemetry importer,done,2026-10-09
 ING-03,1,9,Scheduled Importers,Session importer,done,2026-10-09
 ING-04,2,21,Scheduled Importers,Weather importer,todo,
 ING-05,2,21,Scheduled Importers,Event importer,todo,
 VAL-01,1,9,Data Validation,Duplicate detection,done,2026-10-09
-VAL-02,1,13,Data Validation,Timestamp validation,todo,
+VAL-02,1,13,Data Validation,Timestamp validation,done,2026-10-09
 VAL-03,1,12,Data Validation,Lap consistency checks,done,2026-10-09
-VAL-04,1,13,Data Validation,Missing telemetry handling,todo,
+VAL-04,1,13,Data Validation,Missing telemetry handling,done,2026-10-09
 REPLAY-01,1,15,Responsibilities,Reconstruct race state,todo,
 REPLAY-02,1,15,Responsibilities,Emit synchronized playback frames,todo,
 REPLAY-03,1,15,Responsibilities,Interpolate telemetry,todo,
@@ -181,7 +181,7 @@ API-01,1,11,REST APIs,GET /seasons,done,2026-10-09
 API-02,1,11,REST APIs,GET /races/{id},done,2026-10-09
 API-03,2,22,REST APIs,GET /races/{id}/timeline,todo,
 API-04,3,32,REST APIs,GET /drivers/{id}/stats,todo,
-API-05,1,13,REST APIs,GET /telemetry/{sessionId},todo,
+API-05,1,13,REST APIs,GET /telemetry/{sessionId},done,2026-10-09
 WS-01,2,24,WebSocket APIs,Live replay stream,todo,
 WS-02,2,24,WebSocket APIs,Telemetry updates,todo,
 WS-03,2,28,WebSocket APIs,Timeline synchronization,todo,
@@ -208,7 +208,7 @@ TEST-06,4,40,Integration Tests,Kafka tests,todo,
 TEST-07,4,38,Integration Tests,Redis tests,todo,
 TEST-08,1,11,Integration Tests,API tests,done,2026-10-09
 TEST-09,2,24,End-to-End Tests,Replay pipeline,todo,
-TEST-10,1,13,End-to-End Tests,Full ingestion flow,todo,
+TEST-10,1,13,End-to-End Tests,Full ingestion flow,done,2026-10-09
 TEST-11,4,37,End-to-End Tests,Authentication flows,todo,
 TEST-12,4,44,Performance Tests,Telemetry streaming,todo,
 TEST-13,4,44,Performance Tests,Replay scalability,todo,
@@ -271,7 +271,7 @@ NFR-16,4,43,Maintainability,Domain-driven design,todo,
 NFR-17,4,43,Maintainability,Modular services,todo,
 MOD-01,4,37,Modules,auth-service,todo,
 MOD-02,1,11,Modules,race-service,done,2026-10-09
-MOD-03,1,13,Modules,telemetry-service,todo,
+MOD-03,1,13,Modules,telemetry-service,done,2026-10-09
 MOD-04,1,15,Modules,replay-service,todo,
 MOD-05,3,32,Modules,analytics-service,todo,
 MOD-06,1,9,Modules,ingestion-service,done,2026-10-09

@@ -92,6 +92,53 @@ downloaded (null: not yet — see `POST /api/admin/import/races/{id}`).
 | 200 | Found |
 | 404 | No race with this id |
 
+#### `POST /api/races/{id}/import` · `GET /api/races/{id}/import-status`
+
+A race page calls `POST …/import` when it opens. If the race's data isn't downloaded yet, the download
+starts in the background — once, however many users open it at the same time — and the page polls
+`GET …/import-status` while it shows "downloading race data…" (~10 s). After that the race is
+instant for everyone.
+
+```json
+{"raceId": 1, "state": "IMPORTING", "since": "2026-10-09T15:13:21Z", "message": null}
+```
+
+| `state` | Meaning |
+|---------|---------|
+| `NOT_IMPORTED` | Has OpenF1 data, but nobody has opened it yet |
+| `IMPORTING` | Downloading in the background |
+| `READY` | Downloaded; a race still to come is refreshed at most every 15 minutes |
+| `FAILED` | The last download failed (`message` says why); `POST …/import` again retries |
+| `NOT_AVAILABLE` | Before 2023: no OpenF1 data (results and history still work) |
+
+`POST` answers **202** while `IMPORTING`, otherwise **200**; both **404** for an unknown race.
+
+### Telemetry
+
+#### `GET /api/sessions/{id}/telemetry?driver={carNumber}&lap={lap}`
+
+One car's telemetry (~3.7 samples per second) for one lap, or the whole session without `lap`. The
+first request for a car in a session downloads it from OpenF1 (~5 s); every later one is served from
+the database. Each point has the car data plus the nearest position within 0.5 s (`x`/`y`/`z` null
+when there is none). Stretches over 2 s without samples are listed in `gaps`, never filled in.
+
+```json
+{
+  "sessionId": 5, "driver": 1, "lap": 10,
+  "from": "2024-03-02T15:18:15.404Z", "to": "2024-03-02T15:19:52.364Z",
+  "points": [{"t": "2024-03-02T15:18:16.271Z", "speed": 286, "throttle": 100, "brake": 0, "gear": 7,
+              "rpm": 11234, "drs": 12, "x": -343, "y": 2113, "z": 0}],
+  "gaps": []
+}
+```
+
+| Status | When |
+|--------|------|
+| 200 | Found (possibly downloaded just now) |
+| 400 | `driver` missing or outside 1–99 |
+| 404 | Unknown session, a session without OpenF1 data, or a lap the car didn't do (import the race first) |
+| 502 | OpenF1 failed |
+
 ### Admin: imports
 
 > **Unsecured until Step 37** (Security), when they become ADMIN-only. Don't expose them publicly

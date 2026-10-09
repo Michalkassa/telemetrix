@@ -144,6 +144,34 @@ class OpenF1ClientTest {
 	}
 
 	@Test
+	void fetchesOneCarsTelemetryForASession() {
+		server.expect(requestTo(BASE + "/car_data?session_key=9472&driver_number=1"))
+				.andRespond(withSuccess(fixture("car_data_9472_1.json"), MediaType.APPLICATION_JSON));
+
+		var samples = client.carData(9472, 1);
+
+		assertThat(samples).hasSize(806);
+		assertThat(samples.getLast()).satisfies(s -> {
+			assertThat(s.driverNumber()).isEqualTo(1);
+			assertThat(s.date()).isNotNull();
+			assertThat(s.speed()).isNotNull();
+			assertThat(s.gear()).isNotNull();
+		});
+	}
+
+	@Test
+	void fetchesOneCarsLocationsForASession() {
+		server.expect(requestTo(BASE + "/location?session_key=9472&driver_number=1"))
+				.andRespond(withSuccess(fixture("location_9472_1.json"), MediaType.APPLICATION_JSON));
+
+		var samples = client.locations(9472, 1);
+
+		assertThat(samples).hasSize(819);
+		assertThat(samples.getFirst()).isEqualTo(
+				new OpenF1Location(1, OffsetDateTime.parse("2024-03-02T14:03:43.899Z"), 0, 0, 0));
+	}
+
+	@Test
 	void noResultsIsAnEmptyListNotAnError() {
 		// OpenF1 answers "nothing matches" with a 404
 		server.expect(requestTo(BASE + "/meetings?year=1990"))

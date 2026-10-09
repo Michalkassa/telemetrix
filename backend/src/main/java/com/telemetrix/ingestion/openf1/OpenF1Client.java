@@ -1,6 +1,7 @@
 package com.telemetrix.ingestion.openf1;
 
 import com.telemetrix.ingestion.RateLimitedClient;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.core.ParameterizedTypeReference;
@@ -49,6 +50,28 @@ public class OpenF1Client {
 	public List<OpenF1PitStop> pitStops(int sessionKey) {
 		return http.get("/pit", Map.of("session_key", sessionKey), new ParameterizedTypeReference<List<OpenF1PitStop>>() {
 		}).orElse(List.of());
+	}
+
+	/** GET /car_data?session_key=&driver_number= — one car's telemetry for a whole session (~35,000 samples). */
+	public List<OpenF1CarData> carData(int sessionKey, int driverNumber) {
+		return http.get("/car_data", sessionAndCar(sessionKey, driverNumber),
+				new ParameterizedTypeReference<List<OpenF1CarData>>() {
+				}).orElse(List.of());
+	}
+
+	/** GET /location?session_key=&driver_number= — one car's positions for a whole session. */
+	public List<OpenF1Location> locations(int sessionKey, int driverNumber) {
+		return http.get("/location", sessionAndCar(sessionKey, driverNumber),
+				new ParameterizedTypeReference<List<OpenF1Location>>() {
+				}).orElse(List.of());
+	}
+
+	// in a fixed order, so the request URL is predictable
+	private static Map<String, Integer> sessionAndCar(int sessionKey, int driverNumber) {
+		var query = new LinkedHashMap<String, Integer>();
+		query.put("session_key", sessionKey);
+		query.put("driver_number", driverNumber);
+		return query;
 	}
 
 	/** GET /drivers?session_key= — the drivers entered in one session. */

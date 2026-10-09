@@ -14,12 +14,12 @@ python3 scripts/sync_features.py --check                # CI: fail if plan.md/ST
 ```
 
 <!-- progress:start -->
-**35 / 305 features done (11%)**
+**42 / 305 features done (13%)**
 
 | Phase | Done | Total | Progress |
 |---|---:|---:|---|
 | 0 — Foundation | 3 | 3 | `██████████` |
-| 1 — Data foundation & basic replay | 32 | 71 | `█████░░░░░` |
+| 1 — Data foundation & basic replay | 39 | 71 | `█████░░░░░` |
 | 2 — Telemetry, timeline & playback | 0 | 83 | `░░░░░░░░░░` |
 | 3 — Championship & analytics | 0 | 46 | `░░░░░░░░░░` |
 | 4 — Distributed systems & production | 0 | 75 | `░░░░░░░░░░` |
@@ -317,7 +317,7 @@ Primary relational database.
 - [x] constructors <!-- DB-05 -->
 - [x] laps <!-- DB-06 -->
 - [x] sectors <!-- DB-07 -->
-- [ ] telemetry_points <!-- DB-08 -->
+- [x] telemetry_points <!-- DB-08 -->
 - [ ] race_events <!-- DB-09 -->
 - [x] pit_stops <!-- DB-10 -->
 - [ ] weather_data <!-- DB-11 -->
@@ -394,16 +394,16 @@ Possible free APIs:
 ## Ingestion Services
 ### Scheduled Importers
 - [x] Race importer <!-- ING-01 -->
-- [ ] Telemetry importer <!-- ING-02 -->
+- [x] Telemetry importer <!-- ING-02 -->
 - [x] Session importer <!-- ING-03 -->
 - [ ] Weather importer <!-- ING-04 -->
 - [ ] Event importer <!-- ING-05 -->
 
 ### Data Validation
 - [x] Duplicate detection <!-- VAL-01 -->
-- [ ] Timestamp validation <!-- VAL-02 -->
+- [x] Timestamp validation <!-- VAL-02 -->
 - [x] Lap consistency checks <!-- VAL-03 -->
-- [ ] Missing telemetry handling <!-- VAL-04 -->
+- [x] Missing telemetry handling <!-- VAL-04 -->
 
 ---
 
@@ -449,7 +449,7 @@ Examples:
 - [x] GET /races/{id} <!-- API-02 -->
 - [ ] GET /races/{id}/timeline <!-- API-03 -->
 - [ ] GET /drivers/{id}/stats <!-- API-04 -->
-- [ ] GET /telemetry/{sessionId} <!-- API-05 -->
+- [x] GET /telemetry/{sessionId} <!-- API-05 -->
 
 ## WebSocket APIs
 Used for:
@@ -514,7 +514,7 @@ to write first.
 
 ### End-to-End Tests
 - [ ] Replay pipeline <!-- TEST-09 -->
-- [ ] Full ingestion flow <!-- TEST-10 -->
+- [x] Full ingestion flow <!-- TEST-10 -->
 - [ ] Authentication flows <!-- TEST-11 -->
 
 ### Performance Tests
@@ -736,7 +736,7 @@ Use Python separately for:
 ## Modules
 - [ ] auth-service <!-- MOD-01 -->
 - [x] race-service <!-- MOD-02 -->
-- [ ] telemetry-service <!-- MOD-03 -->
+- [x] telemetry-service <!-- MOD-03 -->
 - [ ] replay-service <!-- MOD-04 -->
 - [ ] analytics-service <!-- MOD-05 -->
 - [x] ingestion-service <!-- MOD-06 -->

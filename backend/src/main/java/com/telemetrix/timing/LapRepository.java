@@ -2,6 +2,7 @@ package com.telemetrix.timing;
 
 import com.telemetrix.race.Session;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -10,6 +11,8 @@ import org.springframework.data.repository.query.Param;
 public interface LapRepository extends JpaRepository<Lap, Long> {
 
 	List<Lap> findBySessionOrderByDriverNumberAscLapNumberAsc(Session session);
+
+	Optional<Lap> findBySessionAndDriverNumberAndLapNumber(Session session, Short driverNumber, Short lapNumber);
 
 	long countBySession(Session session);
 

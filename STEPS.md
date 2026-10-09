@@ -581,15 +581,15 @@ again — instant, and the log shows no OpenF1 call. Ask for one driver's teleme
 answer is instant.
 
 <!-- features:13 -->
-**Checks off (0/7):**
+**Checks off (7/7):**
 
-- [ ] `DB-08` telemetry_points
-- [ ] `ING-02` Telemetry importer
-- [ ] `VAL-02` Timestamp validation
-- [ ] `VAL-04` Missing telemetry handling
-- [ ] `API-05` GET /telemetry/{sessionId}
-- [ ] `TEST-10` Full ingestion flow
-- [ ] `MOD-03` telemetry-service
+- [x] `DB-08` telemetry_points
+- [x] `ING-02` Telemetry importer
+- [x] `VAL-02` Timestamp validation
+- [x] `VAL-04` Missing telemetry handling
+- [x] `API-05` GET /telemetry/{sessionId}
+- [x] `TEST-10` Full ingestion flow
+- [x] `MOD-03` telemetry-service
 <!-- /features -->
 
 ---

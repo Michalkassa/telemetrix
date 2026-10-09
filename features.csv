@@ -295,7 +295,7 @@ STRETCH-08,stretch,55,Possible Future Features,Custom telemetry dashboards,todo,
 STRETCH-09,stretch,55,Possible Future Features,Historical what-if simulator,todo,
 STRETCH-10,stretch,55,Possible Future Features,Driver racing lines,todo,
 STRETCH-11,stretch,55,Possible Future Features,ML-generated insights,todo,
-PRAC-01,1,5,Final Advice,Write ADRs,todo,
+PRAC-01,1,5,Final Advice,Write ADRs,done,2026-10-09
 PRAC-02,1,11,Final Advice,Write API docs,todo,
 PRAC-03,5,54,Final Advice,Write architecture diagrams,todo,
 PRAC-04,1,6,Final Advice,Use migrations,todo,

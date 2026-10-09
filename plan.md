@@ -14,12 +14,12 @@ python3 scripts/sync_features.py --check                # CI: fail if plan.md/ST
 ```
 
 <!-- progress:start -->
-**4 / 305 features done (1%)**
+**5 / 305 features done (1%)**
 
 | Phase | Done | Total | Progress |
 |---|---:|---:|---|
 | 0 — Foundation | 3 | 3 | `██████████` |
-| 1 — Data foundation & basic replay | 1 | 71 | `░░░░░░░░░░` |
+| 1 — Data foundation & basic replay | 2 | 71 | `░░░░░░░░░░` |
 | 2 — Telemetry, timeline & playback | 0 | 83 | `░░░░░░░░░░` |
 | 3 — Championship & analytics | 0 | 46 | `░░░░░░░░░░` |
 | 4 — Distributed systems & production | 0 | 75 | `░░░░░░░░░░` |
@@ -892,7 +892,7 @@ datasets/
 # Final Advice
 
 Treat this project like a real enterprise platform:
-- [ ] Write ADRs <!-- PRAC-01 -->
+- [x] Write ADRs <!-- PRAC-01 -->
 - [ ] Write API docs <!-- PRAC-02 -->
 - [ ] Write architecture diagrams <!-- PRAC-03 -->
 - [ ] Use migrations <!-- PRAC-04 -->

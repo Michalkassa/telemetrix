@@ -15,13 +15,14 @@ Progress is tracked in [`features.csv`](features.csv); see the top of `plan.md`.
 |----------------------|-----------------------------------------------------------------------------|
 | `backend/`           | Spring Boot 4 app (Java 25, Maven) — entry point and configuration only      |
 | `docker-compose.yml` | Local infrastructure: PostgreSQL 16                                          |
+| `docs/`              | ADRs (`docs/adr/`) and the API reference (`docs/api.md`)                     |
 | `templates/`         | Commented reference code for every Spring Boot layer (read, don't run)       |
 | `STEPS.md`           | Every build step from empty project to finished platform, with checks       |
 | `plan.md`            | The full product & system design, as a checklist with a progress table      |
 | `features.csv`       | Source of truth for that checklist: one row per feature, its step and status |
 | `scripts/`           | `sync_features.py` — marks features done and syncs `plan.md` / `STEPS.md`    |
 
-Not there yet, but planned: `frontend/` (React + TypeScript + Vite), `docs/` (ADRs, API reference),
+Not there yet, but planned: `frontend/` (React + TypeScript + Vite),
 Dockerfiles for the backend and frontend, and `analytics/` (Python).
 
 ## Prerequisites

@@ -268,9 +268,9 @@ controllers small and gives the project the paper trail `plan.md` asks for.
 **Check it:** `./mvnw package` still passes; `docs/adr/` has two ADRs.
 
 <!-- features:5 -->
-**Checks off (0/1):**
+**Checks off (1/1):**
 
-- [ ] `PRAC-01` Write ADRs
+- [x] `PRAC-01` Write ADRs
 <!-- /features -->
 
 ---

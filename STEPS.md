@@ -298,15 +298,15 @@ idempotent instead of creating duplicates.
 tables plus `flyway_schema_history`.
 
 <!-- features:6 -->
-**Checks off (0/7):**
+**Checks off (7/7):**
 
-- [ ] `DB-01` seasons
-- [ ] `DB-02` races
-- [ ] `DB-03` circuits
-- [ ] `DB-04` drivers
-- [ ] `DB-05` constructors
-- [ ] `DB-15` sessions
-- [ ] `PRAC-04` Use migrations
+- [x] `DB-01` seasons
+- [x] `DB-02` races
+- [x] `DB-03` circuits
+- [x] `DB-04` drivers
+- [x] `DB-05` constructors
+- [x] `DB-15` sessions
+- [x] `PRAC-04` Use migrations
 <!-- /features -->
 
 ---

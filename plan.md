@@ -14,12 +14,12 @@ python3 scripts/sync_features.py --check                # CI: fail if plan.md/ST
 ```
 
 <!-- progress:start -->
-**5 / 305 features done (1%)**
+**12 / 305 features done (3%)**
 
 | Phase | Done | Total | Progress |
 |---|---:|---:|---|
 | 0 — Foundation | 3 | 3 | `██████████` |
-| 1 — Data foundation & basic replay | 2 | 71 | `░░░░░░░░░░` |
+| 1 — Data foundation & basic replay | 9 | 71 | `█░░░░░░░░░` |
 | 2 — Telemetry, timeline & playback | 0 | 83 | `░░░░░░░░░░` |
 | 3 — Championship & analytics | 0 | 46 | `░░░░░░░░░░` |
 | 4 — Distributed systems & production | 0 | 75 | `░░░░░░░░░░` |
@@ -310,11 +310,11 @@ results cell links to that race's hub, and a race hub links into the replay play
 Primary relational database.
 
 ### Core Tables
-- [ ] seasons <!-- DB-01 -->
-- [ ] races <!-- DB-02 -->
-- [ ] circuits <!-- DB-03 -->
-- [ ] drivers <!-- DB-04 -->
-- [ ] constructors <!-- DB-05 -->
+- [x] seasons <!-- DB-01 -->
+- [x] races <!-- DB-02 -->
+- [x] circuits <!-- DB-03 -->
+- [x] drivers <!-- DB-04 -->
+- [x] constructors <!-- DB-05 -->
 - [ ] laps <!-- DB-06 -->
 - [ ] sectors <!-- DB-07 -->
 - [ ] telemetry_points <!-- DB-08 -->
@@ -324,7 +324,7 @@ Primary relational database.
 - [ ] championship_snapshots <!-- DB-12 -->
 - [ ] tire_stints <!-- DB-13 -->
 - [ ] penalties <!-- DB-14 -->
-- [ ] sessions <!-- DB-15 -->
+- [x] sessions <!-- DB-15 -->
 
 ## TimescaleDB Extension
 Use for:
@@ -895,7 +895,7 @@ Treat this project like a real enterprise platform:
 - [x] Write ADRs <!-- PRAC-01 -->
 - [ ] Write API docs <!-- PRAC-02 -->
 - [ ] Write architecture diagrams <!-- PRAC-03 -->
-- [ ] Use migrations <!-- PRAC-04 -->
+- [x] Use migrations <!-- PRAC-04 -->
 - [x] Use test coverage reports <!-- PRAC-05 -->
 - [ ] Use monitoring dashboards <!-- PRAC-06 -->
 - [ ] Write proper READMEs <!-- PRAC-07 -->

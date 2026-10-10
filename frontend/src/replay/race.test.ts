@@ -47,3 +47,16 @@ describe('lapStart', () => {
     expect(lapStart(race, 0)).toBe(0)
   })
 })
+
+test('after the flag, cars on the same lap are in the order they finished', () => {
+  // both complete 3 laps; HAM crosses the line first, though VER comes first in the API's list
+  const finished = prepare({
+    ...squareRace,
+    timing: [
+      { number: 1, t: [0, 12_500], laps: [0, 3], pits: [], finished: true, retiredAt: null },
+      { number: 44, t: [0, 12_000], laps: [0, 3], pits: [], finished: true, retiredAt: null },
+    ],
+  })
+
+  expect(runningOrder(finished, 20_000).map((c) => c.code)).toEqual(['HAM', 'VER'])
+})

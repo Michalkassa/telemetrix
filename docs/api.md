@@ -113,6 +113,141 @@ instant for everyone.
 
 `POST` answers **202** while `IMPORTING`, otherwise **200**; both **404** for an unknown race.
 
+#### `GET /api/races/{id}/results`
+
+The race's classification in finishing order, from the history import (`POST /api/admin/import/history`;
+empty until it has run). `code` is null for many drivers before the 2000s; `timeMs` is the total race
+time, for cars that finished on the lead lap; otherwise `statusDetail` says why (`+1 Lap`, `Engine`).
+
+```json
+{"raceId": 684, "results": [{"position": 1, "code": null, "givenName": "Mika", "surname": "Häkkinen",
+  "team": "McLaren", "number": 8, "grid": 1, "laps": 58, "timeMs": 5506000, "status": "FINISHED",
+  "statusDetail": "Finished", "classified": true, "points": 10.0}]}
+```
+
+#### `GET /api/races/{id}/lap-times`
+
+Every car's race lap times (ms), in finishing order, for the lap-pace chart. `source`: `OPENF1` once the
+race has been opened (2023 on), else `JOLPICA` (the history, 1996 on), else `NONE` (empty `drivers`).
+
+```json
+{"raceId": 1, "source": "OPENF1", "drivers": [{"number": 1, "code": "VER", "surname": "Verstappen",
+  "position": 1, "laps": [{"lap": 1, "ms": 97759}]}]}
+```
+
+Both: **404** for an unknown race.
+
+### Championship
+
+#### `GET /api/seasons/{year}/standings?round={round}`
+
+Drivers' and constructors' standings after a round (default: the latest), rebuilt race by race from the
+points awarded in the history (Grand Prix and sprints) and kept in `championship_snapshots`. Until 1990
+only a driver's best results counted (some seasons: the best of each half) — the rules come from the
+data and reproduce the official totals of every season 1950–1990. Level drivers are split by
+count-back: wins, then second places, … (Grand Prix only, not sprints). Before 1979 constructors'
+standings are simple sums, not the period's rules. **404** for an unknown season.
+
+```json
+{"season": 2024, "round": 24, "rounds": 24, "drivers": [{"position": 1, "ref": "max_verstappen", "code": "VER", "givenName": "Max", "surname": "Verstappen", "team": "Red Bull", "points": 437.0, "wins": 9}], "constructors": [{"position": 1, "ref": "mclaren", "name": "McLaren", "points": 666.0, "wins": 6}]}
+```
+
+#### `GET /api/seasons/{year}/results-grid`
+
+Every Grand Prix result of the season, a row per driver in championship order: `races` are the columns
+(each with its `raceId`, for the race hub) and each driver's `cells` the races they ran. `position` is
+null when not classified (`status` says why). **404** for an unknown season.
+
+```json
+{"season": 2021, "races": [{"round": 22, "raceId": 1126, "name": "Abu Dhabi Grand Prix", "date": "2021-12-12"}], "drivers": [{"position": 1, "ref": "max_verstappen", "code": "VER", "surname": "Verstappen", "points": 395.5, "cells": [{"round": 22, "raceId": 1126, "position": 1, "points": 26.0, "status": "FINISHED"}]}]}
+```
+
+#### `GET /api/seasons/{year}/progression`
+
+Each driver's championship points after every round (from `championship_snapshots`), drivers in the
+latest standings' order — for points-progression charts and season comparisons. **404** for an unknown
+season.
+
+```json
+{"season": 2021, "drivers": [{"ref": "max_verstappen", "code": "VER", "surname": "Verstappen", "rounds": [{"round": 1, "points": 18.0}, {"round": 2, "points": 43.0}]}]}
+```
+
+#### `GET /api/sessions/{id}/replay/championship?at={instant}`
+
+The drivers' championship **if the race finished at that moment**: the points before the race (and this
+round's sprint, for its Grand Prix) plus what the running order at `at` would earn under the season's
+points rules (`PointsSystem`: a strategy per era), with the fastest lap so far. Retired cars score
+nothing. At the end of a race this is the official result, except for penalties given after it. **404**
+when the race isn't in the history yet.
+
+```json
+{"season": 2024, "round": 2, "at": "…", "drivers": [{"position": 1, "positionBefore": 1, "number": 1,
+  "ref": "max_verstappen", "code": "VER", "surname": "Verstappen", "before": 26.0, "race": 25.0, "total": 51.0}]}
+```
+
+The timeline gains `CHAMPIONSHIP_LEAD`: the lead "if the race finished now" changing hands (not in round 1).
+
+### Driver analytics
+
+#### `GET /api/drivers/{id}/stats`
+
+A driver's career, by driver ref (`hamilton`, `max_verstappen`): starts, wins, podiums, DNFs, poles,
+fastest laps, average finish, positions gained, points; wet vs dry; each track; pit stops; tyre use;
+and each season with the career wins so far. **404** for an unknown driver. Computed in SQL from the
+`driver_race_results` materialized view, refreshed after the history import and after each race import.
+
+- **Poles** are race grid position 1 (after penalties), not qualifying P1.
+- **Positions gained** (overtakes) is grid minus finish, for classified finishers who started from
+  the grid; there's no per-pass overtake data before 2023.
+- **Fastest laps** are in the history from 2004.
+- **Wet vs dry** needs the race's weather, and **tyres** its OpenF1 stints: only races opened in the
+  app (2023 on).
+- **Pit stops** are the Grand Prix's (not the sprint's), from the history (2011 on). Over 5 minutes in
+  the pit lane is a red-flag stoppage, not a stop, and isn't counted.
+
+```json
+{"driver": {"ref": "hamilton", "code": "HAM", "givenName": "Lewis", "surname": "Hamilton"},
+ "career": {"starts": 395, "wins": 106, "podiums": 207, "dnfs": 35, "poles": 104, "fastestLaps": 69,
+            "averageFinish": 3.90, "positionsGained": 272, "averagePositionsGained": 0.75, "points": 5134.5},
+ "wetDry": {"wet": {"races": 0, "wins": 0, "podiums": 0, "averageFinish": null},
+            "dry": {"races": 6, "wins": 0, "podiums": 1, "averageFinish": 5.6}},
+ "tracks": [{"circuit": "silverstone", "name": "Silverstone Circuit", "starts": 21, "wins": 9, "podiums": 16,
+             "bestFinish": 1, "averageFinish": 3.0}],
+ "pitStops": {"stops": 599, "stopsPerRace": 1.93, "averageLaneSeconds": 23.67},
+ "tyres": [{"compound": "HARD", "stints": 8, "laps": 189, "share": 0.53, "averageStintLaps": 23.6}],
+ "seasons": [{"season": 2007, "starts": 17, "wins": 4, "points": 109.0, "careerWins": 4}]}
+```
+
+#### `GET /api/constructors/{id}/stats?season={year}`
+
+A constructor's season, by constructor ref (`mclaren`, `red_bull`); `season` defaults to its latest.
+**404** for an unknown team, or a season it didn't race.
+
+- **Reliability:** starts, finishes (still running at the end: finished or lapped — a car that retired
+  with 90% run is classified but counts as a DNF), DNFs split mechanical / incident, and by cause. From
+  2023 the data says only "Retired": those are `unknown`.
+- **Pit stops:** the median pit-lane time (red flags left out), its rank among the season's teams, and
+  the median of every stop that season.
+- **Pace:** gaps to the fastest team in %, race by race, then the season's median. Race pace is the
+  team's median clean lap (not lap 1, not a lap into or out of the pits, nothing over 107% of the
+  race's fastest — safety cars); qualifying pace is its best lap in any segment. Lap times from 1996.
+- **Trend:** both gaps round by round, and their slope (`regr_slope`, percentage points a round;
+  negative = closing in).
+- **Strategies:** positions gained (grid to finish) by number of stops, over the team's finishes, in
+  races with pit-stop data (2011 on).
+
+```json
+{"constructor": {"ref": "mclaren", "name": "McLaren"}, "season": 2024,
+ "reliability": {"starts": 48, "finishes": 48, "dnfs": 0, "mechanical": 0, "incident": 0, "unknown": 0,
+                 "causes": []},
+ "pitStops": {"stops": 77, "medianLaneSeconds": 22.867, "rank": 1, "teams": 10, "fieldMedianLaneSeconds": 23.33},
+ "pace": {"raceGapPercent": 0.15, "qualifyingGapPercent": 0.31},
+ "trend": {"rounds": [{"round": 1, "race": "Bahrain Grand Prix", "qualifyingGapPercent": 0.50,
+                       "raceGapPercent": 0.80}], "qualifyingSlope": -0.014, "raceSlope": -0.028},
+ "strategies": [{"stops": 1, "finishes": 19, "averagePositionsGained": 1.11},
+                {"stops": 2, "finishes": 24, "averagePositionsGained": -1.25}]}
+```
+
 ### Track maps
 
 #### `GET /api/circuits/{ref}/layout?year={year}`

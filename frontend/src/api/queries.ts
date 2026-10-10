@@ -10,6 +10,11 @@ import type {
   SeasonRaces,
   Snapshot,
   Timeline,
+  RaceResults,
+  LapTimes,
+  ChampionshipStandings,
+  ResultsGrid,
+  Progression,
 } from './types'
 
 // Data hooks: React Query caches each answer, so going back and forth between pages is instant.
@@ -103,5 +108,40 @@ export function useTimeline(raceId: number | undefined) {
     queryFn: () => getJson<Timeline>(`/api/races/${raceId}/timeline`),
     enabled: raceId !== undefined,
     retry: false,
+  })
+}
+
+export function useRaceResults(raceId: number) {
+  return useQuery({
+    queryKey: ['races', raceId, 'results'],
+    queryFn: () => getJson<RaceResults>(`/api/races/${raceId}/results`),
+  })
+}
+
+export function useLapTimes(raceId: number) {
+  return useQuery({
+    queryKey: ['races', raceId, 'lap-times'],
+    queryFn: () => getJson<LapTimes>(`/api/races/${raceId}/lap-times`),
+  })
+}
+
+export function useStandings(year: number) {
+  return useQuery({
+    queryKey: ['seasons', year, 'standings'],
+    queryFn: () => getJson<ChampionshipStandings>(`/api/seasons/${year}/standings`),
+  })
+}
+
+export function useResultsGrid(year: number) {
+  return useQuery({
+    queryKey: ['seasons', year, 'results-grid'],
+    queryFn: () => getJson<ResultsGrid>(`/api/seasons/${year}/results-grid`),
+  })
+}
+
+export function useProgression(year: number) {
+  return useQuery({
+    queryKey: ['seasons', year, 'progression'],
+    queryFn: () => getJson<Progression>(`/api/seasons/${year}/progression`),
   })
 }

@@ -57,3 +57,14 @@ test('each event shows its lap, and team radio links to the recording', () => {
   expect(within(list()).getByRole('button', { name: new RegExp(`^${sc.summary}`) })).toHaveTextContent(`L${sc.lap}`)
   expect(within(list()).getAllByRole('link', { name: /listen/i })[0]).toHaveAttribute('href', radio.link!)
 })
+
+test('a championship lead change has its own filter', () => {
+  const lead = {
+    ...sc,
+    type: 'CHAMPIONSHIP_LEAD',
+    summary: 'Championship lead: HAM takes it from VER (if the race finished now)',
+  }
+  render(<EventList events={[lead]} time={0} onSeek={() => {}} />)
+
+  expect(screen.getByRole('checkbox', { name: /championship lead/i })).toBeChecked()
+})

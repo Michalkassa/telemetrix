@@ -184,3 +184,76 @@ export interface Timeline {
   clockStart: string
   events: TimelineEvent[]
 }
+
+/** GET /api/races/{id}/results: the classification, in finishing order. */
+export interface RaceResultRow {
+  position: number | null
+  code: string | null // missing for many drivers before the 2000s
+  givenName: string
+  surname: string
+  team: string
+  number: number | null
+  grid: number | null
+  laps: number | null
+  timeMs: number | null
+  status: string | null
+  statusDetail: string | null
+  classified: boolean | null
+  points: number | null
+}
+
+export interface RaceResults {
+  raceId: number
+  results: RaceResultRow[]
+}
+
+/** GET /api/races/{id}/lap-times: race lap times per car, in finishing order. */
+export interface LapTimes {
+  raceId: number
+  source: 'OPENF1' | 'JOLPICA' | 'NONE'
+  drivers: {
+    number: number
+    code: string | null
+    surname: string | null
+    position: number | null
+    laps: { lap: number; ms: number }[]
+  }[]
+}
+
+/** GET /api/seasons/{year}/standings */
+export interface ChampionshipStandings {
+  season: number
+  round: number
+  rounds: number
+  drivers: {
+    position: number
+    ref: string
+    code: string | null
+    givenName: string
+    surname: string
+    team: string | null
+    points: number
+    wins: number
+  }[]
+  constructors: { position: number; ref: string; name: string; points: number; wins: number }[]
+}
+
+/** GET /api/seasons/{year}/results-grid */
+export interface ResultsGrid {
+  season: number
+  races: { round: number; raceId: number; name: string; date: string }[]
+  drivers: {
+    position: number
+    ref: string
+    code: string | null
+    surname: string
+    points: number
+    cells: { round: number; raceId: number; position: number | null; points: number; status: string | null }[]
+  }[]
+}
+
+/** GET /api/seasons/{year}/progression */
+export interface Progression {
+  season: number
+  drivers: { ref: string; code: string | null; surname: string; rounds: { round: number; points: number }[] }[]
+}

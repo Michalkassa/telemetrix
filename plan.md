@@ -14,14 +14,14 @@ python3 scripts/sync_features.py --check                # CI: fail if plan.md/ST
 ```
 
 <!-- progress:start -->
-**148 / 305 features done (48%)**
+**183 / 305 features done (60%)**
 
 | Phase | Done | Total | Progress |
 |---|---:|---:|---|
 | 0 — Foundation | 3 | 3 | `██████████` |
 | 1 — Data foundation & basic replay | 66 | 71 | `█████████░` |
-| 2 — Telemetry, timeline & playback | 79 | 83 | `██████████` |
-| 3 — Championship & analytics | 0 | 46 | `░░░░░░░░░░` |
+| 2 — Telemetry, timeline & playback | 81 | 83 | `██████████` |
+| 3 — Championship & analytics | 33 | 46 | `███████░░░` |
 | 4 — Distributed systems & production | 0 | 75 | `░░░░░░░░░░` |
 | 5 — Data science & polish | 0 | 16 | `░░░░░░░░░░` |
 | stretch — Stretch goals | 0 | 11 | `░░░░░░░░░░` |
@@ -145,41 +145,41 @@ Timeline events:
 - [x] Team radio markers <!-- TIME-11 -->
 - [x] Tire changes <!-- TIME-12 -->
 - [x] Weather changes <!-- TIME-13 -->
-- [ ] Championship lead changes <!-- TIME-14 -->
+- [x] Championship lead changes <!-- TIME-14 -->
 
 ---
 
 # Championship Features
 
 ## Championship Explorer
-- [ ] Select any season <!-- CHAMP-01 -->
-- [ ] View constructor standings <!-- CHAMP-02 -->
-- [ ] View driver standings <!-- CHAMP-03 -->
-- [ ] Dynamic standings during race playback <!-- CHAMP-04 -->
-- [ ] Historical points systems <!-- CHAMP-05 -->
-- [ ] Sprint race support <!-- CHAMP-06 -->
-- [ ] Compare seasons <!-- CHAMP-07 -->
+- [x] Select any season <!-- CHAMP-01 -->
+- [x] View constructor standings <!-- CHAMP-02 -->
+- [x] View driver standings <!-- CHAMP-03 -->
+- [x] Dynamic standings during race playback <!-- CHAMP-04 -->
+- [x] Historical points systems <!-- CHAMP-05 -->
+- [x] Sprint race support <!-- CHAMP-06 -->
+- [x] Compare seasons <!-- CHAMP-07 -->
 
 ## Driver Analytics
-- [ ] Wins <!-- DRV-01 -->
-- [ ] Podiums <!-- DRV-02 -->
-- [ ] DNFs <!-- DRV-03 -->
-- [ ] Fastest laps <!-- DRV-04 -->
-- [ ] Pole positions <!-- DRV-05 -->
-- [ ] Average finish <!-- DRV-06 -->
-- [ ] Overtake statistics <!-- DRV-07 -->
-- [ ] Pit stop averages <!-- DRV-08 -->
-- [ ] Tire strategy tendencies <!-- DRV-09 -->
-- [ ] Wet vs dry performance <!-- DRV-10 -->
-- [ ] Track-specific performance <!-- DRV-11 -->
+- [x] Wins <!-- DRV-01 -->
+- [x] Podiums <!-- DRV-02 -->
+- [x] DNFs <!-- DRV-03 -->
+- [x] Fastest laps <!-- DRV-04 -->
+- [x] Pole positions <!-- DRV-05 -->
+- [x] Average finish <!-- DRV-06 -->
+- [x] Overtake statistics <!-- DRV-07 -->
+- [x] Pit stop averages <!-- DRV-08 -->
+- [x] Tire strategy tendencies <!-- DRV-09 -->
+- [x] Wet vs dry performance <!-- DRV-10 -->
+- [x] Track-specific performance <!-- DRV-11 -->
 
 ## Constructor Analytics
-- [ ] Reliability <!-- CON-01 -->
-- [ ] Pit stop efficiency <!-- CON-02 -->
-- [ ] Race pace <!-- CON-03 -->
-- [ ] Qualifying pace <!-- CON-04 -->
+- [x] Reliability <!-- CON-01 -->
+- [x] Pit stop efficiency <!-- CON-02 -->
+- [x] Race pace <!-- CON-03 -->
+- [x] Qualifying pace <!-- CON-04 -->
 - [ ] Development trend visualization <!-- CON-05 -->
-- [ ] Strategy performance <!-- CON-06 -->
+- [x] Strategy performance <!-- CON-06 -->
 
 ---
 
@@ -199,7 +199,7 @@ System reconstructs race state at every timestamp:
 - [x] Active penalties <!-- STATE-04 -->
 - [x] Current flags <!-- STATE-05 -->
 - [x] Pit window status <!-- STATE-06 -->
-- [ ] Championship standings <!-- STATE-07 -->
+- [x] Championship standings <!-- STATE-07 -->
 
 ## Event Sourcing Architecture
 Store race state as events:
@@ -273,17 +273,17 @@ L4 Leaf views                  the niche page (table / chart / replay / telemetr
 
 ## Top-level lenses (L1)
 
-- [ ] **Seasons** — explore a championship year: standings and full season results. <!-- NAV-01 -->
-- [ ] **Grand Prix** — explore a single event: results, timeline, analytics, telemetry, replay. <!-- NAV-02 -->
+- [x] **Seasons** — explore a championship year: standings and full season results. <!-- NAV-01 -->
+- [x] **Grand Prix** — explore a single event: results, timeline, analytics, telemetry, replay. <!-- NAV-02 -->
 - [ ] **Drivers & Teams** — explore competitors: per-driver and per-constructor stats/analytics. <!-- NAV-03 -->
 - [x] **Replay Theater** — jump straight to watching a race's animated playback. <!-- NAV-04 -->
 
 ## Route tree
 
 - [x] `/` landing → `/dashboard` hub. <!-- NAV-05 -->
-- [ ] **Seasons**: `/seasons` (year grid) → `/seasons/:year` (season hub) → leaves <!-- NAV-06 -->
+- [x] **Seasons**: `/seasons` (year grid) → `/seasons/:year` (season hub) → leaves <!-- NAV-06 -->
   `…/standings/drivers`, `…/standings/constructors`, `…/results` (race-by-race grid), `…/races`.
-- [ ] **Grand Prix**: `/races/:year` (GP list, year filter) → `/races/:year/:sessionKey` (race hub) → <!-- NAV-07 -->
+- [x] **Grand Prix**: `/races/:year` (GP list, year filter) → `/races/:year/:sessionKey` (race hub) → <!-- NAV-07 -->
   leaves `…/results`, `…/timeline`, `…/lap-pace`, `…/telemetry`, `…/replay`. Telemetry and replay
   drill further via `?driver=VER` (and a stint / lap-range) for **per-driver / per-stint** views.
 - [ ] **Drivers & Teams**: `/drivers` directory → `/drivers/:acronym` hub (Stats · Season-by-season · <!-- NAV-08 -->
@@ -321,7 +321,7 @@ Primary relational database.
 - [x] race_events <!-- DB-09 -->
 - [x] pit_stops <!-- DB-10 -->
 - [x] weather_data <!-- DB-11 -->
-- [ ] championship_snapshots <!-- DB-12 -->
+- [x] championship_snapshots <!-- DB-12 -->
 - [x] tire_stints <!-- DB-13 -->
 - [x] penalties <!-- DB-14 -->
 - [x] sessions <!-- DB-15 -->
@@ -448,7 +448,7 @@ Examples:
 - [x] GET /seasons <!-- API-01 -->
 - [x] GET /races/{id} <!-- API-02 -->
 - [x] GET /races/{id}/timeline <!-- API-03 -->
-- [ ] GET /drivers/{id}/stats <!-- API-04 -->
+- [x] GET /drivers/{id}/stats <!-- API-04 -->
 - [x] GET /telemetry/{sessionId} <!-- API-05 -->
 
 ## WebSocket APIs
@@ -504,7 +504,7 @@ to write first.
 - [x] Services <!-- TEST-01 -->
 - [x] Utilities <!-- TEST-02 -->
 - [x] Validators <!-- TEST-03 -->
-- [ ] Calculators <!-- TEST-04 -->
+- [x] Calculators <!-- TEST-04 -->
 
 ### Integration Tests
 - [x] Repository tests <!-- TEST-05 -->
@@ -738,9 +738,9 @@ Use Python separately for:
 - [x] race-service <!-- MOD-02 -->
 - [x] telemetry-service <!-- MOD-03 -->
 - [x] replay-service <!-- MOD-04 -->
-- [ ] analytics-service <!-- MOD-05 -->
+- [x] analytics-service <!-- MOD-05 -->
 - [x] ingestion-service <!-- MOD-06 -->
-- [ ] championship-service <!-- MOD-07 -->
+- [x] championship-service <!-- MOD-07 -->
 - [x] event-service <!-- MOD-08 -->
 
 ---
@@ -778,7 +778,7 @@ Use Python separately for:
 
 ## Patterns To Use
 - [x] Factory Pattern <!-- PAT-01 -->
-- [ ] Strategy Pattern <!-- PAT-02 -->
+- [x] Strategy Pattern <!-- PAT-02 -->
 - [x] Observer Pattern <!-- PAT-03 -->
 - [x] Builder Pattern <!-- PAT-04 -->
 - [ ] CQRS <!-- PAT-05 -->

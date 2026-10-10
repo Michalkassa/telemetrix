@@ -67,7 +67,7 @@ public class RaceDataLoader {
 		Session session = sessions.findById(sessionId).orElseThrow(() -> new NotFoundException("Session", sessionId));
 		Map<Integer, String> codes = new LinkedHashMap<>();
 		replay.drivers().forEach(d -> codes.put(d.number(), d.code()));
-		return new RaceData(replay.clockStart(), replay.chequeredAt(), replay.totalLaps(), codes, replay.timelines(),
+		return new RaceData(sessionId, replay.clockStart(), replay.chequeredAt(), replay.totalLaps(), codes, replay.timelines(),
 				replay.pits(),
 				laps.findBySessionOrderByDriverNumberAscLapNumberAsc(session).stream()
 						.map(l -> new LapTime(l.getDriverNumber(), l.getLapNumber(), l.getStartsAt(), l.getLapMs()))

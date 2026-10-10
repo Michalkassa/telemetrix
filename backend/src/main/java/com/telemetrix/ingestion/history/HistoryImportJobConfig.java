@@ -7,7 +7,11 @@ import java.util.Map;
 import javax.sql.DataSource;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.job.Job;
+import org.springframework.batch.core.BatchStatus;
+import org.springframework.batch.core.job.JobExecution;
 import org.springframework.batch.core.job.builder.JobBuilder;
+import org.springframework.batch.core.listener.JobExecutionListener;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.Step;
 import org.springframework.batch.core.step.builder.StepBuilder;
@@ -56,7 +60,7 @@ class HistoryImportJobConfig {
 	}
 
 	@Bean
-	Job jolpicaHistoryImport(Step indexDump, Step seasons, Step circuits, Step drivers, Step constructors, Step races,
+	Job jolpicaHistoryImport(ApplicationEventPublisher events, Step indexDump, Step seasons, Step circuits, Step drivers, Step constructors, Step races,
 			Step raceEntries, Step linkEntries, Step sessionResults, Step bestLaps, Step lapTimes, Step pitStops) {
 		return new JobBuilder(JOB_NAME, jobRepository)
 				.start(indexDump)
@@ -71,6 +75,16 @@ class HistoryImportJobConfig {
 				.next(bestLaps)
 				.next(lapTimes)
 				.next(pitStops)
+				.listener(new JobExecutionListener() {
+
+					@Override
+					public void afterJob(JobExecution run) {
+						if (run.getStatus() == BatchStatus.COMPLETED) {
+							events.publishEvent(new HistoryImported(run.getId()));
+						}
+					}
+
+				})
 				.build();
 	}
 
@@ -266,7 +280,8 @@ class HistoryImportJobConfig {
 	Step pitStops(ItemReader<Map<String, String>> pitStopRows) {
 		return chunkStep("pitStops", pitStopRows, row -> {
 			var target = sessionOf(row.get("session_entry_id"));
-			if (target == null) {
+			// pit_stops are the Grand Prix's: a sprint's stops are numbered from 1 too, and would replace them
+			if (target == null || !"R".equals(target.get("type"))) {
 				return null;
 			}
 			return params("entry", target.get("entry"), "stop", JolpicaValues.integer(row.get("number")),

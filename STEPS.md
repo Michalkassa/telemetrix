@@ -1155,10 +1155,10 @@ done**.
 no replay.
 
 <!-- features:29 -->
-**Checks off (0/2):**
+**Checks off (2/2):**
 
-- [ ] `NAV-02` Grand Prix — explore a single event: results, timeline, analytics, telemetry, replay.
-- [ ] `NAV-07` Grand Prix: /races/:year (GP list, year filter) → /races/:year/:sessionKey (race hub) →
+- [x] `NAV-02` Grand Prix — explore a single event: results, timeline, analytics, telemetry, replay.
+- [x] `NAV-07` Grand Prix: /races/:year (GP list, year filter) → /races/:year/:sessionKey (race hub) →
 <!-- /features -->
 
 ---
@@ -1190,17 +1190,17 @@ textbook use of the Strategy pattern.
 parameterised test).
 
 <!-- features:30 -->
-**Checks off (0/9):**
+**Checks off (9/9):**
 
-- [ ] `TIME-14` Championship lead changes
-- [ ] `CHAMP-04` Dynamic standings during race playback
-- [ ] `CHAMP-05` Historical points systems
-- [ ] `CHAMP-06` Sprint race support
-- [ ] `STATE-07` Championship standings
-- [ ] `DB-12` championship_snapshots
-- [ ] `TEST-04` Calculators
-- [ ] `MOD-07` championship-service
-- [ ] `PAT-02` Strategy Pattern
+- [x] `TIME-14` Championship lead changes
+- [x] `CHAMP-04` Dynamic standings during race playback
+- [x] `CHAMP-05` Historical points systems
+- [x] `CHAMP-06` Sprint race support
+- [x] `STATE-07` Championship standings
+- [x] `DB-12` championship_snapshots
+- [x] `TEST-04` Calculators
+- [x] `MOD-07` championship-service
+- [x] `PAT-02` Strategy Pattern
 <!-- /features -->
 
 ---
@@ -1218,14 +1218,14 @@ lines for two seasons or two drivers.
 **Check it:** 2021's grid shows the Abu Dhabi finale, and every cell links to that race's hub.
 
 <!-- features:31 -->
-**Checks off (0/6):**
+**Checks off (6/6):**
 
-- [ ] `CHAMP-01` Select any season
-- [ ] `CHAMP-02` View constructor standings
-- [ ] `CHAMP-03` View driver standings
-- [ ] `CHAMP-07` Compare seasons
-- [ ] `NAV-01` Seasons — explore a championship year: standings and full season results.
-- [ ] `NAV-06` Seasons: /seasons (year grid) → /seasons/:year (season hub) → leaves
+- [x] `CHAMP-01` Select any season
+- [x] `CHAMP-02` View constructor standings
+- [x] `CHAMP-03` View driver standings
+- [x] `CHAMP-07` Compare seasons
+- [x] `NAV-01` Seasons — explore a championship year: standings and full season results.
+- [x] `NAV-06` Seasons: /seasons (year grid) → /seasons/:year (season hub) → leaves
 <!-- /features -->
 
 ---
@@ -1251,21 +1251,21 @@ penalties (Step 10 found Hamilton 107 "fastest in qualifying" vs 104 official po
 shows index use.
 
 <!-- features:32 -->
-**Checks off (0/13):**
+**Checks off (13/13):**
 
-- [ ] `DRV-01` Wins
-- [ ] `DRV-02` Podiums
-- [ ] `DRV-03` DNFs
-- [ ] `DRV-04` Fastest laps
-- [ ] `DRV-05` Pole positions
-- [ ] `DRV-06` Average finish
-- [ ] `DRV-07` Overtake statistics
-- [ ] `DRV-08` Pit stop averages
-- [ ] `DRV-09` Tire strategy tendencies
-- [ ] `DRV-10` Wet vs dry performance
-- [ ] `DRV-11` Track-specific performance
-- [ ] `API-04` GET /drivers/{id}/stats
-- [ ] `MOD-05` analytics-service
+- [x] `DRV-01` Wins
+- [x] `DRV-02` Podiums
+- [x] `DRV-03` DNFs
+- [x] `DRV-04` Fastest laps
+- [x] `DRV-05` Pole positions
+- [x] `DRV-06` Average finish
+- [x] `DRV-07` Overtake statistics
+- [x] `DRV-08` Pit stop averages
+- [x] `DRV-09` Tire strategy tendencies
+- [x] `DRV-10` Wet vs dry performance
+- [x] `DRV-11` Track-specific performance
+- [x] `API-04` GET /drivers/{id}/stats
+- [x] `MOD-05` analytics-service
 <!-- /features -->
 
 ---
@@ -1283,14 +1283,13 @@ gained per strategy).
 **Check it:** pit-stop medians per team for one season look plausible against published data.
 
 <!-- features:33 -->
-**Checks off (0/6):**
+**Checks off (5/5):**
 
-- [ ] `CON-01` Reliability
-- [ ] `CON-02` Pit stop efficiency
-- [ ] `CON-03` Race pace
-- [ ] `CON-04` Qualifying pace
-- [ ] `CON-05` Development trend visualization
-- [ ] `CON-06` Strategy performance
+- [x] `CON-01` Reliability
+- [x] `CON-02` Pit stop efficiency
+- [x] `CON-03` Race pace
+- [x] `CON-04` Qualifying pace
+- [x] `CON-06` Strategy performance
 <!-- /features -->
 
 ---
@@ -1303,13 +1302,15 @@ gained per strategy).
 
 **What:** `/drivers` → `/drivers/:acronym` (Stats · Season-by-season · Race log) and `/teams` →
 `/teams/:name` (Overview · Reliability · Pace), plus cross-links: standings rows → driver hub, and
-results cells → race hub.
+results cells → race hub. The Pace tab charts the development trend from Step 33 (`trend.rounds`:
+qualifying and race-pace gaps round by round).
 
 **Check it:** you can go from any table row to the entity's page and back with breadcrumbs.
 
 <!-- features:34 -->
-**Checks off (0/2):**
+**Checks off (0/3):**
 
+- [ ] `CON-05` Development trend visualization
 - [ ] `NAV-03` Drivers & Teams — explore competitors: per-driver and per-constructor stats/analytics.
 - [ ] `NAV-08` Drivers & Teams: /drivers directory → /drivers/:acronym hub (Stats · Season-by-season ·
 <!-- /features -->

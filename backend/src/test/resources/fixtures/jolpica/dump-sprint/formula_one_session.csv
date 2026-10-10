@@ -1,0 +1,3 @@
+id,api_id,has_time_data,is_cancelled,number,point_system_id,round_id,scheduled_laps,timestamp,timezone,type
+4628,session_18pZ7zgF,t,f,9,22,1107,57,2024-05-05 20:00:00+00:00,America/New_York,R
+4636,session_TlMZhn3S,t,f,5,23,1107,19,2024-05-04 16:00:00+00:00,America/New_York,SR

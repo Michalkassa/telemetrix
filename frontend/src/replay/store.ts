@@ -34,7 +34,8 @@ export function timeAt(state: PlayerState, now: number): number {
   return clamp(t, 0, state.duration)
 }
 
-export function createPlayerStore(duration: number) {
+/** `startAt`: race time to begin at (a link to a moment). */
+export function createPlayerStore(duration: number, startAt = 0) {
   return createStore<PlayerState>((set, get) => {
     // re-anchors the clock at `now` (where it is), then applies the change
     const at = (now: number, change: Partial<PlayerState>) =>
@@ -47,7 +48,7 @@ export function createPlayerStore(duration: number) {
       duration,
       playing: false,
       speed: 1,
-      anchorTime: 0,
+      anchorTime: clamp(startAt, 0, duration),
       anchorWall: 0,
       follow: null,
       focus: [],

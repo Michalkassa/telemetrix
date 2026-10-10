@@ -23,6 +23,9 @@ beforeEach(() => {
     http.get('/api/races/1', () => HttpResponse.json(bahrain2024)),
     http.get('/api/sessions/5/replay', () => HttpResponse.json(squareRace)),
     http.get('/api/sessions/5/replay/snapshots', () => HttpResponse.json([])),
+    http.get('/api/races/1/timeline', () =>
+      HttpResponse.json({ raceId: 1, sessionId: 5, clockStart: squareRace.clockStart, events: [] }),
+    ),
   )
 })
 

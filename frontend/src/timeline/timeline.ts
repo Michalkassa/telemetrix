@@ -20,7 +20,17 @@ export function filterEvents(events: TimelineEvent[], hidden: Set<string>): Time
 }
 
 // what earns a marker on the scrub bar (overtakes, pit stops and radio would bury the rest)
-const MARKED = new Set(['SAFETY_CAR', 'VSC', 'RED_FLAG', 'CRASH', 'INCIDENT', 'DNF', 'PENALTY', 'WEATHER'])
+const MARKED = new Set([
+  'CHAMPIONSHIP_LEAD',
+  'SAFETY_CAR',
+  'VSC',
+  'RED_FLAG',
+  'CRASH',
+  'INCIDENT',
+  'DNF',
+  'PENALTY',
+  'WEATHER',
+])
 const BANDS = new Set(['SAFETY_CAR', 'VSC', 'RED_FLAG'])
 
 export interface Marker {

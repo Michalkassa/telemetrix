@@ -143,4 +143,16 @@ class RaceStateEngineTest {
 		assertThat(car(end, 44).gapToLeader()).isEqualTo(40.0); // frozen when HAM finished
 	}
 
+	@Test
+	void afterTheFlagCarsOnTheSameLapAreInTheOrderTheyFinished() {
+		// both complete 10 laps; HAM (44) crosses the line 5 s before VER (1) — car numbers mustn't decide
+		var engine = RaceStateEngine.of(new TestRace().laps(10)
+				.car(44, "HAM", 0, 0, 1000, 10)
+				.car(1, "VER", 0, 0, 1005, 10)
+				.car(16, "LEC", 0, 0, 1100, 9.8) // a lap down... still behind
+				.build());
+
+		assertThat(engine.stateAt(t(2000)).cars()).extracting(CarState::code).containsExactly("HAM", "VER", "LEC");
+	}
+
 }

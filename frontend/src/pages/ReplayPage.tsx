@@ -58,6 +58,7 @@ export function ReplayPage() {
           replay={replay.data}
           snapshots={snapshots.data}
           events={timeline.data?.events}
+          startAt={Number(searchParams.get('t')) || 0}
           watch={watch}
         />
         {/* in its own window, the telemetry's cursor follows this watch session's clock */}

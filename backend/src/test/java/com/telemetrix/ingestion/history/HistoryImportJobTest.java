@@ -105,6 +105,15 @@ class HistoryImportJobTest {
 	}
 
 	@Test
+	void aSprintsPitStopsAreNotTheRaces() throws Exception {
+		// the real dump's rows for Hamilton at Miami 2024: one stop in the race (lap 26), two in the sprint
+		run(new ClassPathResource("fixtures/jolpica/dump-sprint").getFile().toPath(), runId);
+
+		assertThat(jdbc.queryForList("select stop_number, lap, lane_duration_ms from pit_stops"))
+				.containsExactly(Map.of("stop_number", 1, "lap", 26, "lane_duration_ms", 22107L));
+	}
+
+	@Test
 	void importingTwiceGivesIdenticalRows() throws Exception {
 		run(fixtureDump, runId);
 		var first = counts();

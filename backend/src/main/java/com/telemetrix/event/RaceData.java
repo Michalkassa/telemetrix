@@ -13,7 +13,7 @@ import java.util.Map;
 // Everything the event detectors look at for one race session, loaded once (RaceDataLoader): each car's
 // progress timeline and pit windows (the replay's), laps, tyre stints, track status, race-control
 // messages, penalties, team radio and weather. Plain data, so detectors are tested on tiny hand-built races.
-public record RaceData(Instant clockStart, Instant chequeredAt, int totalLaps, Map<Integer, String> codes,
+public record RaceData(long sessionId, Instant clockStart, Instant chequeredAt, int totalLaps, Map<Integer, String> codes,
 		Map<Integer, ProgressTimeline> timelines, Map<Integer, List<PitWindow>> pits, List<LapTime> laps,
 		List<Stint> stints, List<TrackStatusPeriod> trackStatus, List<Message> raceControl,
 		List<PenaltyIssued> penalties, List<RadioClip> radio, List<Weather> weather) {
@@ -56,10 +56,12 @@ public record RaceData(Instant clockStart, Instant chequeredAt, int totalLaps, M
 		return Math.max(1, totalLaps > 0 ? Math.min(lap, totalLaps) : lap);
 	}
 
-	/** Car numbers in race order at a moment: furthest round first (level cars by number). */
+	/** Car numbers in race order at a moment: furthest round first; level cars by who got there first. */
 	public List<Integer> runningOrder(Instant at) {
 		return timelines.entrySet().stream()
 				.sorted(Comparator.<Map.Entry<Integer, ProgressTimeline>>comparingDouble(e -> -e.getValue().lapsDoneAt(at))
+						.thenComparing(e -> e.getValue().reachedAt(e.getValue().lapsDoneAt(at)),
+								Comparator.nullsLast(Comparator.naturalOrder()))
 						.thenComparing(Map.Entry::getKey))
 				.map(Map.Entry::getKey)
 				.toList();

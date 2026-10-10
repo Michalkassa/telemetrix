@@ -9,7 +9,7 @@ interface Lens {
 
 // The four ways into the data (plan.md, "Top-level lenses").
 const LENSES: Lens[] = [
-  { title: 'Seasons', description: 'A championship year: standings and every result.' },
+  { title: 'Seasons', description: 'A championship year: standings and every result.', to: '/seasons' },
   { title: 'Grand Prix', description: 'One race weekend: results, timeline, telemetry and replay.', to: '/races' },
   { title: 'Drivers & Teams', description: 'Careers, statistics and head-to-heads.' },
   { title: 'Replay Theater', description: 'Pick a race and watch it unfold on the track map.', to: '/replay' },

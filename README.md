@@ -9,10 +9,19 @@ championship simulations and historical analytics.
 tyre stints, pit stops, the circuit's track map) downloads in the background the first time someone
 opens it, and a car's full telemetry the first time someone asks for it. Seasons, races, import status,
 track maps, telemetry, each race's weather, race control, penalties, track status (SC / VSC / red
-flag periods) and team radio, each race's **timeline** (overtakes, pit stops, SC/VSC, incidents,
+flag periods) and team radio, **championship standings** for every season since 1950 (each era's points
+rules, best-results counting and count-back, matching the official tables) and "if they finished now"
+standings during a replay, **driver career stats** (wins, podiums, poles, DNFs, positions gained, pit
+stops, tyres, wet vs dry, per track and per season; SQL over a materialized view), **constructor season stats**
+(reliability by cause, pit-stop medians ranked, race and qualifying pace gaps, the development trend,
+positions gained by strategy), each race's **timeline** (overtakes, pit stops, SC/VSC, incidents,
 DNFs, fastest laps, penalties, ...), the race **state** at any moment (order, gaps, tyres, flags,
 penalties; instant to seek thanks to snapshots), and the **replay** (a whole race's timing points in one ~80 KB response) are
-served over a REST API. The React frontend has the landing page, dashboard, Grand Prix list and race pages, and the
+served over a REST API. The React frontend has the landing page, dashboard, the **Seasons** lens (`/seasons`: a year grid, then each
+season's hub with drivers' and constructors' standings, a race-by-race results grid linking every
+result to its race, the race list, and points-progression comparisons of two drivers across seasons),
+the Grand Prix list, a **race hub** per race (results,
+timeline, lap pace, telemetry and replay; before 2023 results and lap pace, with why), and the
 replay player (`/races/:year/:raceId/replay`, or pick a race in the **Replay Theater** at `/replay`): a
 canvas track map with one dot per car, the running order, and video-style controls — play/pause, ±10 s,
 0.25–8×, jump to a lap or a race time, a timeline bar to scrub, keyboard shortcuts (space, ← →, ↑ ↓), and
@@ -150,7 +159,7 @@ journey) and are driven inward with unit tests. The rules and the test tools for
 
 ## Where to start implementing
 
-Follow [`STEPS.md`](STEPS.md) from **Step 29** (race hub pages; Step 20, CI, is still to do), using [`templates/README.md`](templates/README.md) as the reference for each Spring
+Follow [`STEPS.md`](STEPS.md) from **Step 34** (Drivers & Teams UI; Step 20, CI, is still to do), using [`templates/README.md`](templates/README.md) as the reference for each Spring
 layer. Every step starts with its **Tests first** list. When a feature's tests pass, tick it off:
 `python3 scripts/sync_features.py done <ID>`.
 

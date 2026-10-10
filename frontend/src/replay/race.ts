@@ -47,11 +47,12 @@ export function prepare(replay: Replay): Race {
   }
 }
 
-/** Every car at time t, furthest round the race first (level cars keep their order). */
+/** Every car at time t, furthest round the race first. */
 export function runningOrder(race: Race, t: number): CarNow[] {
   return race.cars
     .map((car) => ({ car, lapsDone: progressAt(car.timeline, t) }))
-    .sort((a, b) => b.lapsDone - a.lapsDone)
+    // furthest round first; level cars (finished, or stopped at the same point) by who got there first
+    .sort((a, b) => b.lapsDone - a.lapsDone || arrival(a.car, a.lapsDone) - arrival(b.car, b.lapsDone))
     .map(({ car, lapsDone }, i) => ({
       number: car.number,
       code: car.code,
@@ -76,4 +77,8 @@ export function lapStart(race: Race, lap: number): number {
   const target = Math.min(Math.max(lap, 1), race.totalLaps) - 1
   const times = race.cars.map((car) => reachedAt(car.timeline, target)).filter((t): t is number => t !== null)
   return times.length ? Math.min(...times) : 0
+}
+
+function arrival(car: RaceCar, lapsDone: number): number {
+  return reachedAt(car.timeline, lapsDone) ?? Infinity
 }

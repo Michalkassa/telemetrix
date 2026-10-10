@@ -28,6 +28,7 @@ interface Props {
 }
 
 const MARKER_COLOUR: Record<string, string> = {
+  CHAMPIONSHIP_LEAD: 'bg-emerald-400',
   SAFETY_CAR: 'bg-amber-400/70',
   VSC: 'bg-amber-300/50',
   RED_FLAG: 'bg-red-600/80',

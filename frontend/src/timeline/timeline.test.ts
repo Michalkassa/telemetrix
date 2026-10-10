@@ -62,3 +62,8 @@ describe('markers', () => {
     expect(placed.every((m) => m.left >= 0 && m.left <= 100)).toBe(true)
   })
 })
+
+test('a championship lead change is marked on the bar', () => {
+  const lead = { ...sc, type: 'CHAMPIONSHIP_LEAD' }
+  expect(markers([lead], sc.t * 2).map((m) => m.event.type)).toEqual(['CHAMPIONSHIP_LEAD'])
+})

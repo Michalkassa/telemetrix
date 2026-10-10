@@ -40,6 +40,7 @@ interface Props {
   snapshots?: Snapshot[]
   // the race's events (GET /api/races/{id}/timeline): a list beside the player and markers on the bar
   events?: TimelineEvent[]
+  startAt?: number // race time (ms) to begin at, e.g. from a timeline link
   watch?: Watching
   // the clocks (wall, for the local clock; epoch, for the shared one) and animation frames, replaceable in tests
   now?: () => number
@@ -81,6 +82,7 @@ export function ReplayPlayer({
   replay,
   snapshots = [],
   events = [],
+  startAt = 0,
   watch,
   now = () => performance.now(),
   epochNow = () => Date.now(),
@@ -89,13 +91,13 @@ export function ReplayPlayer({
 }: Props) {
   const race = useMemo(() => prepare(replay), [replay])
   const sectors = useMemo(() => sectorTimes(race), [race])
-  const store = useMemo(() => createPlayerStore(race.duration), [race])
+  const store = useMemo(() => createPlayerStore(race.duration, startAt), [race, startAt])
   const localPlaying = useStore(store, (s) => s.playing)
   const localSpeed = useStore(store, (s) => s.speed)
   const follow = useStore(store, (s) => s.follow)
   const focus = useStore(store, (s) => s.focus)
   const canvas = useRef<HTMLCanvasElement>(null)
-  const [hud, setHud] = useState<Hud>(() => hudAt(race, replay, snapshots, sectors, events, 0))
+  const [hud, setHud] = useState<Hud>(() => hudAt(race, replay, snapshots, sectors, events, startAt))
   const [shared, setShared] = useState({ playing: false, speed: 1 }) // the shared clock, as last drawn
 
   // the latest callbacks without restarting the loop

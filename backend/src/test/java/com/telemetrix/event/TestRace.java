@@ -25,6 +25,8 @@ public class TestRace {
 
 	public static final Instant START = Instant.parse("2023-09-17T12:00:00Z");
 
+	private long sessionId;
+
 	private int totalLaps = 10;
 
 	private Instant chequeredAt;
@@ -51,6 +53,11 @@ public class TestRace {
 
 	public static Instant t(double seconds) {
 		return START.plusMillis(Math.round(seconds * 1000));
+	}
+
+	public TestRace session(long sessionId) {
+		this.sessionId = sessionId;
+		return this;
 	}
 
 	public TestRace laps(int totalLaps) {
@@ -129,7 +136,7 @@ public class TestRace {
 						.max(java.util.Comparator.comparingDouble(ProgressTimeline::finalLapsDone)
 								.thenComparing(ProgressTimeline::lastAt, java.util.Comparator.reverseOrder()))
 						.map(ProgressTimeline::lastAt).orElse(START);
-		return new RaceData(START, flag, totalLaps, codes, timelines, pits, laps, stints, trackStatus, raceControl,
+		return new RaceData(sessionId, START, flag, totalLaps, codes, timelines, pits, laps, stints, trackStatus, raceControl,
 				penalties, radio, weather);
 	}
 

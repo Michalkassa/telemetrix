@@ -14,6 +14,8 @@ beforeEach(() => {
     http.get('/api/seasons/2023/races', () => HttpResponse.json(races2023)),
     http.get('/api/races/1', () => HttpResponse.json(bahrain2024)),
     http.get('/api/races/900', () => HttpResponse.json(britishGp1950)),
+    // the race hub also shows the podium; these tests are about getting around
+    http.get('/api/races/:id/results', ({ params }) => HttpResponse.json({ raceId: Number(params.id), results: [] })),
   )
 })
 
@@ -27,7 +29,7 @@ describe('landing page', () => {
 })
 
 describe('dashboard', () => {
-  test('offers four lenses, with Grand Prix and Replay Theater open for now', async () => {
+  test('offers four lenses, with Seasons, Grand Prix and Replay Theater open for now', async () => {
     renderRoute('/dashboard')
 
     const cards = screen.getAllByRole('article')
@@ -39,7 +41,8 @@ describe('dashboard', () => {
     ])
     expect(screen.getByRole('link', { name: /grand prix/i })).toHaveAttribute('href', '/races')
     expect(screen.getByRole('link', { name: /replay theater/i })).toHaveAttribute('href', '/replay')
-    expect(screen.getAllByText(/coming soon/i)).toHaveLength(2)
+    expect(screen.getByRole('link', { name: /^seasons$/i })).toHaveAttribute('href', '/seasons')
+    expect(screen.getAllByText(/coming soon/i)).toHaveLength(1)
   })
 })
 
@@ -48,6 +51,7 @@ describe('Grand Prix list', () => {
     const { router } = renderRoute('/races')
 
     await waitFor(() => expect(router.state.location.pathname).toBe('/races/2024'))
+    await screen.findByRole('list', { name: 'Races' }) // finish loading before the test ends
   })
 
   test("lists a season's races in round order, each linking to its race", async () => {
@@ -144,6 +148,7 @@ describe('Replay Theater', () => {
     const { router } = renderRoute('/replay')
 
     await waitFor(() => expect(router.state.location.pathname).toBe('/replay/2024'))
+    await screen.findByRole('list', { name: 'Replays' }) // finish loading before the test ends
   })
 
   test("lists the season's races that have a replay, each going straight to it", async () => {

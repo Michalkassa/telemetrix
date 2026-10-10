@@ -6,6 +6,7 @@ import { currentEvent, filterEvents } from './timeline'
 // now is highlighted (and kept in view while playing); checkboxes hide types.
 
 const EVENT_TYPES: [string, string][] = [
+  ['CHAMPIONSHIP_LEAD', 'Championship lead'],
   ['SAFETY_CAR', 'Safety car'],
   ['VSC', 'VSC'],
   ['RED_FLAG', 'Red flags'],

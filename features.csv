@@ -46,31 +46,31 @@ TIME-10,2,22,Timeline System,Penalties,done,2026-10-09
 TIME-11,2,22,Timeline System,Team radio markers,done,2026-10-09
 TIME-12,2,22,Timeline System,Tire changes,done,2026-10-09
 TIME-13,2,22,Timeline System,Weather changes,done,2026-10-09
-TIME-14,3,30,Timeline System,Championship lead changes,todo,
-CHAMP-01,3,31,Championship Explorer,Select any season,todo,
-CHAMP-02,3,31,Championship Explorer,View constructor standings,todo,
-CHAMP-03,3,31,Championship Explorer,View driver standings,todo,
-CHAMP-04,3,30,Championship Explorer,Dynamic standings during race playback,todo,
-CHAMP-05,3,30,Championship Explorer,Historical points systems,todo,
-CHAMP-06,3,30,Championship Explorer,Sprint race support,todo,
-CHAMP-07,3,31,Championship Explorer,Compare seasons,todo,
-DRV-01,3,32,Driver Analytics,Wins,todo,
-DRV-02,3,32,Driver Analytics,Podiums,todo,
-DRV-03,3,32,Driver Analytics,DNFs,todo,
-DRV-04,3,32,Driver Analytics,Fastest laps,todo,
-DRV-05,3,32,Driver Analytics,Pole positions,todo,
-DRV-06,3,32,Driver Analytics,Average finish,todo,
-DRV-07,3,32,Driver Analytics,Overtake statistics,todo,
-DRV-08,3,32,Driver Analytics,Pit stop averages,todo,
-DRV-09,3,32,Driver Analytics,Tire strategy tendencies,todo,
-DRV-10,3,32,Driver Analytics,Wet vs dry performance,todo,
-DRV-11,3,32,Driver Analytics,Track-specific performance,todo,
-CON-01,3,33,Constructor Analytics,Reliability,todo,
-CON-02,3,33,Constructor Analytics,Pit stop efficiency,todo,
-CON-03,3,33,Constructor Analytics,Race pace,todo,
-CON-04,3,33,Constructor Analytics,Qualifying pace,todo,
-CON-05,3,33,Constructor Analytics,Development trend visualization,todo,
-CON-06,3,33,Constructor Analytics,Strategy performance,todo,
+TIME-14,3,30,Timeline System,Championship lead changes,done,2026-10-10
+CHAMP-01,3,31,Championship Explorer,Select any season,done,2026-10-10
+CHAMP-02,3,31,Championship Explorer,View constructor standings,done,2026-10-10
+CHAMP-03,3,31,Championship Explorer,View driver standings,done,2026-10-10
+CHAMP-04,3,30,Championship Explorer,Dynamic standings during race playback,done,2026-10-10
+CHAMP-05,3,30,Championship Explorer,Historical points systems,done,2026-10-10
+CHAMP-06,3,30,Championship Explorer,Sprint race support,done,2026-10-10
+CHAMP-07,3,31,Championship Explorer,Compare seasons,done,2026-10-10
+DRV-01,3,32,Driver Analytics,Wins,done,2026-10-10
+DRV-02,3,32,Driver Analytics,Podiums,done,2026-10-10
+DRV-03,3,32,Driver Analytics,DNFs,done,2026-10-10
+DRV-04,3,32,Driver Analytics,Fastest laps,done,2026-10-10
+DRV-05,3,32,Driver Analytics,Pole positions,done,2026-10-10
+DRV-06,3,32,Driver Analytics,Average finish,done,2026-10-10
+DRV-07,3,32,Driver Analytics,Overtake statistics,done,2026-10-10
+DRV-08,3,32,Driver Analytics,Pit stop averages,done,2026-10-10
+DRV-09,3,32,Driver Analytics,Tire strategy tendencies,done,2026-10-10
+DRV-10,3,32,Driver Analytics,Wet vs dry performance,done,2026-10-10
+DRV-11,3,32,Driver Analytics,Track-specific performance,done,2026-10-10
+CON-01,3,33,Constructor Analytics,Reliability,done,2026-10-10
+CON-02,3,33,Constructor Analytics,Pit stop efficiency,done,2026-10-10
+CON-03,3,33,Constructor Analytics,Race pace,done,2026-10-10
+CON-04,3,33,Constructor Analytics,Qualifying pace,done,2026-10-10
+CON-05,3,34,Constructor Analytics,Development trend visualization,todo,
+CON-06,3,33,Constructor Analytics,Strategy performance,done,2026-10-10
 CMP-01,3,35,Multi-Race Comparison,Compare same track across years,todo,
 CMP-02,3,35,Multi-Race Comparison,Compare driver performance,todo,
 CMP-03,3,35,Multi-Race Comparison,Compare tire strategies,todo,
@@ -81,7 +81,7 @@ STATE-03,2,26,Race State Engine,Tire states,done,2026-10-09
 STATE-04,2,26,Race State Engine,Active penalties,done,2026-10-09
 STATE-05,2,26,Race State Engine,Current flags,done,2026-10-09
 STATE-06,2,26,Race State Engine,Pit window status,done,2026-10-09
-STATE-07,3,30,Race State Engine,Championship standings,todo,
+STATE-07,3,30,Race State Engine,Championship standings,done,2026-10-10
 ES-01,3,36,Event Sourcing Architecture,Easier replay reconstruction,todo,
 ES-02,3,36,Event Sourcing Architecture,Time travel debugging,todo,
 ES-03,3,36,Event Sourcing Architecture,Efficient playback,todo,
@@ -104,13 +104,13 @@ FE-07,2,26,Frontend Stack,D3.js,done,2026-10-09
 FE-08,1,18,Frontend Stack,Canvas API,done,2026-10-09
 FE-09,2,24,Frontend Stack,WebSockets,done,2026-10-09
 FE-10,2,27,Frontend Stack,Recharts,done,2026-10-09
-NAV-01,3,31,Top-level lenses (L1),Seasons — explore a championship year: standings and full season results.,todo,
-NAV-02,2,29,Top-level lenses (L1),"Grand Prix — explore a single event: results, timeline, analytics, telemetry, replay.",todo,
+NAV-01,3,31,Top-level lenses (L1),Seasons — explore a championship year: standings and full season results.,done,2026-10-10
+NAV-02,2,29,Top-level lenses (L1),"Grand Prix — explore a single event: results, timeline, analytics, telemetry, replay.",done,2026-10-10
 NAV-03,3,34,Top-level lenses (L1),Drivers & Teams — explore competitors: per-driver and per-constructor stats/analytics.,todo,
 NAV-04,2,25,Top-level lenses (L1),Replay Theater — jump straight to watching a race's animated playback.,done,2026-10-09
 NAV-05,1,17,Route tree,/ landing → /dashboard hub.,done,2026-10-09
-NAV-06,3,31,Route tree,Seasons: /seasons (year grid) → /seasons/:year (season hub) → leaves,todo,
-NAV-07,2,29,Route tree,"Grand Prix: /races/:year (GP list, year filter) → /races/:year/:sessionKey (race hub) →",todo,
+NAV-06,3,31,Route tree,Seasons: /seasons (year grid) → /seasons/:year (season hub) → leaves,done,2026-10-10
+NAV-07,2,29,Route tree,"Grand Prix: /races/:year (GP list, year filter) → /races/:year/:sessionKey (race hub) →",done,2026-10-10
 NAV-08,3,34,Route tree,Drivers & Teams: /drivers directory → /drivers/:acronym hub (Stats · Season-by-season ·,todo,
 NAV-09,2,25,Route tree,Replay Theater: /replay (year → GP picker) → reuses the race-hub replay leaf.,done,2026-10-09
 DB-01,1,6,Core Tables,seasons,done,2026-10-09
@@ -124,7 +124,7 @@ DB-08,1,13,Core Tables,telemetry_points,done,2026-10-09
 DB-09,2,21,Core Tables,race_events,done,2026-10-09
 DB-10,1,12,Core Tables,pit_stops,done,2026-10-09
 DB-11,2,21,Core Tables,weather_data,done,2026-10-09
-DB-12,3,30,Core Tables,championship_snapshots,todo,
+DB-12,3,30,Core Tables,championship_snapshots,done,2026-10-10
 DB-13,1,12,Core Tables,tire_stints,done,2026-10-09
 DB-14,2,21,Core Tables,penalties,done,2026-10-09
 DB-15,1,6,Core Tables,sessions,done,2026-10-09
@@ -180,7 +180,7 @@ SNAP-03,2,23,Snapshotting,Key events,done,2026-10-09
 API-01,1,11,REST APIs,GET /seasons,done,2026-10-09
 API-02,1,11,REST APIs,GET /races/{id},done,2026-10-09
 API-03,2,22,REST APIs,GET /races/{id}/timeline,done,2026-10-09
-API-04,3,32,REST APIs,GET /drivers/{id}/stats,todo,
+API-04,3,32,REST APIs,GET /drivers/{id}/stats,done,2026-10-10
 API-05,1,13,REST APIs,GET /telemetry/{sessionId},done,2026-10-09
 WS-01,2,24,WebSocket APIs,Live replay stream,done,2026-10-09
 WS-02,2,24,WebSocket APIs,Telemetry updates,todo,
@@ -202,7 +202,7 @@ OBS-06,4,42,Tracing,Jaeger,todo,
 TEST-01,1,11,Unit Tests,Services,done,2026-10-09
 TEST-02,1,11,Unit Tests,Utilities,done,2026-10-09
 TEST-03,1,9,Unit Tests,Validators,done,2026-10-09
-TEST-04,3,30,Unit Tests,Calculators,todo,
+TEST-04,3,30,Unit Tests,Calculators,done,2026-10-10
 TEST-05,1,7,Integration Tests,Repository tests,done,2026-10-09
 TEST-06,4,40,Integration Tests,Kafka tests,todo,
 TEST-07,4,38,Integration Tests,Redis tests,todo,
@@ -273,12 +273,12 @@ MOD-01,4,37,Modules,auth-service,todo,
 MOD-02,1,11,Modules,race-service,done,2026-10-09
 MOD-03,1,13,Modules,telemetry-service,done,2026-10-09
 MOD-04,1,15,Modules,replay-service,done,2026-10-09
-MOD-05,3,32,Modules,analytics-service,todo,
+MOD-05,3,32,Modules,analytics-service,done,2026-10-10
 MOD-06,1,9,Modules,ingestion-service,done,2026-10-09
-MOD-07,3,30,Modules,championship-service,todo,
+MOD-07,3,30,Modules,championship-service,done,2026-10-10
 MOD-08,2,22,Modules,event-service,done,2026-10-09
 PAT-01,1,21,Patterns To Use,Factory Pattern,done,2026-10-09
-PAT-02,3,30,Patterns To Use,Strategy Pattern,todo,
+PAT-02,3,30,Patterns To Use,Strategy Pattern,done,2026-10-10
 PAT-03,2,22,Patterns To Use,Observer Pattern,done,2026-10-09
 PAT-04,1,15,Patterns To Use,Builder Pattern,done,2026-10-09
 PAT-05,3,36,Patterns To Use,CQRS,todo,

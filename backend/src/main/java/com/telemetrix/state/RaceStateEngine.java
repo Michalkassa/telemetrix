@@ -231,7 +231,10 @@ public final class RaceStateEngine {
 			}
 			(status == CarStatus.RETIRED ? retired : running).add(new Now(car, timeline, lapsDone, status));
 		});
-		Comparator<Now> furthestFirst = Comparator.comparingDouble((Now n) -> -n.lapsDone()).thenComparingInt(Now::car);
+		// furthest round first; level cars (finished, or stopped at the same point) by who got there first
+		Comparator<Now> furthestFirst = Comparator.comparingDouble((Now n) -> -n.lapsDone())
+				.thenComparing((Now n) -> n.timeline().reachedAt(n.lapsDone()), Comparator.nullsLast(Comparator.naturalOrder()))
+				.thenComparingInt(Now::car);
 		running.sort(furthestFirst);
 		retired.sort(furthestFirst);
 

@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class DriverStatsService {
 
 	/** Longer than this in the pit lane is a red-flag stoppage, not a pit stop. */
-	static final long RED_FLAG_MS = 5 * 60_000;
+	public static final long RED_FLAG_MS = 5 * 60_000;
 
 	private final JdbcTemplate jdbc;
 

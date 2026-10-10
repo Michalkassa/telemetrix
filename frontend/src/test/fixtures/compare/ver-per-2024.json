@@ -1,0 +1,688 @@
+{
+  "season": 2024,
+  "a": { "ref": "max_verstappen", "code": "VER", "givenName": "Max", "surname": "Verstappen" },
+  "b": { "ref": "perez", "code": "PER", "givenName": "Sergio", "surname": "Pérez" },
+  "tally": {
+    "races": 24,
+    "aAheadInRace": 23,
+    "bAheadInRace": 1,
+    "aAheadOnGrid": 21,
+    "bAheadOnGrid": 3,
+    "aPoints": 399.0,
+    "bPoints": 138.0
+  },
+  "races": [
+    {
+      "round": 1,
+      "raceId": 1,
+      "name": "Bahrain Grand Prix",
+      "a": {
+        "team": "Red Bull",
+        "grid": 1,
+        "position": 1,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 26.0,
+        "medianLapMs": 95529,
+        "bestLapMs": 92608
+      },
+      "b": {
+        "team": "Red Bull",
+        "grid": 5,
+        "position": 2,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 18.0,
+        "medianLapMs": 96218,
+        "bestLapMs": 94364
+      },
+      "medianGapMs": -689
+    },
+    {
+      "round": 2,
+      "raceId": 2,
+      "name": "Saudi Arabian Grand Prix",
+      "a": {
+        "team": "Red Bull",
+        "grid": 1,
+        "position": 1,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 25.0,
+        "medianLapMs": 92788,
+        "bestLapMs": 91773
+      },
+      "b": {
+        "team": "Red Bull",
+        "grid": 3,
+        "position": 2,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 18.0,
+        "medianLapMs": 92832,
+        "bestLapMs": 92273
+      },
+      "medianGapMs": -44
+    },
+    {
+      "round": 3,
+      "raceId": 3,
+      "name": "Australian Grand Prix",
+      "a": {
+        "team": "Red Bull",
+        "grid": 1,
+        "position": 19,
+        "classified": false,
+        "status": "RETIRED_MECHANICAL",
+        "statusDetail": "Retired",
+        "points": 0.0,
+        "medianLapMs": 83607,
+        "bestLapMs": 83115
+      },
+      "b": {
+        "team": "Red Bull",
+        "grid": 6,
+        "position": 5,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 10.0,
+        "medianLapMs": 81849,
+        "bestLapMs": 80388
+      },
+      "medianGapMs": 1758
+    },
+    {
+      "round": 4,
+      "raceId": 4,
+      "name": "Japanese Grand Prix",
+      "a": {
+        "team": "Red Bull",
+        "grid": 1,
+        "position": 1,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 26.0,
+        "medianLapMs": 96393,
+        "bestLapMs": 93706
+      },
+      "b": {
+        "team": "Red Bull",
+        "grid": 2,
+        "position": 2,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 18.0,
+        "medianLapMs": 96570,
+        "bestLapMs": 93945
+      },
+      "medianGapMs": -177
+    },
+    {
+      "round": 5,
+      "raceId": 5,
+      "name": "Chinese Grand Prix",
+      "a": {
+        "team": "Red Bull",
+        "grid": 1,
+        "position": 1,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 25.0,
+        "medianLapMs": 99591,
+        "bestLapMs": 98406
+      },
+      "b": {
+        "team": "Red Bull",
+        "grid": 2,
+        "position": 3,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 15.0,
+        "medianLapMs": 100096,
+        "bestLapMs": 99388
+      },
+      "medianGapMs": -505
+    },
+    {
+      "round": 6,
+      "raceId": 6,
+      "name": "Miami Grand Prix",
+      "a": {
+        "team": "Red Bull",
+        "grid": 1,
+        "position": 2,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 18.0,
+        "medianLapMs": 92227,
+        "bestLapMs": 91261
+      },
+      "b": {
+        "team": "Red Bull",
+        "grid": 4,
+        "position": 4,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 12.0,
+        "medianLapMs": 92449,
+        "bestLapMs": 90855
+      },
+      "medianGapMs": -222
+    },
+    {
+      "round": 7,
+      "raceId": 7,
+      "name": "Emilia Romagna Grand Prix",
+      "a": {
+        "team": "Red Bull",
+        "grid": 1,
+        "position": 1,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 25.0,
+        "medianLapMs": 80781,
+        "bestLapMs": 80366
+      },
+      "b": {
+        "team": "Red Bull",
+        "grid": 11,
+        "position": 8,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 4.0,
+        "medianLapMs": 81913,
+        "bestLapMs": 79686
+      },
+      "medianGapMs": -1132
+    },
+    {
+      "round": 8,
+      "raceId": 8,
+      "name": "Monaco Grand Prix",
+      "a": {
+        "team": "Red Bull",
+        "grid": 6,
+        "position": 6,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 8.0,
+        "medianLapMs": 76590,
+        "bestLapMs": 74569
+      },
+      "b": {
+        "team": "Red Bull",
+        "grid": 16,
+        "position": 18,
+        "classified": false,
+        "status": "RETIRED_MECHANICAL",
+        "statusDetail": "Retired",
+        "points": 0.0,
+        "medianLapMs": null,
+        "bestLapMs": null
+      },
+      "medianGapMs": null
+    },
+    {
+      "round": 9,
+      "raceId": 9,
+      "name": "Canadian Grand Prix",
+      "a": {
+        "team": "Red Bull",
+        "grid": 2,
+        "position": 1,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 25.0,
+        "medianLapMs": 76318,
+        "bestLapMs": 75569
+      },
+      "b": {
+        "team": "Red Bull",
+        "grid": 16,
+        "position": 18,
+        "classified": false,
+        "status": "RETIRED_MECHANICAL",
+        "statusDetail": "Retired",
+        "points": 0.0,
+        "medianLapMs": 79302,
+        "bestLapMs": 78819
+      },
+      "medianGapMs": -2984
+    },
+    {
+      "round": 10,
+      "raceId": 10,
+      "name": "Spanish Grand Prix",
+      "a": {
+        "team": "Red Bull",
+        "grid": 2,
+        "position": 1,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 25.0,
+        "medianLapMs": 79792,
+        "bestLapMs": 77776
+      },
+      "b": {
+        "team": "Red Bull",
+        "grid": 11,
+        "position": 8,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 4.0,
+        "medianLapMs": 79688,
+        "bestLapMs": 77785
+      },
+      "medianGapMs": 104
+    },
+    {
+      "round": 11,
+      "raceId": 11,
+      "name": "Austrian Grand Prix",
+      "a": {
+        "team": "Red Bull",
+        "grid": 1,
+        "position": 5,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 10.0,
+        "medianLapMs": 70217,
+        "bestLapMs": 67719
+      },
+      "b": {
+        "team": "Red Bull",
+        "grid": 8,
+        "position": 7,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 6.0,
+        "medianLapMs": 71001,
+        "bestLapMs": 69694
+      },
+      "medianGapMs": -784
+    },
+    {
+      "round": 12,
+      "raceId": 12,
+      "name": "British Grand Prix",
+      "a": {
+        "team": "Red Bull",
+        "grid": 4,
+        "position": 2,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 18.0,
+        "medianLapMs": 91735,
+        "bestLapMs": 88952
+      },
+      "b": {
+        "team": "Red Bull",
+        "grid": 20,
+        "position": 17,
+        "classified": true,
+        "status": "LAPPED",
+        "statusDetail": "Lapped",
+        "points": 0.0,
+        "medianLapMs": 92500,
+        "bestLapMs": 89707
+      },
+      "medianGapMs": -765
+    },
+    {
+      "round": 13,
+      "raceId": 13,
+      "name": "Hungarian Grand Prix",
+      "a": {
+        "team": "Red Bull",
+        "grid": 3,
+        "position": 5,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 10.0,
+        "medianLapMs": 83585,
+        "bestLapMs": 80908
+      },
+      "b": {
+        "team": "Red Bull",
+        "grid": 16,
+        "position": 7,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 6.0,
+        "medianLapMs": 83174,
+        "bestLapMs": 81096
+      },
+      "medianGapMs": 411
+    },
+    {
+      "round": 14,
+      "raceId": 14,
+      "name": "Belgian Grand Prix",
+      "a": {
+        "team": "Red Bull",
+        "grid": 11,
+        "position": 4,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 12.0,
+        "medianLapMs": 108154,
+        "bestLapMs": 106128
+      },
+      "b": {
+        "team": "Red Bull",
+        "grid": 2,
+        "position": 7,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 7.0,
+        "medianLapMs": 108335,
+        "bestLapMs": 104701
+      },
+      "medianGapMs": -181
+    },
+    {
+      "round": 15,
+      "raceId": 15,
+      "name": "Dutch Grand Prix",
+      "a": {
+        "team": "Red Bull",
+        "grid": 2,
+        "position": 2,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 18.0,
+        "medianLapMs": 75232,
+        "bestLapMs": 74752
+      },
+      "b": {
+        "team": "Red Bull",
+        "grid": 5,
+        "position": 6,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 8.0,
+        "medianLapMs": 75314,
+        "bestLapMs": 74587
+      },
+      "medianGapMs": -82
+    },
+    {
+      "round": 16,
+      "raceId": 16,
+      "name": "Italian Grand Prix",
+      "a": {
+        "team": "Red Bull",
+        "grid": 7,
+        "position": 6,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 8.0,
+        "medianLapMs": 83620,
+        "bestLapMs": 81745
+      },
+      "b": {
+        "team": "Red Bull",
+        "grid": 8,
+        "position": 8,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 4.0,
+        "medianLapMs": 84524,
+        "bestLapMs": 82971
+      },
+      "medianGapMs": -904
+    },
+    {
+      "round": 17,
+      "raceId": 17,
+      "name": "Azerbaijan Grand Prix",
+      "a": {
+        "team": "Red Bull",
+        "grid": 6,
+        "position": 5,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 10.0,
+        "medianLapMs": 108356,
+        "bestLapMs": 106798
+      },
+      "b": {
+        "team": "Red Bull",
+        "grid": 4,
+        "position": 17,
+        "classified": true,
+        "status": "RETIRED_MECHANICAL",
+        "statusDetail": "Retired",
+        "points": 0.0,
+        "medianLapMs": 107876,
+        "bestLapMs": 107013
+      },
+      "medianGapMs": 480
+    },
+    {
+      "round": 18,
+      "raceId": 18,
+      "name": "Singapore Grand Prix",
+      "a": {
+        "team": "Red Bull",
+        "grid": 2,
+        "position": 2,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 18.0,
+        "medianLapMs": 97100,
+        "bestLapMs": 95967
+      },
+      "b": {
+        "team": "Red Bull",
+        "grid": 13,
+        "position": 10,
+        "classified": true,
+        "status": "LAPPED",
+        "statusDetail": "Lapped",
+        "points": 1.0,
+        "medianLapMs": 98618,
+        "bestLapMs": 97477
+      },
+      "medianGapMs": -1518
+    },
+    {
+      "round": 19,
+      "raceId": 19,
+      "name": "United States Grand Prix",
+      "a": {
+        "team": "Red Bull",
+        "grid": 2,
+        "position": 3,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 15.0,
+        "medianLapMs": 99086,
+        "bestLapMs": 98117
+      },
+      "b": {
+        "team": "Red Bull",
+        "grid": 9,
+        "position": 7,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 6.0,
+        "medianLapMs": 99863,
+        "bestLapMs": 98514
+      },
+      "medianGapMs": -777
+    },
+    {
+      "round": 20,
+      "raceId": 20,
+      "name": "Mexico City Grand Prix",
+      "a": {
+        "team": "Red Bull",
+        "grid": 2,
+        "position": 6,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 8.0,
+        "medianLapMs": 81448,
+        "bestLapMs": 80872
+      },
+      "b": {
+        "team": "Red Bull",
+        "grid": 18,
+        "position": 17,
+        "classified": true,
+        "status": "LAPPED",
+        "statusDetail": "Lapped",
+        "points": 0.0,
+        "medianLapMs": 82367,
+        "bestLapMs": 79209
+      },
+      "medianGapMs": -919
+    },
+    {
+      "round": 21,
+      "raceId": 21,
+      "name": "São Paulo Grand Prix",
+      "a": {
+        "team": "Red Bull",
+        "grid": 17,
+        "position": 1,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 26.0,
+        "medianLapMs": 83657,
+        "bestLapMs": 80472
+      },
+      "b": {
+        "team": "Red Bull",
+        "grid": 12,
+        "position": 11,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 0.0,
+        "medianLapMs": 84411,
+        "bestLapMs": 82143
+      },
+      "medianGapMs": -754
+    },
+    {
+      "round": 22,
+      "raceId": 22,
+      "name": "Las Vegas Grand Prix",
+      "a": {
+        "team": "Red Bull",
+        "grid": 5,
+        "position": 5,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 10.0,
+        "medianLapMs": 97678,
+        "bestLapMs": 96248
+      },
+      "b": {
+        "team": "Red Bull",
+        "grid": 15,
+        "position": 10,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 1.0,
+        "medianLapMs": 98112,
+        "bestLapMs": 96326
+      },
+      "medianGapMs": -434
+    },
+    {
+      "round": 23,
+      "raceId": 23,
+      "name": "Qatar Grand Prix",
+      "a": {
+        "team": "Red Bull",
+        "grid": 2,
+        "position": 1,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 25.0,
+        "medianLapMs": 84775,
+        "bestLapMs": 82905
+      },
+      "b": {
+        "team": "Red Bull",
+        "grid": 9,
+        "position": 17,
+        "classified": false,
+        "status": "RETIRED_MECHANICAL",
+        "statusDetail": "Retired",
+        "points": 0.0,
+        "medianLapMs": 86049,
+        "bestLapMs": 85288
+      },
+      "medianGapMs": -1274
+    },
+    {
+      "round": 24,
+      "raceId": 24,
+      "name": "Abu Dhabi Grand Prix",
+      "a": {
+        "team": "Red Bull",
+        "grid": 4,
+        "position": 6,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 8.0,
+        "medianLapMs": 88780,
+        "bestLapMs": 87765
+      },
+      "b": {
+        "team": "Red Bull",
+        "grid": 10,
+        "position": 20,
+        "classified": false,
+        "status": "RETIRED_MECHANICAL",
+        "statusDetail": "Retired",
+        "points": 0.0,
+        "medianLapMs": null,
+        "bestLapMs": null
+      },
+      "medianGapMs": null
+    }
+  ]
+}

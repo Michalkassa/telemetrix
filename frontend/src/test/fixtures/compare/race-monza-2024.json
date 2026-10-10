@@ -1,0 +1,17 @@
+{
+  "id": 16,
+  "season": 2024,
+  "round": 16,
+  "name": "Italian Grand Prix",
+  "date": "2024-09-01",
+  "circuit": { "ref": "monza", "name": "Autodromo Nazionale di Monza", "locality": "Monza", "country": "Italy" },
+  "openf1MeetingKey": 1244,
+  "importedAt": "2026-10-10T18:56:47.740907Z",
+  "sessions": [
+    { "id": 41, "name": "Practice 1", "startsAt": "2024-08-30T11:30:00Z", "endsAt": "2024-08-30T12:30:00Z" },
+    { "id": 42, "name": "Practice 2", "startsAt": "2024-08-30T15:00:00Z", "endsAt": "2024-08-30T16:00:00Z" },
+    { "id": 43, "name": "Practice 3", "startsAt": "2024-08-31T10:30:00Z", "endsAt": "2024-08-31T11:30:00Z" },
+    { "id": 44, "name": "Qualifying", "startsAt": "2024-08-31T14:00:00Z", "endsAt": "2024-08-31T15:00:00Z" },
+    { "id": 45, "name": "Race", "startsAt": "2024-09-01T13:00:00Z", "endsAt": "2024-09-01T15:00:00Z" }
+  ]
+}

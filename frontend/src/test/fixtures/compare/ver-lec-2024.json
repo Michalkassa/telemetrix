@@ -1,0 +1,688 @@
+{
+  "season": 2024,
+  "a": { "ref": "max_verstappen", "code": "VER", "givenName": "Max", "surname": "Verstappen" },
+  "b": { "ref": "leclerc", "code": "LEC", "givenName": "Charles", "surname": "Leclerc" },
+  "tally": {
+    "races": 24,
+    "aAheadInRace": 14,
+    "bAheadInRace": 10,
+    "aAheadOnGrid": 18,
+    "bAheadOnGrid": 6,
+    "aPoints": 399.0,
+    "bPoints": 327.0
+  },
+  "races": [
+    {
+      "round": 1,
+      "raceId": 1,
+      "name": "Bahrain Grand Prix",
+      "a": {
+        "team": "Red Bull",
+        "grid": 1,
+        "position": 1,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 26.0,
+        "medianLapMs": 95529,
+        "bestLapMs": 92608
+      },
+      "b": {
+        "team": "Ferrari",
+        "grid": 2,
+        "position": 4,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 12.0,
+        "medianLapMs": 96758,
+        "bestLapMs": 94090
+      },
+      "medianGapMs": -1229
+    },
+    {
+      "round": 2,
+      "raceId": 2,
+      "name": "Saudi Arabian Grand Prix",
+      "a": {
+        "team": "Red Bull",
+        "grid": 1,
+        "position": 1,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 25.0,
+        "medianLapMs": 92788,
+        "bestLapMs": 91773
+      },
+      "b": {
+        "team": "Ferrari",
+        "grid": 2,
+        "position": 3,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 16.0,
+        "medianLapMs": 93254,
+        "bestLapMs": 91632
+      },
+      "medianGapMs": -466
+    },
+    {
+      "round": 3,
+      "raceId": 3,
+      "name": "Australian Grand Prix",
+      "a": {
+        "team": "Red Bull",
+        "grid": 1,
+        "position": 19,
+        "classified": false,
+        "status": "RETIRED_MECHANICAL",
+        "statusDetail": "Retired",
+        "points": 0.0,
+        "medianLapMs": 83607,
+        "bestLapMs": 83115
+      },
+      "b": {
+        "team": "Ferrari",
+        "grid": 4,
+        "position": 2,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 19.0,
+        "medianLapMs": 81841,
+        "bestLapMs": 79813
+      },
+      "medianGapMs": 1766
+    },
+    {
+      "round": 4,
+      "raceId": 4,
+      "name": "Japanese Grand Prix",
+      "a": {
+        "team": "Red Bull",
+        "grid": 1,
+        "position": 1,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 26.0,
+        "medianLapMs": 96393,
+        "bestLapMs": 93706
+      },
+      "b": {
+        "team": "Ferrari",
+        "grid": 8,
+        "position": 4,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 12.0,
+        "medianLapMs": 96519,
+        "bestLapMs": 95044
+      },
+      "medianGapMs": -126
+    },
+    {
+      "round": 5,
+      "raceId": 5,
+      "name": "Chinese Grand Prix",
+      "a": {
+        "team": "Red Bull",
+        "grid": 1,
+        "position": 1,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 25.0,
+        "medianLapMs": 99591,
+        "bestLapMs": 98406
+      },
+      "b": {
+        "team": "Ferrari",
+        "grid": 6,
+        "position": 4,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 12.0,
+        "medianLapMs": 100510,
+        "bestLapMs": 99384
+      },
+      "medianGapMs": -919
+    },
+    {
+      "round": 6,
+      "raceId": 6,
+      "name": "Miami Grand Prix",
+      "a": {
+        "team": "Red Bull",
+        "grid": 1,
+        "position": 2,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 18.0,
+        "medianLapMs": 92227,
+        "bestLapMs": 91261
+      },
+      "b": {
+        "team": "Ferrari",
+        "grid": 2,
+        "position": 3,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 15.0,
+        "medianLapMs": 91996,
+        "bestLapMs": 91084
+      },
+      "medianGapMs": 231
+    },
+    {
+      "round": 7,
+      "raceId": 7,
+      "name": "Emilia Romagna Grand Prix",
+      "a": {
+        "team": "Red Bull",
+        "grid": 1,
+        "position": 1,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 25.0,
+        "medianLapMs": 80781,
+        "bestLapMs": 80366
+      },
+      "b": {
+        "team": "Ferrari",
+        "grid": 3,
+        "position": 3,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 15.0,
+        "medianLapMs": 80927,
+        "bestLapMs": 79935
+      },
+      "medianGapMs": -146
+    },
+    {
+      "round": 8,
+      "raceId": 8,
+      "name": "Monaco Grand Prix",
+      "a": {
+        "team": "Red Bull",
+        "grid": 6,
+        "position": 6,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 8.0,
+        "medianLapMs": 76590,
+        "bestLapMs": 74569
+      },
+      "b": {
+        "team": "Ferrari",
+        "grid": 1,
+        "position": 1,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 25.0,
+        "medianLapMs": 78230,
+        "bestLapMs": 75162
+      },
+      "medianGapMs": -1640
+    },
+    {
+      "round": 9,
+      "raceId": 9,
+      "name": "Canadian Grand Prix",
+      "a": {
+        "team": "Red Bull",
+        "grid": 2,
+        "position": 1,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 25.0,
+        "medianLapMs": 76318,
+        "bestLapMs": 75569
+      },
+      "b": {
+        "team": "Ferrari",
+        "grid": 11,
+        "position": 19,
+        "classified": false,
+        "status": "RETIRED_MECHANICAL",
+        "statusDetail": "Retired",
+        "points": 0.0,
+        "medianLapMs": null,
+        "bestLapMs": 86012
+      },
+      "medianGapMs": null
+    },
+    {
+      "round": 10,
+      "raceId": 10,
+      "name": "Spanish Grand Prix",
+      "a": {
+        "team": "Red Bull",
+        "grid": 2,
+        "position": 1,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 25.0,
+        "medianLapMs": 79792,
+        "bestLapMs": 77776
+      },
+      "b": {
+        "team": "Ferrari",
+        "grid": 5,
+        "position": 5,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 10.0,
+        "medianLapMs": 79675,
+        "bestLapMs": 77897
+      },
+      "medianGapMs": 117
+    },
+    {
+      "round": 11,
+      "raceId": 11,
+      "name": "Austrian Grand Prix",
+      "a": {
+        "team": "Red Bull",
+        "grid": 1,
+        "position": 5,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 10.0,
+        "medianLapMs": 70217,
+        "bestLapMs": 67719
+      },
+      "b": {
+        "team": "Ferrari",
+        "grid": 6,
+        "position": 11,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 0.0,
+        "medianLapMs": 70522,
+        "bestLapMs": 69584
+      },
+      "medianGapMs": -305
+    },
+    {
+      "round": 12,
+      "raceId": 12,
+      "name": "British Grand Prix",
+      "a": {
+        "team": "Red Bull",
+        "grid": 4,
+        "position": 2,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 18.0,
+        "medianLapMs": 91735,
+        "bestLapMs": 88952
+      },
+      "b": {
+        "team": "Ferrari",
+        "grid": 11,
+        "position": 14,
+        "classified": true,
+        "status": "LAPPED",
+        "statusDetail": "Lapped",
+        "points": 0.0,
+        "medianLapMs": 92112,
+        "bestLapMs": 89748
+      },
+      "medianGapMs": -377
+    },
+    {
+      "round": 13,
+      "raceId": 13,
+      "name": "Hungarian Grand Prix",
+      "a": {
+        "team": "Red Bull",
+        "grid": 3,
+        "position": 5,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 10.0,
+        "medianLapMs": 83585,
+        "bestLapMs": 80908
+      },
+      "b": {
+        "team": "Ferrari",
+        "grid": 6,
+        "position": 4,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 12.0,
+        "medianLapMs": 83207,
+        "bestLapMs": 82182
+      },
+      "medianGapMs": 378
+    },
+    {
+      "round": 14,
+      "raceId": 14,
+      "name": "Belgian Grand Prix",
+      "a": {
+        "team": "Red Bull",
+        "grid": 11,
+        "position": 4,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 12.0,
+        "medianLapMs": 108154,
+        "bestLapMs": 106128
+      },
+      "b": {
+        "team": "Ferrari",
+        "grid": 1,
+        "position": 3,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 15.0,
+        "medianLapMs": 108021,
+        "bestLapMs": 107013
+      },
+      "medianGapMs": 133
+    },
+    {
+      "round": 15,
+      "raceId": 15,
+      "name": "Dutch Grand Prix",
+      "a": {
+        "team": "Red Bull",
+        "grid": 2,
+        "position": 2,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 18.0,
+        "medianLapMs": 75232,
+        "bestLapMs": 74752
+      },
+      "b": {
+        "team": "Ferrari",
+        "grid": 6,
+        "position": 3,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 15.0,
+        "medianLapMs": 75277,
+        "bestLapMs": 74585
+      },
+      "medianGapMs": -45
+    },
+    {
+      "round": 16,
+      "raceId": 16,
+      "name": "Italian Grand Prix",
+      "a": {
+        "team": "Red Bull",
+        "grid": 7,
+        "position": 6,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 8.0,
+        "medianLapMs": 83620,
+        "bestLapMs": 81745
+      },
+      "b": {
+        "team": "Ferrari",
+        "grid": 4,
+        "position": 1,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 25.0,
+        "medianLapMs": 83716,
+        "bestLapMs": 83226
+      },
+      "medianGapMs": -96
+    },
+    {
+      "round": 17,
+      "raceId": 17,
+      "name": "Azerbaijan Grand Prix",
+      "a": {
+        "team": "Red Bull",
+        "grid": 6,
+        "position": 5,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 10.0,
+        "medianLapMs": 108356,
+        "bestLapMs": 106798
+      },
+      "b": {
+        "team": "Ferrari",
+        "grid": 1,
+        "position": 2,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 18.0,
+        "medianLapMs": 107900,
+        "bestLapMs": 107067
+      },
+      "medianGapMs": 456
+    },
+    {
+      "round": 18,
+      "raceId": 18,
+      "name": "Singapore Grand Prix",
+      "a": {
+        "team": "Red Bull",
+        "grid": 2,
+        "position": 2,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 18.0,
+        "medianLapMs": 97100,
+        "bestLapMs": 95967
+      },
+      "b": {
+        "team": "Ferrari",
+        "grid": 9,
+        "position": 5,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 10.0,
+        "medianLapMs": 98582,
+        "bestLapMs": 95371
+      },
+      "medianGapMs": -1482
+    },
+    {
+      "round": 19,
+      "raceId": 19,
+      "name": "United States Grand Prix",
+      "a": {
+        "team": "Red Bull",
+        "grid": 2,
+        "position": 3,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 15.0,
+        "medianLapMs": 99086,
+        "bestLapMs": 98117
+      },
+      "b": {
+        "team": "Ferrari",
+        "grid": 4,
+        "position": 1,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 25.0,
+        "medianLapMs": 98992,
+        "bestLapMs": 97834
+      },
+      "medianGapMs": 94
+    },
+    {
+      "round": 20,
+      "raceId": 20,
+      "name": "Mexico City Grand Prix",
+      "a": {
+        "team": "Red Bull",
+        "grid": 2,
+        "position": 6,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 8.0,
+        "medianLapMs": 81448,
+        "bestLapMs": 80872
+      },
+      "b": {
+        "team": "Ferrari",
+        "grid": 4,
+        "position": 3,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 16.0,
+        "medianLapMs": 80975,
+        "bestLapMs": 78336
+      },
+      "medianGapMs": 473
+    },
+    {
+      "round": 21,
+      "raceId": 21,
+      "name": "São Paulo Grand Prix",
+      "a": {
+        "team": "Red Bull",
+        "grid": 17,
+        "position": 1,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 26.0,
+        "medianLapMs": 83657,
+        "bestLapMs": 80472
+      },
+      "b": {
+        "team": "Ferrari",
+        "grid": 6,
+        "position": 5,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 10.0,
+        "medianLapMs": 84145,
+        "bestLapMs": 81631
+      },
+      "medianGapMs": -488
+    },
+    {
+      "round": 22,
+      "raceId": 22,
+      "name": "Las Vegas Grand Prix",
+      "a": {
+        "team": "Red Bull",
+        "grid": 5,
+        "position": 5,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 10.0,
+        "medianLapMs": 97678,
+        "bestLapMs": 96248
+      },
+      "b": {
+        "team": "Ferrari",
+        "grid": 4,
+        "position": 4,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 12.0,
+        "medianLapMs": 97372,
+        "bestLapMs": 95674
+      },
+      "medianGapMs": 306
+    },
+    {
+      "round": 23,
+      "raceId": 23,
+      "name": "Qatar Grand Prix",
+      "a": {
+        "team": "Red Bull",
+        "grid": 2,
+        "position": 1,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 25.0,
+        "medianLapMs": 84775,
+        "bestLapMs": 82905
+      },
+      "b": {
+        "team": "Ferrari",
+        "grid": 5,
+        "position": 2,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 18.0,
+        "medianLapMs": 84972,
+        "bestLapMs": 83242
+      },
+      "medianGapMs": -197
+    },
+    {
+      "round": 24,
+      "raceId": 24,
+      "name": "Abu Dhabi Grand Prix",
+      "a": {
+        "team": "Red Bull",
+        "grid": 4,
+        "position": 6,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 8.0,
+        "medianLapMs": 88780,
+        "bestLapMs": 87765
+      },
+      "b": {
+        "team": "Ferrari",
+        "grid": 19,
+        "position": 3,
+        "classified": true,
+        "status": "FINISHED",
+        "statusDetail": "Finished",
+        "points": 15.0,
+        "medianLapMs": 88565,
+        "bestLapMs": 88018
+      },
+      "medianGapMs": 215
+    }
+  ]
+}

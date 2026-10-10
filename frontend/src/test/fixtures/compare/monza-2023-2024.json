@@ -1,0 +1,626 @@
+{
+  "circuit": {
+    "ref": "monza",
+    "name": "Autodromo Nazionale di Monza",
+    "seasons": [
+      1950, 1951, 1952, 1953, 1954, 1955, 1956, 1957, 1958, 1959, 1960, 1961, 1962, 1963, 1964, 1965, 1966, 1967, 1968,
+      1969, 1970, 1971, 1972, 1973, 1974, 1975, 1976, 1977, 1978, 1979, 1981, 1982, 1983, 1984, 1985, 1986, 1987, 1988,
+      1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007,
+      2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026
+    ]
+  },
+  "years": [
+    {
+      "season": 2023,
+      "raceId": 38,
+      "race": "Italian Grand Prix",
+      "date": "2023-09-03",
+      "winner": { "ref": "max_verstappen", "code": "VER", "surname": "Verstappen", "team": "Red Bull" },
+      "fastestLap": { "ms": 85072, "lap": 43, "code": "PIA" },
+      "pace": [
+        { "lap": 1, "medianMs": 92720, "winnerMs": 87905 },
+        { "lap": 2, "medianMs": 88012, "winnerMs": 86163 },
+        { "lap": 3, "medianMs": 87360, "winnerMs": 85702 },
+        { "lap": 4, "medianMs": 87130, "winnerMs": 86050 },
+        { "lap": 5, "medianMs": 87035, "winnerMs": 86176 },
+        { "lap": 6, "medianMs": 87066, "winnerMs": 86837 },
+        { "lap": 7, "medianMs": 86940, "winnerMs": 86368 },
+        { "lap": 8, "medianMs": 86943, "winnerMs": 85990 },
+        { "lap": 9, "medianMs": 87265, "winnerMs": 86605 },
+        { "lap": 10, "medianMs": 87368, "winnerMs": 86603 },
+        { "lap": 11, "medianMs": 87369, "winnerMs": 86643 },
+        { "lap": 12, "medianMs": 87454, "winnerMs": 86442 },
+        { "lap": 13, "medianMs": 87368, "winnerMs": 86666 },
+        { "lap": 14, "medianMs": 87607, "winnerMs": 87028 },
+        { "lap": 15, "medianMs": 87738, "winnerMs": 86782 },
+        { "lap": 16, "medianMs": 87201, "winnerMs": 86718 },
+        { "lap": 17, "medianMs": 87156, "winnerMs": 86733 },
+        { "lap": 18, "medianMs": 87279, "winnerMs": 86273 },
+        { "lap": 19, "medianMs": 87318, "winnerMs": 86438 },
+        { "lap": 20, "medianMs": 87746, "winnerMs": 90849 },
+        { "lap": 21, "medianMs": 87587, "winnerMs": 105660 },
+        { "lap": 22, "medianMs": 87244, "winnerMs": 85885 },
+        { "lap": 23, "medianMs": 87215, "winnerMs": 86159 },
+        { "lap": 24, "medianMs": 87060, "winnerMs": 86327 },
+        { "lap": 25, "medianMs": 87028, "winnerMs": 85914 },
+        { "lap": 26, "medianMs": 87049, "winnerMs": 85786 },
+        { "lap": 27, "medianMs": 86675, "winnerMs": 85501 },
+        { "lap": 28, "medianMs": 87024, "winnerMs": 85434 },
+        { "lap": 29, "medianMs": 86809, "winnerMs": 85471 },
+        { "lap": 30, "medianMs": 86940, "winnerMs": 85398 },
+        { "lap": 31, "medianMs": 86848, "winnerMs": 85502 },
+        { "lap": 32, "medianMs": 86747, "winnerMs": 85410 },
+        { "lap": 33, "medianMs": 86584, "winnerMs": 85240 },
+        { "lap": 34, "medianMs": 86621, "winnerMs": 85683 },
+        { "lap": 35, "medianMs": 86300, "winnerMs": 85815 },
+        { "lap": 36, "medianMs": 86639, "winnerMs": 85598 },
+        { "lap": 37, "medianMs": 86499, "winnerMs": 85683 },
+        { "lap": 38, "medianMs": 86503, "winnerMs": 85585 },
+        { "lap": 39, "medianMs": 86736, "winnerMs": 85486 },
+        { "lap": 40, "medianMs": 86591, "winnerMs": 85901 },
+        { "lap": 41, "medianMs": 86644, "winnerMs": 85779 },
+        { "lap": 42, "medianMs": 86464, "winnerMs": 85912 },
+        { "lap": 43, "medianMs": 86468, "winnerMs": 85994 },
+        { "lap": 44, "medianMs": 86444, "winnerMs": 85751 },
+        { "lap": 45, "medianMs": 86517, "winnerMs": 85916 },
+        { "lap": 46, "medianMs": 86612, "winnerMs": 86185 },
+        { "lap": 47, "medianMs": 86658, "winnerMs": 86137 },
+        { "lap": 48, "medianMs": 86736, "winnerMs": 87235 },
+        { "lap": 49, "medianMs": 87184, "winnerMs": 87907 },
+        { "lap": 50, "medianMs": 87018, "winnerMs": 88393 },
+        { "lap": 51, "medianMs": 86997, "winnerMs": 87525 }
+      ],
+      "strategySource": "TYRES",
+      "strategies": [
+        {
+          "position": 1,
+          "ref": "max_verstappen",
+          "code": "VER",
+          "surname": "Verstappen",
+          "team": "Red Bull",
+          "stops": 1,
+          "stints": [
+            { "compound": "MEDIUM", "fromLap": 1, "toLap": 20 },
+            { "compound": "HARD", "fromLap": 21, "toLap": 51 }
+          ]
+        },
+        {
+          "position": 2,
+          "ref": "perez",
+          "code": "PER",
+          "surname": "Pérez",
+          "team": "Red Bull",
+          "stops": 1,
+          "stints": [
+            { "compound": "MEDIUM", "fromLap": 1, "toLap": 21 },
+            { "compound": "HARD", "fromLap": 22, "toLap": 51 }
+          ]
+        },
+        {
+          "position": 3,
+          "ref": "sainz",
+          "code": "SAI",
+          "surname": "Sainz",
+          "team": "Ferrari",
+          "stops": 1,
+          "stints": [
+            { "compound": "MEDIUM", "fromLap": 1, "toLap": 19 },
+            { "compound": "HARD", "fromLap": 20, "toLap": 51 }
+          ]
+        },
+        {
+          "position": 4,
+          "ref": "leclerc",
+          "code": "LEC",
+          "surname": "Leclerc",
+          "team": "Ferrari",
+          "stops": 1,
+          "stints": [
+            { "compound": "MEDIUM", "fromLap": 1, "toLap": 20 },
+            { "compound": "HARD", "fromLap": 21, "toLap": 51 }
+          ]
+        },
+        {
+          "position": 5,
+          "ref": "russell",
+          "code": "RUS",
+          "surname": "Russell",
+          "team": "Mercedes",
+          "stops": 1,
+          "stints": [
+            { "compound": "MEDIUM", "fromLap": 1, "toLap": 19 },
+            { "compound": "HARD", "fromLap": 20, "toLap": 51 }
+          ]
+        },
+        {
+          "position": 6,
+          "ref": "hamilton",
+          "code": "HAM",
+          "surname": "Hamilton",
+          "team": "Mercedes",
+          "stops": 1,
+          "stints": [
+            { "compound": "HARD", "fromLap": 1, "toLap": 27 },
+            { "compound": "MEDIUM", "fromLap": 28, "toLap": 51 }
+          ]
+        },
+        {
+          "position": 7,
+          "ref": "albon",
+          "code": "ALB",
+          "surname": "Albon",
+          "team": "Williams",
+          "stops": 1,
+          "stints": [
+            { "compound": "MEDIUM", "fromLap": 1, "toLap": 15 },
+            { "compound": "HARD", "fromLap": 16, "toLap": 51 }
+          ]
+        },
+        {
+          "position": 8,
+          "ref": "norris",
+          "code": "NOR",
+          "surname": "Norris",
+          "team": "McLaren",
+          "stops": 1,
+          "stints": [
+            { "compound": "MEDIUM", "fromLap": 1, "toLap": 22 },
+            { "compound": "HARD", "fromLap": 23, "toLap": 51 }
+          ]
+        },
+        {
+          "position": 9,
+          "ref": "alonso",
+          "code": "ALO",
+          "surname": "Alonso",
+          "team": "Aston Martin",
+          "stops": 1,
+          "stints": [
+            { "compound": "MEDIUM", "fromLap": 1, "toLap": 21 },
+            { "compound": "HARD", "fromLap": 22, "toLap": 51 }
+          ]
+        },
+        {
+          "position": 10,
+          "ref": "bottas",
+          "code": "BOT",
+          "surname": "Bottas",
+          "team": "Alfa Romeo",
+          "stops": 1,
+          "stints": [
+            { "compound": "HARD", "fromLap": 1, "toLap": 25 },
+            { "compound": "MEDIUM", "fromLap": 26, "toLap": 51 }
+          ]
+        },
+        {
+          "position": 11,
+          "ref": "lawson",
+          "code": "LAW",
+          "surname": "Lawson",
+          "team": "AlphaTauri",
+          "stops": 2,
+          "stints": [
+            { "compound": "MEDIUM", "fromLap": 1, "toLap": 13 },
+            { "compound": "HARD", "fromLap": 14, "toLap": 33 },
+            { "compound": "MEDIUM", "fromLap": 34, "toLap": 51 }
+          ]
+        },
+        {
+          "position": 12,
+          "ref": "piastri",
+          "code": "PIA",
+          "surname": "Piastri",
+          "team": "McLaren",
+          "stops": 2,
+          "stints": [
+            { "compound": "MEDIUM", "fromLap": 1, "toLap": 23 },
+            { "compound": "HARD", "fromLap": 24, "toLap": 41 },
+            { "compound": "MEDIUM", "fromLap": 42, "toLap": 51 }
+          ]
+        },
+        {
+          "position": 13,
+          "ref": "sargeant",
+          "code": "SAR",
+          "surname": "Sargeant",
+          "team": "Williams",
+          "stops": 1,
+          "stints": [
+            { "compound": "MEDIUM", "fromLap": 1, "toLap": 14 },
+            { "compound": "HARD", "fromLap": 15, "toLap": 51 }
+          ]
+        },
+        {
+          "position": 14,
+          "ref": "zhou",
+          "code": "ZHO",
+          "surname": "Zhou",
+          "team": "Alfa Romeo",
+          "stops": 2,
+          "stints": [
+            { "compound": "MEDIUM", "fromLap": 1, "toLap": 11 },
+            { "compound": "HARD", "fromLap": 12, "toLap": 33 },
+            { "compound": "MEDIUM", "fromLap": 34, "toLap": 51 }
+          ]
+        },
+        {
+          "position": 15,
+          "ref": "gasly",
+          "code": "GAS",
+          "surname": "Gasly",
+          "team": "Alpine F1 Team",
+          "stops": 2,
+          "stints": [
+            { "compound": "MEDIUM", "fromLap": 1, "toLap": 10 },
+            { "compound": "HARD", "fromLap": 11, "toLap": 31 },
+            { "compound": "MEDIUM", "fromLap": 32, "toLap": 51 }
+          ]
+        },
+        {
+          "position": 16,
+          "ref": "stroll",
+          "code": "STR",
+          "surname": "Stroll",
+          "team": "Aston Martin",
+          "stops": 1,
+          "stints": [
+            { "compound": "MEDIUM", "fromLap": 1, "toLap": 20 },
+            { "compound": "HARD", "fromLap": 21, "toLap": 51 }
+          ]
+        },
+        {
+          "position": 17,
+          "ref": "hulkenberg",
+          "code": "HUL",
+          "surname": "Hülkenberg",
+          "team": "Haas F1 Team",
+          "stops": 2,
+          "stints": [
+            { "compound": "MEDIUM", "fromLap": 1, "toLap": 14 },
+            { "compound": "HARD", "fromLap": 15, "toLap": 39 },
+            { "compound": "MEDIUM", "fromLap": 40, "toLap": 50 }
+          ]
+        },
+        {
+          "position": 18,
+          "ref": "kevin_magnussen",
+          "code": "MAG",
+          "surname": "Magnussen",
+          "team": "Haas F1 Team",
+          "stops": 2,
+          "stints": [
+            { "compound": "HARD", "fromLap": 1, "toLap": 12 },
+            { "compound": "MEDIUM", "fromLap": 13, "toLap": 33 },
+            { "compound": "MEDIUM", "fromLap": 34, "toLap": 50 }
+          ]
+        },
+        {
+          "position": 19,
+          "ref": "ocon",
+          "code": "OCO",
+          "surname": "Ocon",
+          "team": "Alpine F1 Team",
+          "stops": 1,
+          "stints": [
+            { "compound": "MEDIUM", "fromLap": 1, "toLap": 24 },
+            { "compound": "HARD", "fromLap": 25, "toLap": 39 }
+          ]
+        }
+      ]
+    },
+    {
+      "season": 2024,
+      "raceId": 16,
+      "race": "Italian Grand Prix",
+      "date": "2024-09-01",
+      "winner": { "ref": "leclerc", "code": "LEC", "surname": "Leclerc", "team": "Ferrari" },
+      "fastestLap": { "ms": 81432, "lap": 53, "code": "NOR" },
+      "pace": [
+        { "lap": 1, "medianMs": 92758, "winnerMs": 88179 },
+        { "lap": 2, "medianMs": 86924, "winnerMs": 85396 },
+        { "lap": 3, "medianMs": 86422, "winnerMs": 85179 },
+        { "lap": 4, "medianMs": 86238, "winnerMs": 84810 },
+        { "lap": 5, "medianMs": 86180, "winnerMs": 84603 },
+        { "lap": 6, "medianMs": 85792, "winnerMs": 84663 },
+        { "lap": 7, "medianMs": 85822, "winnerMs": 84434 },
+        { "lap": 8, "medianMs": 85693, "winnerMs": 84569 },
+        { "lap": 9, "medianMs": 85369, "winnerMs": 84362 },
+        { "lap": 10, "medianMs": 85711, "winnerMs": 84432 },
+        { "lap": 11, "medianMs": 85734, "winnerMs": 84846 },
+        { "lap": 12, "medianMs": 85468, "winnerMs": 84916 },
+        { "lap": 13, "medianMs": 85529, "winnerMs": 85529 },
+        { "lap": 14, "medianMs": 85827, "winnerMs": 85606 },
+        { "lap": 15, "medianMs": 86463, "winnerMs": 90192 },
+        { "lap": 16, "medianMs": 85644, "winnerMs": 104888 },
+        { "lap": 17, "medianMs": 85407, "winnerMs": 84270 },
+        { "lap": 18, "medianMs": 85448, "winnerMs": 83875 },
+        { "lap": 19, "medianMs": 85314, "winnerMs": 84203 },
+        { "lap": 20, "medianMs": 85504, "winnerMs": 83826 },
+        { "lap": 21, "medianMs": 84878, "winnerMs": 83880 },
+        { "lap": 22, "medianMs": 85071, "winnerMs": 83768 },
+        { "lap": 23, "medianMs": 85017, "winnerMs": 83864 },
+        { "lap": 24, "medianMs": 84768, "winnerMs": 83640 },
+        { "lap": 25, "medianMs": 84743, "winnerMs": 83590 },
+        { "lap": 26, "medianMs": 84639, "winnerMs": 83321 },
+        { "lap": 27, "medianMs": 84497, "winnerMs": 83534 },
+        { "lap": 28, "medianMs": 84618, "winnerMs": 83284 },
+        { "lap": 29, "medianMs": 84835, "winnerMs": 83229 },
+        { "lap": 30, "medianMs": 84754, "winnerMs": 83359 },
+        { "lap": 31, "medianMs": 85086, "winnerMs": 83972 },
+        { "lap": 32, "medianMs": 84423, "winnerMs": 83274 },
+        { "lap": 33, "medianMs": 84853, "winnerMs": 83226 },
+        { "lap": 34, "medianMs": 84702, "winnerMs": 83430 },
+        { "lap": 35, "medianMs": 84798, "winnerMs": 83681 },
+        { "lap": 36, "medianMs": 84748, "winnerMs": 83714 },
+        { "lap": 37, "medianMs": 84386, "winnerMs": 83550 },
+        { "lap": 38, "medianMs": 85166, "winnerMs": 83624 },
+        { "lap": 39, "medianMs": 84430, "winnerMs": 83718 },
+        { "lap": 40, "medianMs": 84282, "winnerMs": 83690 },
+        { "lap": 41, "medianMs": 84039, "winnerMs": 83611 },
+        { "lap": 42, "medianMs": 83908, "winnerMs": 83670 },
+        { "lap": 43, "medianMs": 83867, "winnerMs": 83867 },
+        { "lap": 44, "medianMs": 83654, "winnerMs": 83430 },
+        { "lap": 45, "medianMs": 83807, "winnerMs": 83731 },
+        { "lap": 46, "medianMs": 84001, "winnerMs": 83597 },
+        { "lap": 47, "medianMs": 83971, "winnerMs": 83676 },
+        { "lap": 48, "medianMs": 84036, "winnerMs": 83518 },
+        { "lap": 49, "medianMs": 83708, "winnerMs": 83467 },
+        { "lap": 50, "medianMs": 83769, "winnerMs": 83461 },
+        { "lap": 51, "medianMs": 83754, "winnerMs": 83555 },
+        { "lap": 52, "medianMs": 83761, "winnerMs": 83750 },
+        { "lap": 53, "medianMs": 83686, "winnerMs": 83268 }
+      ],
+      "strategySource": "TYRES",
+      "strategies": [
+        {
+          "position": 1,
+          "ref": "leclerc",
+          "code": "LEC",
+          "surname": "Leclerc",
+          "team": "Ferrari",
+          "stops": 1,
+          "stints": [
+            { "compound": "MEDIUM", "fromLap": 1, "toLap": 15 },
+            { "compound": "HARD", "fromLap": 16, "toLap": 53 }
+          ]
+        },
+        {
+          "position": 2,
+          "ref": "piastri",
+          "code": "PIA",
+          "surname": "Piastri",
+          "team": "McLaren",
+          "stops": 2,
+          "stints": [
+            { "compound": "MEDIUM", "fromLap": 1, "toLap": 16 },
+            { "compound": "HARD", "fromLap": 17, "toLap": 38 },
+            { "compound": "HARD", "fromLap": 39, "toLap": 53 }
+          ]
+        },
+        {
+          "position": 3,
+          "ref": "norris",
+          "code": "NOR",
+          "surname": "Norris",
+          "team": "McLaren",
+          "stops": 2,
+          "stints": [
+            { "compound": "MEDIUM", "fromLap": 1, "toLap": 14 },
+            { "compound": "HARD", "fromLap": 15, "toLap": 32 },
+            { "compound": "HARD", "fromLap": 33, "toLap": 53 }
+          ]
+        },
+        {
+          "position": 4,
+          "ref": "sainz",
+          "code": "SAI",
+          "surname": "Sainz",
+          "team": "Ferrari",
+          "stops": 1,
+          "stints": [
+            { "compound": "MEDIUM", "fromLap": 1, "toLap": 19 },
+            { "compound": "HARD", "fromLap": 20, "toLap": 53 }
+          ]
+        },
+        {
+          "position": 5,
+          "ref": "hamilton",
+          "code": "HAM",
+          "surname": "Hamilton",
+          "team": "Mercedes",
+          "stops": 2,
+          "stints": [
+            { "compound": "MEDIUM", "fromLap": 1, "toLap": 15 },
+            { "compound": "HARD", "fromLap": 16, "toLap": 37 },
+            { "compound": "HARD", "fromLap": 38, "toLap": 53 }
+          ]
+        },
+        {
+          "position": 6,
+          "ref": "max_verstappen",
+          "code": "VER",
+          "surname": "Verstappen",
+          "team": "Red Bull",
+          "stops": 2,
+          "stints": [
+            { "compound": "HARD", "fromLap": 1, "toLap": 22 },
+            { "compound": "HARD", "fromLap": 23, "toLap": 41 },
+            { "compound": "MEDIUM", "fromLap": 42, "toLap": 53 }
+          ]
+        },
+        {
+          "position": 7,
+          "ref": "russell",
+          "code": "RUS",
+          "surname": "Russell",
+          "team": "Mercedes",
+          "stops": 2,
+          "stints": [
+            { "compound": "MEDIUM", "fromLap": 1, "toLap": 11 },
+            { "compound": "HARD", "fromLap": 12, "toLap": 33 },
+            { "compound": "HARD", "fromLap": 34, "toLap": 53 }
+          ]
+        },
+        {
+          "position": 8,
+          "ref": "perez",
+          "code": "PER",
+          "surname": "Pérez",
+          "team": "Red Bull",
+          "stops": 2,
+          "stints": [
+            { "compound": "HARD", "fromLap": 1, "toLap": 23 },
+            { "compound": "HARD", "fromLap": 24, "toLap": 35 },
+            { "compound": "MEDIUM", "fromLap": 36, "toLap": 53 }
+          ]
+        },
+        {
+          "position": 9,
+          "ref": "albon",
+          "code": "ALB",
+          "surname": "Albon",
+          "team": "Williams",
+          "stops": 1,
+          "stints": [
+            { "compound": "MEDIUM", "fromLap": 1, "toLap": 17 },
+            { "compound": "HARD", "fromLap": 18, "toLap": 53 }
+          ]
+        },
+        {
+          "position": 10,
+          "ref": "kevin_magnussen",
+          "code": "MAG",
+          "surname": "Magnussen",
+          "team": "Haas F1 Team",
+          "stops": 1,
+          "stints": [
+            { "compound": "MEDIUM", "fromLap": 1, "toLap": 14 },
+            { "compound": "HARD", "fromLap": 15, "toLap": 53 }
+          ]
+        },
+        {
+          "position": 11,
+          "ref": "alonso",
+          "code": "ALO",
+          "surname": "Alonso",
+          "team": "Aston Martin",
+          "stops": 2,
+          "stints": [
+            { "compound": "MEDIUM", "fromLap": 1, "toLap": 12 },
+            { "compound": "HARD", "fromLap": 13, "toLap": 35 },
+            { "compound": "HARD", "fromLap": 36, "toLap": 53 }
+          ]
+        },
+        {
+          "position": 12,
+          "ref": "colapinto",
+          "code": "COL",
+          "surname": "Colapinto",
+          "team": "Williams",
+          "stops": 1,
+          "stints": [
+            { "compound": "MEDIUM", "fromLap": 1, "toLap": 16 },
+            { "compound": "HARD", "fromLap": 17, "toLap": 53 }
+          ]
+        },
+        {
+          "position": 13,
+          "ref": "ricciardo",
+          "code": "RIC",
+          "surname": "Ricciardo",
+          "team": "RB F1 Team",
+          "stops": 1,
+          "stints": [
+            { "compound": "MEDIUM", "fromLap": 1, "toLap": 11 },
+            { "compound": "HARD", "fromLap": 12, "toLap": 53 }
+          ]
+        },
+        {
+          "position": 14,
+          "ref": "ocon",
+          "code": "OCO",
+          "surname": "Ocon",
+          "team": "Alpine F1 Team",
+          "stops": 1,
+          "stints": [
+            { "compound": "HARD", "fromLap": 1, "toLap": 31 },
+            { "compound": "MEDIUM", "fromLap": 32, "toLap": 52 }
+          ]
+        },
+        {
+          "position": 15,
+          "ref": "gasly",
+          "code": "GAS",
+          "surname": "Gasly",
+          "team": "Alpine F1 Team",
+          "stops": 2,
+          "stints": [
+            { "compound": "MEDIUM", "fromLap": 1, "toLap": 10 },
+            { "compound": "HARD", "fromLap": 11, "toLap": 30 },
+            { "compound": "HARD", "fromLap": 31, "toLap": 52 }
+          ]
+        },
+        {
+          "position": 16,
+          "ref": "bottas",
+          "code": "BOT",
+          "surname": "Bottas",
+          "team": "Sauber",
+          "stops": 1,
+          "stints": [
+            { "compound": "HARD", "fromLap": 1, "toLap": 33 },
+            { "compound": "MEDIUM", "fromLap": 34, "toLap": 52 }
+          ]
+        },
+        {
+          "position": 17,
+          "ref": "hulkenberg",
+          "code": "HUL",
+          "surname": "Hülkenberg",
+          "team": "Haas F1 Team",
+          "stops": 2,
+          "stints": [
+            { "compound": "MEDIUM", "fromLap": 1, "toLap": 5 },
+            { "compound": "HARD", "fromLap": 6, "toLap": 32 },
+            { "compound": "HARD", "fromLap": 33, "toLap": 52 }
+          ]
+        },
+        {
+          "position": 18,
+          "ref": "zhou",
+          "code": "ZHO",
+          "surname": "Zhou",
+          "team": "Sauber",
+          "stops": 1,
+          "stints": [
+            { "compound": "MEDIUM", "fromLap": 1, "toLap": 15 },
+            { "compound": "HARD", "fromLap": 16, "toLap": 52 }
+          ]
+        },
+        {
+          "position": 19,
+          "ref": "stroll",
+          "code": "STR",
+          "surname": "Stroll",
+          "team": "Aston Martin",
+          "stops": 3,
+          "stints": [
+            { "compound": "HARD", "fromLap": 1, "toLap": 19 },
+            { "compound": "HARD", "fromLap": 20, "toLap": 36 },
+            { "compound": "MEDIUM", "fromLap": 37, "toLap": 50 },
+            { "compound": "SOFT", "fromLap": 51, "toLap": 52 }
+          ]
+        },
+        {
+          "position": 20,
+          "ref": "tsunoda",
+          "code": "TSU",
+          "surname": "Tsunoda",
+          "team": "RB F1 Team",
+          "stops": 0,
+          "stints": [{ "compound": "HARD", "fromLap": 1, "toLap": 7 }]
+        }
+      ]
+    }
+  ]
+}

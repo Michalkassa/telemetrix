@@ -1,0 +1,259 @@
+{
+  "season": 2024,
+  "round": 24,
+  "rounds": 24,
+  "drivers": [
+    {
+      "position": 1,
+      "ref": "max_verstappen",
+      "code": "VER",
+      "givenName": "Max",
+      "surname": "Verstappen",
+      "team": "Red Bull",
+      "points": 437.0,
+      "wins": 9
+    },
+    {
+      "position": 2,
+      "ref": "norris",
+      "code": "NOR",
+      "givenName": "Lando",
+      "surname": "Norris",
+      "team": "McLaren",
+      "points": 374.0,
+      "wins": 4
+    },
+    {
+      "position": 3,
+      "ref": "leclerc",
+      "code": "LEC",
+      "givenName": "Charles",
+      "surname": "Leclerc",
+      "team": "Ferrari",
+      "points": 356.0,
+      "wins": 3
+    },
+    {
+      "position": 4,
+      "ref": "piastri",
+      "code": "PIA",
+      "givenName": "Oscar",
+      "surname": "Piastri",
+      "team": "McLaren",
+      "points": 292.0,
+      "wins": 2
+    },
+    {
+      "position": 5,
+      "ref": "sainz",
+      "code": "SAI",
+      "givenName": "Carlos",
+      "surname": "Sainz",
+      "team": "Ferrari",
+      "points": 290.0,
+      "wins": 2
+    },
+    {
+      "position": 6,
+      "ref": "russell",
+      "code": "RUS",
+      "givenName": "George",
+      "surname": "Russell",
+      "team": "Mercedes",
+      "points": 245.0,
+      "wins": 2
+    },
+    {
+      "position": 7,
+      "ref": "hamilton",
+      "code": "HAM",
+      "givenName": "Lewis",
+      "surname": "Hamilton",
+      "team": "Mercedes",
+      "points": 223.0,
+      "wins": 2
+    },
+    {
+      "position": 8,
+      "ref": "perez",
+      "code": "PER",
+      "givenName": "Sergio",
+      "surname": "Pérez",
+      "team": "Red Bull",
+      "points": 152.0,
+      "wins": 0
+    },
+    {
+      "position": 9,
+      "ref": "alonso",
+      "code": "ALO",
+      "givenName": "Fernando",
+      "surname": "Alonso",
+      "team": "Aston Martin",
+      "points": 70.0,
+      "wins": 0
+    },
+    {
+      "position": 10,
+      "ref": "gasly",
+      "code": "GAS",
+      "givenName": "Pierre",
+      "surname": "Gasly",
+      "team": "Alpine F1 Team",
+      "points": 42.0,
+      "wins": 0
+    },
+    {
+      "position": 11,
+      "ref": "hulkenberg",
+      "code": "HUL",
+      "givenName": "Nico",
+      "surname": "Hülkenberg",
+      "team": "Haas F1 Team",
+      "points": 41.0,
+      "wins": 0
+    },
+    {
+      "position": 12,
+      "ref": "tsunoda",
+      "code": "TSU",
+      "givenName": "Yuki",
+      "surname": "Tsunoda",
+      "team": "RB F1 Team",
+      "points": 30.0,
+      "wins": 0
+    },
+    {
+      "position": 13,
+      "ref": "stroll",
+      "code": "STR",
+      "givenName": "Lance",
+      "surname": "Stroll",
+      "team": "Aston Martin",
+      "points": 24.0,
+      "wins": 0
+    },
+    {
+      "position": 14,
+      "ref": "ocon",
+      "code": "OCO",
+      "givenName": "Esteban",
+      "surname": "Ocon",
+      "team": "Alpine F1 Team",
+      "points": 23.0,
+      "wins": 0
+    },
+    {
+      "position": 15,
+      "ref": "kevin_magnussen",
+      "code": "MAG",
+      "givenName": "Kevin",
+      "surname": "Magnussen",
+      "team": "Haas F1 Team",
+      "points": 16.0,
+      "wins": 0
+    },
+    {
+      "position": 16,
+      "ref": "albon",
+      "code": "ALB",
+      "givenName": "Alexander",
+      "surname": "Albon",
+      "team": "Williams",
+      "points": 12.0,
+      "wins": 0
+    },
+    {
+      "position": 17,
+      "ref": "ricciardo",
+      "code": "RIC",
+      "givenName": "Daniel",
+      "surname": "Ricciardo",
+      "team": "RB F1 Team",
+      "points": 12.0,
+      "wins": 0
+    },
+    {
+      "position": 18,
+      "ref": "bearman",
+      "code": "BEA",
+      "givenName": "Oliver",
+      "surname": "Bearman",
+      "team": "Haas F1 Team",
+      "points": 7.0,
+      "wins": 0
+    },
+    {
+      "position": 19,
+      "ref": "colapinto",
+      "code": "COL",
+      "givenName": "Franco",
+      "surname": "Colapinto",
+      "team": "Williams",
+      "points": 5.0,
+      "wins": 0
+    },
+    {
+      "position": 20,
+      "ref": "zhou",
+      "code": "ZHO",
+      "givenName": "Guanyu",
+      "surname": "Zhou",
+      "team": "Sauber",
+      "points": 4.0,
+      "wins": 0
+    },
+    {
+      "position": 21,
+      "ref": "lawson",
+      "code": "LAW",
+      "givenName": "Liam",
+      "surname": "Lawson",
+      "team": "RB F1 Team",
+      "points": 4.0,
+      "wins": 0
+    },
+    {
+      "position": 22,
+      "ref": "bottas",
+      "code": "BOT",
+      "givenName": "Valtteri",
+      "surname": "Bottas",
+      "team": "Sauber",
+      "points": 0.0,
+      "wins": 0
+    },
+    {
+      "position": 23,
+      "ref": "sargeant",
+      "code": "SAR",
+      "givenName": "Logan",
+      "surname": "Sargeant",
+      "team": "Williams",
+      "points": 0.0,
+      "wins": 0
+    },
+    {
+      "position": 24,
+      "ref": "doohan",
+      "code": "DOO",
+      "givenName": "Jack",
+      "surname": "Doohan",
+      "team": "Alpine F1 Team",
+      "points": 0.0,
+      "wins": 0
+    }
+  ],
+  "constructors": [
+    { "position": 1, "ref": "mclaren", "name": "McLaren", "points": 666.0, "wins": 6 },
+    { "position": 2, "ref": "ferrari", "name": "Ferrari", "points": 652.0, "wins": 5 },
+    { "position": 3, "ref": "red_bull", "name": "Red Bull", "points": 589.0, "wins": 9 },
+    { "position": 4, "ref": "mercedes", "name": "Mercedes", "points": 468.0, "wins": 4 },
+    { "position": 5, "ref": "aston_martin", "name": "Aston Martin", "points": 94.0, "wins": 0 },
+    { "position": 6, "ref": "alpine", "name": "Alpine F1 Team", "points": 65.0, "wins": 0 },
+    { "position": 7, "ref": "haas", "name": "Haas F1 Team", "points": 58.0, "wins": 0 },
+    { "position": 8, "ref": "rb", "name": "RB F1 Team", "points": 46.0, "wins": 0 },
+    { "position": 9, "ref": "williams", "name": "Williams", "points": 17.0, "wins": 0 },
+    { "position": 10, "ref": "sauber", "name": "Sauber", "points": 4.0, "wins": 0 }
+  ]
+}

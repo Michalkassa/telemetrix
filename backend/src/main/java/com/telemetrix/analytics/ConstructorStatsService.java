@@ -70,6 +70,19 @@ public class ConstructorStatsService {
 				pace(id, year), trend(id, year), strategies(id, year));
 	}
 
+	/** Every constructor that has raced, the latest season first, then by name. */
+	public List<ConstructorSummary> directory() {
+		return jdbc.query("""
+				select c.ref, c.name, c.nationality, array_agg(distinct r.season_year::int order by r.season_year::int) as seasons,
+				       count(*) filter (where sr.status not in ('DID_NOT_START', 'DID_NOT_QUALIFY')) as starts,
+				       count(*) filter (where sr.classified and sr.position = 1) as wins
+				from race_entries e join races r on r.id = e.race_id join constructors c on c.id = e.constructor_id
+				join session_results sr on sr.race_entry_id = e.id and sr.session_type = 'R'
+				group by c.id order by max(r.season_year) desc, c.name""", (rs, i) -> new ConstructorSummary(
+				rs.getString("ref"), rs.getString("name"), rs.getString("nationality"),
+				List.of((Integer[]) rs.getArray("seasons").getArray()), rs.getInt("starts"), rs.getInt("wins")));
+	}
+
 	// a start is any race entry that wasn't a DNS/DNQ, a finish one still running at the end (a car that retired
 	// with 90% run is classified, but a retirement); "Retired" alone (2023 on) says nothing of the cause
 	private ConstructorStats.Reliability reliability(long team, int season) {

@@ -14,14 +14,14 @@ python3 scripts/sync_features.py --check                # CI: fail if plan.md/ST
 ```
 
 <!-- progress:start -->
-**183 / 305 features done (60%)**
+**186 / 305 features done (60%)**
 
 | Phase | Done | Total | Progress |
 |---|---:|---:|---|
 | 0 — Foundation | 3 | 3 | `██████████` |
 | 1 — Data foundation & basic replay | 66 | 71 | `█████████░` |
 | 2 — Telemetry, timeline & playback | 81 | 83 | `██████████` |
-| 3 — Championship & analytics | 33 | 46 | `███████░░░` |
+| 3 — Championship & analytics | 36 | 46 | `████████░░` |
 | 4 — Distributed systems & production | 0 | 75 | `░░░░░░░░░░` |
 | 5 — Data science & polish | 0 | 16 | `░░░░░░░░░░` |
 | stretch — Stretch goals | 0 | 11 | `░░░░░░░░░░` |
@@ -178,7 +178,7 @@ Timeline events:
 - [x] Pit stop efficiency <!-- CON-02 -->
 - [x] Race pace <!-- CON-03 -->
 - [x] Qualifying pace <!-- CON-04 -->
-- [ ] Development trend visualization <!-- CON-05 -->
+- [x] Development trend visualization <!-- CON-05 -->
 - [x] Strategy performance <!-- CON-06 -->
 
 ---
@@ -275,7 +275,7 @@ L4 Leaf views                  the niche page (table / chart / replay / telemetr
 
 - [x] **Seasons** — explore a championship year: standings and full season results. <!-- NAV-01 -->
 - [x] **Grand Prix** — explore a single event: results, timeline, analytics, telemetry, replay. <!-- NAV-02 -->
-- [ ] **Drivers & Teams** — explore competitors: per-driver and per-constructor stats/analytics. <!-- NAV-03 -->
+- [x] **Drivers & Teams** — explore competitors: per-driver and per-constructor stats/analytics. <!-- NAV-03 -->
 - [x] **Replay Theater** — jump straight to watching a race's animated playback. <!-- NAV-04 -->
 
 ## Route tree
@@ -286,8 +286,9 @@ L4 Leaf views                  the niche page (table / chart / replay / telemetr
 - [x] **Grand Prix**: `/races/:year` (GP list, year filter) → `/races/:year/:sessionKey` (race hub) → <!-- NAV-07 -->
   leaves `…/results`, `…/timeline`, `…/lap-pace`, `…/telemetry`, `…/replay`. Telemetry and replay
   drill further via `?driver=VER` (and a stint / lap-range) for **per-driver / per-stint** views.
-- [ ] **Drivers & Teams**: `/drivers` directory → `/drivers/:acronym` hub (Stats · Season-by-season · <!-- NAV-08 -->
-  Race log); `/teams` directory → `/teams/:name` hub (Overview · Reliability · Pace).
+- [x] **Drivers & Teams**: `/drivers` directory → `/drivers/:ref` hub (Stats · Season-by-season · <!-- NAV-08 -->
+  Race log); `/teams` directory → `/teams/:ref` hub (Overview · Reliability · Pace). Refs, not
+  acronyms: most drivers before the 2000s have no code, and some share one (VER: Vergne, Verstappen).
 - [x] **Replay Theater**: `/replay` (year → GP picker) → reuses the race-hub replay leaf. <!-- NAV-09 -->
 
 Cross-links stitch the branches together: a standings row links to that driver's hub, a season-

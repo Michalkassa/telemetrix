@@ -13,6 +13,18 @@ class DriverStatsController {
 		this.stats = stats;
 	}
 
+	// Every driver who has raced, the latest season first.
+	@GetMapping("/api/drivers")
+	java.util.List<DriverSummary> directory() {
+		return stats.directory();
+	}
+
+	// Every Grand Prix a driver entered, the newest first.
+	@GetMapping("/api/drivers/{id}/races")
+	java.util.List<RaceLogEntry> races(@PathVariable String id) {
+		return stats.raceLog(id);
+	}
+
 	// A driver's career statistics; `id` is the driver's ref ("hamilton", "max_verstappen").
 	@GetMapping("/api/drivers/{id}/stats")
 	DriverStats stats(@PathVariable String id) {

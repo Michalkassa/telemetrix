@@ -1,0 +1,116 @@
+{
+  "constructor": { "ref": "red_bull", "name": "Red Bull" },
+  "season": 2026,
+  "reliability": {
+    "starts": 30,
+    "finishes": 24,
+    "dnfs": 6,
+    "mechanical": 0,
+    "incident": 0,
+    "unknown": 6,
+    "causes": [{ "cause": "Unknown", "count": 6 }]
+  },
+  "pitStops": { "stops": 48, "medianLaneSeconds": 22.8915, "rank": 6, "teams": 11, "fieldMedianLaneSeconds": 23.1225 },
+  "pace": { "raceGapPercent": 0.5526414387410972, "qualifyingGapPercent": 0.5475473809992026 },
+  "trend": {
+    "rounds": [
+      {
+        "round": 1,
+        "race": "Australian Grand Prix",
+        "qualifyingGapPercent": 0.9997707532030775,
+        "raceGapPercent": 0.7511646663697302
+      },
+      {
+        "round": 2,
+        "race": "Chinese Grand Prix",
+        "qualifyingGapPercent": 1.0188564476885542,
+        "raceGapPercent": 1.6149190725365248
+      },
+      {
+        "round": 3,
+        "race": "Japanese Grand Prix",
+        "qualifyingGapPercent": 1.351686228570137,
+        "raceGapPercent": 1.5731342329772469
+      },
+      {
+        "round": 4,
+        "race": "Miami Grand Prix",
+        "qualifyingGapPercent": 0.18907036606756744,
+        "raceGapPercent": 0.8974552349759746
+      },
+      {
+        "round": 5,
+        "race": "Canadian Grand Prix",
+        "qualifyingGapPercent": 0.4533054093526889,
+        "raceGapPercent": 0.5504296519225349
+      },
+      {
+        "round": 6,
+        "race": "Monaco Grand Prix",
+        "qualifyingGapPercent": 0.05967994892506212,
+        "raceGapPercent": 1.012730728176825
+      },
+      {
+        "round": 7,
+        "race": "Barcelona Grand Prix",
+        "qualifyingGapPercent": 0.45796006909573084,
+        "raceGapPercent": 0.6369892211192996
+      },
+      {
+        "round": 8,
+        "race": "Austrian Grand Prix",
+        "qualifyingGapPercent": 0.5475473809992026,
+        "raceGapPercent": 0.21970050984467804
+      },
+      {
+        "round": 9,
+        "race": "British Grand Prix",
+        "qualifyingGapPercent": 0.7206818671902537,
+        "raceGapPercent": 0.5479131424680483
+      },
+      {
+        "round": 10,
+        "race": "Belgian Grand Prix",
+        "qualifyingGapPercent": 0.3037533178102958,
+        "raceGapPercent": 0.3034176564511437
+      },
+      {
+        "round": 11,
+        "race": "Hungarian Grand Prix",
+        "qualifyingGapPercent": 0.6709236209152092,
+        "raceGapPercent": 0.5472965792487905
+      },
+      {
+        "round": 12,
+        "race": "Dutch Grand Prix",
+        "qualifyingGapPercent": 0.6393772044461343,
+        "raceGapPercent": 1.160475716456233
+      },
+      {
+        "round": 13,
+        "race": "Italian Grand Prix",
+        "qualifyingGapPercent": 0.34724769520455556,
+        "raceGapPercent": 0.5526414387410972
+      },
+      {
+        "round": 14,
+        "race": "Spanish Grand Prix",
+        "qualifyingGapPercent": 0.15246558633907892,
+        "raceGapPercent": 0.5516447468953967
+      },
+      {
+        "round": 15,
+        "race": "Azerbaijan Grand Prix",
+        "qualifyingGapPercent": 0.9500029260870457,
+        "raceGapPercent": 0.08087606440336792
+      }
+    ],
+    "qualifyingSlope": -0.026299864645250585,
+    "raceSlope": -0.05942553447498167
+  },
+  "strategies": [
+    { "stops": 1, "finishes": 9, "averagePositionsGained": 1.222222222222222 },
+    { "stops": 2, "finishes": 9, "averagePositionsGained": 3.555555555555556 },
+    { "stops": 3, "finishes": 6, "averagePositionsGained": 3.3333333333333335 }
+  ]
+}

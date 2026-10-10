@@ -20,7 +20,9 @@ penalties; instant to seek thanks to snapshots), and the **replay** (a whole rac
 served over a REST API. The React frontend has the landing page, dashboard, the **Seasons** lens (`/seasons`: a year grid, then each
 season's hub with drivers' and constructors' standings, a race-by-race results grid linking every
 result to its race, the race list, and points-progression comparisons of two drivers across seasons),
-the Grand Prix list, a **race hub** per race (results,
+the **Drivers & Teams** lens (`/drivers` and `/teams`: searchable directories, a driver hub with
+career stats, season by season and a race log, a team hub per season with reliability and pace — the
+development trend charted), the Grand Prix list, a **race hub** per race (results,
 timeline, lap pace, telemetry and replay; before 2023 results and lap pace, with why), and the
 replay player (`/races/:year/:raceId/replay`, or pick a race in the **Replay Theater** at `/replay`): a
 canvas track map with one dot per car, the running order, and video-style controls — play/pause, ±10 s,
@@ -159,7 +161,7 @@ journey) and are driven inward with unit tests. The rules and the test tools for
 
 ## Where to start implementing
 
-Follow [`STEPS.md`](STEPS.md) from **Step 34** (Drivers & Teams UI; Step 20, CI, is still to do), using [`templates/README.md`](templates/README.md) as the reference for each Spring
+Follow [`STEPS.md`](STEPS.md) from **Step 35** (multi-race comparison; Step 20, CI, is still to do), using [`templates/README.md`](templates/README.md) as the reference for each Spring
 layer. Every step starts with its **Tests first** list. When a feature's tests pass, tick it off:
 `python3 scripts/sync_features.py done <ID>`.
 

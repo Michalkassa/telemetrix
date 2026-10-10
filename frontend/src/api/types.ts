@@ -257,3 +257,108 @@ export interface Progression {
   season: number
   drivers: { ref: string; code: string | null; surname: string; rounds: { round: number; points: number }[] }[]
 }
+
+/** GET /api/drivers: everyone who has raced, the latest season first. */
+export interface DriverSummary {
+  ref: string
+  code: string | null
+  givenName: string
+  surname: string
+  nationality: string | null
+  firstSeason: number
+  lastSeason: number
+  starts: number
+  wins: number
+}
+
+/** GET /api/drivers/{id}/stats */
+export interface DriverStats {
+  driver: { ref: string; code: string | null; givenName: string; surname: string }
+  career: {
+    starts: number
+    wins: number
+    podiums: number
+    dnfs: number
+    poles: number
+    fastestLaps: number
+    averageFinish: number | null
+    positionsGained: number
+    averagePositionsGained: number | null
+    points: number
+  }
+  wetDry: { wet: Conditions; dry: Conditions }
+  tracks: {
+    circuit: string
+    name: string
+    starts: number
+    wins: number
+    podiums: number
+    bestFinish: number | null
+    averageFinish: number | null
+  }[]
+  pitStops: { stops: number; stopsPerRace: number | null; averageLaneSeconds: number | null }
+  tyres: { compound: string; stints: number; laps: number; share: number; averageStintLaps: number }[]
+  seasons: { season: number; starts: number; wins: number; points: number; careerWins: number }[]
+}
+
+export interface Conditions {
+  races: number
+  wins: number
+  podiums: number
+  averageFinish: number | null
+}
+
+/** GET /api/drivers/{id}/races: every Grand Prix entered, the newest first. */
+export interface RaceLogEntry {
+  season: number
+  round: number
+  raceId: number
+  race: string
+  teamRef: string
+  team: string
+  grid: number | null
+  position: number | null
+  classified: boolean
+  status: string | null
+  statusDetail: string | null
+  points: number
+}
+
+/** GET /api/constructors: every constructor that has raced, with the seasons it raced in. */
+export interface ConstructorSummary {
+  ref: string
+  name: string
+  nationality: string | null
+  seasons: number[]
+  starts: number
+  wins: number
+}
+
+/** GET /api/constructors/{id}/stats?season= */
+export interface ConstructorStats {
+  constructor: { ref: string; name: string }
+  season: number
+  reliability: {
+    starts: number
+    finishes: number
+    dnfs: number
+    mechanical: number
+    incident: number
+    unknown: number
+    causes: { cause: string; count: number }[]
+  }
+  pitStops: {
+    stops: number
+    medianLaneSeconds: number | null
+    rank: number | null
+    teams: number
+    fieldMedianLaneSeconds: number | null
+  }
+  pace: { raceGapPercent: number | null; qualifyingGapPercent: number | null }
+  trend: {
+    rounds: { round: number; race: string; qualifyingGapPercent: number | null; raceGapPercent: number | null }[]
+    qualifyingSlope: number | null
+    raceSlope: number | null
+  }
+  strategies: { stops: number; finishes: number; averagePositionsGained: number }[]
+}

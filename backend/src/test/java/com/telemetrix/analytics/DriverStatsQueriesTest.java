@@ -1,9 +1,12 @@
 package com.telemetrix.analytics;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.tuple;
 import static org.assertj.core.api.Assertions.within;
 
 import com.telemetrix.RepositoryTest;
+import com.telemetrix.common.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -110,6 +113,32 @@ class DriverStatsQueriesTest {
 	void theViewIsIndexedByDriver() {
 		assertThat(jdbc.queryForList("select indexname from pg_indexes where tablename = 'driver_race_results'",
 				String.class)).anySatisfy(name -> assertThat(name).contains("driver"));
+	}
+
+	@Test
+	void theDirectoryLatestSeasonFirstThenBySurname() {
+		assertThat(stats.directory()).extracting(d -> d.ref(), d -> d.firstSeason(), d -> d.lastSeason(), d -> d.starts(),
+				d -> d.wins())
+				.containsExactly(tuple("bottas", 2024, 2025, 3, 0), tuple("hamilton", 2024, 2025, 3, 2),
+						tuple("leclerc", 2024, 2025, 2, 0), tuple("max_verstappen", 2024, 2025, 3, 1));
+	}
+
+	@Test
+	void theRaceLogNewestFirstWithWhyItEnded() {
+		var log = stats.raceLog("leclerc");
+		assertThat(log).extracting(r -> r.season(), r -> r.round(), r -> r.raceId(), r -> r.team(), r -> r.grid(),
+				r -> r.position(), r -> r.status(), r -> r.statusDetail(), r -> r.points())
+				.containsExactly(
+						tuple(2025, 1, 3L, "Ferrari", 0, 4, "DID_NOT_START", "Did not start", 0.0),
+						tuple(2024, 2, 2L, "Ferrari", 2, 4, "RETIRED_INCIDENT", "Accident", 0.0),
+						tuple(2024, 1, 1L, "Ferrari", 2, 3, "FINISHED", "Finished", 15.0));
+		assertThat(log.getFirst().race()).isEqualTo("Bahrain Grand Prix");
+		assertThat(log.getFirst().classified()).isFalse();
+	}
+
+	@Test
+	void anUnknownDriversRaceLogIsNotFound() {
+		assertThatThrownBy(() -> stats.raceLog("nobody")).isInstanceOf(NotFoundException.class);
 	}
 
 }

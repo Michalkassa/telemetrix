@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, type ReactNode } from 'react'
+import { Link } from 'react-router'
 import { useStandings } from '../../api/queries'
 import { Loading, Problem, SeasonLeaf } from './SeasonLeaf'
 
@@ -8,6 +9,8 @@ interface Column<T> {
   key: string
   label: string
   value: (row: T) => string | number
+  // what the cell shows, when not the value (a link)
+  render?: (row: T) => ReactNode
   numeric?: boolean
   testId?: string
 }
@@ -46,7 +49,7 @@ function SortableTable<T>({ label, rows, columns }: { label: string; rows: T[]; 
           <tr key={i}>
             {columns.map((c) => (
               <td key={c.key} data-testid={c.testId} className={`py-1.5 ${c.numeric ? 'text-right' : ''}`}>
-                {c.value(row)}
+                {c.render ? c.render(row) : c.value(row)}
               </td>
             ))}
           </tr>
@@ -71,7 +74,16 @@ function Drivers({ year }: { year: number }) {
       rows={standings.data.drivers}
       columns={[
         { key: 'position', label: 'Pos', value: (d) => d.position, numeric: true },
-        { key: 'driver', label: 'Driver', value: (d) => `${d.surname}, ${d.givenName}` },
+        {
+          key: 'driver',
+          label: 'Driver',
+          value: (d) => `${d.surname}, ${d.givenName}`,
+          render: (d) => (
+            <Link to={`/drivers/${d.ref}`} className="hover:text-red-400 hover:underline">
+              {d.surname}, {d.givenName}
+            </Link>
+          ),
+        },
         { key: 'team', label: 'Team', value: (d) => d.team ?? '' },
         { key: 'wins', label: 'Wins', value: (d) => d.wins, numeric: true, testId: 'wins' },
         { key: 'points', label: 'Points', value: (d) => d.points, numeric: true },
@@ -96,7 +108,16 @@ function Constructors({ year }: { year: number }) {
         rows={standings.data.constructors}
         columns={[
           { key: 'position', label: 'Pos', value: (c) => c.position, numeric: true },
-          { key: 'name', label: 'Constructor', value: (c) => c.name },
+          {
+            key: 'name',
+            label: 'Constructor',
+            value: (c) => c.name,
+            render: (c) => (
+              <Link to={`/teams/${c.ref}?season=${year}`} className="hover:text-red-400 hover:underline">
+                {c.name}
+              </Link>
+            ),
+          },
           { key: 'wins', label: 'Wins', value: (c) => c.wins, numeric: true },
           { key: 'points', label: 'Points', value: (c) => c.points, numeric: true },
         ]}

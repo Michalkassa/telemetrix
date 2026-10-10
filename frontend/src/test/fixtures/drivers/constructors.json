@@ -1,0 +1,1687 @@
+[
+  {
+    "ref": "alpine",
+    "name": "Alpine F1 Team",
+    "nationality": "French",
+    "seasons": [2021, 2022, 2023, 2024, 2025, 2026],
+    "starts": 256,
+    "wins": 1
+  },
+  {
+    "ref": "aston_martin",
+    "name": "Aston Martin",
+    "nationality": "British",
+    "seasons": [1959, 1960, 2021, 2022, 2023, 2024, 2025, 2026],
+    "starts": 264,
+    "wins": 0
+  },
+  {
+    "ref": "audi",
+    "name": "Audi",
+    "nationality": "German",
+    "seasons": [2026],
+    "starts": 28,
+    "wins": 0
+  },
+  {
+    "ref": "cadillac",
+    "name": "Cadillac F1 Team",
+    "nationality": "American",
+    "seasons": [2026],
+    "starts": 30,
+    "wins": 0
+  },
+  {
+    "ref": "ferrari",
+    "name": "Ferrari",
+    "nationality": "Italian",
+    "seasons": [
+      1950, 1951, 1952, 1953, 1954, 1955, 1956, 1957, 1958, 1959, 1960, 1961, 1962, 1963, 1964, 1965, 1966, 1967, 1968,
+      1969, 1970, 1971, 1972, 1973, 1974, 1975, 1976, 1977, 1978, 1979, 1980, 1981, 1982, 1983, 1984, 1985, 1986, 1987,
+      1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006,
+      2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025,
+      2026
+    ],
+    "starts": 2483,
+    "wins": 251
+  },
+  {
+    "ref": "haas",
+    "name": "Haas F1 Team",
+    "nationality": "American",
+    "seasons": [2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026],
+    "starts": 453,
+    "wins": 0
+  },
+  {
+    "ref": "mclaren",
+    "name": "McLaren",
+    "nationality": "British",
+    "seasons": [
+      1968, 1971, 1972, 1973, 1974, 1975, 1976, 1977, 1978, 1979, 1980, 1981, 1982, 1983, 1984, 1985, 1986, 1987, 1988,
+      1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007,
+      2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026
+    ],
+    "starts": 1963,
+    "wins": 201
+  },
+  {
+    "ref": "mercedes",
+    "name": "Mercedes",
+    "nationality": "German",
+    "seasons": [
+      1954, 1955, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026
+    ],
+    "starts": 729,
+    "wins": 142
+  },
+  {
+    "ref": "rb",
+    "name": "RB F1 Team",
+    "nationality": "Italian",
+    "seasons": [2024, 2025, 2026],
+    "starts": 125,
+    "wins": 0
+  },
+  {
+    "ref": "red_bull",
+    "name": "Red Bull",
+    "nationality": "Austrian",
+    "seasons": [
+      2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023,
+      2024, 2025, 2026
+    ],
+    "starts": 861,
+    "wins": 130
+  },
+  {
+    "ref": "williams",
+    "name": "Williams",
+    "nationality": "British",
+    "seasons": [
+      1975, 1976, 1978, 1979, 1980, 1981, 1982, 1983, 1984, 1985, 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994,
+      1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+      2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026
+    ],
+    "starts": 1730,
+    "wins": 114
+  },
+  {
+    "ref": "sauber",
+    "name": "Sauber",
+    "nationality": "Swiss",
+    "seasons": [
+      1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2010, 2011, 2012, 2013, 2014, 2015,
+      2016, 2017, 2018, 2024, 2025
+    ],
+    "starts": 871,
+    "wins": 0
+  },
+  {
+    "ref": "alfa",
+    "name": "Alfa Romeo",
+    "nationality": "Swiss",
+    "seasons": [1950, 1951, 1963, 1965, 1979, 1980, 1981, 1982, 1983, 1984, 1985, 2019, 2020, 2021, 2022, 2023],
+    "starts": 448,
+    "wins": 11
+  },
+  {
+    "ref": "alphatauri",
+    "name": "AlphaTauri",
+    "nationality": "Italian",
+    "seasons": [2020, 2021, 2022, 2023],
+    "starts": 164,
+    "wins": 1
+  },
+  {
+    "ref": "racing_point",
+    "name": "Racing Point",
+    "nationality": "British",
+    "seasons": [2019, 2020],
+    "starts": 75,
+    "wins": 1
+  },
+  {
+    "ref": "renault",
+    "name": "Renault",
+    "nationality": "French",
+    "seasons": [
+      1977, 1978, 1979, 1980, 1981, 1982, 1983, 1984, 1985, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011,
+      2016, 2017, 2018, 2019, 2020
+    ],
+    "starts": 780,
+    "wins": 35
+  },
+  {
+    "ref": "toro_rosso",
+    "name": "Toro Rosso",
+    "nationality": "Italian",
+    "seasons": [2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019],
+    "starts": 536,
+    "wins": 1
+  },
+  {
+    "ref": "force_india",
+    "name": "Force India",
+    "nationality": "Indian",
+    "seasons": [2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018],
+    "starts": 422,
+    "wins": 0
+  },
+  {
+    "ref": "manor",
+    "name": "Manor Marussia",
+    "nationality": "British",
+    "seasons": [2015, 2016],
+    "starts": 77,
+    "wins": 0
+  },
+  {
+    "ref": "lotus_f1",
+    "name": "Lotus F1",
+    "nationality": "British",
+    "seasons": [2012, 2013, 2014, 2015],
+    "starts": 153,
+    "wins": 2
+  },
+  {
+    "ref": "caterham",
+    "name": "Caterham",
+    "nationality": "Malaysian",
+    "seasons": [2012, 2013, 2014],
+    "starts": 110,
+    "wins": 0
+  },
+  {
+    "ref": "marussia",
+    "name": "Marussia",
+    "nationality": "Russian",
+    "seasons": [2012, 2013, 2014],
+    "starts": 108,
+    "wins": 0
+  },
+  {
+    "ref": "hrt",
+    "name": "HRT",
+    "nationality": "Spanish",
+    "seasons": [2010, 2011, 2012],
+    "starts": 112,
+    "wins": 0
+  },
+  {
+    "ref": "lotus_racing",
+    "name": "Lotus",
+    "nationality": "Malaysian",
+    "seasons": [2010, 2011],
+    "starts": 74,
+    "wins": 0
+  },
+  {
+    "ref": "virgin",
+    "name": "Virgin",
+    "nationality": "British",
+    "seasons": [2010, 2011],
+    "starts": 74,
+    "wins": 0
+  },
+  {
+    "ref": "bmw_sauber",
+    "name": "BMW Sauber",
+    "nationality": "German",
+    "seasons": [2006, 2007, 2008, 2009],
+    "starts": 140,
+    "wins": 1
+  },
+  {
+    "ref": "brawn",
+    "name": "Brawn",
+    "nationality": "British",
+    "seasons": [2009],
+    "starts": 34,
+    "wins": 8
+  },
+  {
+    "ref": "toyota",
+    "name": "Toyota",
+    "nationality": "Japanese",
+    "seasons": [2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009],
+    "starts": 276,
+    "wins": 0
+  },
+  {
+    "ref": "honda",
+    "name": "Honda",
+    "nationality": "Japanese",
+    "seasons": [1964, 1965, 1966, 1967, 1968, 2006, 2007, 2008],
+    "starts": 152,
+    "wins": 3
+  },
+  {
+    "ref": "super_aguri",
+    "name": "Super Aguri",
+    "nationality": "Japanese",
+    "seasons": [2006, 2007, 2008],
+    "starts": 78,
+    "wins": 0
+  },
+  {
+    "ref": "spyker",
+    "name": "Spyker",
+    "nationality": "Dutch",
+    "seasons": [2007],
+    "starts": 34,
+    "wins": 0
+  },
+  {
+    "ref": "mf1",
+    "name": "MF1",
+    "nationality": "Russian",
+    "seasons": [2006],
+    "starts": 28,
+    "wins": 0
+  },
+  {
+    "ref": "spyker_mf1",
+    "name": "Spyker MF1",
+    "nationality": "Dutch",
+    "seasons": [2006],
+    "starts": 8,
+    "wins": 0
+  },
+  {
+    "ref": "bar",
+    "name": "BAR",
+    "nationality": "British",
+    "seasons": [1999, 2000, 2001, 2002, 2003, 2004, 2005],
+    "starts": 232,
+    "wins": 0
+  },
+  {
+    "ref": "jordan",
+    "name": "Jordan",
+    "nationality": "Irish",
+    "seasons": [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005],
+    "starts": 494,
+    "wins": 4
+  },
+  {
+    "ref": "minardi",
+    "name": "Minardi",
+    "nationality": "Italian",
+    "seasons": [
+      1985, 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003,
+      2004, 2005
+    ],
+    "starts": 636,
+    "wins": 0
+  },
+  {
+    "ref": "jaguar",
+    "name": "Jaguar",
+    "nationality": "British",
+    "seasons": [2000, 2001, 2002, 2003, 2004],
+    "starts": 170,
+    "wins": 0
+  },
+  {
+    "ref": "arrows",
+    "name": "Arrows",
+    "nationality": "British",
+    "seasons": [
+      1978, 1979, 1980, 1981, 1982, 1983, 1984, 1985, 1986, 1987, 1988, 1989, 1990, 1997, 1998, 1999, 2000, 2001, 2002
+    ],
+    "starts": 549,
+    "wins": 0
+  },
+  {
+    "ref": "benetton",
+    "name": "Benetton",
+    "nationality": "Italian",
+    "seasons": [1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001],
+    "starts": 519,
+    "wins": 27
+  },
+  {
+    "ref": "prost",
+    "name": "Prost",
+    "nationality": "French",
+    "seasons": [1997, 1998, 1999, 2000, 2001],
+    "starts": 163,
+    "wins": 0
+  },
+  {
+    "ref": "stewart",
+    "name": "Stewart",
+    "nationality": "British",
+    "seasons": [1997, 1998, 1999],
+    "starts": 96,
+    "wins": 1
+  },
+  {
+    "ref": "tyrrell",
+    "name": "Tyrrell",
+    "nationality": "British",
+    "seasons": [
+      1970, 1971, 1972, 1973, 1974, 1975, 1976, 1977, 1978, 1979, 1980, 1981, 1982, 1983, 1984, 1985, 1986, 1987, 1988,
+      1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998
+    ],
+    "starts": 843,
+    "wins": 23
+  },
+  {
+    "ref": "footwork",
+    "name": "Footwork",
+    "nationality": "British",
+    "seasons": [1991, 1992, 1993, 1994, 1995, 1996],
+    "starts": 172,
+    "wins": 0
+  },
+  {
+    "ref": "forti",
+    "name": "Forti",
+    "nationality": "Italian",
+    "seasons": [1995, 1996],
+    "starts": 45,
+    "wins": 0
+  },
+  {
+    "ref": "ligier",
+    "name": "Ligier",
+    "nationality": "French",
+    "seasons": [
+      1976, 1977, 1978, 1979, 1980, 1981, 1982, 1983, 1984, 1985, 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994,
+      1995, 1996
+    ],
+    "starts": 580,
+    "wins": 9
+  },
+  {
+    "ref": "pacific",
+    "name": "Pacific",
+    "nationality": "British",
+    "seasons": [1994, 1995],
+    "starts": 40,
+    "wins": 0
+  },
+  {
+    "ref": "simtek",
+    "name": "Simtek",
+    "nationality": "British",
+    "seasons": [1994, 1995],
+    "starts": 35,
+    "wins": 0
+  },
+  {
+    "ref": "larrousse",
+    "name": "Larrousse",
+    "nationality": "French",
+    "seasons": [1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994],
+    "starts": 200,
+    "wins": 0
+  },
+  {
+    "ref": "team_lotus",
+    "name": "Team Lotus",
+    "nationality": "British",
+    "seasons": [
+      1958, 1959, 1960, 1962, 1963, 1970, 1972, 1973, 1974, 1975, 1976, 1977, 1978, 1979, 1980, 1981, 1982, 1983, 1984,
+      1985, 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994
+    ],
+    "starts": 816,
+    "wins": 45
+  },
+  {
+    "ref": "lola",
+    "name": "Lola",
+    "nationality": "British",
+    "seasons": [1962, 1963, 1967, 1968, 1974, 1975, 1985, 1986, 1991, 1993],
+    "starts": 141,
+    "wins": 0
+  },
+  {
+    "ref": "moda",
+    "name": "Andrea Moda",
+    "nationality": "Italian",
+    "seasons": [1992],
+    "starts": 2,
+    "wins": 0
+  },
+  {
+    "ref": "brabham",
+    "name": "Brabham",
+    "nationality": "British",
+    "seasons": [
+      1962, 1963, 1970, 1971, 1972, 1973, 1974, 1975, 1977, 1978, 1980, 1981, 1982, 1983, 1984, 1985, 1986, 1987, 1989,
+      1990, 1991, 1992
+    ],
+    "starts": 614,
+    "wins": 23
+  },
+  {
+    "ref": "dallara",
+    "name": "Dallara",
+    "nationality": "Italian",
+    "seasons": [1988, 1989, 1990, 1991, 1992],
+    "starts": 133,
+    "wins": 0
+  },
+  {
+    "ref": "fondmetal",
+    "name": "Fondmetal",
+    "nationality": "Italian",
+    "seasons": [1991, 1992],
+    "starts": 25,
+    "wins": 0
+  },
+  {
+    "ref": "march",
+    "name": "March",
+    "nationality": "British",
+    "seasons": [1970, 1972, 1973, 1974, 1975, 1976, 1977, 1981, 1982, 1987, 1988, 1989, 1992],
+    "starts": 449,
+    "wins": 3
+  },
+  {
+    "ref": "ags",
+    "name": "AGS",
+    "nationality": "French",
+    "seasons": [1986, 1987, 1988, 1989, 1990, 1991],
+    "starts": 49,
+    "wins": 0
+  },
+  {
+    "ref": "lambo",
+    "name": "Lambo",
+    "nationality": "Italian",
+    "seasons": [1991],
+    "starts": 6,
+    "wins": 0
+  },
+  {
+    "ref": "leyton",
+    "name": "Leyton House",
+    "nationality": "British",
+    "seasons": [1990, 1991],
+    "starts": 57,
+    "wins": 0
+  },
+  {
+    "ref": "eurobrun",
+    "name": "Euro Brun",
+    "nationality": "Italian",
+    "seasons": [1988, 1990],
+    "starts": 23,
+    "wins": 0
+  },
+  {
+    "ref": "onyx",
+    "name": "Onyx",
+    "nationality": "British",
+    "seasons": [1989, 1990],
+    "starts": 25,
+    "wins": 0
+  },
+  {
+    "ref": "osella",
+    "name": "Osella",
+    "nationality": "Italian",
+    "seasons": [1980, 1981, 1982, 1983, 1984, 1985, 1986, 1987, 1988, 1989, 1990],
+    "starts": 166,
+    "wins": 0
+  },
+  {
+    "ref": "coloni",
+    "name": "Coloni",
+    "nationality": "Italian",
+    "seasons": [1987, 1988, 1989],
+    "starts": 14,
+    "wins": 0
+  },
+  {
+    "ref": "rial",
+    "name": "Rial",
+    "nationality": "German",
+    "seasons": [1988, 1989],
+    "starts": 21,
+    "wins": 0
+  },
+  {
+    "ref": "zakspeed",
+    "name": "Zakspeed",
+    "nationality": "German",
+    "seasons": [1985, 1986, 1987, 1988, 1989],
+    "starts": 87,
+    "wins": 0
+  },
+  {
+    "ref": "ram",
+    "name": "RAM",
+    "nationality": "British",
+    "seasons": [1983, 1984, 1985],
+    "starts": 54,
+    "wins": 0
+  },
+  {
+    "ref": "spirit",
+    "name": "Spirit",
+    "nationality": "British",
+    "seasons": [1983, 1984, 1985],
+    "starts": 23,
+    "wins": 0
+  },
+  {
+    "ref": "toleman",
+    "name": "Toleman",
+    "nationality": "British",
+    "seasons": [1981, 1982, 1983, 1984, 1985],
+    "starts": 93,
+    "wins": 0
+  },
+  {
+    "ref": "ats",
+    "name": "ATS",
+    "nationality": "Italian",
+    "seasons": [1963, 1978, 1979, 1980, 1981, 1982, 1983, 1984],
+    "starts": 119,
+    "wins": 0
+  },
+  {
+    "ref": "theodore",
+    "name": "Theodore",
+    "nationality": "Hong Kong",
+    "seasons": [1978, 1981, 1982, 1983],
+    "starts": 43,
+    "wins": 0
+  },
+  {
+    "ref": "ensign",
+    "name": "Ensign",
+    "nationality": "British",
+    "seasons": [1973, 1974, 1975, 1976, 1977, 1978, 1979, 1980, 1981, 1982],
+    "starts": 110,
+    "wins": 0
+  },
+  {
+    "ref": "fittipaldi",
+    "name": "Fittipaldi",
+    "nationality": "Brazilian",
+    "seasons": [1975, 1976, 1977, 1978, 1979, 1980, 1981, 1982],
+    "starts": 120,
+    "wins": 0
+  },
+  {
+    "ref": "shadow",
+    "name": "Shadow",
+    "nationality": "British",
+    "seasons": [1973, 1974, 1976, 1977, 1978, 1979, 1980],
+    "starts": 184,
+    "wins": 1
+  },
+  {
+    "ref": "brabham-alfa_romeo",
+    "name": "Brabham-Alfa Romeo",
+    "nationality": "British",
+    "seasons": [1976, 1979],
+    "starts": 56,
+    "wins": 0
+  },
+  {
+    "ref": "brabham-ford",
+    "name": "Brabham-Ford",
+    "nationality": "British",
+    "seasons": [1964, 1965, 1967, 1969, 1976, 1979],
+    "starts": 50,
+    "wins": 2
+  },
+  {
+    "ref": "merzario",
+    "name": "Merzario",
+    "nationality": "Italian",
+    "seasons": [1978, 1979],
+    "starts": 10,
+    "wins": 0
+  },
+  {
+    "ref": "rebaque",
+    "name": "Rebaque",
+    "nationality": "Mexican",
+    "seasons": [1979],
+    "starts": 1,
+    "wins": 0
+  },
+  {
+    "ref": "wolf",
+    "name": "Wolf",
+    "nationality": "Canadian",
+    "seasons": [1976, 1977, 1978, 1979],
+    "starts": 70,
+    "wins": 3
+  },
+  {
+    "ref": "hesketh",
+    "name": "Hesketh",
+    "nationality": "British",
+    "seasons": [1974, 1975, 1976, 1977, 1978],
+    "starts": 73,
+    "wins": 1
+  },
+  {
+    "ref": "martini",
+    "name": "Martini",
+    "nationality": "French",
+    "seasons": [1978],
+    "starts": 5,
+    "wins": 0
+  },
+  {
+    "ref": "surtees",
+    "name": "Surtees",
+    "nationality": "British",
+    "seasons": [1970, 1971, 1972, 1973, 1974, 1975, 1976, 1977, 1978],
+    "starts": 223,
+    "wins": 0
+  },
+  {
+    "ref": "boro",
+    "name": "Boro",
+    "nationality": "Dutch",
+    "seasons": [1976, 1977],
+    "starts": 6,
+    "wins": 0
+  },
+  {
+    "ref": "brm",
+    "name": "BRM",
+    "nationality": "British",
+    "seasons": [
+      1951, 1956, 1957, 1958, 1959, 1960, 1961, 1962, 1963, 1964, 1965, 1966, 1967, 1968, 1969, 1970, 1971, 1972, 1973,
+      1974, 1975, 1976, 1977
+    ],
+    "starts": 521,
+    "wins": 17
+  },
+  {
+    "ref": "kojima",
+    "name": "Kojima",
+    "nationality": "Japanese",
+    "seasons": [1976, 1977],
+    "starts": 3,
+    "wins": 0
+  },
+  {
+    "ref": "lec",
+    "name": "LEC",
+    "nationality": "British",
+    "seasons": [1977],
+    "starts": 3,
+    "wins": 0
+  },
+  {
+    "ref": "penske",
+    "name": "Penske",
+    "nationality": "American",
+    "seasons": [1974, 1975, 1976, 1977],
+    "starts": 43,
+    "wins": 1
+  },
+  {
+    "ref": "parnelli",
+    "name": "Parnelli",
+    "nationality": "American",
+    "seasons": [1974, 1975, 1976],
+    "starts": 16,
+    "wins": 0
+  },
+  {
+    "ref": "hill",
+    "name": "Embassy Hill",
+    "nationality": "British",
+    "seasons": [1975],
+    "starts": 18,
+    "wins": 0
+  },
+  {
+    "ref": "lyncar",
+    "name": "Lyncar",
+    "nationality": "British",
+    "seasons": [1975],
+    "starts": 1,
+    "wins": 0
+  },
+  {
+    "ref": "maki",
+    "name": "Maki",
+    "nationality": "Japanese",
+    "seasons": [1975],
+    "starts": 0,
+    "wins": 0
+  },
+  {
+    "ref": "shadow-ford",
+    "name": "Shadow-Ford",
+    "nationality": "British",
+    "seasons": [1975],
+    "starts": 25,
+    "wins": 0
+  },
+  {
+    "ref": "shadow-matra",
+    "name": "Shadow-Matra",
+    "nationality": "British",
+    "seasons": [1975],
+    "starts": 2,
+    "wins": 0
+  },
+  {
+    "ref": "amon",
+    "name": "Amon",
+    "nationality": "New Zealander",
+    "seasons": [1974],
+    "starts": 1,
+    "wins": 0
+  },
+  {
+    "ref": "iso_marlboro",
+    "name": "Iso Marlboro",
+    "nationality": "British",
+    "seasons": [1973, 1974],
+    "starts": 50,
+    "wins": 0
+  },
+  {
+    "ref": "token",
+    "name": "Token",
+    "nationality": "British",
+    "seasons": [1974],
+    "starts": 3,
+    "wins": 0
+  },
+  {
+    "ref": "trojan",
+    "name": "Trojan",
+    "nationality": "British",
+    "seasons": [1974],
+    "starts": 6,
+    "wins": 0
+  },
+  {
+    "ref": "tecno",
+    "name": "Tecno",
+    "nationality": "Italian",
+    "seasons": [1972, 1973],
+    "starts": 10,
+    "wins": 0
+  },
+  {
+    "ref": "connew",
+    "name": "Connew",
+    "nationality": "British",
+    "seasons": [1972],
+    "starts": 1,
+    "wins": 0
+  },
+  {
+    "ref": "matra",
+    "name": "Matra",
+    "nationality": "French",
+    "seasons": [1967, 1968, 1970, 1971, 1972],
+    "starts": 69,
+    "wins": 0
+  },
+  {
+    "ref": "politoys",
+    "name": "Politoys",
+    "nationality": "British",
+    "seasons": [1972],
+    "starts": 1,
+    "wins": 0
+  },
+  {
+    "ref": "bellasi",
+    "name": "Bellasi",
+    "nationality": "Swiss",
+    "seasons": [1970, 1971],
+    "starts": 2,
+    "wins": 0
+  },
+  {
+    "ref": "lotus-ford",
+    "name": "Lotus-Ford",
+    "nationality": "British",
+    "seasons": [1963, 1967, 1968, 1969, 1971],
+    "starts": 125,
+    "wins": 11
+  },
+  {
+    "ref": "lotus-pw",
+    "name": "Lotus-Pratt &amp; Whitney",
+    "nationality": "British",
+    "seasons": [1971],
+    "starts": 3,
+    "wins": 0
+  },
+  {
+    "ref": "march-alfa_romeo",
+    "name": "March-Alfa Romeo",
+    "nationality": "British",
+    "seasons": [1971],
+    "starts": 10,
+    "wins": 0
+  },
+  {
+    "ref": "march-ford",
+    "name": "March-Ford",
+    "nationality": "British",
+    "seasons": [1971],
+    "starts": 41,
+    "wins": 0
+  },
+  {
+    "ref": "tomaso",
+    "name": "De Tomaso",
+    "nationality": "Italian",
+    "seasons": [1963, 1970],
+    "starts": 8,
+    "wins": 0
+  },
+  {
+    "ref": "mclaren-alfa_romeo",
+    "name": "McLaren-Alfa Romeo",
+    "nationality": "British",
+    "seasons": [1970],
+    "starts": 5,
+    "wins": 0
+  },
+  {
+    "ref": "mclaren-ford",
+    "name": "McLaren-Ford",
+    "nationality": "British",
+    "seasons": [1966, 1967, 1968, 1969, 1970],
+    "starts": 85,
+    "wins": 4
+  },
+  {
+    "ref": "brabham-climax",
+    "name": "Brabham-Climax",
+    "nationality": "British",
+    "seasons": [1964, 1965, 1966, 1967, 1968, 1969],
+    "starts": 90,
+    "wins": 2
+  },
+  {
+    "ref": "brabham-repco",
+    "name": "Brabham-Repco",
+    "nationality": "British",
+    "seasons": [1966, 1967, 1968, 1969],
+    "starts": 74,
+    "wins": 8
+  },
+  {
+    "ref": "brm-ford",
+    "name": "BRM-Ford",
+    "nationality": "British",
+    "seasons": [1969],
+    "starts": 1,
+    "wins": 0
+  },
+  {
+    "ref": "cooper-maserati",
+    "name": "Cooper-Maserati",
+    "nationality": "British",
+    "seasons": [1959, 1960, 1961, 1963, 1965, 1966, 1967, 1968, 1969],
+    "starts": 127,
+    "wins": 2
+  },
+  {
+    "ref": "eagle-climax",
+    "name": "Eagle-Climax",
+    "nationality": "American",
+    "seasons": [1966, 1967, 1969],
+    "starts": 11,
+    "wins": 0
+  },
+  {
+    "ref": "matra-ford",
+    "name": "Matra-Ford",
+    "nationality": "French",
+    "seasons": [1968, 1969],
+    "starts": 40,
+    "wins": 9
+  },
+  {
+    "ref": "cooper-brm",
+    "name": "Cooper-BRM",
+    "nationality": "British",
+    "seasons": [1968],
+    "starts": 21,
+    "wins": 0
+  },
+  {
+    "ref": "cooper-climax",
+    "name": "Cooper-Climax",
+    "nationality": "British",
+    "seasons": [1959, 1960, 1961, 1962, 1963, 1964, 1965, 1967, 1968],
+    "starts": 242,
+    "wins": 12
+  },
+  {
+    "ref": "eagle-weslake",
+    "name": "Eagle-Weslake",
+    "nationality": "American",
+    "seasons": [1966, 1967, 1968],
+    "starts": 21,
+    "wins": 1
+  },
+  {
+    "ref": "lds",
+    "name": "LDS",
+    "nationality": "South African",
+    "seasons": [1962, 1963, 1968],
+    "starts": 4,
+    "wins": 0
+  },
+  {
+    "ref": "mclaren-brm",
+    "name": "McLaren-BRM",
+    "nationality": "British",
+    "seasons": [1967, 1968],
+    "starts": 13,
+    "wins": 0
+  },
+  {
+    "ref": "cooper-ats",
+    "name": "Cooper-ATS",
+    "nationality": "British",
+    "seasons": [1967],
+    "starts": 1,
+    "wins": 0
+  },
+  {
+    "ref": "lds-climax",
+    "name": "LDS-Climax",
+    "nationality": "South African",
+    "seasons": [1967],
+    "starts": 1,
+    "wins": 0
+  },
+  {
+    "ref": "lotus-brm",
+    "name": "Lotus-BRM",
+    "nationality": "British",
+    "seasons": [1962, 1963, 1964, 1965, 1966, 1967],
+    "starts": 101,
+    "wins": 1
+  },
+  {
+    "ref": "lotus-climax",
+    "name": "Lotus-Climax",
+    "nationality": "British",
+    "seasons": [1961, 1962, 1963, 1964, 1965, 1966, 1967],
+    "starts": 191,
+    "wins": 22
+  },
+  {
+    "ref": "protos",
+    "name": "Protos",
+    "nationality": "British",
+    "seasons": [1967],
+    "starts": 2,
+    "wins": 0
+  },
+  {
+    "ref": "brabham-brm",
+    "name": "Brabham-BRM",
+    "nationality": "British",
+    "seasons": [1964, 1965, 1966],
+    "starts": 38,
+    "wins": 0
+  },
+  {
+    "ref": "cooper-ferrari",
+    "name": "Cooper-Ferrari",
+    "nationality": "British",
+    "seasons": [1966],
+    "starts": 2,
+    "wins": 0
+  },
+  {
+    "ref": "mclaren-seren",
+    "name": "McLaren-Serenissima",
+    "nationality": "British",
+    "seasons": [1966],
+    "starts": 1,
+    "wins": 0
+  },
+  {
+    "ref": "shannon",
+    "name": "Shannon",
+    "nationality": "British",
+    "seasons": [1966],
+    "starts": 1,
+    "wins": 0
+  },
+  {
+    "ref": "lds-alfa_romeo",
+    "name": "LDS-Alfa Romeo",
+    "nationality": "South African",
+    "seasons": [1965],
+    "starts": 1,
+    "wins": 0
+  },
+  {
+    "ref": "re",
+    "name": "RE",
+    "nationality": "Rhodesian",
+    "seasons": [1965],
+    "starts": 0,
+    "wins": 0
+  },
+  {
+    "ref": "brp",
+    "name": "BRP",
+    "nationality": "British",
+    "seasons": [1963, 1964],
+    "starts": 18,
+    "wins": 0
+  },
+  {
+    "ref": "derrington",
+    "name": "Derrington",
+    "nationality": "British",
+    "seasons": [1964],
+    "starts": 1,
+    "wins": 0
+  },
+  {
+    "ref": "porsche",
+    "name": "Porsche",
+    "nationality": "German",
+    "seasons": [1957, 1958, 1959, 1960, 1961, 1962, 1963, 1964],
+    "starts": 71,
+    "wins": 1
+  },
+  {
+    "ref": "scirocco",
+    "name": "Scirocco",
+    "nationality": "British",
+    "seasons": [1963, 1964],
+    "starts": 7,
+    "wins": 0
+  },
+  {
+    "ref": "gilby",
+    "name": "Gilby",
+    "nationality": "British",
+    "seasons": [1961, 1962, 1963],
+    "starts": 3,
+    "wins": 0
+  },
+  {
+    "ref": "lotus-maserati",
+    "name": "Lotus-Maserati",
+    "nationality": "British",
+    "seasons": [1961, 1963],
+    "starts": 1,
+    "wins": 0
+  },
+  {
+    "ref": "stebro",
+    "name": "Stebro",
+    "nationality": "Canadian",
+    "seasons": [1963],
+    "starts": 1,
+    "wins": 0
+  },
+  {
+    "ref": "cooper",
+    "name": "Cooper",
+    "nationality": "British",
+    "seasons": [1950, 1952, 1953, 1954, 1955, 1956, 1957, 1958, 1962],
+    "starts": 99,
+    "wins": 2
+  },
+  {
+    "ref": "cooper-alfa_romeo",
+    "name": "Cooper-Alfa Romeo",
+    "nationality": "British",
+    "seasons": [1962],
+    "starts": 1,
+    "wins": 0
+  },
+  {
+    "ref": "de_tomaso-alfa_romeo",
+    "name": "De Tomaso-Alfa Romeo",
+    "nationality": "Italian",
+    "seasons": [1961, 1962],
+    "starts": 2,
+    "wins": 0
+  },
+  {
+    "ref": "emeryson",
+    "name": "Emeryson",
+    "nationality": "British",
+    "seasons": [1956, 1961, 1962],
+    "starts": 4,
+    "wins": 0
+  },
+  {
+    "ref": "enb",
+    "name": "ENB",
+    "nationality": "Belgian",
+    "seasons": [1962],
+    "starts": 1,
+    "wins": 0
+  },
+  {
+    "ref": "lotus-borgward",
+    "name": "Lotus-Borgward",
+    "nationality": "British",
+    "seasons": [1962],
+    "starts": 0,
+    "wins": 0
+  },
+  {
+    "ref": "de_tomaso-osca",
+    "name": "De Tomaso-Osca",
+    "nationality": "Italian",
+    "seasons": [1961],
+    "starts": 2,
+    "wins": 0
+  },
+  {
+    "ref": "ferguson",
+    "name": "Ferguson",
+    "nationality": "British",
+    "seasons": [1961],
+    "starts": 2,
+    "wins": 0
+  },
+  {
+    "ref": "jbw",
+    "name": "JBW",
+    "nationality": "British",
+    "seasons": [1959, 1960, 1961],
+    "starts": 4,
+    "wins": 0
+  },
+  {
+    "ref": "mbm",
+    "name": "MBM",
+    "nationality": "Swiss",
+    "seasons": [1961],
+    "starts": 0,
+    "wins": 0
+  },
+  {
+    "ref": "behra-porsche",
+    "name": "Behra-Porsche",
+    "nationality": "Italian",
+    "seasons": [1960],
+    "starts": 2,
+    "wins": 0
+  },
+  {
+    "ref": "vhristensen",
+    "name": "Christensen",
+    "nationality": "American",
+    "seasons": [1959, 1960],
+    "starts": 2,
+    "wins": 0
+  },
+  {
+    "ref": "cooper-castellotti",
+    "name": "Cooper-Castellotti",
+    "nationality": "British",
+    "seasons": [1960],
+    "starts": 5,
+    "wins": 0
+  },
+  {
+    "ref": "epperly",
+    "name": "Epperly",
+    "nationality": "American",
+    "seasons": [1955, 1957, 1958, 1959, 1960],
+    "starts": 17,
+    "wins": 2
+  },
+  {
+    "ref": "ewing",
+    "name": "Ewing",
+    "nationality": "American",
+    "seasons": [1950, 1960],
+    "starts": 3,
+    "wins": 0
+  },
+  {
+    "ref": "kurtis_kraft",
+    "name": "Kurtis Kraft",
+    "nationality": "American",
+    "seasons": [1950, 1951, 1952, 1953, 1954, 1955, 1956, 1957, 1958, 1959, 1960],
+    "starts": 226,
+    "wins": 5
+  },
+  {
+    "ref": "kuzma",
+    "name": "Kuzma",
+    "nationality": "American",
+    "seasons": [1951, 1952, 1953, 1954, 1955, 1956, 1957, 1958, 1959, 1960],
+    "starts": 39,
+    "wins": 1
+  },
+  {
+    "ref": "lesovsky",
+    "name": "Lesovsky",
+    "nationality": "American",
+    "seasons": [1950, 1951, 1952, 1953, 1956, 1957, 1958, 1959, 1960],
+    "starts": 15,
+    "wins": 0
+  },
+  {
+    "ref": "maserati",
+    "name": "Maserati",
+    "nationality": "Italian",
+    "seasons": [1950, 1951, 1952, 1953, 1954, 1955, 1956, 1957, 1958, 1959, 1960],
+    "starts": 401,
+    "wins": 9
+  },
+  {
+    "ref": "meskowski",
+    "name": "Meskowski",
+    "nationality": "American",
+    "seasons": [1960],
+    "starts": 2,
+    "wins": 0
+  },
+  {
+    "ref": "phillips",
+    "name": "Phillips",
+    "nationality": "American",
+    "seasons": [1954, 1955, 1956, 1957, 1958, 1959, 1960],
+    "starts": 7,
+    "wins": 0
+  },
+  {
+    "ref": "scarab",
+    "name": "Scarab",
+    "nationality": "American",
+    "seasons": [1960],
+    "starts": 3,
+    "wins": 0
+  },
+  {
+    "ref": "trevis",
+    "name": "Trevis",
+    "nationality": "American",
+    "seasons": [1951, 1952, 1955, 1960],
+    "starts": 6,
+    "wins": 0
+  },
+  {
+    "ref": "vanwall",
+    "name": "Vanwall",
+    "nationality": "British",
+    "seasons": [1954, 1955, 1956, 1957, 1958, 1959, 1960],
+    "starts": 69,
+    "wins": 10
+  },
+  {
+    "ref": "watson",
+    "name": "Watson",
+    "nationality": "American",
+    "seasons": [1950, 1951, 1952, 1953, 1956, 1957, 1958, 1959, 1960],
+    "starts": 22,
+    "wins": 3
+  },
+  {
+    "ref": "connaught",
+    "name": "Connaught",
+    "nationality": "British",
+    "seasons": [1952, 1953, 1954, 1955, 1956, 1957, 1958, 1959],
+    "starts": 50,
+    "wins": 0
+  },
+  {
+    "ref": "cooper-borgward",
+    "name": "Cooper-Borgward",
+    "nationality": "British",
+    "seasons": [1959],
+    "starts": 3,
+    "wins": 0
+  },
+  {
+    "ref": "cooper-osca",
+    "name": "Cooper-OSCA",
+    "nationality": "British",
+    "seasons": [1959],
+    "starts": 1,
+    "wins": 0
+  },
+  {
+    "ref": "dunn",
+    "name": "Dunn",
+    "nationality": "American",
+    "seasons": [1957, 1958, 1959],
+    "starts": 3,
+    "wins": 0
+  },
+  {
+    "ref": "elder",
+    "name": "Elder",
+    "nationality": "American",
+    "seasons": [1959],
+    "starts": 1,
+    "wins": 0
+  },
+  {
+    "ref": "moore",
+    "name": "Moore",
+    "nationality": "American",
+    "seasons": [1950, 1951, 1959],
+    "starts": 3,
+    "wins": 0
+  },
+  {
+    "ref": "sutton",
+    "name": "Sutton",
+    "nationality": "American",
+    "seasons": [1959],
+    "starts": 1,
+    "wins": 0
+  },
+  {
+    "ref": "tec-mec",
+    "name": "Tec-Mec",
+    "nationality": "Italian",
+    "seasons": [1959],
+    "starts": 1,
+    "wins": 0
+  },
+  {
+    "ref": "bugatti",
+    "name": "Bugatti",
+    "nationality": "French",
+    "seasons": [1956],
+    "starts": 1,
+    "wins": 0
+  },
+  {
+    "ref": "gordini",
+    "name": "Gordini",
+    "nationality": "French",
+    "seasons": [1952, 1953, 1954, 1955, 1956],
+    "starts": 101,
+    "wins": 0
+  },
+  {
+    "ref": "stevens",
+    "name": "Stevens",
+    "nationality": "American",
+    "seasons": [1950, 1952, 1953, 1954, 1955, 1956],
+    "starts": 10,
+    "wins": 0
+  },
+  {
+    "ref": "arzani-volpini",
+    "name": "Arzani-Volpini",
+    "nationality": "Italian",
+    "seasons": [1955],
+    "starts": 0,
+    "wins": 0
+  },
+  {
+    "ref": "lancia",
+    "name": "Lancia",
+    "nationality": "Italian",
+    "seasons": [1954, 1955],
+    "starts": 11,
+    "wins": 0
+  },
+  {
+    "ref": "pankratz",
+    "name": "Pankratz",
+    "nationality": "American",
+    "seasons": [1954, 1955],
+    "starts": 2,
+    "wins": 0
+  },
+  {
+    "ref": "pawl",
+    "name": "Pawl",
+    "nationality": "American",
+    "seasons": [1951, 1954, 1955],
+    "starts": 4,
+    "wins": 0
+  },
+  {
+    "ref": "schroeder",
+    "name": "Schroeder",
+    "nationality": "American",
+    "seasons": [1951, 1953, 1954, 1955],
+    "starts": 8,
+    "wins": 0
+  },
+  {
+    "ref": "bromme",
+    "name": "Bromme",
+    "nationality": "American",
+    "seasons": [1951, 1952, 1953, 1954],
+    "starts": 5,
+    "wins": 0
+  },
+  {
+    "ref": "hwm",
+    "name": "HWM",
+    "nationality": "British",
+    "seasons": [1951, 1952, 1953, 1954],
+    "starts": 41,
+    "wins": 0
+  },
+  {
+    "ref": "klenk",
+    "name": "Klenk",
+    "nationality": "German",
+    "seasons": [1954],
+    "starts": 1,
+    "wins": 0
+  },
+  {
+    "ref": "nichels",
+    "name": "Nichels",
+    "nationality": "American",
+    "seasons": [1950, 1954],
+    "starts": 4,
+    "wins": 0
+  },
+  {
+    "ref": "afm",
+    "name": "AFM",
+    "nationality": "German",
+    "seasons": [1952, 1953],
+    "starts": 7,
+    "wins": 0
+  },
+  {
+    "ref": "bmw",
+    "name": "BMW",
+    "nationality": "German",
+    "seasons": [1952, 1953],
+    "starts": 6,
+    "wins": 0
+  },
+  {
+    "ref": "del_roy",
+    "name": "Del Roy",
+    "nationality": "American",
+    "seasons": [1953],
+    "starts": 1,
+    "wins": 0
+  },
+  {
+    "ref": "emw",
+    "name": "EMW",
+    "nationality": "East German",
+    "seasons": [1953],
+    "starts": 1,
+    "wins": 0
+  },
+  {
+    "ref": "osca",
+    "name": "OSCA",
+    "nationality": "Italian",
+    "seasons": [1951, 1952, 1953],
+    "starts": 6,
+    "wins": 0
+  },
+  {
+    "ref": "simca",
+    "name": "Simca",
+    "nationality": "French",
+    "seasons": [1950, 1951, 1952, 1953],
+    "starts": 28,
+    "wins": 0
+  },
+  {
+    "ref": "turner",
+    "name": "Turner",
+    "nationality": "American",
+    "seasons": [1953],
+    "starts": 1,
+    "wins": 0
+  },
+  {
+    "ref": "veritas",
+    "name": "Veritas",
+    "nationality": "German",
+    "seasons": [1951, 1952, 1953],
+    "starts": 18,
+    "wins": 0
+  },
+  {
+    "ref": "alta",
+    "name": "Alta",
+    "nationality": "British",
+    "seasons": [1950, 1951, 1952],
+    "starts": 6,
+    "wins": 0
+  },
+  {
+    "ref": "butterworth",
+    "name": "Aston Butterworth",
+    "nationality": "British",
+    "seasons": [1952],
+    "starts": 2,
+    "wins": 0
+  },
+  {
+    "ref": "deidt",
+    "name": "Deidt",
+    "nationality": "American",
+    "seasons": [1950, 1951, 1952],
+    "starts": 8,
+    "wins": 0
+  },
+  {
+    "ref": "era",
+    "name": "ERA",
+    "nationality": "British",
+    "seasons": [1950, 1951, 1952],
+    "starts": 13,
+    "wins": 0
+  },
+  {
+    "ref": "frazer_nash",
+    "name": "Frazer Nash",
+    "nationality": "British",
+    "seasons": [1952],
+    "starts": 4,
+    "wins": 0
+  },
+  {
+    "ref": "sherman",
+    "name": "Sherman",
+    "nationality": "American",
+    "seasons": [1951, 1952],
+    "starts": 2,
+    "wins": 0
+  },
+  {
+    "ref": "hall",
+    "name": "Hall",
+    "nationality": "American",
+    "seasons": [1951],
+    "starts": 1,
+    "wins": 0
+  },
+  {
+    "ref": "marchese",
+    "name": "Marchese",
+    "nationality": "American",
+    "seasons": [1950, 1951],
+    "starts": 2,
+    "wins": 0
+  },
+  {
+    "ref": "lago",
+    "name": "Talbot-Lago",
+    "nationality": "French",
+    "seasons": [1950, 1951],
+    "starts": 82,
+    "wins": 0
+  },
+  {
+    "ref": "adams",
+    "name": "Adams",
+    "nationality": "American",
+    "seasons": [1950],
+    "starts": 2,
+    "wins": 0
+  },
+  {
+    "ref": "langley",
+    "name": "Langley",
+    "nationality": "American",
+    "seasons": [1950],
+    "starts": 1,
+    "wins": 0
+  },
+  {
+    "ref": "milano",
+    "name": "Milano",
+    "nationality": "Italian",
+    "seasons": [1950],
+    "starts": 0,
+    "wins": 0
+  },
+  {
+    "ref": "olson",
+    "name": "Olson",
+    "nationality": "American",
+    "seasons": [1950],
+    "starts": 1,
+    "wins": 0
+  },
+  {
+    "ref": "rae",
+    "name": "Rae",
+    "nationality": "American",
+    "seasons": [1950],
+    "starts": 1,
+    "wins": 0
+  },
+  {
+    "ref": "snowberger",
+    "name": "Snowberger",
+    "nationality": "American",
+    "seasons": [1950],
+    "starts": 1,
+    "wins": 0
+  },
+  {
+    "ref": "wetteroth",
+    "name": "Wetteroth",
+    "nationality": "American",
+    "seasons": [1950],
+    "starts": 1,
+    "wins": 0
+  }
+]

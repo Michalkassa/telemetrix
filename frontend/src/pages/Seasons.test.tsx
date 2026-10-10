@@ -38,7 +38,11 @@ test('the season hub: the champions and the way to every page', async () => {
 
   expect(await screen.findByText(new RegExp(standings.drivers[0].surname))).toBeInTheDocument()
   expect(screen.getByText(new RegExp(standings.constructors[0].name))).toBeInTheDocument()
-  expect(within(screen.getByRole('list', { name: 'Season pages' })).getAllByRole('link').map((a) => a.getAttribute('href'))).toEqual([
+  expect(
+    within(screen.getByRole('list', { name: 'Season pages' }))
+      .getAllByRole('link')
+      .map((a) => a.getAttribute('href')),
+  ).toEqual([
     '/seasons/2021/standings/drivers',
     '/seasons/2021/standings/constructors',
     '/seasons/2021/results',
@@ -69,7 +73,9 @@ describe('standings', () => {
   test("the constructors' standings", async () => {
     renderRoute('/seasons/2021/standings/constructors')
 
-    const rows = within(await screen.findByRole('table', { name: "Constructors' standings" })).getAllByRole('row').slice(1)
+    const rows = within(await screen.findByRole('table', { name: "Constructors' standings" }))
+      .getAllByRole('row')
+      .slice(1)
     expect(rows).toHaveLength(standings.constructors.length)
     expect(rows[0]).toHaveTextContent(standings.constructors[0].name)
   })
@@ -80,15 +86,24 @@ test('the results grid: every cell links to its race hub (the Abu Dhabi finale i
 
   const table = await screen.findByRole('table', { name: 'Results grid' })
   const finale = grid.races.at(-1)!
-  expect(within(table).getByRole('link', { name: new RegExp(finale.name) })).toHaveAttribute('href', `/races/2021/${finale.raceId}`)
+  expect(within(table).getByRole('link', { name: new RegExp(finale.name) })).toHaveAttribute(
+    'href',
+    `/races/2021/${finale.raceId}`,
+  )
   for (const driver of grid.drivers) {
     const row = within(table).getByRole('row', { name: new RegExp(driver.surname) })
-    const links = within(row).getAllByRole('link')
-    expect(links.map((a) => a.getAttribute('href'))).toEqual(driver.cells.map((c) => `/races/2021/${c.raceId}`))
+    // the driver's name leads to their page, then each cell to its race
+    const [name, ...cells] = within(row).getAllByRole('link')
+    expect(name).toHaveAttribute('href', `/drivers/${driver.ref}`)
+    expect(cells.map((a) => a.getAttribute('href'))).toEqual(driver.cells.map((c) => `/races/2021/${c.raceId}`))
   }
   const champion = grid.drivers[0]
   const finaleCell = champion.cells.find((c) => c.raceId === finale.raceId)!
-  expect(within(within(table).getByRole('row', { name: new RegExp(champion.surname) })).getAllByRole('link').at(-1)).toHaveTextContent(String(finaleCell.position))
+  expect(
+    within(within(table).getByRole('row', { name: new RegExp(champion.surname) }))
+      .getAllByRole('link')
+      .at(-1),
+  ).toHaveTextContent(String(finaleCell.position))
 })
 
 test("the season's races, each linking to its hub", async () => {

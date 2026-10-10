@@ -52,4 +52,17 @@ class DriverStatsApiTest {
 		http.get().uri("/api/drivers/nobody/stats").exchange().expectStatus().isNotFound();
 	}
 
+	@Test
+	void theDirectoryAndARaceLog() {
+		http.get().uri("/api/drivers").exchange().expectStatus().isOk().expectBody()
+				.jsonPath("$.length()").isEqualTo(4)
+				.jsonPath("$[1].ref").isEqualTo("hamilton")
+				.jsonPath("$[1].wins").isEqualTo(2);
+		http.get().uri("/api/drivers/leclerc/races").exchange().expectStatus().isOk().expectBody()
+				.jsonPath("$.length()").isEqualTo(3)
+				.jsonPath("$[1].statusDetail").isEqualTo("Accident")
+				.jsonPath("$[1].teamRef").isEqualTo("ferrari");
+		http.get().uri("/api/drivers/nobody/races").exchange().expectStatus().isNotFound();
+	}
+
 }

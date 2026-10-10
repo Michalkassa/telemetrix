@@ -189,6 +189,30 @@ The timeline gains `CHAMPIONSHIP_LEAD`: the lead "if the race finished now" chan
 
 ### Driver analytics
 
+#### `GET /api/drivers` · `GET /api/constructors`
+
+The directories: everyone who has raced in a Grand Prix (818 drivers, 205 constructors), the latest season
+first, then by name. A constructor lists every season it raced in. Constructors are Jolpica's: McLaren's
+1966–70 cars are `mclaren-ford` and others, so `mclaren` starts in 1968.
+
+```json
+[{"ref": "max_verstappen", "code": "VER", "givenName": "Max", "surname": "Verstappen", "nationality": "Dutch",
+  "firstSeason": 2015, "lastSeason": 2026, "starts": 248, "wins": 71}]
+[{"ref": "mclaren", "name": "McLaren", "nationality": "British", "seasons": [1968, 1971, …, 2026],
+  "starts": 1963, "wins": 201}]
+```
+
+#### `GET /api/drivers/{id}/races`
+
+Every Grand Prix a driver entered, the newest first. `position` is the classification order, retirements
+included; `status` / `statusDetail` say how it ended. **404** for an unknown driver.
+
+```json
+[{"season": 2026, "round": 15, "raceId": 61, "race": "Azerbaijan Grand Prix", "teamRef": "red_bull",
+  "team": "Red Bull", "grid": 8, "position": 2, "classified": true, "status": "FINISHED",
+  "statusDetail": "Finished", "points": 18.0}]
+```
+
 #### `GET /api/drivers/{id}/stats`
 
 A driver's career, by driver ref (`hamilton`, `max_verstappen`): starts, wins, podiums, DNFs, poles,

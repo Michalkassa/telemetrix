@@ -41,6 +41,37 @@ public class DriverStatsService {
 				tyres(id), seasons(id));
 	}
 
+	/** Every driver who has raced, the latest season first, then by surname. */
+	public java.util.List<DriverSummary> directory() {
+		return jdbc.query("""
+				select d.ref, d.code, d.given_name, d.family_name, d.nationality, min(r.season) as first_season,
+				       max(r.season) as last_season, count(*) filter (where r.started) as starts,
+				       count(*) filter (where r.classified and r.position = 1) as wins
+				from driver_race_results r join drivers d on d.id = r.driver_id
+				group by d.id order by last_season desc, d.family_name, d.given_name""",
+				(rs, i) -> new DriverSummary(rs.getString("ref"), trim(rs.getString("code")), rs.getString("given_name"),
+						rs.getString("family_name"), rs.getString("nationality"), rs.getInt("first_season"),
+						rs.getInt("last_season"), rs.getInt("starts"), rs.getInt("wins")));
+	}
+
+	/** Every Grand Prix a driver entered, the newest first. */
+	public java.util.List<RaceLogEntry> raceLog(String ref) {
+		Long id = jdbc.query("select id from drivers where ref = ?", (rs, i) -> rs.getLong("id"), ref).stream()
+				.findFirst().orElseThrow(() -> new NotFoundException("Driver", ref));
+		return jdbc.query("""
+				select r.season_year, r.round, r.id as race_id, r.name as race, c.ref as team_ref, c.name as team,
+				       sr.grid, sr.position, coalesce(sr.classified, false) as classified, sr.status, sr.status_detail,
+				       coalesce(sr.points, 0) as points
+				from session_results sr join race_entries e on e.id = sr.race_entry_id join races r on r.id = e.race_id
+				join constructors c on c.id = e.constructor_id
+				where sr.session_type = 'R' and e.driver_id = ?
+				order by r.season_year desc, r.round desc""", (rs, i) -> new RaceLogEntry(rs.getInt("season_year"),
+				rs.getInt("round"), rs.getLong("race_id"), rs.getString("race"), rs.getString("team_ref"),
+				rs.getString("team"), rs.getObject("grid", Integer.class), rs.getObject("position", Integer.class),
+				rs.getBoolean("classified"), rs.getString("status"), rs.getString("status_detail"),
+				rs.getDouble("points")), id);
+	}
+
 	private Career career(long driver) {
 		return jdbc.queryForObject("""
 				select count(*) filter (where started) as starts,

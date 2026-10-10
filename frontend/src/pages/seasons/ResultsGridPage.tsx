@@ -62,7 +62,9 @@ function Grid({ year }: { year: number }) {
                 <th scope="row" className="sticky left-0 whitespace-nowrap bg-zinc-950 px-2 text-left font-normal">
                   <span className="mr-1 text-zinc-500">{d.position}</span>
                   {d.code && <span className="font-semibold">{d.code} </span>}
-                  {d.surname}
+                  <Link to={`/drivers/${d.ref}`} className="hover:text-red-400 hover:underline">
+                    {d.surname}
+                  </Link>
                 </th>
                 {races.map((r) => {
                   const cell = byRound.get(r.round)

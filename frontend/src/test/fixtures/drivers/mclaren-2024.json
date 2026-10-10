@@ -1,0 +1,204 @@
+{
+  "constructor": {
+    "ref": "mclaren",
+    "name": "McLaren"
+  },
+  "season": 2024,
+  "reliability": {
+    "starts": 48,
+    "finishes": 48,
+    "dnfs": 0,
+    "mechanical": 0,
+    "incident": 0,
+    "unknown": 0,
+    "causes": []
+  },
+  "pitStops": {
+    "stops": 77,
+    "medianLaneSeconds": 22.867,
+    "rank": 1,
+    "teams": 10,
+    "fieldMedianLaneSeconds": 23.33
+  },
+  "pace": {
+    "raceGapPercent": 0.14801154194170607,
+    "qualifyingGapPercent": 0.3148215384590536
+  },
+  "trend": {
+    "rounds": [
+      {
+        "round": 1,
+        "race": "Bahrain Grand Prix",
+        "qualifyingGapPercent": 0.503560814220827,
+        "raceGapPercent": 0.7952618258668886
+      },
+      {
+        "round": 2,
+        "race": "Saudi Arabian Grand Prix",
+        "qualifyingGapPercent": 0.7053685750868954,
+        "raceGapPercent": 0.9221355625457894
+      },
+      {
+        "round": 3,
+        "race": "Australian Grand Prix",
+        "qualifyingGapPercent": 0.526905091220442,
+        "raceGapPercent": 0.3112668807137009
+      },
+      {
+        "round": 4,
+        "race": "Japanese Grand Prix",
+        "qualifyingGapPercent": 0.33107702076033974,
+        "raceGapPercent": 0.18198409324221565
+      },
+      {
+        "round": 5,
+        "race": "Chinese Grand Prix",
+        "qualifyingGapPercent": 0.5391842835789085,
+        "raceGapPercent": 1.4715003101054336
+      },
+      {
+        "round": 6,
+        "race": "Miami Grand Prix",
+        "qualifyingGapPercent": 0.40462626517348,
+        "raceGapPercent": 0.12895675072335244
+      },
+      {
+        "round": 7,
+        "race": "Emilia Romagna Grand Prix",
+        "qualifyingGapPercent": 0.0990019532817854,
+        "raceGapPercent": 0.001236323174880205
+      },
+      {
+        "round": 8,
+        "race": "Monaco Grand Prix",
+        "qualifyingGapPercent": 0.21915468905648883,
+        "raceGapPercent": 2.021804413108752
+      },
+      {
+        "round": 9,
+        "race": "Canadian Grand Prix",
+        "qualifyingGapPercent": 0.3888935351676892,
+        "raceGapPercent": 0.4032626427406205
+      },
+      {
+        "round": 10,
+        "race": "Spanish Grand Prix",
+        "qualifyingGapPercent": 0.0,
+        "raceGapPercent": 0.0332150959477584
+      },
+      {
+        "round": 11,
+        "race": "Austrian Grand Prix",
+        "qualifyingGapPercent": 0.6281680505022313,
+        "raceGapPercent": 0.0
+      },
+      {
+        "round": 12,
+        "race": "British Grand Prix",
+        "qualifyingGapPercent": 0.2458663000034944,
+        "raceGapPercent": 0.0
+      },
+      {
+        "round": 13,
+        "race": "Hungarian Grand Prix",
+        "qualifyingGapPercent": 0.0,
+        "raceGapPercent": 0.1800590593714846
+      },
+      {
+        "round": 14,
+        "race": "Belgian Grand Prix",
+        "qualifyingGapPercent": 0.7264115094689716,
+        "raceGapPercent": 0.13893391376835762
+      },
+      {
+        "round": 15,
+        "race": "Dutch Grand Prix",
+        "qualifyingGapPercent": 0.0,
+        "raceGapPercent": 0.0
+      },
+      {
+        "round": 16,
+        "race": "Italian Grand Prix",
+        "qualifyingGapPercent": 0.0,
+        "raceGapPercent": 0.0
+      },
+      {
+        "round": 17,
+        "race": "Azerbaijan Grand Prix",
+        "qualifyingGapPercent": 0.3166773541163126,
+        "raceGapPercent": 0.15708917011505452
+      },
+      {
+        "round": 18,
+        "race": "Singapore Grand Prix",
+        "qualifyingGapPercent": 0.0,
+        "raceGapPercent": 0.0
+      },
+      {
+        "round": 19,
+        "race": "United States Grand Prix",
+        "qualifyingGapPercent": 0.0,
+        "raceGapPercent": 0.3980421177052884
+      },
+      {
+        "round": 20,
+        "race": "Mexico City Grand Prix",
+        "qualifyingGapPercent": 0.41345166302373393,
+        "raceGapPercent": 0.0
+      },
+      {
+        "round": 21,
+        "race": "São Paulo Grand Prix",
+        "qualifyingGapPercent": 0.0,
+        "raceGapPercent": 0.12857755131197024
+      },
+      {
+        "round": 22,
+        "race": "Las Vegas Grand Prix",
+        "qualifyingGapPercent": 0.7539648149752942,
+        "raceGapPercent": 0.6866983604371546
+      },
+      {
+        "round": 23,
+        "race": "Qatar Grand Prix",
+        "qualifyingGapPercent": 0.3129657228017946,
+        "raceGapPercent": 0.0
+      },
+      {
+        "round": 24,
+        "race": "Abu Dhabi Grand Prix",
+        "qualifyingGapPercent": 0.0,
+        "raceGapPercent": 0.21575338597263904
+      }
+    ],
+    "qualifyingSlope": -0.013551031370465611,
+    "raceSlope": -0.027926408186968586
+  },
+  "strategies": [
+    {
+      "stops": 0,
+      "finishes": 2,
+      "averagePositionsGained": 0.0
+    },
+    {
+      "stops": 1,
+      "finishes": 19,
+      "averagePositionsGained": 1.1052631578947367
+    },
+    {
+      "stops": 2,
+      "finishes": 24,
+      "averagePositionsGained": -1.25
+    },
+    {
+      "stops": 3,
+      "finishes": 2,
+      "averagePositionsGained": 0.5
+    },
+    {
+      "stops": 4,
+      "finishes": 1,
+      "averagePositionsGained": -7.0
+    }
+  ]
+}

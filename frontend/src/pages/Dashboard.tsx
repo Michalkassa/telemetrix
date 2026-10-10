@@ -11,7 +11,7 @@ interface Lens {
 const LENSES: Lens[] = [
   { title: 'Seasons', description: 'A championship year: standings and every result.', to: '/seasons' },
   { title: 'Grand Prix', description: 'One race weekend: results, timeline, telemetry and replay.', to: '/races' },
-  { title: 'Drivers & Teams', description: 'Careers, statistics and head-to-heads.' },
+  { title: 'Drivers & Teams', description: 'Careers, team seasons, reliability and pace.', to: '/drivers' },
   { title: 'Replay Theater', description: 'Pick a race and watch it unfold on the track map.', to: '/replay' },
 ]
 

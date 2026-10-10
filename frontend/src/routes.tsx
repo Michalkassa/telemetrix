@@ -14,6 +14,9 @@ import { SeasonHub } from './pages/seasons/SeasonHub'
 import { SeasonRacesPage } from './pages/seasons/SeasonRacesPage'
 import { SeasonsIndex } from './pages/seasons/SeasonsIndex'
 import { ConstructorStandingsPage, DriverStandingsPage } from './pages/seasons/StandingsPages'
+import { DriversDirectory, TeamsDirectory } from './pages/competitors/Directories'
+import { DriverRacesPage, DriverSeasonsPage, DriverStatsPage } from './pages/competitors/DriverPages'
+import { TeamOverviewPage, TeamReliabilityPage } from './pages/competitors/TeamPages'
 
 // Every page and its URL (plan.md, "Route tree"). All selection state lives in the URL, so every
 // view is a deep link.
@@ -47,6 +50,17 @@ export const routes: RouteObject[] = [
       {
         path: '/seasons/:year/compare',
         lazy: () => import('./pages/seasons/ComparePage').then((m) => ({ Component: m.ComparePage })),
+      },
+      { path: '/drivers', element: <DriversDirectory /> },
+      { path: '/drivers/:ref', element: <DriverStatsPage /> },
+      { path: '/drivers/:ref/seasons', element: <DriverSeasonsPage /> },
+      { path: '/drivers/:ref/races', element: <DriverRacesPage /> },
+      { path: '/teams', element: <TeamsDirectory /> },
+      { path: '/teams/:ref', element: <TeamOverviewPage /> },
+      { path: '/teams/:ref/reliability', element: <TeamReliabilityPage /> },
+      {
+        path: '/teams/:ref/pace',
+        lazy: () => import('./pages/competitors/TeamPacePage').then((m) => ({ Component: m.TeamPacePage })),
       },
       { path: '/replay', element: <ReplayTheaterIndex /> },
       { path: '/replay/:year', element: <ReplayTheater /> },

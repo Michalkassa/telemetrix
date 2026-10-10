@@ -46,4 +46,12 @@ class ConstructorStatsApiTest {
 		http.get().uri("/api/constructors/nobody/stats").exchange().expectStatus().isNotFound();
 	}
 
+	@Test
+	void theDirectory() {
+		http.get().uri("/api/constructors").exchange().expectStatus().isOk().expectBody()
+				.jsonPath("$.length()").isEqualTo(3)
+				.jsonPath("$[1].ref").isEqualTo("mercedes")
+				.jsonPath("$[1].seasons.length()").isEqualTo(3);
+	}
+
 }

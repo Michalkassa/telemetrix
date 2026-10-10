@@ -18,3 +18,17 @@ export function formatTime(isoInstant: string): string {
     minute: '2-digit',
   })
 }
+
+// "1.23%", or a dash when there is no figure
+export function percent(value: number | null | undefined) {
+  return value === null || value === undefined ? '—' : `${value.toFixed(2)}%`
+}
+
+export function decimal(value: number | null | undefined, digits = 2) {
+  return value === null || value === undefined ? '—' : value.toFixed(digits)
+}
+
+// "2015–2026", or one year
+export function seasonSpan(first: number, last: number) {
+  return first === last ? String(first) : `${first}–${last}`
+}

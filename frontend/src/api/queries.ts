@@ -15,6 +15,11 @@ import type {
   ChampionshipStandings,
   ResultsGrid,
   Progression,
+  DriverSummary,
+  DriverStats,
+  RaceLogEntry,
+  ConstructorSummary,
+  ConstructorStats,
 } from './types'
 
 // Data hooks: React Query caches each answer, so going back and forth between pages is instant.
@@ -143,5 +148,36 @@ export function useProgression(year: number) {
   return useQuery({
     queryKey: ['seasons', year, 'progression'],
     queryFn: () => getJson<Progression>(`/api/seasons/${year}/progression`),
+  })
+}
+
+export function useDrivers() {
+  return useQuery({ queryKey: ['drivers'], queryFn: () => getJson<DriverSummary[]>('/api/drivers') })
+}
+
+export function useDriverStats(ref: string) {
+  return useQuery({
+    queryKey: ['drivers', ref, 'stats'],
+    queryFn: () => getJson<DriverStats>(`/api/drivers/${ref}/stats`),
+  })
+}
+
+export function useDriverRaces(ref: string) {
+  return useQuery({
+    queryKey: ['drivers', ref, 'races'],
+    queryFn: () => getJson<RaceLogEntry[]>(`/api/drivers/${ref}/races`),
+  })
+}
+
+export function useConstructors() {
+  return useQuery({ queryKey: ['constructors'], queryFn: () => getJson<ConstructorSummary[]>('/api/constructors') })
+}
+
+/** A team's season; without one, its latest. */
+export function useConstructorStats(ref: string, season: number | null) {
+  return useQuery({
+    queryKey: ['constructors', ref, 'stats', season],
+    queryFn: () =>
+      getJson<ConstructorStats>(`/api/constructors/${ref}/stats${season === null ? '' : `?season=${season}`}`),
   })
 }

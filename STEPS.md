@@ -1300,19 +1300,19 @@ gained per strategy).
 - RTL with MSW: directories, hubs and tabs render; cross-links point at the right routes;
   breadcrumbs work.
 
-**What:** `/drivers` → `/drivers/:acronym` (Stats · Season-by-season · Race log) and `/teams` →
-`/teams/:name` (Overview · Reliability · Pace), plus cross-links: standings rows → driver hub, and
+**What:** `/drivers` → `/drivers/:ref` (Stats · Season-by-season · Race log) and `/teams` →
+`/teams/:ref` (Overview · Reliability · Pace), plus cross-links: standings rows → driver hub, and
 results cells → race hub. The Pace tab charts the development trend from Step 33 (`trend.rounds`:
 qualifying and race-pace gaps round by round).
 
 **Check it:** you can go from any table row to the entity's page and back with breadcrumbs.
 
 <!-- features:34 -->
-**Checks off (0/3):**
+**Checks off (3/3):**
 
-- [ ] `CON-05` Development trend visualization
-- [ ] `NAV-03` Drivers & Teams — explore competitors: per-driver and per-constructor stats/analytics.
-- [ ] `NAV-08` Drivers & Teams: /drivers directory → /drivers/:acronym hub (Stats · Season-by-season ·
+- [x] `CON-05` Development trend visualization
+- [x] `NAV-03` Drivers & Teams — explore competitors: per-driver and per-constructor stats/analytics.
+- [x] `NAV-08` Drivers & Teams: /drivers directory → /drivers/:ref hub (Stats · Season-by-season ·
 <!-- /features -->
 
 ---

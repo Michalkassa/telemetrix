@@ -29,7 +29,7 @@ describe('landing page', () => {
 })
 
 describe('dashboard', () => {
-  test('offers four lenses, with Seasons, Grand Prix and Replay Theater open for now', async () => {
+  test('offers four lenses, every one open', async () => {
     renderRoute('/dashboard')
 
     const cards = screen.getAllByRole('article')
@@ -42,7 +42,8 @@ describe('dashboard', () => {
     expect(screen.getByRole('link', { name: /grand prix/i })).toHaveAttribute('href', '/races')
     expect(screen.getByRole('link', { name: /replay theater/i })).toHaveAttribute('href', '/replay')
     expect(screen.getByRole('link', { name: /^seasons$/i })).toHaveAttribute('href', '/seasons')
-    expect(screen.getAllByText(/coming soon/i)).toHaveLength(1)
+    expect(screen.getByRole('link', { name: /drivers & teams/i })).toHaveAttribute('href', '/drivers')
+    expect(screen.queryByText(/coming soon/i)).not.toBeInTheDocument()
   })
 })
 

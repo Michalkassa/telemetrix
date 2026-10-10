@@ -115,4 +115,13 @@ class ConstructorStatsQueriesTest {
 		assertThatThrownBy(() -> stats.stats("ferrari", 2023)).isInstanceOf(NotFoundException.class);
 	}
 
+	@Test
+	void theDirectoryLatestSeasonFirstWithEverySeasonRaced() {
+		// Williams has no entries: not in the directory
+		assertThat(stats.directory()).extracting(c -> c.ref(), c -> c.seasons(), c -> c.starts(), c -> c.wins())
+				.containsExactly(tuple("ferrari", java.util.List.of(2024), 3, 0),
+						tuple("mercedes", java.util.List.of(2010, 2023, 2024), 6, 0),
+						tuple("red_bull", java.util.List.of(2024), 4, 2));
+	}
+
 }

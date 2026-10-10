@@ -22,8 +22,14 @@ function url(path: string): string {
   return typeof window !== 'undefined' ? new URL(path, window.location.origin).toString() : path
 }
 
-async function request<T>(method: 'GET' | 'POST', path: string): Promise<T> {
-  const response = await fetch(url(path), { method, headers: { Accept: 'application/json' } })
+async function request<T>(method: 'GET' | 'POST', path: string, body?: unknown): Promise<T> {
+  const headers: Record<string, string> = { Accept: 'application/json' }
+  if (body !== undefined) headers['Content-Type'] = 'application/json'
+  const response = await fetch(url(path), {
+    method,
+    headers,
+    body: body === undefined ? undefined : JSON.stringify(body),
+  })
   if (!response.ok) {
     throw new ApiError(response.status, await problemDetail(response), path)
   }
@@ -43,6 +49,6 @@ export function getJson<T>(path: string): Promise<T> {
   return request<T>('GET', path)
 }
 
-export function postJson<T>(path: string): Promise<T> {
-  return request<T>('POST', path)
+export function postJson<T>(path: string, body?: unknown): Promise<T> {
+  return request<T>('POST', path, body)
 }

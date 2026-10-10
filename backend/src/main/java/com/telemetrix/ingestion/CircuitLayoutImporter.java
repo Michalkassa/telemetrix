@@ -13,6 +13,8 @@ import com.telemetrix.race.Race;
 import com.telemetrix.race.Session;
 import com.telemetrix.timing.Lap;
 import com.telemetrix.timing.LapRepository;
+import com.telemetrix.timing.SessionPitStop;
+import com.telemetrix.timing.SessionPitStopRepository;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -23,7 +25,9 @@ import org.springframework.stereotype.Component;
 // Gets a race's circuit map once per circuit and year, as part of the race import:
 // 1. Multiviewer's map (1 request), with sector ends from its mini-sectors when the race's laps say
 //    how many each sector has — otherwise estimated from sector times;
-// 2. failing that, the outline of the session's fastest lap from OpenF1 positions (1 request).
+// 2. failing that, the outline of the session's fastest lap from OpenF1 positions (1 request);
+// and the pit lane, traced from one car's positions through the session's first ordinary pit stop
+// (1 request; none without a pit stop).
 @Component
 class CircuitLayoutImporter {
 
@@ -35,12 +39,20 @@ class CircuitLayoutImporter {
 
 	private final CircuitLayoutStore layouts;
 
+	private final SessionPitStopRepository pitStops;
+
 	CircuitLayoutImporter(MultiviewerClient multiviewer, OpenF1Client openF1, LapRepository laps,
-			CircuitLayoutStore layouts) {
+			CircuitLayoutStore layouts, SessionPitStopRepository pitStops) {
 		this.multiviewer = multiviewer;
 		this.openF1 = openF1;
 		this.laps = laps;
 		this.layouts = layouts;
+		this.pitStops = pitStops;
+	}
+
+	/** Drops the race's circuit map for its year, so ensureLayout fetches it again. */
+	void forget(Race race) {
+		layouts.delete(race.getCircuit().getId(), race.getSeason().getYear());
 	}
 
 	void ensureLayout(Race race, Session session, SectorSegments segments, ImportReport.Builder report) {
@@ -60,6 +72,9 @@ class CircuitLayoutImporter {
 			report.note("Race " + race.getId() + ": no track map for " + circuit.getRef() + " " + year);
 			return;
 		}
+		layout = new CircuitLayout(layout.circuitRef(), layout.year(), layout.source(), layout.rotation(),
+				layout.points(), layout.sectorEnds(), layout.sectorEndsSource(), layout.corners(),
+				layout.marshalSectors(), pitLane(session));
 		layouts.save(circuit.getId(), year, layout);
 		report.inserted("layouts");
 	}
@@ -87,8 +102,15 @@ class CircuitLayoutImporter {
 							outline.progressAtIndex(outline.nearestIndex(at)));
 				})
 				.toList();
+		List<CircuitLayout.MarshalSector> marshalSectors = map.marshalSectors() == null ? List.of()
+				: map.marshalSectors().stream()
+						.filter(m -> m.number() != null && m.trackPosition() != null)
+						.map(m -> new CircuitLayout.MarshalSector(m.number(), outline.progressAtIndex(
+								outline.nearestIndex(new Point(m.trackPosition().x(), m.trackPosition().y())))))
+						.sorted(Comparator.comparingInt(CircuitLayout.MarshalSector::number))
+						.toList();
 		return new CircuitLayout(circuit.getRef(), year, CircuitLayout.Source.MULTIVIEWER, rotation, points, ends,
-				endsFrom, corners);
+				endsFrom, corners, marshalSectors, List.of());
 	}
 
 	// The outline traced by the fastest complete lap's positions (not drawn upright: rotation 0).
@@ -114,7 +136,31 @@ class CircuitLayoutImporter {
 		}
 		double[] ends = estimateSectorEnds(sessionLaps);
 		return new CircuitLayout(circuit.getRef(), year, CircuitLayout.Source.OPENF1_LAP, 0, points, ends,
-				ends == null ? null : CircuitLayout.SectorEndsSource.ESTIMATED, List.of());
+				ends == null ? null : CircuitLayout.SectorEndsSource.ESTIMATED, List.of(), List.of(), List.of());
+	}
+
+	// One car's path through the pit lane: its positions from pit entry to exit, at the session's first
+	// ordinary stop (lap 5 on, 18-40 s in the pit lane: not a lap-1 repair or a long stop with the car
+	// pushed back).
+	private List<Point> pitLane(Session session) {
+		if (session.getOpenf1SessionKey() == null) {
+			return List.of();
+		}
+		Optional<SessionPitStop> stop = pitStops.findBySessionOrderByDriverNumberAsc(session).stream()
+				.filter(p -> p.getEnteredAt() != null && p.getLaneDurationMs() != null)
+				.filter(p -> p.getLapNumber() != null && p.getLapNumber() >= 5)
+				.filter(p -> p.getLaneDurationMs() >= 18_000 && p.getLaneDurationMs() <= 40_000)
+				.min(Comparator.comparing(SessionPitStop::getEnteredAt));
+		if (stop.isEmpty()) {
+			return List.of();
+		}
+		Instant from = stop.get().getEnteredAt();
+		Instant to = from.plusMillis(stop.get().getLaneDurationMs());
+		return openF1.locations(session.getOpenf1SessionKey(), stop.get().getDriverNumber(), from, to).stream()
+				.filter(l -> l.date() != null && !isNowhere(l))
+				.sorted(Comparator.comparing(OpenF1Location::date))
+				.map(l -> new Point(l.x(), l.y()))
+				.toList();
 	}
 
 	private static double[] estimateSectorEnds(List<Lap> sessionLaps) {

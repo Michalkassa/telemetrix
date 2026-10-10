@@ -1,38 +1,38 @@
 id,phase,step,section,feature,status,done_on
 PLAY-01,1,18,Playback Controls,Play,done,2026-10-09
 PLAY-02,1,18,Playback Controls,Pause,done,2026-10-09
-PLAY-03,2,25,Playback Controls,Rewind,todo,
-PLAY-04,2,25,Playback Controls,Fast forward,todo,
-PLAY-05,2,25,Playback Controls,Jump to lap,todo,
-PLAY-06,2,25,Playback Controls,Jump to timestamp,todo,
-PLAY-07,2,25,Playback Controls,Variable playback speed,todo,
-PLAY-08,2,25,Playback Controls,Auto-follow selected driver,todo,
-PLAY-09,2,25,Playback Controls,Multi-driver camera focus mode,todo,
-PLAY-10,2,25,Playback Controls,Timeline scrubbing,todo,
+PLAY-03,2,25,Playback Controls,Rewind,done,2026-10-09
+PLAY-04,2,25,Playback Controls,Fast forward,done,2026-10-09
+PLAY-05,2,25,Playback Controls,Jump to lap,done,2026-10-09
+PLAY-06,2,25,Playback Controls,Jump to timestamp,done,2026-10-09
+PLAY-07,2,25,Playback Controls,Variable playback speed,done,2026-10-09
+PLAY-08,2,25,Playback Controls,Auto-follow selected driver,done,2026-10-09
+PLAY-09,2,25,Playback Controls,Multi-driver camera focus mode,done,2026-10-09
+PLAY-10,2,25,Playback Controls,Timeline scrubbing,done,2026-10-09
 TRACK-01,1,18,Track Visualization,2D track rendering,done,2026-10-09
 TRACK-02,1,18,Track Visualization,Driver dots,done,2026-10-09
-TRACK-03,2,26,Track Visualization,Real-time sector coloring,todo,
+TRACK-03,2,26,Track Visualization,Real-time sector coloring,done,2026-10-09
 TRACK-04,1,18,Track Visualization,Position indicators,done,2026-10-09
-TRACK-05,2,26,Track Visualization,Gap visualization,todo,
-TRACK-06,2,26,Track Visualization,DRS indicators,todo,
-TRACK-07,2,26,Track Visualization,Pit lane rendering,todo,
-TRACK-08,2,26,Track Visualization,Safety car visualization,todo,
-TRACK-09,2,26,Track Visualization,Yellow flag visualization,todo,
-TRACK-10,2,26,Track Visualization,Weather overlays,todo,
-TRACK-11,2,26,Track Visualization,Track sectors,todo,
-TRACK-12,2,26,Track Visualization,Mini-map mode,todo,
-TELE-01,2,27,Telemetry Visualization,Speed graph,todo,
-TELE-02,2,27,Telemetry Visualization,Throttle graph,todo,
-TELE-03,2,27,Telemetry Visualization,Brake graph,todo,
-TELE-04,2,27,Telemetry Visualization,Gear display,todo,
-TELE-05,2,27,Telemetry Visualization,RPM estimate,todo,
-TELE-06,2,27,Telemetry Visualization,Tire compound,todo,
-TELE-07,2,27,Telemetry Visualization,Tire age,todo,
-TELE-08,2,27,Telemetry Visualization,Tire stint,todo,
-TELE-09,2,27,Telemetry Visualization,Fuel estimate,todo,
-TELE-10,2,27,Telemetry Visualization,ERS estimate,todo,
-TELE-11,2,27,Telemetry Visualization,Sector deltas,todo,
-TELE-12,2,27,Telemetry Visualization,Lap delta comparisons,todo,
+TRACK-05,2,26,Track Visualization,Gap visualization,done,2026-10-09
+TRACK-06,2,26,Track Visualization,DRS indicators,done,2026-10-09
+TRACK-07,2,26,Track Visualization,Pit lane rendering,done,2026-10-09
+TRACK-08,2,26,Track Visualization,Safety car visualization,done,2026-10-09
+TRACK-09,2,26,Track Visualization,Yellow flag visualization,done,2026-10-09
+TRACK-10,2,26,Track Visualization,Weather overlays,done,2026-10-09
+TRACK-11,2,26,Track Visualization,Track sectors,done,2026-10-09
+TRACK-12,2,26,Track Visualization,Mini-map mode,done,2026-10-09
+TELE-01,2,27,Telemetry Visualization,Speed graph,done,2026-10-09
+TELE-02,2,27,Telemetry Visualization,Throttle graph,done,2026-10-09
+TELE-03,2,27,Telemetry Visualization,Brake graph,done,2026-10-09
+TELE-04,2,27,Telemetry Visualization,Gear display,done,2026-10-09
+TELE-05,2,27,Telemetry Visualization,RPM estimate,done,2026-10-09
+TELE-06,2,27,Telemetry Visualization,Tire compound,done,2026-10-09
+TELE-07,2,27,Telemetry Visualization,Tire age,done,2026-10-09
+TELE-08,2,27,Telemetry Visualization,Tire stint,done,2026-10-09
+TELE-09,2,27,Telemetry Visualization,Fuel estimate,done,2026-10-09
+TELE-10,2,27,Telemetry Visualization,ERS estimate,done,2026-10-09
+TELE-11,2,27,Telemetry Visualization,Sector deltas,done,2026-10-09
+TELE-12,2,27,Telemetry Visualization,Lap delta comparisons,done,2026-10-09
 TIME-01,2,22,Timeline System,Overtakes,done,2026-10-09
 TIME-02,2,22,Timeline System,Pit stops,done,2026-10-09
 TIME-03,2,22,Timeline System,Safety car,done,2026-10-09
@@ -76,11 +76,11 @@ CMP-02,3,35,Multi-Race Comparison,Compare driver performance,todo,
 CMP-03,3,35,Multi-Race Comparison,Compare tire strategies,todo,
 CMP-04,3,35,Multi-Race Comparison,Compare race pace evolution,todo,
 STATE-01,1,15,Race State Engine,Driver positions,done,2026-10-09
-STATE-02,2,26,Race State Engine,Gap calculations,todo,
-STATE-03,2,26,Race State Engine,Tire states,todo,
-STATE-04,2,26,Race State Engine,Active penalties,todo,
-STATE-05,2,26,Race State Engine,Current flags,todo,
-STATE-06,2,26,Race State Engine,Pit window status,todo,
+STATE-02,2,26,Race State Engine,Gap calculations,done,2026-10-09
+STATE-03,2,26,Race State Engine,Tire states,done,2026-10-09
+STATE-04,2,26,Race State Engine,Active penalties,done,2026-10-09
+STATE-05,2,26,Race State Engine,Current flags,done,2026-10-09
+STATE-06,2,26,Race State Engine,Pit window status,done,2026-10-09
 STATE-07,3,30,Race State Engine,Championship standings,todo,
 ES-01,3,36,Event Sourcing Architecture,Easier replay reconstruction,todo,
 ES-02,3,36,Event Sourcing Architecture,Time travel debugging,todo,
@@ -98,21 +98,21 @@ FE-01,1,16,Frontend Stack,React,done,2026-10-09
 FE-02,1,16,Frontend Stack,TypeScript,done,2026-10-09
 FE-03,1,16,Frontend Stack,Vite,done,2026-10-09
 FE-04,1,16,Frontend Stack,React Query,done,2026-10-09
-FE-05,2,25,Frontend Stack,Zustand,todo,
+FE-05,2,25,Frontend Stack,Zustand,done,2026-10-09
 FE-06,1,16,Frontend Stack,TailwindCSS,done,2026-10-09
-FE-07,2,26,Frontend Stack,D3.js,todo,
+FE-07,2,26,Frontend Stack,D3.js,done,2026-10-09
 FE-08,1,18,Frontend Stack,Canvas API,done,2026-10-09
-FE-09,2,24,Frontend Stack,WebSockets,todo,
-FE-10,2,27,Frontend Stack,Recharts,todo,
+FE-09,2,24,Frontend Stack,WebSockets,done,2026-10-09
+FE-10,2,27,Frontend Stack,Recharts,done,2026-10-09
 NAV-01,3,31,Top-level lenses (L1),Seasons — explore a championship year: standings and full season results.,todo,
 NAV-02,2,29,Top-level lenses (L1),"Grand Prix — explore a single event: results, timeline, analytics, telemetry, replay.",todo,
 NAV-03,3,34,Top-level lenses (L1),Drivers & Teams — explore competitors: per-driver and per-constructor stats/analytics.,todo,
-NAV-04,2,25,Top-level lenses (L1),Replay Theater — jump straight to watching a race's animated playback.,todo,
+NAV-04,2,25,Top-level lenses (L1),Replay Theater — jump straight to watching a race's animated playback.,done,2026-10-09
 NAV-05,1,17,Route tree,/ landing → /dashboard hub.,done,2026-10-09
 NAV-06,3,31,Route tree,Seasons: /seasons (year grid) → /seasons/:year (season hub) → leaves,todo,
 NAV-07,2,29,Route tree,"Grand Prix: /races/:year (GP list, year filter) → /races/:year/:sessionKey (race hub) →",todo,
 NAV-08,3,34,Route tree,Drivers & Teams: /drivers directory → /drivers/:acronym hub (Stats · Season-by-season ·,todo,
-NAV-09,2,25,Route tree,Replay Theater: /replay (year → GP picker) → reuses the race-hub replay leaf.,todo,
+NAV-09,2,25,Route tree,Replay Theater: /replay (year → GP picker) → reuses the race-hub replay leaf.,done,2026-10-09
 DB-01,1,6,Core Tables,seasons,done,2026-10-09
 DB-02,1,6,Core Tables,races,done,2026-10-09
 DB-03,1,6,Core Tables,circuits,done,2026-10-09
@@ -167,13 +167,13 @@ REPLAY-02,1,15,Responsibilities,Emit synchronized playback frames,done,2026-10-0
 REPLAY-03,1,15,Responsibilities,Interpolate telemetry,done,2026-10-09
 REPLAY-04,1,15,Responsibilities,Maintain race timing,done,2026-10-09
 REPLAY-05,2,23,Responsibilities,Support rewind,done,2026-10-09
-REPLAY-06,2,24,Responsibilities,Support pause/resume,todo,
+REPLAY-06,2,24,Responsibilities,Support pause/resume,done,2026-10-09
 FRAME-01,1,15,Playback Frame,Driver positions,done,2026-10-09
-FRAME-02,2,26,Playback Frame,Track state,todo,
+FRAME-02,2,26,Playback Frame,Track state,done,2026-10-09
 FRAME-03,1,15,Playback Frame,Current lap,done,2026-10-09
-FRAME-04,2,26,Playback Frame,Current flags,todo,
-FRAME-05,2,26,Playback Frame,Weather state,todo,
-FRAME-06,2,26,Playback Frame,Gap data,todo,
+FRAME-04,2,26,Playback Frame,Current flags,done,2026-10-09
+FRAME-05,2,26,Playback Frame,Weather state,done,2026-10-09
+FRAME-06,2,26,Playback Frame,Gap data,done,2026-10-09
 SNAP-01,2,23,Snapshotting,5 seconds,done,2026-10-09
 SNAP-02,2,23,Snapshotting,1 lap,done,2026-10-09
 SNAP-03,2,23,Snapshotting,Key events,done,2026-10-09
@@ -182,9 +182,9 @@ API-02,1,11,REST APIs,GET /races/{id},done,2026-10-09
 API-03,2,22,REST APIs,GET /races/{id}/timeline,done,2026-10-09
 API-04,3,32,REST APIs,GET /drivers/{id}/stats,todo,
 API-05,1,13,REST APIs,GET /telemetry/{sessionId},done,2026-10-09
-WS-01,2,24,WebSocket APIs,Live replay stream,todo,
+WS-01,2,24,WebSocket APIs,Live replay stream,done,2026-10-09
 WS-02,2,24,WebSocket APIs,Telemetry updates,todo,
-WS-03,2,28,WebSocket APIs,Timeline synchronization,todo,
+WS-03,2,28,WebSocket APIs,Timeline synchronization,done,2026-10-09
 AUTH-01,4,37,Security Features,JWT authentication,todo,
 AUTH-02,4,37,Security Features,OAuth2 login,todo,
 AUTH-03,4,37,Security Features,Role-based permissions,todo,
@@ -207,7 +207,7 @@ TEST-05,1,7,Integration Tests,Repository tests,done,2026-10-09
 TEST-06,4,40,Integration Tests,Kafka tests,todo,
 TEST-07,4,38,Integration Tests,Redis tests,todo,
 TEST-08,1,11,Integration Tests,API tests,done,2026-10-09
-TEST-09,2,24,End-to-End Tests,Replay pipeline,todo,
+TEST-09,2,24,End-to-End Tests,Replay pipeline,done,2026-10-09
 TEST-10,1,13,End-to-End Tests,Full ingestion flow,done,2026-10-09
 TEST-11,4,37,End-to-End Tests,Authentication flows,todo,
 TEST-12,4,44,Performance Tests,Telemetry streaming,todo,
@@ -219,12 +219,12 @@ TEST-17,4,37,Security Tests,Injection prevention,todo,
 FETEST-01,1,16,Testing Stack,Vitest,done,2026-10-09
 FETEST-02,1,16,Testing Stack,React Testing Library,done,2026-10-09
 FETEST-03,4,46,Testing Stack,Cypress,todo,
-FETEST-04,2,25,Testing Stack,Playwright,todo,
-FETEST-05,2,25,Test Areas,Timeline controls,todo,
-FETEST-06,2,28,Test Areas,Playback synchronization,todo,
-FETEST-07,2,27,Test Areas,Telemetry rendering,todo,
+FETEST-04,2,25,Testing Stack,Playwright,done,2026-10-09
+FETEST-05,2,25,Test Areas,Timeline controls,done,2026-10-09
+FETEST-06,2,28,Test Areas,Playback synchronization,done,2026-10-09
+FETEST-07,2,27,Test Areas,Telemetry rendering,done,2026-10-09
 FETEST-08,1,18,Test Areas,Race visualization,done,2026-10-09
-FETEST-09,2,25,Test Areas,State management,todo,
+FETEST-09,2,25,Test Areas,State management,done,2026-10-09
 OPS-01,1,19,Containerization,Docker,done,2026-10-09
 OPS-02,1,19,Containerization,Docker Compose,done,2026-10-09
 OPS-03,4,40,Growth path,"More infrastructure: add the commented-out services; each gets its own healthcheck, named",todo,
@@ -252,7 +252,7 @@ PYA-03,5,51,Analytics Features,Driver clustering,todo,
 PYA-04,5,52,Analytics Features,Race pace prediction,todo,
 PYA-05,5,52,Analytics Features,Overtake probability,todo,
 PYA-06,5,51,Analytics Features,Sector dominance analysis,todo,
-NFR-01,2,24,Performance,Replay latency < 100ms,todo,
+NFR-01,2,24,Performance,Replay latency < 100ms,done,2026-10-09
 NFR-02,4,44,Performance,API response < 300ms,todo,
 NFR-03,4,44,Performance,Support 10k concurrent users,todo,
 NFR-04,4,39,Performance,Handle millions of telemetry points,todo,

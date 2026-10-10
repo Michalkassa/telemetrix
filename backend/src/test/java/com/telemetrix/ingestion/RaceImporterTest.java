@@ -108,6 +108,9 @@ class RaceImporterTest {
 	ApplicationEvents published;
 
 	@Autowired
+	org.springframework.jdbc.core.JdbcTemplate jdbc;
+
+	@Autowired
 	RaceControlMessageRepository raceEvents;
 
 	@Autowired
@@ -178,6 +181,33 @@ class RaceImporterTest {
 
 		verify(openF1, times(1)).sessions(1229);
 		assertThat(second.notes()).anySatisfy(note -> assertThat(note).contains("already imported"));
+	}
+
+	@Test
+	void aRaceImportedByAnOlderImporterIsImportedAgainWithAFreshTrackMap() {
+		bahrainCircuit.linkOpenF1Circuit(63);
+		long id = race(2024, 1, "2024-03-02", 1229).getId();
+		givenBahrain2024();
+		importer.importRace(id);
+		// as if imported before race control and the track map's overlays existed
+		em.flush();
+		jdbc.update("update races set import_version = 0 where id = ?", id);
+		jdbc.update("update circuit_layouts set marshal_sectors = '[]', pit_lane_x = null, pit_lane_y = null");
+		em.clear();
+		given(multiviewer.circuit(63, 2024)).willReturn(Optional.of(Fixtures.multiviewerCircuit(63, 2024)));
+		given(openF1.locations(9472, 24, Instant.parse("2024-03-02T15:19:05.235Z"),
+				Instant.parse("2024-03-02T15:19:30.435Z")))
+				.willReturn(Fixtures.openF1Locations("location_9472_24_pit.json"));
+
+		var report = importer.importRace(id);
+
+		verify(openF1, times(2)).sessions(1229);
+		verify(openF1, times(2)).raceControl(9472);
+		var layout = layouts.find(bahrainCircuit.getId(), 2024).orElseThrow();
+		assertThat(layout.marshalSectors()).hasSize(18);
+		assertThat(layout.pitLane()).hasSize(98);
+		assertThat(races.findById(id).orElseThrow().getImportVersion()).isEqualTo(RaceImporter.IMPORT_VERSION);
+		assertThat(report.notes()).anySatisfy(n -> assertThat(n).contains("imported again"));
 	}
 
 	@Test
@@ -279,6 +309,45 @@ class RaceImporterTest {
 		var layout = layouts.find(bahrainCircuit.getId(), 2024).orElseThrow();
 		assertThat(layout.sectorEndsSource()).isEqualTo(CircuitLayout.SectorEndsSource.TRACK); // 10 + 11 + 7 mini-sectors
 		assertThat(report.count("layouts").inserted()).isEqualTo(1);
+	}
+
+	@Test
+	void theTrackMapHasTheMarshalSectorsAndAPitLaneTracedFromAPitStop() {
+		bahrainCircuit.linkOpenF1Circuit(63);
+		long id = race(2024, 1, "2024-03-02", 1229).getId();
+		givenBahrain2024();
+		given(multiviewer.circuit(63, 2024)).willReturn(Optional.of(Fixtures.multiviewerCircuit(63, 2024)));
+		// the first ordinary stop (lap 5 on, 18-40 s in the pit lane): Zhou's on lap 9
+		given(openF1.locations(9472, 24, Instant.parse("2024-03-02T15:19:05.235Z"),
+				Instant.parse("2024-03-02T15:19:30.435Z")))
+				.willReturn(Fixtures.openF1Locations("location_9472_24_pit.json"));
+
+		importer.importRace(id);
+
+		var layout = layouts.find(bahrainCircuit.getId(), 2024).orElseThrow();
+		assertThat(layout.marshalSectors()).hasSize(18);
+		assertThat(layout.marshalSectors()).extracting(CircuitLayout.MarshalSector::number)
+				.containsExactlyElementsOf(java.util.stream.IntStream.rangeClosed(1, 18).boxed().toList());
+		// sector 1 starts just before the start/finish line, so it runs across it; the rest follow in order
+		assertThat(layout.marshalSectors().getFirst().progress()).isBetween(0.99, 1.0);
+		assertThat(layout.marshalSectors().subList(1, 18)).extracting(CircuitLayout.MarshalSector::progress)
+				.allSatisfy(p -> assertThat(p).isBetween(0.0, 1.0))
+				.isSorted();
+		assertThat(layout.pitLane()).hasSize(98);
+		assertThat(layout.pitLane().getFirst()).isEqualTo(new com.telemetrix.circuit.TrackOutline.Point(-67, 4963));
+	}
+
+	@Test
+	void withoutAPitStopThereIsNoPitLane() {
+		bahrainCircuit.linkOpenF1Circuit(63);
+		long id = race(2024, 1, "2024-03-02", 1229).getId();
+		given(openF1.sessions(1229)).willReturn(Fixtures.openF1Sessions(1229));
+		given(openF1.laps(9472)).willReturn(Fixtures.openF1Laps(9472));
+		given(multiviewer.circuit(63, 2024)).willReturn(Optional.of(Fixtures.multiviewerCircuit(63, 2024)));
+
+		importer.importRace(id);
+
+		assertThat(layouts.find(bahrainCircuit.getId(), 2024).orElseThrow().pitLane()).isEmpty();
 	}
 
 	@Test

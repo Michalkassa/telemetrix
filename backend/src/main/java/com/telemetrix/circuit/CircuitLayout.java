@@ -5,9 +5,11 @@ import java.util.List;
 
 // A circuit's track map for one year: raw outline points (OpenF1 coordinates, starting at the
 // start/finish line), the rotation to draw it upright, where sectors 1 and 2 end (share of the lap
-// distance), and the corners.
+// distance), the corners, where each marshalling sector starts, and the pit lane (raw points; empty
+// when unknown).
 public record CircuitLayout(String circuitRef, int year, Source source, double rotation, List<Point> points,
-		double[] sectorEnds, SectorEndsSource sectorEndsSource, List<Corner> corners) {
+		double[] sectorEnds, SectorEndsSource sectorEndsSource, List<Corner> corners,
+		List<MarshalSector> marshalSectors, List<Point> pitLane) {
 
 	public enum Source {
 		/** Multiviewer's circuit data. */
@@ -25,6 +27,15 @@ public record CircuitLayout(String circuitRef, int year, Source source, double r
 
 	/** A numbered corner at a raw position, `progress` round the lap. */
 	public record Corner(int number, double x, double y, double progress) {
+	}
+
+	/** A marshalling sector (yellow flags are given per sector), starting `progress` round the lap. */
+	public record MarshalSector(int number, double progress) {
+	}
+
+	public CircuitLayout {
+		marshalSectors = marshalSectors == null ? List.of() : List.copyOf(marshalSectors);
+		pitLane = pitLane == null ? List.of() : List.copyOf(pitLane);
 	}
 
 	public TrackOutline outline() {

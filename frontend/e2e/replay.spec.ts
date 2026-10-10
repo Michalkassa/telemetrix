@@ -7,6 +7,7 @@ import { ready, squareRace } from '../src/test/fixtures/replay'
 test.beforeEach(async ({ page }) => {
   await page.route('**/api/races/1', (route) => route.fulfill({ json: bahrain2024 }))
   await page.route('**/api/races/1/import', (route) => route.fulfill({ json: ready }))
+  await page.route('**/api/sessions/5/replay/snapshots', (route) => route.fulfill({ json: [] }))
   await page.route('**/api/sessions/5/replay', (route) => route.fulfill({ json: squareRace }))
 })
 

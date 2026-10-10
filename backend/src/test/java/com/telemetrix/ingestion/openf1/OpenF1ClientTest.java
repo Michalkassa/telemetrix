@@ -105,6 +105,19 @@ class OpenF1ClientTest {
 	}
 
 	@Test
+	void fetchesOneCarsPositionsBetweenTwoMoments() {
+		server.expect(requestTo(BASE + "/location?session_key=9472&driver_number=24"
+				+ "&date%3E=2024-03-02T15:19:05.235Z&date%3C=2024-03-02T15:19:30.435Z"))
+				.andRespond(withSuccess(fixture("location_9472_24_pit.json"), MediaType.APPLICATION_JSON));
+
+		var positions = client.locations(9472, 24, Instant.parse("2024-03-02T15:19:05.235Z"),
+				Instant.parse("2024-03-02T15:19:30.435Z"));
+
+		assertThat(positions).hasSize(98);
+		assertThat(positions.getFirst().x()).isEqualTo(-67);
+	}
+
+	@Test
 	void fetchesAMeetingsSessions() {
 		server.expect(requestTo(BASE + "/sessions?meeting_key=1229"))
 				.andRespond(withSuccess(fixture("sessions_1229.json"), MediaType.APPLICATION_JSON));

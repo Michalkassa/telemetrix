@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import { squareRace } from '../test/fixtures/replay'
-import { leaderLap, prepare, runningOrder } from './race'
+import { lapStart, leaderLap, prepare, runningOrder } from './race'
 
 const race = prepare(squareRace)
 
@@ -32,5 +32,18 @@ describe('leaderLap', () => {
     [12000, 3], // the chequered flag: never past the last lap
   ])('at %d ms the leader is on lap %d', (t, lap) => {
     expect(leaderLap(race, t)).toBe(lap)
+  })
+})
+
+describe('lapStart', () => {
+  test('when the leader started a lap', () => {
+    expect(lapStart(race, 1)).toBe(0)
+    expect(lapStart(race, 2)).toBe(4000) // VER completes lap 1 at 4 s
+    expect(lapStart(race, 3)).toBe(8000)
+  })
+
+  test('never past the last lap', () => {
+    expect(lapStart(race, 99)).toBe(8000)
+    expect(lapStart(race, 0)).toBe(0)
   })
 })

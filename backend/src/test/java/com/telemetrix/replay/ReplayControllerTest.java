@@ -31,7 +31,8 @@ class ReplayControllerTest {
 				Instant.parse("2024-03-02T16:35:27.617Z"), 57, null,
 				List.of(new ReplayResponse.Driver(1, "VER", "Max VERSTAPPEN", "Red Bull Racing", "3671c6")),
 				List.of(new ReplayResponse.CarTiming(1, new long[] { 0, 32877 }, new double[] { 0, 0.3279 },
-						List.of(new ReplayResponse.PitWindow(17, 1_000_000, 1_022_000)), true, null))));
+						List.of(new ReplayResponse.PitWindow(17, 1_000_000, 1_022_000)), true, null)),
+				List.of(new ReplayResponse.Weather(-60_000, 30.0, 38.3, 68.0, false, 0.8))));
 
 		assertThat(mvc.get().uri("/api/sessions/5/replay")).hasStatusOk().bodyJson().isStrictlyEqualTo("""
 				{"sessionId": 5, "raceId": 1, "session": "Race", "clockStart": "2024-03-02T15:03:42.341Z",
@@ -40,7 +41,9 @@ class ReplayControllerTest {
 				              "teamColour": "3671c6"}],
 				 "timing": [{"number": 1, "t": [0, 32877], "laps": [0.0, 0.3279],
 				             "pits": [{"lap": 17, "from": 1000000, "to": 1022000}],
-				             "finished": true, "retiredAt": null}]}
+				             "finished": true, "retiredAt": null}],
+				 "weather": [{"t": -60000, "airTemperature": 30.0, "trackTemperature": 38.3, "humidity": 68.0,
+				              "rainfall": false, "windSpeed": 0.8}]}
 				""");
 	}
 

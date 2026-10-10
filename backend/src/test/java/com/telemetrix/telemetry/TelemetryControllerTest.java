@@ -24,6 +24,9 @@ class TelemetryControllerTest {
 	@MockitoBean
 	TelemetryService service;
 
+	@MockitoBean
+	LapAnalysisService analysis;
+
 	@Test
 	void returnsOneCarsLap() {
 		given(service.telemetry(5, 1, 10)).willReturn(new TelemetryResponse(5, 1, 10,
@@ -50,6 +53,17 @@ class TelemetryControllerTest {
 		given(service.telemetry(5, 1, 99)).willThrow(new NotFoundException("Lap 99 of car", 1));
 
 		assertThat(mvc.get().uri("/api/sessions/5/telemetry?driver=1&lap=99")).hasStatus(HttpStatus.NOT_FOUND);
+	}
+
+	@Test
+	void aComparisonNeedsTheSecondDriver() {
+		assertThat(mvc.get().uri("/api/sessions/5/telemetry/compare?driver=1")).hasStatus(HttpStatus.BAD_REQUEST);
+	}
+
+	@Test
+	void aLapAnalysisIsForOneDriver() {
+		assertThat(mvc.get().uri("/api/sessions/5/telemetry/lap?driver=100")).hasStatus(HttpStatus.BAD_REQUEST);
+		assertThat(mvc.get().uri("/api/sessions/5/telemetry/lap")).hasStatus(HttpStatus.BAD_REQUEST);
 	}
 
 }

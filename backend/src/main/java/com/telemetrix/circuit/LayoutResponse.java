@@ -8,7 +8,8 @@ import java.util.List;
 // Telemetry x/y (raw coordinates) must be rotated by `rotation` to sit on it.
 public record LayoutResponse(String circuit, int year, String source, double rotation, double length,
 		BoundingBox boundingBox, List<double[]> points, double[] startFinish, List<Double> sectorEnds,
-		String sectorEndsSource, List<CornerResponse> corners) {
+		String sectorEndsSource, List<CornerResponse> corners, List<CircuitLayout.MarshalSector> marshalSectors,
+		List<double[]> pitLane) {
 
 	public record CornerResponse(int number, double x, double y, double progress) {
 	}
@@ -26,7 +27,11 @@ public record LayoutResponse(String circuit, int year, String source, double rot
 						round(box.maxY())),
 				points, points.getFirst(),
 				layout.sectorEnds() == null ? null : Arrays.stream(layout.sectorEnds()).boxed().toList(),
-				layout.sectorEndsSource() == null ? null : layout.sectorEndsSource().name(), corners);
+				layout.sectorEndsSource() == null ? null : layout.sectorEndsSource().name(), corners,
+				layout.marshalSectors(), layout.pitLane().stream().map(p -> {
+					var at = TrackOutline.rotate(p, layout.rotation());
+					return new double[] { round(at.x()), round(at.y()) };
+				}).toList());
 	}
 
 	// one decimal; + 0.0 turns -0.0 into 0.0

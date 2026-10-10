@@ -13,8 +13,19 @@ flag periods) and team radio, each race's **timeline** (overtakes, pit stops, SC
 DNFs, fastest laps, penalties, ...), the race **state** at any moment (order, gaps, tyres, flags,
 penalties; instant to seek thanks to snapshots), and the **replay** (a whole race's timing points in one ~80 KB response) are
 served over a REST API. The React frontend has the landing page, dashboard, Grand Prix list and race pages, and the
-replay player (`/races/:year/:raceId/replay`: a canvas track map with one dot per car, play/pause, lap
-counter and running order). Everything to be built is specified in
+replay player (`/races/:year/:raceId/replay`, or pick a race in the **Replay Theater** at `/replay`): a
+canvas track map with one dot per car, the running order, and video-style controls — play/pause, ±10 s,
+0.25–8×, jump to a lap or a race time, a timeline bar to scrub, keyboard shortcuts (space, ← →, ↑ ↓), and
+a camera that follows one driver or keeps several in focus. The race's **events** sit beside it as a
+filterable list and as markers on the timeline bar: click one to jump there (the current one is
+highlighted as the race plays; when watching together, the host's click moves everyone), and a race
+imported again pushes a timeline update over the WebSocket. Overlays: flag colours and the safety
+car, yellow marshalling sectors, sector markers, the pit lane, gap labels, a mini-map when zoomed, a
+weather badge, and a leaderboard with intervals, tyres, purple/green/yellow sectors, DRS and penalties. The **telemetry**
+view (`/races/:year/:raceId/telemetry?driver=VER&vs=LEC`) charts speed, throttle, brake, gear and RPM
+against distance (fetched on demand), compares two laps with a delta trace and sector deltas, shows
+tyres and fuel/ERS *estimates*, and follows the replay's clock when opened from a watch-together session, with **watch together**: share a link and everyone follows the host's
+playback over WebSocket (STOMP). Everything to be built is specified in
 [`plan.md`](plan.md), and [`STEPS.md`](STEPS.md) breaks it into 55 build steps.
 Progress is tracked in [`features.csv`](features.csv); see the top of `plan.md`.
 
@@ -139,7 +150,7 @@ journey) and are driven inward with unit tests. The rules and the test tools for
 
 ## Where to start implementing
 
-Follow [`STEPS.md`](STEPS.md) from **Step 24** (shared viewing over WebSocket; Step 20, CI, is still to do), using [`templates/README.md`](templates/README.md) as the reference for each Spring
+Follow [`STEPS.md`](STEPS.md) from **Step 29** (race hub pages; Step 20, CI, is still to do), using [`templates/README.md`](templates/README.md) as the reference for each Spring
 layer. Every step starts with its **Tests first** list. When a feature's tests pass, tick it off:
 `python3 scripts/sync_features.py done <ID>`.
 

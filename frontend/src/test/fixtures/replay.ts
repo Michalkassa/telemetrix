@@ -35,3 +35,27 @@ export const squareRace: Replay = {
 }
 
 export const ready: ImportStatus = { raceId: 1, state: 'READY', since: '2024-03-03T10:00:00Z', message: null }
+
+// A longer race for the playback controls: 40 laps of 10 s on the same square, three cars a little apart.
+// VER laps in 10 s, HAM in 10.2 s, LEC in 10.4 s; nobody stops.
+export function longRace(): Replay {
+  const car = (number: number, lapMs: number) => {
+    const t: number[] = []
+    const laps: number[] = []
+    for (let i = 0; i <= 160; i++) {
+      t.push(Math.round((i * lapMs) / 4))
+      laps.push(i / 4)
+    }
+    return { number, t, laps, pits: [], finished: true, retiredAt: null }
+  }
+  return {
+    ...squareRace,
+    totalLaps: 40,
+    chequeredAt: '2024-03-02T15:09:40Z',
+    drivers: [
+      ...squareRace.drivers,
+      { number: 16, code: 'LEC', name: 'Charles LECLERC', team: 'Ferrari', teamColour: 'e8002d' },
+    ],
+    timing: [car(1, 10_000), car(44, 10_200), car(16, 10_400)],
+  }
+}

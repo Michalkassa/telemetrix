@@ -1,5 +1,5 @@
 import type { Replay } from '../api/types'
-import { progressAt, timeline, type Timeline } from './progress'
+import { progressAt, reachedAt, timeline, type Timeline } from './progress'
 import { outline, type Outline } from './track'
 
 // A replay ready to play: each car's timeline and the track outline, built once when it loads.
@@ -69,4 +69,11 @@ export function leaderLap(race: Race, t: number): number {
 
 function lapOf(race: Race, lapsDone: number): number {
   return Math.max(1, Math.min(Math.floor(lapsDone) + 1, race.totalLaps))
+}
+
+/** When the leader started a lap (race time, ms): the first car to have done the laps before it. */
+export function lapStart(race: Race, lap: number): number {
+  const target = Math.min(Math.max(lap, 1), race.totalLaps) - 1
+  const times = race.cars.map((car) => reachedAt(car.timeline, target)).filter((t): t is number => t !== null)
+  return times.length ? Math.min(...times) : 0
 }

@@ -9,5 +9,5 @@ package com.telemetrix.state;
  */
 public record CarState(int number, String code, int position, int lap, double lapsDone, CarStatus status,
 		Double gapToLeader, Double interval, int lapsDown, String compound, Integer tyreAge, int pitStops,
-		int penaltySeconds, int pendingPenalties) {
+		int penaltySeconds, int pendingPenalties, boolean drs, boolean mandatoryStopDone) {
 }

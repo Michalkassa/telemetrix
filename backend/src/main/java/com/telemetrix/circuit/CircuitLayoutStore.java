@@ -40,6 +40,10 @@ public class CircuitLayoutStore {
 				.findFirst();
 	}
 
+	public void delete(long circuitId, int year) {
+		jdbc.update("delete from circuit_layouts where circuit_id = ? and year = ?", circuitId, year);
+	}
+
 	public void save(long circuitId, int year, CircuitLayout layout) {
 		Integer[] xs = layout.points().stream().map(p -> (int) Math.round(p.x())).toArray(Integer[]::new);
 		Integer[] ys = layout.points().stream().map(p -> (int) Math.round(p.y())).toArray(Integer[]::new);
@@ -47,8 +51,8 @@ public class CircuitLayoutStore {
 		jdbc.update(con -> {
 			var ps = con.prepareStatement("""
 					insert into circuit_layouts (circuit_id, year, source, rotation, x, y, sector1_end, sector2_end,
-					    sector_ends_from, corners)
-					values (?, ?, ?, ?, ?, ?, ?, ?, ?, cast(? as jsonb))
+					    sector_ends_from, corners, marshal_sectors, pit_lane_x, pit_lane_y)
+					values (?, ?, ?, ?, ?, ?, ?, ?, ?, cast(? as jsonb), cast(? as jsonb), ?, ?)
 					on conflict (circuit_id, year) do nothing""");
 			ps.setLong(1, circuitId);
 			ps.setInt(2, year);
@@ -60,13 +64,17 @@ public class CircuitLayoutStore {
 			ps.setObject(8, ends == null ? null : ends[1]);
 			ps.setString(9, layout.sectorEndsSource() == null ? null : layout.sectorEndsSource().name());
 			ps.setString(10, JSON.writeValueAsString(layout.corners()));
+			ps.setString(11, JSON.writeValueAsString(layout.marshalSectors()));
+			boolean pitLane = !layout.pitLane().isEmpty();
+			ps.setArray(12, pitLane ? con.createArrayOf("integer", coordinates(layout.pitLane(), true)) : null);
+			ps.setArray(13, pitLane ? con.createArrayOf("integer", coordinates(layout.pitLane(), false)) : null);
 			return ps;
 		});
 	}
 
 	private static final String SELECT = """
 			select c.ref, l.year, l.source, l.rotation, l.x, l.y, l.sector1_end, l.sector2_end, l.sector_ends_from,
-			       l.corners
+			       l.corners, l.marshal_sectors, l.pit_lane_x, l.pit_lane_y
 			from circuit_layouts l join circuits c on c.id = l.circuit_id""";
 
 	private CircuitLayout layout(ResultSet rs, int row) throws SQLException {
@@ -83,9 +91,25 @@ public class CircuitLayoutStore {
 		List<CircuitLayout.Corner> corners = JSON.readValue(rs.getString("corners"),
 				new TypeReference<List<CircuitLayout.Corner>>() {
 				});
+		List<CircuitLayout.MarshalSector> marshalSectors = JSON.readValue(rs.getString("marshal_sectors"),
+				new TypeReference<List<CircuitLayout.MarshalSector>>() {
+				});
+		List<Point> pitLane = new ArrayList<>();
+		if (rs.getArray("pit_lane_x") != null) {
+			Integer[] px = ints(rs.getArray("pit_lane_x"));
+			Integer[] py = ints(rs.getArray("pit_lane_y"));
+			for (int i = 0; i < px.length; i++) {
+				pitLane.add(new Point(px[i], py[i]));
+			}
+		}
 		return new CircuitLayout(rs.getString("ref"), rs.getInt("year"), CircuitLayout.Source.valueOf(rs.getString("source")),
 				rs.getDouble("rotation"), points, hasEnds ? new double[] { s1, s2 } : null,
-				endsFrom == null ? null : CircuitLayout.SectorEndsSource.valueOf(endsFrom), corners);
+				endsFrom == null ? null : CircuitLayout.SectorEndsSource.valueOf(endsFrom), corners, marshalSectors,
+				pitLane);
+	}
+
+	private static Integer[] coordinates(List<Point> points, boolean x) {
+		return points.stream().map(p -> (int) Math.round(x ? p.x() : p.y())).toArray(Integer[]::new);
 	}
 
 	private static Integer[] ints(Array array) throws SQLException {

@@ -72,6 +72,12 @@ public final class Fixtures {
 		});
 	}
 
+	/** Positions from a recorded file, e.g. "location_9472_24_pit.json" (one car's pit stop). */
+	public static List<OpenF1Location> openF1Locations(String file) {
+		return read("openf1/" + file, new TypeReference<>() {
+		});
+	}
+
 	public static List<OpenF1Driver> openF1Drivers(int sessionKey) {
 		return read("openf1/drivers_" + sessionKey + ".json", new TypeReference<>() {
 		});

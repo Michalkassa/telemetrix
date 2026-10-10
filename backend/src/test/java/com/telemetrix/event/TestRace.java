@@ -114,7 +114,11 @@ public class TestRace {
 	}
 
 	public TestRace weather(double at, boolean rain) {
-		weather.add(new Weather(t(at), rain));
+		return weather(at, rain, null, null);
+	}
+
+	public TestRace weather(double at, boolean rain, Double airTemperature, Double trackTemperature) {
+		weather.add(new Weather(t(at), rain, airTemperature, trackTemperature, null, null));
 		return this;
 	}
 

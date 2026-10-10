@@ -93,7 +93,8 @@ public class RaceDataLoader {
 						.map(c -> new RadioClip(c.getDriverNumber(), c.getRecordedAt(), c.getRecordingUrl()))
 						.toList(),
 				weather.findBySessionOrderByRecordedAtAsc(session).stream()
-						.map(w -> new Weather(w.getRecordedAt(), w.isRainfall()))
+						.map(w -> new Weather(w.getRecordedAt(), w.isRainfall(), w.getAirTemperature(),
+								w.getTrackTemperature(), w.getHumidity(), w.getWindSpeed()))
 						.toList());
 	}
 

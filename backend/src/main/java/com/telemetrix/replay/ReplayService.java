@@ -8,6 +8,7 @@ import com.telemetrix.common.NotFoundException;
 import com.telemetrix.race.Race;
 import com.telemetrix.race.Session;
 import com.telemetrix.race.SessionRepository;
+import com.telemetrix.racecontrol.WeatherReadingRepository;
 import com.telemetrix.replay.PlaybackFrame.Status;
 import com.telemetrix.timing.Lap;
 import com.telemetrix.timing.LapRepository;
@@ -46,13 +47,16 @@ public class ReplayService {
 
 	private final CircuitLayoutStore layouts;
 
+	private final WeatherReadingRepository weather;
+
 	ReplayService(SessionRepository sessions, LapRepository laps, SessionPitStopRepository pitStops,
-			SessionDriverRepository drivers, CircuitLayoutStore layouts) {
+			SessionDriverRepository drivers, CircuitLayoutStore layouts, WeatherReadingRepository weather) {
 		this.sessions = sessions;
 		this.laps = laps;
 		this.pitStops = pitStops;
 		this.drivers = drivers;
 		this.layouts = layouts;
+		this.weather = weather;
 	}
 
 	public RaceReplay replay(long sessionId) {
@@ -139,9 +143,14 @@ public class ReplayService {
 		var driversOut = replay.drivers().stream()
 				.map(d -> new ReplayResponse.Driver(d.number(), d.code(), d.name(), d.team(), d.teamColour()))
 				.toList();
+		var session = sessions.findById(sessionId).orElseThrow();
+		var readings = weather.findBySessionOrderByRecordedAtAsc(session).stream()
+				.map(w -> new ReplayResponse.Weather(w.getRecordedAt().toEpochMilli() - start, w.getAirTemperature(),
+						w.getTrackTemperature(), w.getHumidity(), w.isRainfall(), w.getWindSpeed()))
+				.toList();
 		return new ReplayResponse(replay.sessionId(), replay.raceId(), replay.sessionName(), replay.clockStart(),
 				replay.chequeredAt(), replay.totalLaps(), replay.layout() == null ? null : LayoutResponse.of(replay.layout()),
-				driversOut, timing);
+				driversOut, timing, readings);
 	}
 
 	private static Status status(RaceReplay replay, int car, ProgressTimeline timeline, Instant at) {

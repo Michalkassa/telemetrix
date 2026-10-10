@@ -59,10 +59,24 @@ class RaceImportCoordinatorTest {
 
 	@Test
 	void anImportedRaceIsReady() {
-		race.markImported(Instant.parse("2026-10-01T10:00:00Z"));
+		race.markImported(Instant.parse("2026-10-01T10:00:00Z"), RaceImporter.IMPORT_VERSION);
 
 		assertThat(coordinator.open(ID).state()).isEqualTo(State.READY);
 		assertThat(background).isEmpty();
+	}
+
+	@Test
+	void aRaceImportedByAnOlderImporterStaysReadyWhileItIsImportedAgain() {
+		// imported before the importer learned race control, weather and the track map's overlays
+		race.markImported(Instant.parse("2026-10-01T10:00:00Z"), RaceImporter.IMPORT_VERSION - 1);
+
+		var status = coordinator.open(ID);
+		coordinator.open(ID); // opened again meanwhile: still one download
+
+		assertThat(status.state()).isEqualTo(State.READY); // its replay works meanwhile
+		assertThat(background).hasSize(1);
+		background.getFirst().run();
+		verify(importer).importRace(ID);
 	}
 
 	@Test

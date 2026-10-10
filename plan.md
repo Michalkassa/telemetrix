@@ -14,13 +14,13 @@ python3 scripts/sync_features.py --check                # CI: fail if plan.md/ST
 ```
 
 <!-- progress:start -->
-**94 / 305 features done (30%)**
+**148 / 305 features done (48%)**
 
 | Phase | Done | Total | Progress |
 |---|---:|---:|---|
 | 0 — Foundation | 3 | 3 | `██████████` |
 | 1 — Data foundation & basic replay | 66 | 71 | `█████████░` |
-| 2 — Telemetry, timeline & playback | 25 | 83 | `███░░░░░░░` |
+| 2 — Telemetry, timeline & playback | 79 | 83 | `██████████` |
 | 3 — Championship & analytics | 0 | 46 | `░░░░░░░░░░` |
 | 4 — Distributed systems & production | 0 | 75 | `░░░░░░░░░░` |
 | 5 — Data science & polish | 0 | 16 | `░░░░░░░░░░` |
@@ -87,48 +87,48 @@ The system is designed as:
 ### Playback Controls
 - [x] Play <!-- PLAY-01 -->
 - [x] Pause <!-- PLAY-02 -->
-- [ ] Rewind <!-- PLAY-03 -->
-- [ ] Fast forward <!-- PLAY-04 -->
-- [ ] Jump to lap <!-- PLAY-05 -->
-- [ ] Jump to timestamp <!-- PLAY-06 -->
-- [ ] Variable playback speed: <!-- PLAY-07 -->
+- [x] Rewind <!-- PLAY-03 -->
+- [x] Fast forward <!-- PLAY-04 -->
+- [x] Jump to lap <!-- PLAY-05 -->
+- [x] Jump to timestamp <!-- PLAY-06 -->
+- [x] Variable playback speed: <!-- PLAY-07 -->
   - 0.25x
   - 0.5x
   - 1x
   - 2x
   - 4x
   - 8x
-- [ ] Auto-follow selected driver <!-- PLAY-08 -->
-- [ ] Multi-driver camera focus mode <!-- PLAY-09 -->
-- [ ] Timeline scrubbing <!-- PLAY-10 -->
+- [x] Auto-follow selected driver <!-- PLAY-08 -->
+- [x] Multi-driver camera focus mode <!-- PLAY-09 -->
+- [x] Timeline scrubbing <!-- PLAY-10 -->
 
 ### Track Visualization
 - [x] 2D track rendering <!-- TRACK-01 -->
 - [x] Driver dots <!-- TRACK-02 -->
-- [ ] Real-time sector coloring <!-- TRACK-03 -->
+- [x] Real-time sector coloring <!-- TRACK-03 -->
 - [x] Position indicators <!-- TRACK-04 -->
-- [ ] Gap visualization <!-- TRACK-05 -->
-- [ ] DRS indicators <!-- TRACK-06 -->
-- [ ] Pit lane rendering <!-- TRACK-07 -->
-- [ ] Safety car visualization <!-- TRACK-08 -->
-- [ ] Yellow flag visualization <!-- TRACK-09 -->
-- [ ] Weather overlays <!-- TRACK-10 -->
-- [ ] Track sectors <!-- TRACK-11 -->
-- [ ] Mini-map mode <!-- TRACK-12 -->
+- [x] Gap visualization <!-- TRACK-05 -->
+- [x] DRS indicators <!-- TRACK-06 -->
+- [x] Pit lane rendering <!-- TRACK-07 -->
+- [x] Safety car visualization <!-- TRACK-08 -->
+- [x] Yellow flag visualization <!-- TRACK-09 -->
+- [x] Weather overlays <!-- TRACK-10 -->
+- [x] Track sectors <!-- TRACK-11 -->
+- [x] Mini-map mode <!-- TRACK-12 -->
 
 ### Telemetry Visualization
-- [ ] Speed graph <!-- TELE-01 -->
-- [ ] Throttle graph <!-- TELE-02 -->
-- [ ] Brake graph <!-- TELE-03 -->
-- [ ] Gear display <!-- TELE-04 -->
-- [ ] RPM estimate <!-- TELE-05 -->
-- [ ] Tire compound <!-- TELE-06 -->
-- [ ] Tire age <!-- TELE-07 -->
-- [ ] Tire stint <!-- TELE-08 -->
-- [ ] Fuel estimate <!-- TELE-09 -->
-- [ ] ERS estimate <!-- TELE-10 -->
-- [ ] Sector deltas <!-- TELE-11 -->
-- [ ] Lap delta comparisons <!-- TELE-12 -->
+- [x] Speed graph <!-- TELE-01 -->
+- [x] Throttle graph <!-- TELE-02 -->
+- [x] Brake graph <!-- TELE-03 -->
+- [x] Gear display <!-- TELE-04 -->
+- [x] RPM estimate <!-- TELE-05 -->
+- [x] Tire compound <!-- TELE-06 -->
+- [x] Tire age <!-- TELE-07 -->
+- [x] Tire stint <!-- TELE-08 -->
+- [x] Fuel estimate <!-- TELE-09 -->
+- [x] ERS estimate <!-- TELE-10 -->
+- [x] Sector deltas <!-- TELE-11 -->
+- [x] Lap delta comparisons <!-- TELE-12 -->
 
 ### Timeline System
 Timeline events:
@@ -194,11 +194,11 @@ Timeline events:
 ## Race State Engine
 System reconstructs race state at every timestamp:
 - [x] Driver positions <!-- STATE-01 -->
-- [ ] Gap calculations <!-- STATE-02 -->
-- [ ] Tire states <!-- STATE-03 -->
-- [ ] Active penalties <!-- STATE-04 -->
-- [ ] Current flags <!-- STATE-05 -->
-- [ ] Pit window status <!-- STATE-06 -->
+- [x] Gap calculations <!-- STATE-02 -->
+- [x] Tire states <!-- STATE-03 -->
+- [x] Active penalties <!-- STATE-04 -->
+- [x] Current flags <!-- STATE-05 -->
+- [x] Pit window status <!-- STATE-06 -->
 - [ ] Championship standings <!-- STATE-07 -->
 
 ## Event Sourcing Architecture
@@ -237,12 +237,12 @@ Store race state as events:
 - [x] TypeScript <!-- FE-02 -->
 - [x] Vite <!-- FE-03 -->
 - [x] React Query <!-- FE-04 -->
-- [ ] Zustand <!-- FE-05 -->
+- [x] Zustand <!-- FE-05 -->
 - [x] TailwindCSS <!-- FE-06 -->
-- [ ] D3.js <!-- FE-07 -->
+- [x] D3.js <!-- FE-07 -->
 - [x] Canvas API <!-- FE-08 -->
-- [ ] WebSockets <!-- FE-09 -->
-- [ ] Recharts <!-- FE-10 -->
+- [x] WebSockets <!-- FE-09 -->
+- [x] Recharts <!-- FE-10 -->
 
 ## Why Canvas?
 Telemetry rendering and track animations require:
@@ -276,7 +276,7 @@ L4 Leaf views                  the niche page (table / chart / replay / telemetr
 - [ ] **Seasons** — explore a championship year: standings and full season results. <!-- NAV-01 -->
 - [ ] **Grand Prix** — explore a single event: results, timeline, analytics, telemetry, replay. <!-- NAV-02 -->
 - [ ] **Drivers & Teams** — explore competitors: per-driver and per-constructor stats/analytics. <!-- NAV-03 -->
-- [ ] **Replay Theater** — jump straight to watching a race's animated playback. <!-- NAV-04 -->
+- [x] **Replay Theater** — jump straight to watching a race's animated playback. <!-- NAV-04 -->
 
 ## Route tree
 
@@ -288,7 +288,7 @@ L4 Leaf views                  the niche page (table / chart / replay / telemetr
   drill further via `?driver=VER` (and a stint / lap-range) for **per-driver / per-stint** views.
 - [ ] **Drivers & Teams**: `/drivers` directory → `/drivers/:acronym` hub (Stats · Season-by-season · <!-- NAV-08 -->
   Race log); `/teams` directory → `/teams/:name` hub (Overview · Reliability · Pace).
-- [ ] **Replay Theater**: `/replay` (year → GP picker) → reuses the race-hub replay leaf. <!-- NAV-09 -->
+- [x] **Replay Theater**: `/replay` (year → GP picker) → reuses the race-hub replay leaf. <!-- NAV-09 -->
 
 Cross-links stitch the branches together: a standings row links to that driver's hub, a season-
 results cell links to that race's hub, and a race hub links into the replay player.
@@ -419,17 +419,17 @@ timing points per lap, played client-side like a video — see
 - [x] Interpolate telemetry <!-- REPLAY-03 -->
 - [x] Maintain race timing <!-- REPLAY-04 -->
 - [x] Support rewind <!-- REPLAY-05 -->
-- [ ] Support pause/resume <!-- REPLAY-06 -->
+- [x] Support pause/resume <!-- REPLAY-06 -->
 
 ## Core Concepts
 ### Playback Frame
 Contains:
 - [x] Driver positions <!-- FRAME-01 -->
-- [ ] Track state <!-- FRAME-02 -->
+- [x] Track state <!-- FRAME-02 -->
 - [x] Current lap <!-- FRAME-03 -->
-- [ ] Current flags <!-- FRAME-04 -->
-- [ ] Weather state <!-- FRAME-05 -->
-- [ ] Gap data <!-- FRAME-06 -->
+- [x] Current flags <!-- FRAME-04 -->
+- [x] Weather state <!-- FRAME-05 -->
+- [x] Gap data <!-- FRAME-06 -->
 
 ### Snapshotting
 Create snapshots every:
@@ -453,9 +453,9 @@ Examples:
 
 ## WebSocket APIs
 Used for:
-- [ ] Live replay stream <!-- WS-01 -->
+- [x] Live replay stream <!-- WS-01 -->
 - [ ] Telemetry updates <!-- WS-02 -->
-- [ ] Timeline synchronization <!-- WS-03 -->
+- [x] Timeline synchronization <!-- WS-03 -->
 
 ---
 
@@ -513,7 +513,7 @@ to write first.
 - [x] API tests <!-- TEST-08 -->
 
 ### End-to-End Tests
-- [ ] Replay pipeline <!-- TEST-09 -->
+- [x] Replay pipeline <!-- TEST-09 -->
 - [x] Full ingestion flow <!-- TEST-10 -->
 - [ ] Authentication flows <!-- TEST-11 -->
 
@@ -535,14 +535,14 @@ to write first.
 - [x] Vitest <!-- FETEST-01 -->
 - [x] React Testing Library <!-- FETEST-02 -->
 - [ ] Cypress <!-- FETEST-03 -->
-- [ ] Playwright <!-- FETEST-04 -->
+- [x] Playwright <!-- FETEST-04 -->
 
 ## Test Areas
-- [ ] Timeline controls <!-- FETEST-05 -->
-- [ ] Playback synchronization <!-- FETEST-06 -->
-- [ ] Telemetry rendering <!-- FETEST-07 -->
+- [x] Timeline controls <!-- FETEST-05 -->
+- [x] Playback synchronization <!-- FETEST-06 -->
+- [x] Telemetry rendering <!-- FETEST-07 -->
 - [x] Race visualization <!-- FETEST-08 -->
-- [ ] State management <!-- FETEST-09 -->
+- [x] State management <!-- FETEST-09 -->
 
 ---
 
@@ -703,7 +703,7 @@ Use Python separately for:
 # Non-Functional Requirements
 
 ## Performance
-- [ ] Replay latency < 100ms <!-- NFR-01 -->
+- [x] Replay latency < 100ms <!-- NFR-01 -->
 - [ ] API response < 300ms <!-- NFR-02 -->
 - [ ] Support 10k concurrent users <!-- NFR-03 -->
 - [ ] Handle millions of telemetry points <!-- NFR-04 -->

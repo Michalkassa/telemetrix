@@ -1,9 +1,9 @@
 import { describe, expect, test } from 'vitest'
 import contract from '../../../contracts/progress-timeline.json'
-import { progressAt, timeline } from './progress'
+import { progressAt, reachedAt, timeline } from './progress'
 
-// The progressAt cases shared with the backend's ProgressTimelineContractTest: the browser and the server
-// read a car's progress exactly the same way. (reachedAt is server-only for now.)
+// The cases shared with the backend's ProgressTimelineContractTest: the browser and the server
+// read a car's progress exactly the same way.
 type Case = {
   name: string
   points: number[][]
@@ -19,6 +19,10 @@ describe.each((contract.cases as Case[]).map((c) => [c.name, c] as const))('%s',
 
   test.each(c.progressAt.map(([t, laps]) => [t, laps]))('progressAt(%d) = %d', (t, laps) => {
     expect(progressAt(car, t)).toBeCloseTo(laps, 9)
+  })
+
+  test.each(c.reachedAt.map(([laps, t]) => [laps, t]))('reachedAt(%d) = %s', (laps, t) => {
+    expect(reachedAt(car, laps as number)).toBe(t)
   })
 })
 

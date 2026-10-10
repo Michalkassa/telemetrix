@@ -133,6 +133,11 @@ Telemetry `x`/`y` are raw: rotate them by `rotation` degrees (counter-clockwise)
 }
 ```
 
+`marshalSectors` say where each marshalling sector starts (`progress` round the lap; yellow flags are
+given per sector, and sector 1 usually starts just before the line, so it runs across it). `pitLane` is
+one car's path through the pit lane at the race's first ordinary stop, rotated like `points` (empty if
+unknown; layouts imported before Step 26 have neither until the race is imported again).
+
 `source` is `MULTIVIEWER`, or `OPENF1_LAP` when the outline was traced from the fastest lap's
 positions. `sectorEndsSource` is `TRACK` (from the circuit's mini-sectors) or `ESTIMATED` (from sector
 times). [Bahrain 2024 drawn from this endpoint](bahrain-2024-layout.svg).
@@ -166,7 +171,8 @@ are just changes to the playback clock. Open the race first (`POST /api/races/{i
 ```
 
 `finished`: the car took the chequered flag (crossed the line after the winner); otherwise
-`retiredAt` is when it stopped.
+`retiredAt` is when it stopped. `weather` lists the readings (about one a minute): `t` in the same
+milliseconds, `airTemperature` / `trackTemperature` °C, `humidity` %, `rainfall`, `windSpeed` m/s.
 
 | Status | When |
 |--------|------|
@@ -188,8 +194,11 @@ Every car at one moment, worked out on the server: race position, lap, progress 
 #### `GET /api/sessions/{id}/replay/state?at={instant}`
 
 The whole race state at one moment (`state` package, `RaceStateEngine`): the leader's lap, the flag
-(`GREEN`, `YELLOW`, `SAFETY_CAR`, `VSC`, `VSC_ENDING`, `RED`) and every car in race order, retired cars
-last. Gaps are seconds — to the leader and to the car ahead (`interval`) — measured where the car is: how
+(`GREEN`, `YELLOW`, `SAFETY_CAR`, `VSC`, `VSC_ENDING`, `RED`), the marshalling sectors under yellow
+(`yellowSectors`: `{"7": "DOUBLE_YELLOW"}`, from race control), whether DRS is enabled, the latest
+weather reading, and every car in race order, retired cars last. A car has `drs` when DRS is enabled
+and it's running within 1 s of the car ahead; `mandatoryStopDone` once it has used two different dry
+compounds (or any wet tyres). Gaps are seconds — to the leader and to the car ahead (`interval`) — measured where the car is: how
 long ago the other car was there; null for cars on the grid or retired, and frozen at the line once a car
 finishes. `tyreAge` counts laps on the current tyres including any they'd done before; `penaltySeconds`
 are time penalties so far (added after the race), `pendingPenalties` drive-throughs and stop-gos not yet
@@ -207,9 +216,10 @@ timing, and the rest starts from the nearest snapshot (every 5 s, every lap, eve
 
 #### `GET /api/sessions/{id}/replay/snapshots`
 
-The derived state (flag, and per car: tyres, pit stops, penalties) once per lap and at each key event
-(`reason`: `LAP`, `SAFETY_CAR`, `VSC`, `RED_FLAG`, `PIT_STOP`), in time order, so the browser can start
-from the nearest one when scrubbing. About 6 KB gzipped for a Grand Prix. `t` is milliseconds after the
+The derived state (flag, yellow sectors, DRS, and per car: tyres and the compounds used, pit stops,
+penalties) once per lap, at each key event and at **every change** (`reason`: `LAP`, `SAFETY_CAR`,
+`VSC`, `RED_FLAG`, `PIT_STOP`, `CHANGE`), in time order: the latest one at or before a moment is the
+derived state then, which is what the replay's overlays draw. About 14 KB gzipped for a Grand Prix. `t` is milliseconds after the
 replay's `clockStart`.
 
 ```json
@@ -217,6 +227,36 @@ replay's `clockStart`.
   "cars": {"14": {"compound": "MEDIUM", "stintLapStart": 1, "ageAtStart": 0, "pitStops": 0, "inPit": false,
                   "penaltySeconds": 0, "pendingPenalties": 0}}}]
 ```
+
+### Watch together (docs/adr/0005)
+
+#### `POST /api/watch` · `GET /api/watch/{watchId}`
+
+`POST {"sessionId": 5}` creates a watch session: one shared playback clock that everyone with the
+`watchId` follows. The creator is the host and gets the `hostKey` (keep it; share only the `watchId`).
+**201** `{"watchId": "qJ3x9Kd2", "hostKey": "…", "sessionId": 5}`. `GET` returns the clock (below),
+**404** for an unknown watch session. Sessions live in memory: they end when the backend restarts.
+
+#### STOMP over WebSocket at `/ws`
+
+| Frame | Destination | |
+|-------|-------------|--|
+| `SUBSCRIBE` | `/app/watch/{watchId}` | the current clock, at once (late joiners) |
+| `SUBSCRIBE` | `/topic/watch/{watchId}` | every change, in order |
+| `SUBSCRIBE` | `/topic/races/{raceId}/timeline` | `{"raceId": 39, "change": "TIMELINE"}` when the race's data was imported again (a race still being run, or a re-import): fetch its timeline, replay and snapshots again. Sent after the import commits |
+| `SEND` | `/app/watch/{watchId}/command` | `{"hostKey": "…", "action": "PLAY" \| "PAUSE" \| "SEEK" \| "SPEED", "value": 600000}` — `value` is race time in ms for `SEEK`, 0.25–8 for `SPEED`. Anything without the host key, or invalid, is ignored |
+
+The clock:
+
+```json
+{"watchId": "qJ3x9Kd2", "sessionId": 5, "seq": 4, "playing": true, "speed": 4.0, "positionMs": 600000,
+ "at": "2026-10-09T20:00:10Z", "serverTime": "2026-10-09T20:00:10.004Z"}
+```
+
+Race time now = `positionMs + (server now − at) × speed` while `playing` (ms after the replay's
+`clockStart`). `serverTime` lets a client estimate its clock's offset from the server's; `seq` orders
+the changes. The browser opens a watch session with "Watch together" on the replay page
+(`?watch={watchId}`); the host key stays in that tab.
 
 ### Timeline
 
@@ -290,6 +330,38 @@ when there is none). Stretches over 2 s without samples are listed in `gaps`, ne
 | 404 | Unknown session, a session without OpenF1 data, or a lap the car didn't do (import the race first) |
 | 502 | OpenF1 failed |
 
+#### `GET /api/sessions/{id}/telemetry/lap?driver={carNumber}&lap={lap}`
+
+One lap against **distance**, for the telemetry view (no `lap`: the driver's fastest complete lap).
+Downloads the car's telemetry first if needed (as above). `trace` points have `distance` (m from the
+line, integrated from speed), `time` (ms since the lap started) and the car data; the lap is pinned at
+both ends (time 0 and its lap time). `lapTime` and `sectors` are seconds; `tyre.age` counts laps on the
+tyres including any done before they were fitted. `estimates` are **models, not data**: fuel burned
+evenly from the 110 kg maximum, and MGU-K deployment (full throttle) / harvesting (braking) at 120 kW,
+capped at 4 MJ / 2 MJ a lap — `note` says so.
+
+```json
+{"sessionId": 5, "driver": 1, "lap": 39, "startsAt": "2024-03-02T16:05:28.544Z", "lapTime": 92.608,
+ "sectors": [29.741, 39.916, 22.951], "tyre": {"compound": "SOFT", "stint": 3, "age": 1},
+ "estimates": {"fuelKg": 36.7, "ersDeployedMj": 4.0, "ersHarvestedMj": 2.0, "note": "Estimates from simple models …"},
+ "distance": 5360.9,
+ "trace": [{"time": 0, "distance": 0.0, "speed": 286, "throttle": 100, "brake": 0, "gear": 7, "rpm": 11353, "drs": 0}]}
+```
+
+#### `GET /api/sessions/{id}/telemetry/compare?driver=1&lap=39&vs=16&vsLap=36`
+
+Two laps compared (no laps: each driver's fastest): both analyses, `lapDelta` and `sectorDeltas`
+(other − reference, seconds), and `delta` — at each point of the reference lap (`distance` m), how far
+behind (s; negative: ahead) the other lap was at the same share of its lap. It starts at 0 and ends at
+exactly `lapDelta`. Bahrain 2024, Verstappen's 1:32.608 against Leclerc's 1:34.090: ends at +1.482.
+
+| Status | When |
+|--------|------|
+| 200 | Found (telemetry downloaded now if it wasn't) |
+| 400 | `driver` / `vs` missing or outside 1–99 |
+| 404 | Unknown session, or a lap the car didn't do (or no timed lap at all) |
+| 502 | OpenF1 failed |
+
 ### Admin: imports
 
 > **Unsecured until Step 37** (Security), when they become ADMIN-only. Don't expose them publicly
@@ -333,6 +405,10 @@ from race-control messages, to the second. The report's notes say which was used
 a pit stop without a tyre change) are stored anyway and listed in `notes` as `ERROR …` / `WARNING …`.
 A race that has happened is marked imported, and later calls make no requests; a race still to come
 is refreshed (its timing replaced) each time.
+Each import records the importer's version (`races.import_version`; 2 since Step 26). A race imported
+by an older version is imported again when it's next opened: `POST …/import` answers `READY` at once
+(its pages work with what's there) and downloads it in the background, fetching its track map again
+too; when that ends, `/topic/races/{id}/timeline` tells open pages to reload.
 Races before 2023 have no OpenF1 data; the report says so.
 
 | Status | When |

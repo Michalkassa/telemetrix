@@ -6,7 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.event.EventListener;
+import org.springframework.core.annotation.Order;
+import org.springframework.transaction.event.TransactionalEventListener;
 import org.springframework.stereotype.Service;
 
 // A race session's timeline: every detector's events, in time order. Worked out once per session and
@@ -36,7 +37,10 @@ public class TimelineService {
 		return timelines.computeIfAbsent(sessionId, this::detect);
 	}
 
-	@EventListener
+	// after the import commits (a recompute before then would cache the old data); before the push to
+	// viewers (TimelineUpdates)
+	@TransactionalEventListener(fallbackExecution = true)
+	@Order(0)
 	public void onRaceImported(RaceImported imported) {
 		imported.sessionIds().forEach(timelines::remove);
 	}

@@ -27,7 +27,9 @@ class CircuitLayoutControllerTest {
 		var layout = new CircuitLayout("bahrain", 2024, CircuitLayout.Source.MULTIVIEWER, 90,
 				List.of(new Point(0, 0), new Point(100, 0), new Point(100, 100), new Point(0, 100)),
 				new double[] { 0.25, 0.75 }, CircuitLayout.SectorEndsSource.TRACK,
-				List.of(new CircuitLayout.Corner(1, 100, 0, 0.25)));
+				List.of(new CircuitLayout.Corner(1, 100, 0, 0.25)),
+				List.of(new CircuitLayout.MarshalSector(1, 0.0), new CircuitLayout.MarshalSector(2, 0.5)),
+				List.of(new Point(10, 0), new Point(20, 0)));
 		given(service.layout("bahrain", 2024)).willReturn(layout);
 
 		// rotated 90 degrees counter-clockwise for display: (x, y) -> (-y, x)
@@ -37,7 +39,9 @@ class CircuitLayoutControllerTest {
 				 "points": [[0.0, 0.0], [0.0, 100.0], [-100.0, 100.0], [-100.0, 0.0]],
 				 "startFinish": [0.0, 0.0],
 				 "sectorEnds": [0.25, 0.75], "sectorEndsSource": "TRACK",
-				 "corners": [{"number": 1, "x": 0.0, "y": 100.0, "progress": 0.25}]}
+				 "corners": [{"number": 1, "x": 0.0, "y": 100.0, "progress": 0.25}],
+				 "marshalSectors": [{"number": 1, "progress": 0.0}, {"number": 2, "progress": 0.5}],
+				 "pitLane": [[0.0, 10.0], [0.0, 20.0]]}
 				""");
 	}
 

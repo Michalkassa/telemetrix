@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 class RaceStateController {
 
 	record SnapshotResponse(long t, Instant at, int lap, SnapshotReason reason, Flag flag,
-			Map<Integer, DerivedState.Car> cars) {
+			Map<Integer, SectorFlag> yellowSectors, boolean drsEnabled, Map<Integer, DerivedState.Car> cars) {
 	}
 
 	private final RaceStateService states;
@@ -28,14 +28,16 @@ class RaceStateController {
 		return states.stateAt(id, at);
 	}
 
-	// The derived state (flag, tyres, pit stops, penalties) once per lap and at each key event, for the
-	// browser to start from when scrubbing. `t` is milliseconds after the replay's clockStart.
+	// The derived state (flag, yellow sectors, DRS, tyres, pit stops, penalties) once per lap, at each key
+	// event and at every change, for the browser: the latest one at or before a moment is the state then.
+	// `t` is milliseconds after the replay's clockStart.
 	@GetMapping("/api/sessions/{id}/replay/snapshots")
 	List<SnapshotResponse> snapshots(@PathVariable long id) {
 		long zero = states.clockStart(id).toEpochMilli();
 		return states.shippedSnapshots(id).stream()
 				.map(s -> new SnapshotResponse(s.at().toEpochMilli() - zero, s.at(), s.lap(), s.reason(),
-						s.state().flag(), new TreeMap<>(s.state().cars())))
+						s.state().flag(), new TreeMap<>(s.state().yellowSectors()), s.state().drsEnabled(),
+						new TreeMap<>(s.state().cars())))
 				.toList();
 	}
 

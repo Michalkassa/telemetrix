@@ -13,6 +13,8 @@ public record MultiviewerCircuit(
 		@JsonProperty("y") List<Integer> y,
 		@JsonProperty("rotation") Double rotation,
 		@JsonProperty("corners") List<Marker> corners,
+		// where each marshalling sector starts
+		@JsonProperty("marshalSectors") List<Marker> marshalSectors,
 		// the outline index where each mini-sector ends
 		@JsonProperty("miniSectorsIndexes") List<Integer> miniSectorsIndexes) {
 

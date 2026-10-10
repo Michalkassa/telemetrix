@@ -92,10 +92,23 @@ public class RaceImportCoordinator {
 	/** Called when a race page is opened: starts the download if it's needed. */
 	public ImportStatus open(long raceId) {
 		Race race = races.findById(raceId).orElseThrow(() -> new NotFoundException("Race", raceId));
-		if (race.getImportedAt() != null || race.getOpenf1MeetingKey() == null) {
-			return status(raceId); // downloaded for good, or nothing to download
+		if (race.getOpenf1MeetingKey() == null) {
+			return status(raceId); // nothing to download
 		}
-		// Single flight: compute() is atomic per race, so exactly one caller decides to start the download.
+		if (race.getImportedAt() != null) {
+			// downloaded; by an older importer, it's downloaded again in the background, while its pages
+			// work with what's there (when the import ends, open pages hear and reload: TimelineUpdates)
+			if (race.getImportVersion() < RaceImporter.IMPORT_VERSION) {
+				startDownload(raceId);
+			}
+			return status(raceId);
+		}
+		Attempt attempt = startDownload(raceId);
+		return new ImportStatus(raceId, attempt.state(), attempt.at(), attempt.message());
+	}
+
+	// Single flight: compute() is atomic per race, so exactly one caller decides to start the download.
+	private Attempt startDownload(long raceId) {
 		boolean[] started = { false };
 		Attempt attempt = attempts.compute(raceId, (id, existing) -> {
 			if (existing != null && (existing.state() == State.IMPORTING || isFresh(existing))) {
@@ -107,7 +120,7 @@ public class RaceImportCoordinator {
 		if (started[0]) {
 			background.execute(() -> download(raceId));
 		}
-		return new ImportStatus(raceId, attempt.state(), attempt.at(), attempt.message());
+		return attempt;
 	}
 
 	// A race still to come was downloaded recently: don't fetch it again on every open.

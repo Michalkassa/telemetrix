@@ -53,6 +53,9 @@ public class Race {
 	// When this race's data was fully downloaded (null: not yet, or the race hasn't happened yet)
 	private Instant importedAt;
 
+	@Column(nullable = false)
+	private short importVersion;
+
 	@OneToMany(mappedBy = "race", cascade = CascadeType.ALL, orphanRemoval = true)
 	@OrderBy("startsAt")
 	private List<Session> sessions = new ArrayList<>();
@@ -85,8 +88,14 @@ public class Race {
 		return changed;
 	}
 
-	public void markImported(Instant at) {
+	/** `version`: the importer's version (RaceImporter.IMPORT_VERSION), so a later one can tell. */
+	public void markImported(Instant at, int version) {
 		this.importedAt = at;
+		this.importVersion = (short) version;
+	}
+
+	public int getImportVersion() {
+		return importVersion;
 	}
 
 	// Keeps both sides of the relationship in step.

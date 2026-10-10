@@ -1,0 +1,22 @@
+{
+  "id": 39,
+  "season": 2023,
+  "round": 15,
+  "name": "Singapore Grand Prix",
+  "date": "2023-09-17",
+  "circuit": {
+    "ref": "marina_bay",
+    "name": "Marina Bay Street Circuit",
+    "locality": "Marina Bay",
+    "country": "Singapore"
+  },
+  "openf1MeetingKey": 1219,
+  "importedAt": "2026-10-09T21:46:01.099322Z",
+  "sessions": [
+    { "id": 11, "name": "Practice 1", "startsAt": "2023-09-15T09:30:00Z", "endsAt": "2023-09-15T10:30:00Z" },
+    { "id": 12, "name": "Practice 2", "startsAt": "2023-09-15T13:00:00Z", "endsAt": "2023-09-15T14:00:00Z" },
+    { "id": 13, "name": "Practice 3", "startsAt": "2023-09-16T09:30:00Z", "endsAt": "2023-09-16T10:30:00Z" },
+    { "id": 14, "name": "Qualifying", "startsAt": "2023-09-16T13:00:00Z", "endsAt": "2023-09-16T14:00:00Z" },
+    { "id": 15, "name": "Race", "startsAt": "2023-09-17T12:00:00Z", "endsAt": "2023-09-17T14:00:00Z" }
+  ]
+}

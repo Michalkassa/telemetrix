@@ -1,0 +1,2611 @@
+{
+  "raceId": 39,
+  "sessionId": 15,
+  "clockStart": "2023-09-17T12:03:44.658Z",
+  "events": [
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T11:13:15.176Z",
+      "t": -3029482,
+      "lap": 1,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 24, "code": "ZHO" }],
+      "summary": "Team radio: ZHO",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/GUAZHO01_24_20230917_121303.mp3"
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T11:56:04.711Z",
+      "t": -459947,
+      "lap": 1,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 1, "code": "VER" }],
+      "summary": "Team radio: VER",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/MAXVER01_1_20230917_125540.mp3"
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T12:00:34.238Z",
+      "t": -190420,
+      "lap": 1,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 1, "code": "VER" }],
+      "summary": "Team radio: VER",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/MAXVER01_1_20230917_130002.mp3"
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T12:00:34.238Z",
+      "t": -190420,
+      "lap": 1,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 31, "code": "OCO" }],
+      "summary": "Team radio: OCO",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/ESTOCO01_31_20230917_130022.mp3"
+    },
+    {
+      "type": "DNF",
+      "at": "2023-09-17T12:03:44.658Z",
+      "t": 0,
+      "lap": 1,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "HIGH",
+      "participants": [{ "number": 22, "code": "TSU" }],
+      "summary": "DNF: TSU (lap 1)",
+      "link": null
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T12:04:59.985Z",
+      "t": 75327,
+      "lap": 1,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 63, "code": "RUS" }],
+      "summary": "Team radio: RUS",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/GEORUS01_63_20230917_130449.mp3"
+    },
+    {
+      "type": "YELLOW_FLAG",
+      "at": "2023-09-17T12:05:21.391Z",
+      "t": 96733,
+      "lap": 1,
+      "endsAt": "2023-09-17T12:05:26.579Z",
+      "endLap": 1,
+      "severity": "LOW",
+      "participants": [],
+      "summary": "Yellow flag",
+      "link": null
+    },
+    {
+      "type": "YELLOW_FLAG",
+      "at": "2023-09-17T12:05:38Z",
+      "t": 113342,
+      "lap": 2,
+      "endsAt": "2023-09-17T12:05:55.516Z",
+      "endLap": 2,
+      "severity": "LOW",
+      "participants": [],
+      "summary": "Yellow flag",
+      "link": null
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T12:06:20.313Z",
+      "t": 155655,
+      "lap": 2,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 63, "code": "RUS" },
+        { "number": 44, "code": "HAM" }
+      ],
+      "summary": "RUS overtakes HAM for P3",
+      "link": null
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T12:06:29.313Z",
+      "t": 164655,
+      "lap": 2,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 1, "code": "VER" },
+        { "number": 27, "code": "HUL" }
+      ],
+      "summary": "VER overtakes HUL for P9",
+      "link": null
+    },
+    {
+      "type": "FASTEST_LAP",
+      "at": "2023-09-17T12:07:09.696Z",
+      "t": 205038,
+      "lap": 2,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 55, "code": "SAI" }],
+      "summary": "Fastest lap: SAI 1:41.383 (lap 2)",
+      "link": null
+    },
+    {
+      "type": "FASTEST_LAP",
+      "at": "2023-09-17T12:07:10.901Z",
+      "t": 206243,
+      "lap": 2,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 16, "code": "LEC" }],
+      "summary": "Fastest lap: LEC 1:41.338 (lap 2)",
+      "link": null
+    },
+    {
+      "type": "FASTEST_LAP",
+      "at": "2023-09-17T12:07:11.885Z",
+      "t": 207227,
+      "lap": 2,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 63, "code": "RUS" }],
+      "summary": "Fastest lap: RUS 1:41.103 (lap 2)",
+      "link": null
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T12:07:47.624Z",
+      "t": 242966,
+      "lap": 3,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 4, "code": "NOR" }],
+      "summary": "Team radio: NOR",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/LANNOR01_4_20230917_130714.mp3"
+    },
+    {
+      "type": "PIT_STOP",
+      "at": "2023-09-17T12:07:52.155Z",
+      "t": 247497,
+      "lap": 2,
+      "endsAt": "2023-09-17T12:08:22.155Z",
+      "endLap": 2,
+      "severity": "LOW",
+      "participants": [{ "number": 24, "code": "ZHO" }],
+      "summary": "Pit stop: ZHO (lap 2, 30.0 s in the pit lane)",
+      "link": null
+    },
+    {
+      "type": "TYRE_CHANGE",
+      "at": "2023-09-17T12:07:52.155Z",
+      "t": 247497,
+      "lap": 2,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 24, "code": "ZHO" }],
+      "summary": "ZHO: SOFT → HARD",
+      "link": null
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T12:08:20.313Z",
+      "t": 275655,
+      "lap": 3,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 1, "code": "VER" },
+        { "number": 20, "code": "MAG" }
+      ],
+      "summary": "VER overtakes MAG for P8",
+      "link": null
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T12:08:35.313Z",
+      "t": 290655,
+      "lap": 3,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 20, "code": "MAG" },
+        { "number": 1, "code": "VER" }
+      ],
+      "summary": "MAG overtakes VER for P8",
+      "link": null
+    },
+    {
+      "type": "INCIDENT",
+      "at": "2023-09-17T12:08:46Z",
+      "t": 301342,
+      "lap": 3,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [{ "number": 44, "code": "HAM" }],
+      "summary": "Incident: HAM — leaving the track and gaining an advantage",
+      "link": null
+    },
+    {
+      "type": "FASTEST_LAP",
+      "at": "2023-09-17T12:08:50.618Z",
+      "t": 305960,
+      "lap": 3,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 55, "code": "SAI" }],
+      "summary": "Fastest lap: SAI 1:40.962 (lap 3)",
+      "link": null
+    },
+    {
+      "type": "FASTEST_LAP",
+      "at": "2023-09-17T12:08:51.689Z",
+      "t": 307031,
+      "lap": 3,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 16, "code": "LEC" }],
+      "summary": "Fastest lap: LEC 1:40.752 (lap 3)",
+      "link": null
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T12:10:10.313Z",
+      "t": 385655,
+      "lap": 4,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 4, "code": "NOR" },
+        { "number": 44, "code": "HAM" }
+      ],
+      "summary": "NOR overtakes HAM for P4",
+      "link": null
+    },
+    {
+      "type": "FASTEST_LAP",
+      "at": "2023-09-17T12:10:31.188Z",
+      "t": 406530,
+      "lap": 4,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 55, "code": "SAI" }],
+      "summary": "Fastest lap: SAI 1:40.580 (lap 4)",
+      "link": null
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T12:10:35.919Z",
+      "t": 411261,
+      "lap": 5,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 44, "code": "HAM" }],
+      "summary": "Team radio: HAM",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/LEWHAM01_44_20230917_131017.mp3"
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T12:11:10.997Z",
+      "t": 446339,
+      "lap": 5,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 22, "code": "TSU" }],
+      "summary": "Team radio: TSU",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/YUKTSU01_22_20230917_131053.mp3"
+    },
+    {
+      "type": "FASTEST_LAP",
+      "at": "2023-09-17T12:11:12.648Z",
+      "t": 447990,
+      "lap": 4,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 24, "code": "ZHO" }],
+      "summary": "Fastest lap: ZHO 1:39.869 (lap 4)",
+      "link": null
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T12:13:35.313Z",
+      "t": 590655,
+      "lap": 6,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 1, "code": "VER" },
+        { "number": 20, "code": "MAG" }
+      ],
+      "summary": "VER overtakes MAG for P8",
+      "link": null
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T12:16:11.884Z",
+      "t": 747226,
+      "lap": 8,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 23, "code": "ALB" }],
+      "summary": "Team radio: ALB",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/ALEALB01_23_20230917_131550.mp3"
+    },
+    {
+      "type": "FASTEST_LAP",
+      "at": "2023-09-17T12:18:52.259Z",
+      "t": 907601,
+      "lap": 9,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 55, "code": "SAI" }],
+      "summary": "Fastest lap: SAI 1:39.626 (lap 9)",
+      "link": null
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T12:19:32.491Z",
+      "t": 947833,
+      "lap": 10,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 16, "code": "LEC" }],
+      "summary": "Team radio: LEC",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/CHALEC01_16_20230917_131913.mp3"
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T12:21:12.802Z",
+      "t": 1048144,
+      "lap": 11,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 55, "code": "SAI" }],
+      "summary": "Team radio: SAI",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/CARSAI01_55_20230917_132058.mp3"
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T12:24:33.331Z",
+      "t": 1248673,
+      "lap": 13,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 63, "code": "RUS" }],
+      "summary": "Team radio: RUS",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/GEORUS01_63_20230917_132140.mp3"
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T12:24:33.331Z",
+      "t": 1248673,
+      "lap": 13,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 16, "code": "LEC" }],
+      "summary": "Team radio: LEC",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/CHALEC01_16_20230917_132415.mp3"
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T12:26:13.612Z",
+      "t": 1348954,
+      "lap": 14,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 1, "code": "VER" }],
+      "summary": "Team radio: VER",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/MAXVER01_1_20230917_132539.mp3"
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T12:27:53.892Z",
+      "t": 1449234,
+      "lap": 15,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 16, "code": "LEC" }],
+      "summary": "Team radio: LEC",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/CHALEC01_16_20230917_132720.mp3"
+    },
+    {
+      "type": "FASTEST_LAP",
+      "at": "2023-09-17T12:28:56.114Z",
+      "t": 1511456,
+      "lap": 15,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 16, "code": "LEC" }],
+      "summary": "Fastest lap: LEC 1:39.613 (lap 15)",
+      "link": null
+    },
+    {
+      "type": "FASTEST_LAP",
+      "at": "2023-09-17T12:30:33.430Z",
+      "t": 1608772,
+      "lap": 16,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 55, "code": "SAI" }],
+      "summary": "Fastest lap: SAI 1:39.398 (lap 16)",
+      "link": null
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T12:31:49.514Z",
+      "t": 1684856,
+      "lap": 17,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 16, "code": "LEC" }],
+      "summary": "Team radio: LEC",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/CHALEC01_16_20230917_133119.mp3"
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T12:32:55.326Z",
+      "t": 1750668,
+      "lap": 18,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 63, "code": "RUS" }],
+      "summary": "Team radio: RUS",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/GEORUS01_63_20230917_133240.mp3"
+    },
+    {
+      "type": "FASTEST_LAP",
+      "at": "2023-09-17T12:33:52.318Z",
+      "t": 1807660,
+      "lap": 18,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 55, "code": "SAI" }],
+      "summary": "Fastest lap: SAI 1:38.992 (lap 18)",
+      "link": null
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T12:34:02.625Z",
+      "t": 1817967,
+      "lap": 19,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 81, "code": "PIA" }],
+      "summary": "Team radio: PIA",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/OSCPIA01_81_20230917_133316.mp3"
+    },
+    {
+      "type": "YELLOW_FLAG",
+      "at": "2023-09-17T12:35:03.902Z",
+      "t": 1879244,
+      "lap": 19,
+      "endsAt": "2023-09-17T12:35:23.762Z",
+      "endLap": 19,
+      "severity": "LOW",
+      "participants": [],
+      "summary": "Yellow flag",
+      "link": null
+    },
+    {
+      "type": "SAFETY_CAR",
+      "at": "2023-09-17T12:36:40.792Z",
+      "t": 1976134,
+      "lap": 20,
+      "endsAt": "2023-09-17T12:42:49.803Z",
+      "endLap": 22,
+      "severity": "HIGH",
+      "participants": [],
+      "summary": "Safety car",
+      "link": null
+    },
+    {
+      "type": "PIT_STOP",
+      "at": "2023-09-17T12:37:46.963Z",
+      "t": 2042305,
+      "lap": 19,
+      "endsAt": "2023-09-17T12:38:50.463Z",
+      "endLap": 19,
+      "severity": "LOW",
+      "participants": [{ "number": 2, "code": "SAR" }],
+      "summary": "Pit stop: SAR (lap 19, 63.5 s in the pit lane)",
+      "link": null
+    },
+    {
+      "type": "TYRE_CHANGE",
+      "at": "2023-09-17T12:37:46.963Z",
+      "t": 2042305,
+      "lap": 19,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 2, "code": "SAR" }],
+      "summary": "SAR: MEDIUM → HARD",
+      "link": null
+    },
+    {
+      "type": "PIT_STOP",
+      "at": "2023-09-17T12:37:49.400Z",
+      "t": 2044742,
+      "lap": 20,
+      "endsAt": "2023-09-17T12:38:18.800Z",
+      "endLap": 20,
+      "severity": "LOW",
+      "participants": [{ "number": 55, "code": "SAI" }],
+      "summary": "Pit stop: SAI (lap 20, 29.4 s in the pit lane)",
+      "link": null
+    },
+    {
+      "type": "TYRE_CHANGE",
+      "at": "2023-09-17T12:37:49.400Z",
+      "t": 2044742,
+      "lap": 20,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 55, "code": "SAI" }],
+      "summary": "SAI: MEDIUM → HARD",
+      "link": null
+    },
+    {
+      "type": "PIT_STOP",
+      "at": "2023-09-17T12:37:59.947Z",
+      "t": 2055289,
+      "lap": 20,
+      "endsAt": "2023-09-17T12:38:29.847Z",
+      "endLap": 20,
+      "severity": "LOW",
+      "participants": [{ "number": 63, "code": "RUS" }],
+      "summary": "Pit stop: RUS (lap 20, 29.9 s in the pit lane)",
+      "link": null
+    },
+    {
+      "type": "TYRE_CHANGE",
+      "at": "2023-09-17T12:37:59.947Z",
+      "t": 2055289,
+      "lap": 20,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 63, "code": "RUS" }],
+      "summary": "RUS: MEDIUM → HARD",
+      "link": null
+    },
+    {
+      "type": "PIT_STOP",
+      "at": "2023-09-17T12:38:01.291Z",
+      "t": 2056633,
+      "lap": 20,
+      "endsAt": "2023-09-17T12:38:30.691Z",
+      "endLap": 20,
+      "severity": "LOW",
+      "participants": [{ "number": 4, "code": "NOR" }],
+      "summary": "Pit stop: NOR (lap 20, 29.4 s in the pit lane)",
+      "link": null
+    },
+    {
+      "type": "TYRE_CHANGE",
+      "at": "2023-09-17T12:38:01.291Z",
+      "t": 2056633,
+      "lap": 20,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 4, "code": "NOR" }],
+      "summary": "NOR: MEDIUM → HARD",
+      "link": null
+    },
+    {
+      "type": "PIT_STOP",
+      "at": "2023-09-17T12:38:02.009Z",
+      "t": 2057351,
+      "lap": 20,
+      "endsAt": "2023-09-17T12:38:34.809Z",
+      "endLap": 20,
+      "severity": "LOW",
+      "participants": [{ "number": 16, "code": "LEC" }],
+      "summary": "Pit stop: LEC (lap 20, 32.8 s in the pit lane)",
+      "link": null
+    },
+    {
+      "type": "TYRE_CHANGE",
+      "at": "2023-09-17T12:38:02.009Z",
+      "t": 2057351,
+      "lap": 20,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 16, "code": "LEC" }],
+      "summary": "LEC: SOFT → HARD",
+      "link": null
+    },
+    {
+      "type": "PIT_STOP",
+      "at": "2023-09-17T12:38:06.900Z",
+      "t": 2062242,
+      "lap": 20,
+      "endsAt": "2023-09-17T12:38:39.500Z",
+      "endLap": 20,
+      "severity": "LOW",
+      "participants": [{ "number": 44, "code": "HAM" }],
+      "summary": "Pit stop: HAM (lap 20, 32.6 s in the pit lane)",
+      "link": null
+    },
+    {
+      "type": "TYRE_CHANGE",
+      "at": "2023-09-17T12:38:06.900Z",
+      "t": 2062242,
+      "lap": 20,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 44, "code": "HAM" }],
+      "summary": "HAM: MEDIUM → HARD",
+      "link": null
+    },
+    {
+      "type": "PIT_STOP",
+      "at": "2023-09-17T12:38:11.166Z",
+      "t": 2066508,
+      "lap": 20,
+      "endsAt": "2023-09-17T12:38:41.766Z",
+      "endLap": 20,
+      "severity": "LOW",
+      "participants": [{ "number": 14, "code": "ALO" }],
+      "summary": "Pit stop: ALO (lap 20, 30.6 s in the pit lane)",
+      "link": null
+    },
+    {
+      "type": "TYRE_CHANGE",
+      "at": "2023-09-17T12:38:11.166Z",
+      "t": 2066508,
+      "lap": 20,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 14, "code": "ALO" }],
+      "summary": "ALO: MEDIUM → HARD",
+      "link": null
+    },
+    {
+      "type": "PIT_STOP",
+      "at": "2023-09-17T12:38:13.447Z",
+      "t": 2068789,
+      "lap": 20,
+      "endsAt": "2023-09-17T12:38:43.147Z",
+      "endLap": 20,
+      "severity": "LOW",
+      "participants": [{ "number": 31, "code": "OCO" }],
+      "summary": "Pit stop: OCO (lap 20, 29.7 s in the pit lane)",
+      "link": null
+    },
+    {
+      "type": "TYRE_CHANGE",
+      "at": "2023-09-17T12:38:13.447Z",
+      "t": 2068789,
+      "lap": 20,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 31, "code": "OCO" }],
+      "summary": "OCO: MEDIUM → HARD",
+      "link": null
+    },
+    {
+      "type": "PIT_STOP",
+      "at": "2023-09-17T12:38:22.400Z",
+      "t": 2077742,
+      "lap": 20,
+      "endsAt": "2023-09-17T12:38:53.800Z",
+      "endLap": 20,
+      "severity": "LOW",
+      "participants": [{ "number": 20, "code": "MAG" }],
+      "summary": "Pit stop: MAG (lap 20, 31.4 s in the pit lane)",
+      "link": null
+    },
+    {
+      "type": "TYRE_CHANGE",
+      "at": "2023-09-17T12:38:22.400Z",
+      "t": 2077742,
+      "lap": 20,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 20, "code": "MAG" }],
+      "summary": "MAG: MEDIUM → HARD",
+      "link": null
+    },
+    {
+      "type": "PIT_STOP",
+      "at": "2023-09-17T12:38:26.353Z",
+      "t": 2081695,
+      "lap": 20,
+      "endsAt": "2023-09-17T12:38:58.153Z",
+      "endLap": 20,
+      "severity": "LOW",
+      "participants": [{ "number": 10, "code": "GAS" }],
+      "summary": "Pit stop: GAS (lap 20, 31.8 s in the pit lane)",
+      "link": null
+    },
+    {
+      "type": "TYRE_CHANGE",
+      "at": "2023-09-17T12:38:26.353Z",
+      "t": 2081695,
+      "lap": 20,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 10, "code": "GAS" }],
+      "summary": "GAS: MEDIUM → HARD",
+      "link": null
+    },
+    {
+      "type": "PIT_STOP",
+      "at": "2023-09-17T12:38:27.994Z",
+      "t": 2083336,
+      "lap": 20,
+      "endsAt": "2023-09-17T12:38:57.294Z",
+      "endLap": 20,
+      "severity": "LOW",
+      "participants": [{ "number": 81, "code": "PIA" }],
+      "summary": "Pit stop: PIA (lap 20, 29.3 s in the pit lane)",
+      "link": null
+    },
+    {
+      "type": "TYRE_CHANGE",
+      "at": "2023-09-17T12:38:27.994Z",
+      "t": 2083336,
+      "lap": 20,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 81, "code": "PIA" }],
+      "summary": "PIA: MEDIUM → HARD",
+      "link": null
+    },
+    {
+      "type": "PIT_STOP",
+      "at": "2023-09-17T12:38:28.665Z",
+      "t": 2084007,
+      "lap": 20,
+      "endsAt": "2023-09-17T12:39:00.965Z",
+      "endLap": 20,
+      "severity": "LOW",
+      "participants": [{ "number": 40, "code": "LAW" }],
+      "summary": "Pit stop: LAW (lap 20, 32.3 s in the pit lane)",
+      "link": null
+    },
+    {
+      "type": "TYRE_CHANGE",
+      "at": "2023-09-17T12:38:28.665Z",
+      "t": 2084007,
+      "lap": 20,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 40, "code": "LAW" }],
+      "summary": "LAW: MEDIUM → HARD",
+      "link": null
+    },
+    {
+      "type": "PIT_STOP",
+      "at": "2023-09-17T12:38:29.447Z",
+      "t": 2084789,
+      "lap": 20,
+      "endsAt": "2023-09-17T12:39:04.847Z",
+      "endLap": 20,
+      "severity": "LOW",
+      "participants": [{ "number": 27, "code": "HUL" }],
+      "summary": "Pit stop: HUL (lap 20, 35.4 s in the pit lane)",
+      "link": null
+    },
+    {
+      "type": "TYRE_CHANGE",
+      "at": "2023-09-17T12:38:29.447Z",
+      "t": 2084789,
+      "lap": 20,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 27, "code": "HUL" }],
+      "summary": "HUL: MEDIUM → HARD",
+      "link": null
+    },
+    {
+      "type": "PIT_STOP",
+      "at": "2023-09-17T12:38:30.056Z",
+      "t": 2085398,
+      "lap": 20,
+      "endsAt": "2023-09-17T12:39:00.156Z",
+      "endLap": 20,
+      "severity": "LOW",
+      "participants": [{ "number": 23, "code": "ALB" }],
+      "summary": "Pit stop: ALB (lap 20, 30.1 s in the pit lane)",
+      "link": null
+    },
+    {
+      "type": "TYRE_CHANGE",
+      "at": "2023-09-17T12:38:30.056Z",
+      "t": 2085398,
+      "lap": 20,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 23, "code": "ALB" }],
+      "summary": "ALB: MEDIUM → HARD",
+      "link": null
+    },
+    {
+      "type": "PIT_STOP",
+      "at": "2023-09-17T12:39:01.571Z",
+      "t": 2116913,
+      "lap": 20,
+      "endsAt": "2023-09-17T12:39:32.171Z",
+      "endLap": 20,
+      "severity": "LOW",
+      "participants": [{ "number": 24, "code": "ZHO" }],
+      "summary": "Pit stop: ZHO (lap 20, 30.6 s in the pit lane)",
+      "link": null
+    },
+    {
+      "type": "TYRE_CHANGE",
+      "at": "2023-09-17T12:39:01.571Z",
+      "t": 2116913,
+      "lap": 20,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 24, "code": "ZHO" }],
+      "summary": "ZHO: HARD → MEDIUM",
+      "link": null
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T12:39:40.805Z",
+      "t": 2156147,
+      "lap": 21,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 16, "code": "LEC" }],
+      "summary": "Team radio: LEC",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/CHALEC01_16_20230917_133931.mp3"
+    },
+    {
+      "type": "INCIDENT",
+      "at": "2023-09-17T12:39:51Z",
+      "t": 2166342,
+      "lap": 21,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [{ "number": 14, "code": "ALO" }],
+      "summary": "Incident: ALO — failing to follow race directors instructions – crossing the line at pit entry",
+      "link": null
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T12:42:27.303Z",
+      "t": 2322645,
+      "lap": 22,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 55, "code": "SAI" }],
+      "summary": "Team radio: SAI",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/CARSAI01_55_20230917_134156.mp3"
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T12:43:02.412Z",
+      "t": 2357754,
+      "lap": 22,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 44, "code": "HAM" }],
+      "summary": "Team radio: HAM",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/LEWHAM01_44_20230917_134223.mp3"
+    },
+    {
+      "type": "PENALTY",
+      "at": "2023-09-17T12:43:50Z",
+      "t": 2405342,
+      "lap": 23,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [{ "number": 14, "code": "ALO" }],
+      "summary": "5 s time penalty: ALO — failing to follow race directors instructions – crossing the line at pit entry",
+      "link": null
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T12:43:58.313Z",
+      "t": 2413655,
+      "lap": 23,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 44, "code": "HAM" },
+        { "number": 16, "code": "LEC" }
+      ],
+      "summary": "HAM overtakes LEC for P6",
+      "link": null
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T12:44:26.313Z",
+      "t": 2441655,
+      "lap": 23,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 63, "code": "RUS" },
+        { "number": 1, "code": "VER" }
+      ],
+      "summary": "RUS overtakes VER for P2",
+      "link": null
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T12:44:26.313Z",
+      "t": 2441655,
+      "lap": 23,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 4, "code": "NOR" },
+        { "number": 11, "code": "PER" }
+      ],
+      "summary": "NOR overtakes PER for P4",
+      "link": null
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T12:44:30.313Z",
+      "t": 2445655,
+      "lap": 23,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 20, "code": "MAG" },
+        { "number": 77, "code": "BOT" }
+      ],
+      "summary": "MAG overtakes BOT for P10",
+      "link": null
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T12:44:36.313Z",
+      "t": 2451655,
+      "lap": 23,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 10, "code": "GAS" },
+        { "number": 77, "code": "BOT" }
+      ],
+      "summary": "GAS overtakes BOT for P11",
+      "link": null
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T12:44:42.692Z",
+      "t": 2458034,
+      "lap": 23,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 27, "code": "HUL" }],
+      "summary": "Team radio: HUL",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/NICHUL01_27_20230917_134414.mp3"
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T12:44:46.313Z",
+      "t": 2461655,
+      "lap": 23,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 81, "code": "PIA" },
+        { "number": 77, "code": "BOT" }
+      ],
+      "summary": "PIA overtakes BOT for P12",
+      "link": null
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T12:45:00.313Z",
+      "t": 2475655,
+      "lap": 24,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 40, "code": "LAW" },
+        { "number": 77, "code": "BOT" }
+      ],
+      "summary": "LAW overtakes BOT for P13",
+      "link": null
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T12:45:05.313Z",
+      "t": 2480655,
+      "lap": 24,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 27, "code": "HUL" },
+        { "number": 77, "code": "BOT" }
+      ],
+      "summary": "HUL overtakes BOT for P14",
+      "link": null
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T12:45:25.313Z",
+      "t": 2500655,
+      "lap": 24,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 44, "code": "HAM" },
+        { "number": 11, "code": "PER" }
+      ],
+      "summary": "HAM overtakes PER for P5",
+      "link": null
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T12:45:27.313Z",
+      "t": 2502655,
+      "lap": 24,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 23, "code": "ALB" },
+        { "number": 77, "code": "BOT" }
+      ],
+      "summary": "ALB overtakes BOT for P15",
+      "link": null
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T12:45:33.313Z",
+      "t": 2508655,
+      "lap": 24,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 24, "code": "ZHO" },
+        { "number": 77, "code": "BOT" }
+      ],
+      "summary": "ZHO overtakes BOT for P16",
+      "link": null
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T12:46:08.313Z",
+      "t": 2543655,
+      "lap": 24,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 4, "code": "NOR" },
+        { "number": 1, "code": "VER" }
+      ],
+      "summary": "NOR overtakes VER for P3",
+      "link": null
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T12:47:02.313Z",
+      "t": 2597655,
+      "lap": 25,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 16, "code": "LEC" },
+        { "number": 11, "code": "PER" }
+      ],
+      "summary": "LEC overtakes PER for P6",
+      "link": null
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T12:47:28.161Z",
+      "t": 2623503,
+      "lap": 25,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 55, "code": "SAI" }],
+      "summary": "Team radio: SAI",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/CARSAI01_55_20230917_134649.mp3"
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T12:48:36.127Z",
+      "t": 2691469,
+      "lap": 26,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 11, "code": "PER" }],
+      "summary": "Team radio: PER",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/SERPER01_11_20230917_134757.mp3"
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T12:50:22.313Z",
+      "t": 2797655,
+      "lap": 27,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 44, "code": "HAM" },
+        { "number": 1, "code": "VER" }
+      ],
+      "summary": "HAM overtakes VER for P4",
+      "link": null
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T12:51:46.313Z",
+      "t": 2881655,
+      "lap": 28,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 20, "code": "MAG" },
+        { "number": 10, "code": "GAS" }
+      ],
+      "summary": "MAG overtakes GAS for P10",
+      "link": null
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T12:52:01.313Z",
+      "t": 2896655,
+      "lap": 28,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 16, "code": "LEC" },
+        { "number": 1, "code": "VER" }
+      ],
+      "summary": "LEC overtakes VER for P5",
+      "link": null
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T12:54:10.483Z",
+      "t": 3025825,
+      "lap": 29,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 63, "code": "RUS" }],
+      "summary": "Team radio: RUS",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/GEORUS01_63_20230917_135333.mp3"
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T12:56:24.856Z",
+      "t": 3160198,
+      "lap": 30,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 63, "code": "RUS" }],
+      "summary": "Team radio: RUS",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/GEORUS01_63_20230917_135551.mp3"
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T13:00:52.244Z",
+      "t": 3427586,
+      "lap": 33,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 1, "code": "VER" }],
+      "summary": "Team radio: VER",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/MAXVER01_1_20230917_135804.mp3"
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T13:00:52.646Z",
+      "t": 3427988,
+      "lap": 33,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 63, "code": "RUS" }],
+      "summary": "Team radio: RUS",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/GEORUS01_63_20230917_140022.mp3"
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T13:05:39.313Z",
+      "t": 3714655,
+      "lap": 36,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 10, "code": "GAS" },
+        { "number": 20, "code": "MAG" }
+      ],
+      "summary": "GAS overtakes MAG for P10",
+      "link": null
+    },
+    {
+      "type": "INCIDENT",
+      "at": "2023-09-17T13:05:41Z",
+      "t": 3716342,
+      "lap": 36,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 10, "code": "GAS" },
+        { "number": 20, "code": "MAG" }
+      ],
+      "summary": "Incident: GAS, MAG — forcing another driver off the track",
+      "link": null
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T13:05:41.313Z",
+      "t": 3716655,
+      "lap": 36,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 81, "code": "PIA" },
+        { "number": 20, "code": "MAG" }
+      ],
+      "summary": "PIA overtakes MAG for P11",
+      "link": null
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T13:05:53.313Z",
+      "t": 3728655,
+      "lap": 36,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 40, "code": "LAW" },
+        { "number": 20, "code": "MAG" }
+      ],
+      "summary": "LAW overtakes MAG for P12",
+      "link": null
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T13:06:01.313Z",
+      "t": 3736655,
+      "lap": 36,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 27, "code": "HUL" },
+        { "number": 20, "code": "MAG" }
+      ],
+      "summary": "HUL overtakes MAG for P13",
+      "link": null
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T13:06:12.313Z",
+      "t": 3747655,
+      "lap": 36,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 23, "code": "ALB" },
+        { "number": 20, "code": "MAG" }
+      ],
+      "summary": "ALB overtakes MAG for P14",
+      "link": null
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T13:06:28.313Z",
+      "t": 3763655,
+      "lap": 37,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 24, "code": "ZHO" },
+        { "number": 20, "code": "MAG" }
+      ],
+      "summary": "ZHO overtakes MAG for P15",
+      "link": null
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T13:07:43.313Z",
+      "t": 3838655,
+      "lap": 37,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 31, "code": "OCO" },
+        { "number": 14, "code": "ALO" }
+      ],
+      "summary": "OCO overtakes ALO for P8",
+      "link": null
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T13:08:41.895Z",
+      "t": 3897237,
+      "lap": 38,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 55, "code": "SAI" }],
+      "summary": "Team radio: SAI",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/CARSAI01_55_20230917_140828.mp3"
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T13:09:14.879Z",
+      "t": 3930221,
+      "lap": 38,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 11, "code": "PER" }],
+      "summary": "Team radio: PER",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/SERPER01_11_20230917_140907.mp3"
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T13:09:49.066Z",
+      "t": 3964408,
+      "lap": 39,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 63, "code": "RUS" }],
+      "summary": "Team radio: RUS",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/GEORUS01_63_20230917_140935.mp3"
+    },
+    {
+      "type": "PIT_STOP",
+      "at": "2023-09-17T13:12:23.111Z",
+      "t": 4118453,
+      "lap": 39,
+      "endsAt": "2023-09-17T13:12:52.011Z",
+      "endLap": 39,
+      "severity": "LOW",
+      "participants": [{ "number": 11, "code": "PER" }],
+      "summary": "Pit stop: PER (lap 39, 28.9 s in the pit lane)",
+      "link": null
+    },
+    {
+      "type": "TYRE_CHANGE",
+      "at": "2023-09-17T13:12:23.111Z",
+      "t": 4118453,
+      "lap": 39,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 11, "code": "PER" }],
+      "summary": "PER: HARD → MEDIUM",
+      "link": null
+    },
+    {
+      "type": "PIT_STOP",
+      "at": "2023-09-17T13:13:51.688Z",
+      "t": 4207030,
+      "lap": 40,
+      "endsAt": "2023-09-17T13:14:21.288Z",
+      "endLap": 40,
+      "severity": "LOW",
+      "participants": [{ "number": 1, "code": "VER" }],
+      "summary": "Pit stop: VER (lap 40, 29.6 s in the pit lane)",
+      "link": null
+    },
+    {
+      "type": "TYRE_CHANGE",
+      "at": "2023-09-17T13:13:51.688Z",
+      "t": 4207030,
+      "lap": 40,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 1, "code": "VER" }],
+      "summary": "VER: HARD → MEDIUM",
+      "link": null
+    },
+    {
+      "type": "PIT_STOP",
+      "at": "2023-09-17T13:14:18.391Z",
+      "t": 4233733,
+      "lap": 40,
+      "endsAt": "2023-09-17T13:14:48.791Z",
+      "endLap": 40,
+      "severity": "LOW",
+      "participants": [{ "number": 77, "code": "BOT" }],
+      "summary": "Pit stop: BOT (lap 40, 30.4 s in the pit lane)",
+      "link": null
+    },
+    {
+      "type": "TYRE_CHANGE",
+      "at": "2023-09-17T13:14:18.391Z",
+      "t": 4233733,
+      "lap": 40,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 77, "code": "BOT" }],
+      "summary": "BOT: HARD → MEDIUM",
+      "link": null
+    },
+    {
+      "type": "FASTEST_LAP",
+      "at": "2023-09-17T13:15:39.879Z",
+      "t": 4315221,
+      "lap": 41,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 11, "code": "PER" }],
+      "summary": "Fastest lap: PER 1:38.551 (lap 41)",
+      "link": null
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T13:16:29.686Z",
+      "t": 4365028,
+      "lap": 43,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 14, "code": "ALO" }],
+      "summary": "Team radio: ALO",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/FERALO01_14_20230917_141557.mp3"
+    },
+    {
+      "type": "DNF",
+      "at": "2023-09-17T13:16:50.170Z",
+      "t": 4385512,
+      "lap": 43,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "HIGH",
+      "participants": [{ "number": 31, "code": "OCO" }],
+      "summary": "DNF: OCO (lap 43)",
+      "link": null
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T13:17:04.201Z",
+      "t": 4399543,
+      "lap": 43,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 63, "code": "RUS" }],
+      "summary": "Team radio: RUS",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/GEORUS01_63_20230917_141635.mp3"
+    },
+    {
+      "type": "FASTEST_LAP",
+      "at": "2023-09-17T13:17:06.806Z",
+      "t": 4402148,
+      "lap": 42,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 1, "code": "VER" }],
+      "summary": "Fastest lap: VER 1:37.713 (lap 42)",
+      "link": null
+    },
+    {
+      "type": "YELLOW_FLAG",
+      "at": "2023-09-17T13:17:10.529Z",
+      "t": 4405871,
+      "lap": 43,
+      "endsAt": "2023-09-17T13:18:06.044Z",
+      "endLap": 44,
+      "severity": "LOW",
+      "participants": [],
+      "summary": "Yellow flag",
+      "link": null
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T13:17:38.498Z",
+      "t": 4433840,
+      "lap": 43,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 31, "code": "OCO" }],
+      "summary": "Team radio: OCO",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/ESTOCO01_31_20230917_141721.mp3"
+    },
+    {
+      "type": "VSC",
+      "at": "2023-09-17T13:18:06.044Z",
+      "t": 4461386,
+      "lap": 44,
+      "endsAt": "2023-09-17T13:21:44.183Z",
+      "endLap": 45,
+      "severity": "MEDIUM",
+      "participants": [],
+      "summary": "Virtual safety car",
+      "link": null
+    },
+    {
+      "type": "PIT_STOP",
+      "at": "2023-09-17T13:19:21.934Z",
+      "t": 4537276,
+      "lap": 43,
+      "endsAt": "2023-09-17T13:19:51.634Z",
+      "endLap": 43,
+      "severity": "LOW",
+      "participants": [{ "number": 23, "code": "ALB" }],
+      "summary": "Pit stop: ALB (lap 43, 29.7 s in the pit lane)",
+      "link": null
+    },
+    {
+      "type": "TYRE_CHANGE",
+      "at": "2023-09-17T13:19:21.934Z",
+      "t": 4537276,
+      "lap": 43,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 23, "code": "ALB" }],
+      "summary": "ALB: HARD → MEDIUM",
+      "link": null
+    },
+    {
+      "type": "PIT_STOP",
+      "at": "2023-09-17T13:19:37.637Z",
+      "t": 4552979,
+      "lap": 43,
+      "endsAt": "2023-09-17T13:20:10.637Z",
+      "endLap": 43,
+      "severity": "LOW",
+      "participants": [{ "number": 20, "code": "MAG" }],
+      "summary": "Pit stop: MAG (lap 43, 33.0 s in the pit lane)",
+      "link": null
+    },
+    {
+      "type": "TYRE_CHANGE",
+      "at": "2023-09-17T13:19:37.637Z",
+      "t": 4552979,
+      "lap": 43,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 20, "code": "MAG" }],
+      "summary": "MAG: HARD → SOFT",
+      "link": null
+    },
+    {
+      "type": "PIT_STOP",
+      "at": "2023-09-17T13:19:49.215Z",
+      "t": 4564557,
+      "lap": 43,
+      "endsAt": "2023-09-17T13:20:20.215Z",
+      "endLap": 43,
+      "severity": "LOW",
+      "participants": [{ "number": 2, "code": "SAR" }],
+      "summary": "Pit stop: SAR (lap 43, 31.0 s in the pit lane)",
+      "link": null
+    },
+    {
+      "type": "TYRE_CHANGE",
+      "at": "2023-09-17T13:19:49.215Z",
+      "t": 4564557,
+      "lap": 43,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 2, "code": "SAR" }],
+      "summary": "SAR: HARD → MEDIUM",
+      "link": null
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T13:20:25.105Z",
+      "t": 4600447,
+      "lap": 45,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 63, "code": "RUS" }],
+      "summary": "Team radio: RUS",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/GEORUS01_63_20230917_142007.mp3"
+    },
+    {
+      "type": "PIT_STOP",
+      "at": "2023-09-17T13:20:52.511Z",
+      "t": 4627853,
+      "lap": 44,
+      "endsAt": "2023-09-17T13:21:22.511Z",
+      "endLap": 44,
+      "severity": "LOW",
+      "participants": [{ "number": 63, "code": "RUS" }],
+      "summary": "Pit stop: RUS (lap 44, 30.0 s in the pit lane)",
+      "link": null
+    },
+    {
+      "type": "TYRE_CHANGE",
+      "at": "2023-09-17T13:20:52.511Z",
+      "t": 4627853,
+      "lap": 44,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 63, "code": "RUS" }],
+      "summary": "RUS: HARD → MEDIUM",
+      "link": null
+    },
+    {
+      "type": "PIT_STOP",
+      "at": "2023-09-17T13:20:58.339Z",
+      "t": 4633681,
+      "lap": 44,
+      "endsAt": "2023-09-17T13:21:31.839Z",
+      "endLap": 44,
+      "severity": "LOW",
+      "participants": [{ "number": 44, "code": "HAM" }],
+      "summary": "Pit stop: HAM (lap 44, 33.5 s in the pit lane)",
+      "link": null
+    },
+    {
+      "type": "TYRE_CHANGE",
+      "at": "2023-09-17T13:20:58.339Z",
+      "t": 4633681,
+      "lap": 44,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 44, "code": "HAM" }],
+      "summary": "HAM: HARD → MEDIUM",
+      "link": null
+    },
+    {
+      "type": "PIT_STOP",
+      "at": "2023-09-17T13:21:52.432Z",
+      "t": 4687774,
+      "lap": 44,
+      "endsAt": "2023-09-17T13:22:45.132Z",
+      "endLap": 44,
+      "severity": "LOW",
+      "participants": [{ "number": 14, "code": "ALO" }],
+      "summary": "Pit stop: ALO (lap 44, 52.7 s in the pit lane)",
+      "link": null
+    },
+    {
+      "type": "TYRE_CHANGE",
+      "at": "2023-09-17T13:21:52.432Z",
+      "t": 4687774,
+      "lap": 44,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 14, "code": "ALO" }],
+      "summary": "ALO: HARD → SOFT",
+      "link": null
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T13:22:05.557Z",
+      "t": 4700899,
+      "lap": 45,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 27, "code": "HUL" }],
+      "summary": "Team radio: HUL",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/NICHUL01_27_20230917_142158.mp3"
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T13:22:40.119Z",
+      "t": 4735461,
+      "lap": 46,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 16, "code": "LEC" }],
+      "summary": "Team radio: LEC",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/CHALEC01_16_20230917_142213.mp3"
+    },
+    {
+      "type": "FASTEST_LAP",
+      "at": "2023-09-17T13:24:18.268Z",
+      "t": 4833610,
+      "lap": 46,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 63, "code": "RUS" }],
+      "summary": "Fastest lap: RUS 1:36.273 (lap 46)",
+      "link": null
+    },
+    {
+      "type": "YELLOW_FLAG",
+      "at": "2023-09-17T13:24:47.384Z",
+      "t": 4862726,
+      "lap": 47,
+      "endsAt": "2023-09-17T13:25:03.305Z",
+      "endLap": 47,
+      "severity": "LOW",
+      "participants": [],
+      "summary": "Yellow flag",
+      "link": null
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T13:24:52.313Z",
+      "t": 4867655,
+      "lap": 47,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 77, "code": "BOT" },
+        { "number": 14, "code": "ALO" }
+      ],
+      "summary": "BOT overtakes ALO for P15",
+      "link": null
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T13:24:58.313Z",
+      "t": 4873655,
+      "lap": 47,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 2, "code": "SAR" },
+        { "number": 14, "code": "ALO" }
+      ],
+      "summary": "SAR overtakes ALO for P16",
+      "link": null
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T13:25:32.313Z",
+      "t": 4907655,
+      "lap": 47,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 1, "code": "VER" },
+        { "number": 24, "code": "ZHO" }
+      ],
+      "summary": "VER overtakes ZHO for P10",
+      "link": null
+    },
+    {
+      "type": "FASTEST_LAP",
+      "at": "2023-09-17T13:25:59.157Z",
+      "t": 4934499,
+      "lap": 47,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 44, "code": "HAM" }],
+      "summary": "Fastest lap: HAM 1:35.867 (lap 47)",
+      "link": null
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T13:27:07.085Z",
+      "t": 5002427,
+      "lap": 48,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 55, "code": "SAI" }],
+      "summary": "Team radio: SAI",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/CARSAI01_55_20230917_142659.mp3"
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T13:27:07.313Z",
+      "t": 5002655,
+      "lap": 48,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 1, "code": "VER" },
+        { "number": 27, "code": "HUL" }
+      ],
+      "summary": "VER overtakes HUL for P9",
+      "link": null
+    },
+    {
+      "type": "INCIDENT",
+      "at": "2023-09-17T13:29:59Z",
+      "t": 5174342,
+      "lap": 50,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 11, "code": "PER" },
+        { "number": 23, "code": "ALB" }
+      ],
+      "summary": "Incident: PER, ALB — vsc infringement",
+      "link": null
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T13:30:53.313Z",
+      "t": 5228655,
+      "lap": 51,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 1, "code": "VER" },
+        { "number": 40, "code": "LAW" }
+      ],
+      "summary": "VER overtakes LAW for P8",
+      "link": null
+    },
+    {
+      "type": "DNF",
+      "at": "2023-09-17T13:33:26.378Z",
+      "t": 5381720,
+      "lap": 52,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "HIGH",
+      "participants": [{ "number": 77, "code": "BOT" }],
+      "summary": "DNF: BOT (lap 52)",
+      "link": null
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T13:33:33.313Z",
+      "t": 5388655,
+      "lap": 52,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 23, "code": "ALB" },
+        { "number": 24, "code": "ZHO" }
+      ],
+      "summary": "ALB overtakes ZHO for P11",
+      "link": null
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T13:34:04.313Z",
+      "t": 5419655,
+      "lap": 53,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 11, "code": "PER" },
+        { "number": 24, "code": "ZHO" }
+      ],
+      "summary": "PER overtakes ZHO for P12",
+      "link": null
+    },
+    {
+      "type": "YELLOW_FLAG",
+      "at": "2023-09-17T13:34:42.361Z",
+      "t": 5457703,
+      "lap": 53,
+      "endsAt": "2023-09-17T13:34:44.783Z",
+      "endLap": 53,
+      "severity": "LOW",
+      "participants": [],
+      "summary": "Yellow flag",
+      "link": null
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T13:35:12.313Z",
+      "t": 5487655,
+      "lap": 53,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 63, "code": "RUS" },
+        { "number": 16, "code": "LEC" }
+      ],
+      "summary": "RUS overtakes LEC for P3",
+      "link": null
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T13:35:16.313Z",
+      "t": 5491655,
+      "lap": 53,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 23, "code": "ALB" },
+        { "number": 27, "code": "HUL" }
+      ],
+      "summary": "ALB overtakes HUL for P10",
+      "link": null
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T13:35:24.313Z",
+      "t": 5499655,
+      "lap": 53,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 11, "code": "PER" },
+        { "number": 27, "code": "HUL" }
+      ],
+      "summary": "PER overtakes HUL for P11",
+      "link": null
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T13:36:02.313Z",
+      "t": 5537655,
+      "lap": 54,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 44, "code": "HAM" },
+        { "number": 16, "code": "LEC" }
+      ],
+      "summary": "HAM overtakes LEC for P4",
+      "link": null
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T13:37:19.313Z",
+      "t": 5614655,
+      "lap": 55,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 1, "code": "VER" },
+        { "number": 81, "code": "PIA" }
+      ],
+      "summary": "VER overtakes PIA for P7",
+      "link": null
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T13:37:40.126Z",
+      "t": 5635468,
+      "lap": 55,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 77, "code": "BOT" }],
+      "summary": "Team radio: BOT",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/VALBOT01_77_20230917_143709.mp3"
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T13:38:14.031Z",
+      "t": 5669373,
+      "lap": 55,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 44, "code": "HAM" }],
+      "summary": "Team radio: HAM",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/LEWHAM01_44_20230917_143747.mp3"
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T13:40:28.154Z",
+      "t": 5803496,
+      "lap": 57,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 16, "code": "LEC" }],
+      "summary": "Team radio: LEC",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/CHALEC01_16_20230917_143958.mp3"
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T13:41:03.247Z",
+      "t": 5838589,
+      "lap": 57,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 55, "code": "SAI" }],
+      "summary": "Team radio: SAI",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/CARSAI01_55_20230917_144032.mp3"
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T13:42:12.313Z",
+      "t": 5907655,
+      "lap": 58,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 1, "code": "VER" },
+        { "number": 10, "code": "GAS" }
+      ],
+      "summary": "VER overtakes GAS for P6",
+      "link": null
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T13:42:43.543Z",
+      "t": 5938885,
+      "lap": 58,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 4, "code": "NOR" }],
+      "summary": "Team radio: NOR",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/LANNOR01_4_20230917_144218.mp3"
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T13:43:18.652Z",
+      "t": 5973994,
+      "lap": 58,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 55, "code": "SAI" }],
+      "summary": "Team radio: SAI",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/CARSAI01_55_20230917_144255.mp3"
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T13:43:30.313Z",
+      "t": 5985655,
+      "lap": 58,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 11, "code": "PER" },
+        { "number": 23, "code": "ALB" }
+      ],
+      "summary": "PER overtakes ALB for P10",
+      "link": null
+    },
+    {
+      "type": "YELLOW_FLAG",
+      "at": "2023-09-17T13:44:06.230Z",
+      "t": 6021572,
+      "lap": 59,
+      "endsAt": "2023-09-17T13:44:26.792Z",
+      "endLap": 59,
+      "severity": "LOW",
+      "participants": [],
+      "summary": "Yellow flag",
+      "link": null
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T13:44:22.313Z",
+      "t": 6037655,
+      "lap": 59,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 27, "code": "HUL" },
+        { "number": 23, "code": "ALB" }
+      ],
+      "summary": "HUL overtakes ALB for P11",
+      "link": null
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T13:44:26.313Z",
+      "t": 6041655,
+      "lap": 59,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 24, "code": "ZHO" },
+        { "number": 23, "code": "ALB" }
+      ],
+      "summary": "ZHO overtakes ALB for P12",
+      "link": null
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T13:44:28.313Z",
+      "t": 6043655,
+      "lap": 59,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 20, "code": "MAG" },
+        { "number": 23, "code": "ALB" }
+      ],
+      "summary": "MAG overtakes ALB for P13",
+      "link": null
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T13:45:11.313Z",
+      "t": 6086655,
+      "lap": 59,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 20, "code": "MAG" },
+        { "number": 24, "code": "ZHO" }
+      ],
+      "summary": "MAG overtakes ZHO for P12",
+      "link": null
+    },
+    {
+      "type": "INCIDENT",
+      "at": "2023-09-17T13:45:13Z",
+      "t": 6088342,
+      "lap": 59,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 11, "code": "PER" },
+        { "number": 23, "code": "ALB" }
+      ],
+      "summary": "Incident: PER, ALB — causing a collision",
+      "link": null
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T13:45:23.313Z",
+      "t": 6098655,
+      "lap": 60,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 23, "code": "ALB" },
+        { "number": 24, "code": "ZHO" }
+      ],
+      "summary": "ALB overtakes ZHO for P13",
+      "link": null
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T13:46:04.306Z",
+      "t": 6139648,
+      "lap": 60,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 16, "code": "LEC" }],
+      "summary": "Team radio: LEC",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/CHALEC01_16_20230917_144551.mp3"
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T13:46:44.313Z",
+      "t": 6179655,
+      "lap": 60,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 20, "code": "MAG" },
+        { "number": 27, "code": "HUL" }
+      ],
+      "summary": "MAG overtakes HUL for P11",
+      "link": null
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T13:46:53.313Z",
+      "t": 6188655,
+      "lap": 60,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 23, "code": "ALB" },
+        { "number": 27, "code": "HUL" }
+      ],
+      "summary": "ALB overtakes HUL for P12",
+      "link": null
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T13:46:54.313Z",
+      "t": 6189655,
+      "lap": 60,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 11, "code": "PER" },
+        { "number": 40, "code": "LAW" }
+      ],
+      "summary": "PER overtakes LAW for P9",
+      "link": null
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T13:48:19.492Z",
+      "t": 6274834,
+      "lap": 61,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 44, "code": "HAM" }],
+      "summary": "Team radio: HAM",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/LEWHAM01_44_20230917_144803.mp3"
+    },
+    {
+      "type": "INCIDENT",
+      "at": "2023-09-17T13:48:42Z",
+      "t": 6297342,
+      "lap": 61,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 11, "code": "PER" },
+        { "number": 40, "code": "LAW" }
+      ],
+      "summary": "Incident: PER, LAW — causing a collision",
+      "link": null
+    },
+    {
+      "type": "DNF",
+      "at": "2023-09-17T13:48:43.979Z",
+      "t": 6299321,
+      "lap": 62,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "HIGH",
+      "participants": [{ "number": 63, "code": "RUS" }],
+      "summary": "DNF: RUS (lap 62)",
+      "link": null
+    },
+    {
+      "type": "OVERTAKE",
+      "at": "2023-09-17T13:49:38.313Z",
+      "t": 6353655,
+      "lap": 62,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "MEDIUM",
+      "participants": [
+        { "number": 24, "code": "ZHO" },
+        { "number": 27, "code": "HUL" }
+      ],
+      "summary": "ZHO overtakes HUL for P13",
+      "link": null
+    },
+    {
+      "type": "YELLOW_FLAG",
+      "at": "2023-09-17T13:49:38.398Z",
+      "t": 6353740,
+      "lap": 62,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [],
+      "summary": "Yellow flag",
+      "link": null
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T13:50:34.897Z",
+      "t": 6410239,
+      "lap": 62,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 63, "code": "RUS" }],
+      "summary": "Team radio: RUS",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/GEORUS01_63_20230917_145001.mp3"
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T13:51:40.214Z",
+      "t": 6475556,
+      "lap": 62,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 55, "code": "SAI" }],
+      "summary": "Team radio: SAI",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/CARSAI01_55_20230917_145110.mp3"
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T13:52:47.099Z",
+      "t": 6542441,
+      "lap": 62,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 4, "code": "NOR" }],
+      "summary": "Team radio: NOR",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/LANNOR01_4_20230917_145200.mp3"
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T13:53:21.161Z",
+      "t": 6576503,
+      "lap": 62,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 44, "code": "HAM" }],
+      "summary": "Team radio: HAM",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/LEWHAM01_44_20230917_145306.mp3"
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T13:55:03.003Z",
+      "t": 6678345,
+      "lap": 62,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 4, "code": "NOR" }],
+      "summary": "Team radio: NOR",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/LANNOR01_4_20230917_145420.mp3"
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T13:55:03.287Z",
+      "t": 6678629,
+      "lap": 62,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 55, "code": "SAI" }],
+      "summary": "Team radio: SAI",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/CARSAI01_55_20230917_145442.mp3"
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T13:56:10.846Z",
+      "t": 6746188,
+      "lap": 62,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 16, "code": "LEC" }],
+      "summary": "Team radio: LEC",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/CHALEC01_16_20230917_145547.mp3"
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T13:56:45.955Z",
+      "t": 6781297,
+      "lap": 62,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 44, "code": "HAM" }],
+      "summary": "Team radio: HAM",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/LEWHAM01_44_20230917_145611.mp3"
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T13:58:01.642Z",
+      "t": 6856984,
+      "lap": 62,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 63, "code": "RUS" }],
+      "summary": "Team radio: RUS",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/GEORUS01_63_20230917_145729.mp3"
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T13:58:01.642Z",
+      "t": 6856984,
+      "lap": 62,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 1, "code": "VER" }],
+      "summary": "Team radio: VER",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/MAXVER01_1_20230917_145743.mp3"
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T13:58:01.642Z",
+      "t": 6856984,
+      "lap": 62,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 81, "code": "PIA" }],
+      "summary": "Team radio: PIA",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/OSCPIA01_81_20230917_145840.mp3"
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T13:58:01.642Z",
+      "t": 6856984,
+      "lap": 62,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 10, "code": "GAS" }],
+      "summary": "Team radio: GAS",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/PIEGAS01_10_20230917_145936.mp3"
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T13:58:01.642Z",
+      "t": 6856984,
+      "lap": 62,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 20, "code": "MAG" }],
+      "summary": "Team radio: MAG",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/KEVMAG01_20_20230917_150041.mp3"
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T13:58:01.642Z",
+      "t": 6856984,
+      "lap": 62,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 24, "code": "ZHO" }],
+      "summary": "Team radio: ZHO",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/GUAZHO01_24_20230917_150120.mp3"
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T13:58:01.642Z",
+      "t": 6856984,
+      "lap": 62,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 27, "code": "HUL" }],
+      "summary": "Team radio: HUL",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/NICHUL01_27_20230917_150135.mp3"
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T13:58:01.642Z",
+      "t": 6856984,
+      "lap": 62,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 11, "code": "PER" }],
+      "summary": "Team radio: PER",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/SERPER01_11_20230917_150344.mp3"
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T13:58:01.642Z",
+      "t": 6856984,
+      "lap": 62,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 23, "code": "ALB" }],
+      "summary": "Team radio: ALB",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/ALEALB01_23_20230917_150442.mp3"
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T13:58:01.642Z",
+      "t": 6856984,
+      "lap": 62,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 2, "code": "SAR" }],
+      "summary": "Team radio: SAR",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/LOGSAR01_2_20230917_150657.mp3"
+    },
+    {
+      "type": "TEAM_RADIO",
+      "at": "2023-09-17T13:58:01.642Z",
+      "t": 6856984,
+      "lap": 62,
+      "endsAt": null,
+      "endLap": null,
+      "severity": "LOW",
+      "participants": [{ "number": 40, "code": "LAW" }],
+      "summary": "Team radio: LAW",
+      "link": "https://livetiming.formula1.com/static/2023/2023-09-17_Singapore_Grand_Prix/2023-09-17_Race/TeamRadio/LIALAW01_40_20230917_150631.mp3"
+    }
+  ]
+}

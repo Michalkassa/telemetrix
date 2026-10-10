@@ -55,4 +55,19 @@ describe('postJson', () => {
       expect.objectContaining({ method: 'POST' }),
     )
   })
+
+  test('sends a body as JSON', async () => {
+    const fetchMock = respond(201, { watchId: 'w1' })
+
+    await postJson('/api/watch', { sessionId: 5 })
+
+    expect(fetchMock).toHaveBeenCalledWith(
+      expect.stringMatching(/\/api\/watch$/),
+      expect.objectContaining({
+        method: 'POST',
+        body: '{"sessionId":5}',
+        headers: expect.objectContaining({ 'Content-Type': 'application/json' }),
+      }),
+    )
+  })
 })

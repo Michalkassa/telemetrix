@@ -26,6 +26,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class RaceImporter {
 
+	/**
+	 * What this importer downloads, as a version: 1 timing and track maps (Steps 12-14); 2 also race
+	 * control, weather, track status, team radio (Step 21) and the map's marshal sectors and pit lane
+	 * (Step 26). A race imported by an older version is imported again when it's next opened.
+	 */
+	public static final int IMPORT_VERSION = 2;
+
 	private static final Logger log = LoggerFactory.getLogger(RaceImporter.class);
 
 	// Sessions replayed on the track map: their laps, stints and pit stops are downloaded too.
@@ -65,8 +72,13 @@ public class RaceImporter {
 		Race race = races.findById(raceId).orElseThrow(() -> new NotFoundException("Race", raceId));
 		var report = ImportReport.builder();
 		String what = "Race " + raceId + " (" + race.getSeason().getYear() + " " + race.getName() + ")";
-		if (race.getImportedAt() != null) {
+		boolean outdated = race.getImportedAt() != null && race.getImportVersion() < IMPORT_VERSION;
+		if (race.getImportedAt() != null && !outdated) {
 			return report.note(what + " already imported at " + race.getImportedAt()).build();
+		}
+		if (outdated) {
+			report.note(what + " imported again: it was imported by importer version " + race.getImportVersion()
+					+ ", this is version " + IMPORT_VERSION);
 		}
 		if (race.getOpenf1MeetingKey() == null) {
 			return report.note(what + ": no OpenF1 data (OpenF1 starts in " + OpenF1Client.FIRST_SEASON + ")")
@@ -100,11 +112,14 @@ public class RaceImporter {
 			}
 		}
 		if (mapSession != null) {
+			if (outdated) {
+				layouts.forget(race); // fetched again, with what this version adds to a map
+			}
 			layouts.ensureLayout(race, mapSession, mapSegments, report);
 		}
 
 		if (race.getRaceDate().isBefore(LocalDate.now(clock))) {
-			race.markImported(clock.instant());
+			race.markImported(clock.instant(), IMPORT_VERSION);
 		}
 		// anything worked out from this race's data (its timeline) is out of date now
 		publisher.publishEvent(new RaceImported(raceId, race.getSessions().stream().map(Session::getId).toList()));

@@ -7,7 +7,10 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   server: {
     // the backend in development: same origin for the browser, so no CORS
-    proxy: { '/api': 'http://localhost:8080' },
+    proxy: {
+      '/api': 'http://localhost:8080',
+      '/ws': { target: 'ws://localhost:8080', ws: true }, // watch-together (docs/adr/0005)
+    },
   },
   test: {
     environment: 'jsdom',

@@ -7,9 +7,13 @@ import java.util.List;
 // GET /api/sessions/{id}/replay: the whole race at once, for the browser to play like a video
 // (docs/adr/0004). Times are milliseconds after `clockStart`; `laps` are laps done (9.25 = a quarter of
 // the way round lap 10), interpolated linearly between consecutive points. Pit windows are in the same
-// milliseconds.
+// milliseconds, and so is each weather reading's `t` (°C, %, m/s).
 public record ReplayResponse(long sessionId, long raceId, String session, Instant clockStart, Instant chequeredAt,
-		int totalLaps, LayoutResponse layout, List<Driver> drivers, List<CarTiming> timing) {
+		int totalLaps, LayoutResponse layout, List<Driver> drivers, List<CarTiming> timing, List<Weather> weather) {
+
+	public record Weather(long t, Double airTemperature, Double trackTemperature, Double humidity, boolean rainfall,
+			Double windSpeed) {
+	}
 
 	public record Driver(int number, String code, String name, String team, String teamColour) {
 	}

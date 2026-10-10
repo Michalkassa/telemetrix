@@ -23,6 +23,12 @@
 		</dependency>
 
 		<!-- Database: JPA/Hibernate for Java objects <-> tables, Flyway for schema migrations -->
+		<!-- Watch-together: STOMP over WebSocket (docs/adr/0005) -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-websocket</artifactId>
+		</dependency>
+
 		<!-- /actuator/health: Docker Compose's healthcheck -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

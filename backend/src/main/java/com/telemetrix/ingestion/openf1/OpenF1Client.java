@@ -66,6 +66,16 @@ public class OpenF1Client {
 				}).orElse(List.of());
 	}
 
+	/** GET /location?session_key=&driver_number=&date>=&date<= — one car's positions between two moments. */
+	public List<OpenF1Location> locations(int sessionKey, int driverNumber, java.time.Instant from,
+			java.time.Instant to) {
+		var query = new LinkedHashMap<String, Object>(sessionAndCar(sessionKey, driverNumber));
+		query.put("date>", from.toString());
+		query.put("date<", to.toString());
+		return http.get("/location", query, new ParameterizedTypeReference<List<OpenF1Location>>() {
+		}).orElse(List.of());
+	}
+
 	// in a fixed order, so the request URL is predictable
 	private static Map<String, Integer> sessionAndCar(int sessionKey, int driverNumber) {
 		var query = new LinkedHashMap<String, Integer>();

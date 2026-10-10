@@ -976,15 +976,15 @@ what a future live mode would use.
 pauses or scrubs.
 
 <!-- features:24 -->
-**Checks off (0/7):**
+**Checks off (5/7):**
 
 - [ ] `STACK-03` Spring WebFlux
-- [ ] `FE-09` WebSockets
-- [ ] `REPLAY-06` Support pause/resume
-- [ ] `WS-01` Live replay stream
+- [x] `FE-09` WebSockets
+- [x] `REPLAY-06` Support pause/resume
+- [x] `WS-01` Live replay stream
 - [ ] `WS-02` Telemetry updates
-- [ ] `TEST-09` Replay pipeline
-- [ ] `NFR-01` Replay latency < 100ms
+- [x] `TEST-09` Replay pipeline
+- [x] `NFR-01` Replay latency < 100ms
 <!-- /features -->
 
 ---
@@ -1008,22 +1008,22 @@ player). Add Playwright tests for the controls.
 followed driver stays centred.
 
 <!-- features:25 -->
-**Checks off (0/14):**
+**Checks off (14/14):**
 
-- [ ] `PLAY-03` Rewind
-- [ ] `PLAY-04` Fast forward
-- [ ] `PLAY-05` Jump to lap
-- [ ] `PLAY-06` Jump to timestamp
-- [ ] `PLAY-07` Variable playback speed
-- [ ] `PLAY-08` Auto-follow selected driver
-- [ ] `PLAY-09` Multi-driver camera focus mode
-- [ ] `PLAY-10` Timeline scrubbing
-- [ ] `FE-05` Zustand
-- [ ] `NAV-04` Replay Theater — jump straight to watching a race's animated playback.
-- [ ] `NAV-09` Replay Theater: /replay (year → GP picker) → reuses the race-hub replay leaf.
-- [ ] `FETEST-04` Playwright
-- [ ] `FETEST-05` Timeline controls
-- [ ] `FETEST-09` State management
+- [x] `PLAY-03` Rewind
+- [x] `PLAY-04` Fast forward
+- [x] `PLAY-05` Jump to lap
+- [x] `PLAY-06` Jump to timestamp
+- [x] `PLAY-07` Variable playback speed
+- [x] `PLAY-08` Auto-follow selected driver
+- [x] `PLAY-09` Multi-driver camera focus mode
+- [x] `PLAY-10` Timeline scrubbing
+- [x] `FE-05` Zustand
+- [x] `NAV-04` Replay Theater — jump straight to watching a race's animated playback.
+- [x] `NAV-09` Replay Theater: /replay (year → GP picker) → reuses the race-hub replay leaf.
+- [x] `FETEST-04` Playwright
+- [x] `FETEST-05` Timeline controls
+- [x] `FETEST-09` State management
 <!-- /features -->
 
 ---
@@ -1047,27 +1047,27 @@ weather badge, sector markers and a mini-map. Use D3 scales and colours for cons
 control messages.
 
 <!-- features:26 -->
-**Checks off (0/19):**
+**Checks off (19/19):**
 
-- [ ] `TRACK-03` Real-time sector coloring
-- [ ] `TRACK-05` Gap visualization
-- [ ] `TRACK-06` DRS indicators
-- [ ] `TRACK-07` Pit lane rendering
-- [ ] `TRACK-08` Safety car visualization
-- [ ] `TRACK-09` Yellow flag visualization
-- [ ] `TRACK-10` Weather overlays
-- [ ] `TRACK-11` Track sectors
-- [ ] `TRACK-12` Mini-map mode
-- [ ] `STATE-02` Gap calculations
-- [ ] `STATE-03` Tire states
-- [ ] `STATE-04` Active penalties
-- [ ] `STATE-05` Current flags
-- [ ] `STATE-06` Pit window status
-- [ ] `FE-07` D3.js
-- [ ] `FRAME-02` Track state
-- [ ] `FRAME-04` Current flags
-- [ ] `FRAME-05` Weather state
-- [ ] `FRAME-06` Gap data
+- [x] `TRACK-03` Real-time sector coloring
+- [x] `TRACK-05` Gap visualization
+- [x] `TRACK-06` DRS indicators
+- [x] `TRACK-07` Pit lane rendering
+- [x] `TRACK-08` Safety car visualization
+- [x] `TRACK-09` Yellow flag visualization
+- [x] `TRACK-10` Weather overlays
+- [x] `TRACK-11` Track sectors
+- [x] `TRACK-12` Mini-map mode
+- [x] `STATE-02` Gap calculations
+- [x] `STATE-03` Tire states
+- [x] `STATE-04` Active penalties
+- [x] `STATE-05` Current flags
+- [x] `STATE-06` Pit window status
+- [x] `FE-07` D3.js
+- [x] `FRAME-02` Track state
+- [x] `FRAME-04` Current flags
+- [x] `FRAME-05` Weather state
+- [x] `FRAME-06` Gap data
 <!-- /features -->
 
 ---
@@ -1091,22 +1091,22 @@ drivers. Charts follow the replay clock.
 **Check it:** compare two drivers' fastest laps; the delta trace ends at their lap-time difference.
 
 <!-- features:27 -->
-**Checks off (0/14):**
+**Checks off (14/14):**
 
-- [ ] `TELE-01` Speed graph
-- [ ] `TELE-02` Throttle graph
-- [ ] `TELE-03` Brake graph
-- [ ] `TELE-04` Gear display
-- [ ] `TELE-05` RPM estimate
-- [ ] `TELE-06` Tire compound
-- [ ] `TELE-07` Tire age
-- [ ] `TELE-08` Tire stint
-- [ ] `TELE-09` Fuel estimate
-- [ ] `TELE-10` ERS estimate
-- [ ] `TELE-11` Sector deltas
-- [ ] `TELE-12` Lap delta comparisons
-- [ ] `FE-10` Recharts
-- [ ] `FETEST-07` Telemetry rendering
+- [x] `TELE-01` Speed graph
+- [x] `TELE-02` Throttle graph
+- [x] `TELE-03` Brake graph
+- [x] `TELE-04` Gear display
+- [x] `TELE-05` RPM estimate
+- [x] `TELE-06` Tire compound
+- [x] `TELE-07` Tire age
+- [x] `TELE-08` Tire stint
+- [x] `TELE-09` Fuel estimate
+- [x] `TELE-10` ERS estimate
+- [x] `TELE-11` Sector deltas
+- [x] `TELE-12` Lap delta comparisons
+- [x] `FE-10` Recharts
+- [x] `FETEST-07` Telemetry rendering
 <!-- /features -->
 
 ---
@@ -1129,10 +1129,10 @@ updates over the WebSocket.
 **Check it:** Playwright: click "Safety car" and the player seeks there, with all views in sync.
 
 <!-- features:28 -->
-**Checks off (0/2):**
+**Checks off (2/2):**
 
-- [ ] `WS-03` Timeline synchronization
-- [ ] `FETEST-06` Playback synchronization
+- [x] `WS-03` Timeline synchronization
+- [x] `FETEST-06` Playback synchronization
 <!-- /features -->
 
 ---

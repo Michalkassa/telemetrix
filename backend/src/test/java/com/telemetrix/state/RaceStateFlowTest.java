@@ -119,6 +119,44 @@ class RaceStateFlowTest {
 	}
 
 	@Test
+	void yellowSectorsMatchRaceControlAndTheSafetyCarShows() {
+		// 12:35:04 yellow, then double yellow in sector 7; cleared 12:35:24; the safety car from 12:36:41
+		assertThat(state("2023-09-17T12:35:10Z").get("yellowSectors")).isEqualTo(Map.of("7", "DOUBLE_YELLOW"));
+		assertThat(state("2023-09-17T12:35:30Z").get("yellowSectors")).isEqualTo(Map.of());
+		Map<String, Object> underSc = state("2023-09-17T12:38:00Z");
+		assertThat(underSc.get("flag")).isEqualTo("SAFETY_CAR");
+		assertThat(state("2023-09-17T13:30:00Z").get("weather")).isInstanceOf(Map.class);
+	}
+
+	@Test
+	void theBrowserGetsASnapshotAtEveryChange() {
+		List<Map<String, Object>> snapshots = http.get().uri("/api/sessions/" + sessionId + "/replay/snapshots")
+				.exchange().expectStatus().isOk()
+				.expectBody(new ParameterizedTypeReference<List<Map<String, Object>>>() {
+				}).returnResult().getResponseBody();
+
+		var changes = snapshots.stream().filter(s -> s.get("reason").equals("CHANGE")).toList();
+		assertThat(changes).isNotEmpty();
+		assertThat(changes).anySatisfy(s -> assertThat(s.get("yellowSectors")).isEqualTo(Map.of("7", "DOUBLE_YELLOW")));
+		assertThat(changes).anySatisfy(s -> assertThat(s.get("drsEnabled")).isEqualTo(true));
+	}
+
+	@Test
+	@SuppressWarnings("unchecked")
+	void theReplayCarriesTheWeatherForTheOverlay() {
+		Map<String, Object> replay = http.get().uri("/api/sessions/" + sessionId + "/replay").exchange()
+				.expectStatus().isOk()
+				.expectBody(new ParameterizedTypeReference<Map<String, Object>>() {
+				}).returnResult().getResponseBody();
+
+		List<Map<String, Object>> weather = (List<Map<String, Object>>) replay.get("weather");
+		assertThat(weather).hasSize(176);
+		// the first reading, 11:01:24.028, an hour before the replay clock's zero (12:03:44.658)
+		assertThat(weather.getFirst()).containsEntry("t", -3_740_630).containsEntry("airTemperature", 30.0)
+				.containsEntry("trackTemperature", 38.3).containsEntry("rainfall", false);
+	}
+
+	@Test
 	void anyMomentAnswersQuickly() {
 		state("2023-09-17T12:30:00Z"); // warm up: the first request loads the race
 		long started = System.nanoTime();

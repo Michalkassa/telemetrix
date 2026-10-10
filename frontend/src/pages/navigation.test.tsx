@@ -27,7 +27,7 @@ describe('landing page', () => {
 })
 
 describe('dashboard', () => {
-  test('offers four lenses, with Grand Prix open for now', async () => {
+  test('offers four lenses, with Grand Prix and Replay Theater open for now', async () => {
     renderRoute('/dashboard')
 
     const cards = screen.getAllByRole('article')
@@ -38,7 +38,8 @@ describe('dashboard', () => {
       'Replay Theater',
     ])
     expect(screen.getByRole('link', { name: /grand prix/i })).toHaveAttribute('href', '/races')
-    expect(screen.getAllByText(/coming soon/i)).toHaveLength(3)
+    expect(screen.getByRole('link', { name: /replay theater/i })).toHaveAttribute('href', '/replay')
+    expect(screen.getAllByText(/coming soon/i)).toHaveLength(2)
   })
 })
 
@@ -135,5 +136,47 @@ describe('race page', () => {
     expect(await screen.findByRole('heading', { level: 1, name: 'British Grand Prix' })).toBeInTheDocument()
     expect(screen.queryByRole('link', { name: /watch replay/i })).not.toBeInTheDocument()
     expect(screen.getByText(/replays start in 2023/i)).toBeInTheDocument()
+  })
+})
+
+describe('Replay Theater', () => {
+  test('/replay opens the newest season that has races', async () => {
+    const { router } = renderRoute('/replay')
+
+    await waitFor(() => expect(router.state.location.pathname).toBe('/replay/2024'))
+  })
+
+  test("lists the season's races that have a replay, each going straight to it", async () => {
+    server.use(
+      http.get('/api/seasons/2024/races', () =>
+        HttpResponse.json({
+          ...races2024,
+          races: [{ ...races2024.races[0], hasOpenF1Data: false }, ...races2024.races.slice(1)],
+        }),
+      ),
+    )
+    renderRoute('/replay/2024')
+
+    const items = within(await screen.findByRole('list', { name: 'Replays' })).getAllByRole('listitem')
+    expect(items.map((li) => within(li).getByRole('link').textContent)).toEqual([
+      expect.stringContaining('Saudi Arabian Grand Prix'),
+      expect.stringContaining('Australian Grand Prix'),
+    ])
+    expect(within(items[0]).getByRole('link')).toHaveAttribute('href', '/races/2024/2/replay')
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Replay Theater')
+  })
+
+  test('the season picker offers the seasons with replays and changes the URL', async () => {
+    const { router } = renderRoute('/replay/2024')
+    const picker = await screen.findByLabelText(/season/i)
+    await screen.findByRole('option', { name: '2023' })
+
+    expect(
+      within(picker)
+        .getAllByRole('option')
+        .map((o) => o.textContent),
+    ).toEqual(['2024', '2023'])
+    await userEvent.selectOptions(picker, '2023')
+    await waitFor(() => expect(router.state.location.pathname).toBe('/replay/2023'))
   })
 })

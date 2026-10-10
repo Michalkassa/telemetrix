@@ -34,7 +34,9 @@ public record RaceData(Instant clockStart, Instant chequeredAt, int totalLaps, M
 	public record RadioClip(int car, Instant at, String url) {
 	}
 
-	public record Weather(Instant at, boolean rainfall) {
+	/** °C, %, m/s; null when not measured. */
+	public record Weather(Instant at, boolean rainfall, Double airTemperature, Double trackTemperature, Double humidity,
+			Double windSpeed) {
 	}
 
 	/** A car's code ("VER"), or its number when the driver isn't known. */

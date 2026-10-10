@@ -40,3 +40,16 @@ export function progressAt(car: Timeline, t: number): number {
   const share = (t - times[lo]) / (times[hi] - times[lo])
   return laps[lo] + share * (laps[hi] - laps[lo])
 }
+
+/** When the car first had `laps` laps done (10: completed lap 10); null if it never did. */
+export function reachedAt(car: Timeline, laps: number): number | null {
+  const { t: times, laps: done } = car
+  for (let i = 0; i < done.length; i++) {
+    if (done[i] >= laps) {
+      if (i === 0 || done[i] === done[i - 1]) return times[i]
+      const share = (laps - done[i - 1]) / (done[i] - done[i - 1])
+      return times[i - 1] + Math.round(share * (times[i] - times[i - 1]))
+    }
+  }
+  return null
+}

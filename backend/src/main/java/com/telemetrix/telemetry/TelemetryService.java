@@ -1,5 +1,6 @@
 package com.telemetrix.telemetry;
 
+import com.telemetrix.cache.Caches;
 import com.telemetrix.common.NotFoundException;
 import com.telemetrix.ingestion.openf1.OpenF1Client;
 import com.telemetrix.race.Session;
@@ -10,6 +11,7 @@ import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.concurrent.ConcurrentHashMap;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 // One car's telemetry in one session, downloaded from OpenF1 the first time it is asked for (2
@@ -47,7 +49,12 @@ public class TelemetryService {
 		this.clock = clock;
 	}
 
-	/** One lap of one car, or (lap null) the whole session. */
+	/**
+	 * One lap of one car, or (lap null) the whole session. A lap is cached in Redis (docs/adr/0008): the
+	 * hot telemetry; a whole session is too big to.
+	 */
+	@Cacheable(cacheNames = Caches.TELEMETRY_LAPS, key = "#sessionId + ':' + #driver + ':' + #lap",
+			condition = "#lap != null")
 	public TelemetryResponse telemetry(long sessionId, int driver, Integer lap) {
 		Session session = sessions.findById(sessionId).orElseThrow(() -> new NotFoundException("Session", sessionId));
 		if (session.getOpenf1SessionKey() == null) {

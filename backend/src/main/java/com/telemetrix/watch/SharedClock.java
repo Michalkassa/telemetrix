@@ -29,6 +29,26 @@ class SharedClock {
 
 	private long seq;
 
+	/** The clock as stored between commands (WatchStore). */
+	record Saved(String watchId, long sessionId, long seq, boolean playing, double speed, long anchorMs,
+			Instant anchorAt) {
+	}
+
+	SharedClock(Saved saved, Clock clock) {
+		this.watchId = saved.watchId();
+		this.sessionId = saved.sessionId();
+		this.clock = clock;
+		this.seq = saved.seq();
+		this.playing = saved.playing();
+		this.speed = saved.speed();
+		this.anchorMs = saved.anchorMs();
+		this.anchorAt = saved.anchorAt();
+	}
+
+	synchronized Saved saved() {
+		return new Saved(watchId, sessionId, seq, playing, speed, anchorMs, anchorAt);
+	}
+
 	SharedClock(String watchId, long sessionId, Clock clock) {
 		this.watchId = watchId;
 		this.sessionId = sessionId;

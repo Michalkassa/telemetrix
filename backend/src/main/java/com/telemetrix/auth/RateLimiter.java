@@ -1,61 +1,62 @@
 package com.telemetrix.auth;
 
 import io.github.bucket4j.Bandwidth;
-import io.github.bucket4j.Bucket;
+import io.github.bucket4j.BucketConfiguration;
 import io.github.bucket4j.ConsumptionProbe;
 import io.github.bucket4j.TimeMeter;
+import io.github.bucket4j.distributed.ExpirationAfterWriteStrategy;
+import io.github.bucket4j.distributed.proxy.ProxyManager;
+import io.github.bucket4j.redis.lettuce.Bucket4jLettuce;
+import io.lettuce.core.RedisClient;
+import io.lettuce.core.codec.ByteArrayCodec;
+import io.lettuce.core.codec.RedisCodec;
+import io.lettuce.core.codec.StringCodec;
 import java.time.Clock;
 import java.time.Duration;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
-// A token bucket per caller (Bucket4j, in memory; Step 38 can move them to Redis for several instances):
-// `perMinute` requests, refilled steadily through the minute. Time is the injected clock. Remembers at most
-// `maxCallers` callers, forgetting the least recent (a forgotten caller starts with a full bucket).
+// A token bucket per caller (Bucket4j) kept in Redis (docs/adr/0008), so every instance enforces the
+// same limit and a restart doesn't hand out fresh allowances: `perMinute` requests, refilled steadily
+// through the minute. Time is the injected clock. A bucket is dropped from Redis a minute after it would
+// be full again, so idle callers cost nothing.
 final class RateLimiter {
 
 	/** `retryAfterSeconds`: when refused, how long until the next request would be allowed. */
 	record Decision(boolean allowed, long remaining, long retryAfterSeconds) {
 	}
 
-	private final TimeMeter time;
+	private final ProxyManager<String> buckets;
 
-	private final Map<String, Bucket> buckets;
+	RateLimiter(ProxyManager<String> buckets) {
+		this.buckets = buckets;
+	}
 
-	RateLimiter(Clock clock, int maxCallers) {
-		this.time = new TimeMeter() {
+	/** Buckets in the Redis that `client` connects to ("rate:<caller>"), on `clock`'s time. */
+	static ProxyManager<String> redisBuckets(RedisClient client, Clock clock) {
+		var connection = client.connect(RedisCodec.of(StringCodec.UTF8, ByteArrayCodec.INSTANCE));
+		return Bucket4jLettuce.casBasedBuilder(connection)
+				.clientClock(new TimeMeter() {
 
-			@Override
-			public long currentTimeNanos() {
-				var now = clock.instant();
-				return now.getEpochSecond() * 1_000_000_000L + now.getNano();
-			}
+					@Override
+					public long currentTimeNanos() {
+						var now = clock.instant();
+						return now.getEpochSecond() * 1_000_000_000L + now.getNano();
+					}
 
-			@Override
-			public boolean isWallClockBased() {
-				return true;
-			}
+					@Override
+					public boolean isWallClockBased() {
+						return true;
+					}
 
-		};
-		this.buckets = new LinkedHashMap<>(16, 0.75f, true) {
-
-			@Override
-			protected boolean removeEldestEntry(Map.Entry<String, Bucket> eldest) {
-				return size() > maxCallers;
-			}
-
-		};
+				})
+				.expirationAfterWrite(ExpirationAfterWriteStrategy.basedOnTimeForRefillingBucketUpToMax(Duration.ofMinutes(1)))
+				.build();
 	}
 
 	Decision tryRequest(String caller, long perMinute) {
-		Bucket bucket;
-		synchronized (buckets) {
-			bucket = buckets.computeIfAbsent(caller, c -> Bucket.builder()
-					.addLimit(Bandwidth.builder().capacity(perMinute).refillGreedy(perMinute, Duration.ofMinutes(1)).build())
-					.withCustomTimePrecision(time)
-					.build());
-		}
-		ConsumptionProbe probe = bucket.tryConsumeAndReturnRemaining(1);
+		ConsumptionProbe probe = buckets.getProxy("rate:" + caller, () -> BucketConfiguration.builder()
+				.addLimit(Bandwidth.builder().capacity(perMinute).refillGreedy(perMinute, Duration.ofMinutes(1)).build())
+				.build())
+				.tryConsumeAndReturnRemaining(1);
 		long wait = Duration.ofNanos(probe.getNanosToWaitForRefill()).toMillis();
 		return new Decision(probe.isConsumed(), probe.getRemainingTokens(), probe.isConsumed() ? 0 : (wait + 999) / 1000);
 	}

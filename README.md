@@ -24,7 +24,10 @@ log can be queried, and the state at any event number inspected (time travel). *
 ([`docs/adr/0007`](docs/adr/0007-security-jwt-github-api-keys.md)): reading is open to everyone; signing
 in with GitHub issues the app's own JWTs (RS256, refreshable), and roles USER / ANALYST / ADMIN come from
 allowlists of GitHub logins (the event log needs ANALYST, imports and rebuilds ADMIN). Scripts use API
-keys; every caller is rate limited (429), and hostile input is refused before it reaches a query. The React frontend has the landing page, dashboard, the **Seasons** lens (`/seasons`: a year grid, then each
+keys; every caller is rate limited (429), and hostile input is refused before it reaches a query.
+**Redis** ([`docs/adr/0008`](docs/adr/0008-redis-cache-and-shared-state.md)) caches timelines, replays,
+playback snapshots, standings and lap telemetry for every instance, and holds the watch-together sessions
+(they survive a restart and work across instances) and the rate-limit buckets. The React frontend has the landing page, dashboard, the **Seasons** lens (`/seasons`: a year grid, then each
 season's hub with drivers' and constructors' standings, a race-by-race results grid linking every
 result to its race, the race list, and points-progression comparisons of two drivers across seasons),
 the **Drivers & Teams** lens (`/drivers` and `/teams`: searchable directories, a driver hub with
@@ -86,10 +89,10 @@ checks that the stack is healthy; `docker compose down` stops it (add `-v` to wi
 
 ### For development
 
-From the repo root, start the database:
+From the repo root, start the database and Redis:
 
 ```bash
-docker compose up -d --wait        # starts postgres:16 and waits until it is healthy
+docker compose up -d --wait postgres redis   # postgres:16 and redis:7.4, waits until they're healthy
 ```
 
 Then, from `backend/`, run the app:
@@ -187,7 +190,7 @@ journey) and are driven inward with unit tests. The rules and the test tools for
 
 ## Where to start implementing
 
-Follow [`STEPS.md`](STEPS.md) from **Step 38** (Redis caching; Step 20, CI, is still to do), using [`templates/README.md`](templates/README.md) as the reference for each Spring
+Follow [`STEPS.md`](STEPS.md) from **Step 39** (TimescaleDB for telemetry; Step 20, CI, is still to do), using [`templates/README.md`](templates/README.md) as the reference for each Spring
 layer. Every step starts with its **Tests first** list. When a feature's tests pass, tick it off:
 `python3 scripts/sync_features.py done <ID>`.
 
@@ -197,18 +200,19 @@ layer. Every step starts with its **Tests first** list. When a feature's tests p
 - **Schema changes** are always new Flyway files `V<n>__<name>.sql`; never edit one that has
   already run.
 - **Tests** go in `backend/src/test/java/`, written first (see *How it's built*). Database tests run
-  against a throwaway PostgreSQL from Testcontainers, so Docker must be running; recorded API
+  against a throwaway PostgreSQL and Redis from Testcontainers, so Docker must be running; recorded API
   responses live in `src/test/resources/fixtures/`.
 
 ## Stack
 
 Java 25 · Spring Boot 4.1 · Spring MVC · Spring Data JPA · Spring Batch · Flyway · PostgreSQL 16 ·
-RestClient · springdoc-openapi · Maven · Docker Compose · JUnit 5 · Testcontainers · JaCoCo.
+Redis 7.4 (Spring Cache, Bucket4j) · Spring Security · RestClient · springdoc-openapi · Maven · Docker
+Compose · JUnit 5 · Testcontainers · JaCoCo.
 
 Frontend: React 19 · TypeScript · Vite · React Router · TanStack Query · TailwindCSS · Vitest ·
 Testing Library · MSW · Playwright.
 
-Planned (see [`plan.md`](plan.md#final-recommended-stack)): TimescaleDB, Redis, Kafka, Prometheus/Grafana, Python analytics.
+Planned (see [`plan.md`](plan.md#final-recommended-stack)): TimescaleDB, Kafka, Prometheus/Grafana, Python analytics.
 
 ## Roadmap
 

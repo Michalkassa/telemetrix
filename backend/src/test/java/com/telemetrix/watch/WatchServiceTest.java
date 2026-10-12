@@ -7,11 +7,19 @@ import com.telemetrix.FakeTime;
 import com.telemetrix.common.NotFoundException;
 import com.telemetrix.watch.WatchService.Command;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 
+// The rules of a watch session: its id and host key, and only the host's valid commands change the clock.
+// Each change is announced (WatchUpdates) for every instance to pass on. Stored in memory here; in Redis
+// in the app (WatchAcrossInstancesTest).
 class WatchServiceTest {
 
-	WatchService watches = new WatchService(new FakeTime(Instant.parse("2026-10-09T20:00:00Z")));
+	List<ClockState> announced = new ArrayList<>();
+
+	WatchService watches = new WatchService(new InMemoryWatchStore(), announced::add,
+			new FakeTime(Instant.parse("2026-10-09T20:00:00Z")));
 
 	@Test
 	void eachWatchSessionHasItsOwnIdAndAHostKey() {
@@ -30,6 +38,23 @@ class WatchServiceTest {
 		var state = watches.command(created.watchId(), new Command(created.hostKey(), "SEEK", 90_000.0));
 
 		assertThat(state).hasValueSatisfying(s -> assertThat(s.positionMs()).isEqualTo(90_000));
+		assertThat(announced).containsExactly(state.orElseThrow());
+	}
+
+	@Test
+	void theClockKeepsItsStateBetweenCommands() {
+		var created = watches.create(5);
+		watches.command(created.watchId(), new Command(created.hostKey(), "SPEED", 4.0));
+
+		var state = watches.command(created.watchId(), new Command(created.hostKey(), "PLAY", null)).orElseThrow();
+
+		assertThat(state.speed()).isEqualTo(4.0);
+		assertThat(state.playing()).isTrue();
+		assertThat(state.seq()).isEqualTo(2);
+		assertThat(watches.state(created.watchId())).satisfies(s -> {
+			assertThat(s.playing()).isTrue();
+			assertThat(s.seq()).isEqualTo(2);
+		});
 	}
 
 	@Test
@@ -39,6 +64,7 @@ class WatchServiceTest {
 		assertThat(watches.command(created.watchId(), new Command("guess", "PLAY", null))).isEmpty();
 		assertThat(watches.command(created.watchId(), new Command(null, "PLAY", null))).isEmpty();
 		assertThat(watches.state(created.watchId()).playing()).isFalse();
+		assertThat(announced).isEmpty();
 	}
 
 	@Test

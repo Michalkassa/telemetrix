@@ -1,5 +1,7 @@
 package com.telemetrix.auth;
 
+import io.lettuce.core.RedisClient;
+import io.lettuce.core.RedisURI;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.KeyPair;
@@ -9,6 +11,7 @@ import java.time.Clock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.data.redis.autoconfigure.DataRedisConnectionDetails;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -34,9 +37,6 @@ class SecurityConfig {
 
 	private static final Logger log = LoggerFactory.getLogger(SecurityConfig.class);
 
-	// callers the rate limiter remembers at once (a bucket is a few hundred bytes)
-	private static final int MAX_LIMITED_CALLERS = 100_000;
-
 	@Bean
 	Roles roles(SecurityProperties properties) {
 		return new Roles(properties.admins(), properties.analysts());
@@ -46,6 +46,21 @@ class SecurityConfig {
 	TokenService tokenService(SecurityProperties properties, Clock clock, Roles roles) {
 		var jwt = properties.jwt();
 		return new TokenService(keys(jwt), jwt.issuer(), jwt.accessTtl(), jwt.refreshTtl(), clock, roles);
+	}
+
+	// The rate limiter's own Redis client (docs/adr/0008), to the Redis the app uses. Not the connection
+	// factory's: that one is replaced whenever the factory stops and starts again, and a limiter holding the
+	// old one would fail every request.
+	@Bean(destroyMethod = "shutdown")
+	RedisClient rateLimitRedis(DataRedisConnectionDetails redis) {
+		var standalone = redis.getStandalone();
+		var uri = RedisURI.builder().withHost(standalone.getHost()).withPort(standalone.getPort())
+				.withDatabase(standalone.getDatabase());
+		if (redis.getPassword() != null) {
+			uri = redis.getUsername() != null ? uri.withAuthentication(redis.getUsername(), redis.getPassword())
+					: uri.withPassword(redis.getPassword().toCharArray());
+		}
+		return RedisClient.create(uri.build());
 	}
 
 	@Bean
@@ -72,8 +87,8 @@ class SecurityConfig {
 
 	@Bean
 	@Order(2)
-	SecurityFilterChain api(HttpSecurity http, TokenService tokens, SecurityProperties properties, Clock clock)
-			throws Exception {
+	SecurityFilterChain api(HttpSecurity http, TokenService tokens, SecurityProperties properties, Clock clock,
+			RedisClient rateLimitRedis) throws Exception {
 		var problems = new ProblemResponses();
 		var roles = new JwtGrantedAuthoritiesConverter();
 		roles.setAuthoritiesClaimName(TokenService.ROLES);
@@ -104,8 +119,8 @@ class SecurityConfig {
 						.accessDeniedHandler(problems))
 				.exceptionHandling(e -> e.authenticationEntryPoint(problems).accessDeniedHandler(problems))
 				.addFilterBefore(new ApiKeyFilter(properties.apiKeys()), BearerTokenAuthenticationFilter.class)
-				.addFilterBefore(new RateLimitFilter(new RateLimiter(clock, MAX_LIMITED_CALLERS), properties.rateLimit()),
-						AuthorizationFilter.class)
+				.addFilterBefore(new RateLimitFilter(new RateLimiter(RateLimiter.redisBuckets(rateLimitRedis, clock)),
+						properties.rateLimit()), AuthorizationFilter.class)
 				.build();
 	}
 

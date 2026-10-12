@@ -66,6 +66,20 @@
 		</dependency>
 
 		<!-- Bean Validation: @Valid request bodies are checked and rejected with a 400 -->
+		<!-- Redis (Step 38): Spring Cache, watch-together state, rate-limit buckets -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-redis</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-cache</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.bucket4j</groupId>
+			<artifactId>bucket4j_jdk17-lettuce</artifactId>
+			<version>8.20.0</version>
+		</dependency>
 		<!-- Security (Step 37): JWT resource server, GitHub login, rate limiting -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

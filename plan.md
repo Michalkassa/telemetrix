@@ -14,7 +14,7 @@ python3 scripts/sync_features.py --check                # CI: fail if plan.md/ST
 ```
 
 <!-- progress:start -->
-**208 / 305 features done (68%)**
+**217 / 305 features done (71%)**
 
 | Phase | Done | Total | Progress |
 |---|---:|---:|---|
@@ -22,7 +22,7 @@ python3 scripts/sync_features.py --check                # CI: fail if plan.md/ST
 | 1 — Data foundation & basic replay | 66 | 71 | `█████████░` |
 | 2 — Telemetry, timeline & playback | 81 | 83 | `██████████` |
 | 3 — Championship & analytics | 42 | 46 | `█████████░` |
-| 4 — Distributed systems & production | 16 | 75 | `██░░░░░░░░` |
+| 4 — Distributed systems & production | 25 | 75 | `███░░░░░░░` |
 | 5 — Data science & polish | 0 | 16 | `░░░░░░░░░░` |
 | stretch — Stretch goals | 0 | 11 | `░░░░░░░░░░` |
 <!-- progress:end -->
@@ -220,7 +220,7 @@ Store race state as events:
 - [x] Spring Security <!-- STACK-04 -->
 - [x] Spring Data JPA <!-- STACK-05 -->
 - [x] Spring Batch <!-- STACK-06 -->
-- [ ] Spring Cache <!-- STACK-07 -->
+- [x] Spring Cache <!-- STACK-07 -->
 - [x] Spring Scheduler <!-- STACK-08 -->
 
 ### Why WebFlux?
@@ -340,12 +340,12 @@ Use for:
 
 ## Redis
 Use Redis for:
-- [ ] Timeline caching <!-- CACHE-01 -->
-- [ ] Race playback snapshots <!-- CACHE-02 -->
-- [ ] Session state <!-- CACHE-03 -->
-- [ ] Frequently accessed telemetry <!-- CACHE-04 -->
-- [ ] Leaderboards <!-- CACHE-05 -->
-- [ ] Replay checkpoints <!-- CACHE-06 -->
+- [x] Timeline caching <!-- CACHE-01 -->
+- [x] Race playback snapshots <!-- CACHE-02 -->
+- [x] Session state <!-- CACHE-03 -->
+- [x] Frequently accessed telemetry <!-- CACHE-04 -->
+- [x] Leaderboards <!-- CACHE-05 -->
+- [x] Replay checkpoints <!-- CACHE-06 -->
 
 ---
 
@@ -510,7 +510,7 @@ to write first.
 ### Integration Tests
 - [x] Repository tests <!-- TEST-05 -->
 - [ ] Kafka tests <!-- TEST-06 -->
-- [ ] Redis tests <!-- TEST-07 -->
+- [x] Redis tests <!-- TEST-07 -->
 - [x] API tests <!-- TEST-08 -->
 
 ### End-to-End Tests
@@ -717,7 +717,7 @@ Use Python separately for:
 ## Scalability
 - [ ] Horizontal scaling <!-- NFR-08 -->
 - [ ] Stateless APIs <!-- NFR-09 -->
-- [ ] Distributed caching <!-- NFR-10 -->
+- [x] Distributed caching <!-- NFR-10 -->
 
 ## Security
 - [x] JWT encryption <!-- NFR-11 -->

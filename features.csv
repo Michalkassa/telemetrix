@@ -92,7 +92,7 @@ STACK-03,2,24,Primary Stack,Spring WebFlux,todo,
 STACK-04,4,37,Primary Stack,Spring Security,done,2026-10-12
 STACK-05,0,3,Primary Stack,Spring Data JPA,done,2026-09-22
 STACK-06,1,10,Primary Stack,Spring Batch,done,2026-10-09
-STACK-07,4,38,Primary Stack,Spring Cache,todo,
+STACK-07,4,38,Primary Stack,Spring Cache,done,2026-10-12
 STACK-08,1,9,Primary Stack,Spring Scheduler,done,2026-10-09
 FE-01,1,16,Frontend Stack,React,done,2026-10-09
 FE-02,1,16,Frontend Stack,TypeScript,done,2026-10-09
@@ -132,12 +132,12 @@ TSDB-01,4,39,TimescaleDB Extension,Telemetry time-series storage,todo,
 TSDB-02,4,39,TimescaleDB Extension,Efficient timestamp querying,todo,
 TSDB-03,4,39,TimescaleDB Extension,Compression,todo,
 TSDB-04,4,39,TimescaleDB Extension,Fast analytics,todo,
-CACHE-01,4,38,Redis,Timeline caching,todo,
-CACHE-02,4,38,Redis,Race playback snapshots,todo,
-CACHE-03,4,38,Redis,Session state,todo,
-CACHE-04,4,38,Redis,Frequently accessed telemetry,todo,
-CACHE-05,4,38,Redis,Leaderboards,todo,
-CACHE-06,4,38,Redis,Replay checkpoints,todo,
+CACHE-01,4,38,Redis,Timeline caching,done,2026-10-12
+CACHE-02,4,38,Redis,Race playback snapshots,done,2026-10-12
+CACHE-03,4,38,Redis,Session state,done,2026-10-12
+CACHE-04,4,38,Redis,Frequently accessed telemetry,done,2026-10-12
+CACHE-05,4,38,Redis,Leaderboards,done,2026-10-12
+CACHE-06,4,38,Redis,Replay checkpoints,done,2026-10-12
 SEARCH-01,4,41,Elasticsearch,Fast event searching,todo,
 SEARCH-02,4,41,Elasticsearch,Driver search,todo,
 SEARCH-03,4,41,Elasticsearch,Telemetry querying,todo,
@@ -205,7 +205,7 @@ TEST-03,1,9,Unit Tests,Validators,done,2026-10-09
 TEST-04,3,30,Unit Tests,Calculators,done,2026-10-10
 TEST-05,1,7,Integration Tests,Repository tests,done,2026-10-09
 TEST-06,4,40,Integration Tests,Kafka tests,todo,
-TEST-07,4,38,Integration Tests,Redis tests,todo,
+TEST-07,4,38,Integration Tests,Redis tests,done,2026-10-12
 TEST-08,1,11,Integration Tests,API tests,done,2026-10-09
 TEST-09,2,24,End-to-End Tests,Replay pipeline,done,2026-10-09
 TEST-10,1,13,End-to-End Tests,Full ingestion flow,done,2026-10-09
@@ -261,7 +261,7 @@ NFR-06,4,45,Reliability,Graceful degradation,todo,
 NFR-07,4,45,Reliability,Retry mechanisms,todo,
 NFR-08,4,44,Scalability,Horizontal scaling,todo,
 NFR-09,4,44,Scalability,Stateless APIs,todo,
-NFR-10,4,38,Scalability,Distributed caching,todo,
+NFR-10,4,38,Scalability,Distributed caching,done,2026-10-12
 NFR-11,4,37,Security,JWT encryption,done,2026-10-12
 NFR-12,4,47,Security,HTTPS everywhere,todo,
 NFR-13,4,37,Security,Input sanitization,done,2026-10-12

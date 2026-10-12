@@ -1,6 +1,7 @@
 package com.telemetrix.championship;
 
 import com.telemetrix.championship.ResultLine.Kind;
+import com.telemetrix.cache.Caches;
 import com.telemetrix.common.NotFoundException;
 import com.telemetrix.eventstore.Projection;
 import com.telemetrix.eventstore.StreamAppended;
@@ -9,6 +10,7 @@ import com.telemetrix.ingestion.history.HistoryImported;
 import com.telemetrix.result.ResultsRecorder;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.event.EventListener;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -57,7 +59,8 @@ public class ChampionshipService implements Projection {
 		}
 	}
 
-	/** The standings after `round` (null: the latest). */
+	/** The standings after `round` (null: the latest). Cached in Redis (docs/adr/0008): the leaderboards. */
+	@Cacheable(cacheNames = Caches.STANDINGS, key = "#season + ':' + (#round == null ? 'latest' : #round)")
 	@Transactional
 	public ChampionshipStandings standings(int season, Integer round) {
 		if (!Boolean.TRUE.equals(jdbc.queryForObject("select exists (select 1 from seasons where year = ?)",

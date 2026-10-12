@@ -3,12 +3,9 @@ package com.telemetrix.event;
 import static com.telemetrix.event.TestRace.t;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 
 import com.telemetrix.eventstore.EventStore;
 import com.telemetrix.eventstore.StoredEvent;
-import com.telemetrix.eventstore.StreamAppended;
 import com.telemetrix.eventstore.StreamId;
 import com.telemetrix.eventstore.StreamType;
 import java.util.List;
@@ -17,8 +14,9 @@ import org.junit.jupiter.api.Test;
 import tools.jackson.databind.json.JsonMapper;
 
 // The timeline is a read model of the session's stream: its detected events in stream order, with the
-// clock's zero and the drivers' codes from the stream's opening. Kept until the stream is appended to.
-// (Running the detectors and publishing what they find is the write side's: SessionRecorderTest.)
+// clock's zero and the drivers' codes from the stream's opening. (Running the detectors and publishing
+// what they find is the write side's: SessionRecorderTest; caching it until the stream is appended to,
+// cache.CachingFlowTest.)
 class TimelineServiceTest {
 
 	static final JsonMapper JSON = JsonMapper.builder().build();
@@ -45,21 +43,6 @@ class TimelineServiceTest {
 		assertThat(timeline.clockStart()).isEqualTo(t(0));
 		assertThat(timeline.codes()).isEqualTo(Map.of(1, "VER"));
 		assertThat(timeline.events()).containsExactly(PIT, SC);
-	}
-
-	@Test
-	void keptUntilTheStreamIsAppendedTo() {
-		given(store.read(SESSION)).willReturn(stream());
-
-		timelines.timeline(7);
-		timelines.timeline(7);
-		timelines.onStreamAppended(new StreamAppended(new StreamId(StreamType.RACE_RESULTS, 7), 2));
-		timelines.timeline(7);
-		verify(store, times(1)).read(SESSION);
-
-		timelines.onStreamAppended(new StreamAppended(SESSION, 2));
-		timelines.timeline(7);
-		verify(store, times(2)).read(SESSION);
 	}
 
 	private static List<StoredEvent> stream() {

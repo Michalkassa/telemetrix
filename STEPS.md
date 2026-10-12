@@ -1438,17 +1438,17 @@ tests.
 backend restart doesn't drop replay sessions.
 
 <!-- features:38 -->
-**Checks off (0/9):**
+**Checks off (9/9):**
 
-- [ ] `STACK-07` Spring Cache
-- [ ] `CACHE-01` Timeline caching
-- [ ] `CACHE-02` Race playback snapshots
-- [ ] `CACHE-03` Session state
-- [ ] `CACHE-04` Frequently accessed telemetry
-- [ ] `CACHE-05` Leaderboards
-- [ ] `CACHE-06` Replay checkpoints
-- [ ] `TEST-07` Redis tests
-- [ ] `NFR-10` Distributed caching
+- [x] `STACK-07` Spring Cache
+- [x] `CACHE-01` Timeline caching
+- [x] `CACHE-02` Race playback snapshots
+- [x] `CACHE-03` Session state
+- [x] `CACHE-04` Frequently accessed telemetry
+- [x] `CACHE-05` Leaderboards
+- [x] `CACHE-06` Replay checkpoints
+- [x] `TEST-07` Redis tests
+- [x] `NFR-10` Distributed caching
 <!-- /features -->
 
 ---

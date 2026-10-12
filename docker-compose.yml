@@ -2,8 +2,8 @@
 #
 #   docker compose up --build -d --wait     then open http://localhost:3000
 #
-# For development, run only the database here (docker compose up -d postgres) and the backend and
-# frontend on your machine (./mvnw spring-boot:run, npm run dev).
+# For development, run only the database and Redis here (docker compose up -d postgres redis) and the
+# backend and frontend on your machine (./mvnw spring-boot:run, npm run dev).
 #
 # Settings come from .env (copy .env.example); every one has a default, so .env is optional.
 services:
@@ -24,6 +24,19 @@ services:
       retries: 10
     restart: unless-stopped
 
+  # the shared cache, watch-together sessions and rate-limit buckets (docs/adr/0008). Nothing in it is
+  # the only copy: everything is worked out again from Postgres if it's lost.
+  redis:
+    image: redis:7.4-alpine
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
   backend:
     build: ./backend
     environment:
@@ -31,6 +44,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-telemetrix}
       SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-telemetrix}
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-telemetrix}
+      SPRING_DATA_REDIS_HOST: redis
       # security (docs/adr/0007): see README, Configuration
       GITHUB_CLIENT_ID: ${GITHUB_CLIENT_ID:-not-configured}
       GITHUB_CLIENT_SECRET: ${GITHUB_CLIENT_SECRET:-not-configured}
@@ -46,6 +60,8 @@ services:
       - "${BACKEND_PORT:-8080}:8080"
     depends_on:
       postgres:
+        condition: service_healthy
+      redis:
         condition: service_healthy
     healthcheck:
       # the JRE image has no curl: a plain HTTP request with bash
@@ -91,9 +107,7 @@ services:
         echo done
     restart: "no"
 
-  # Later phases add timescaledb, redis, kafka and elasticsearch (docs/adr/0002):
-  # redis:
-  #   image: redis:7
+  # Later phases add timescaledb, kafka and elasticsearch (docs/adr/0002):
   # kafka:
   #   image: apache/kafka:3.9.0
   # elasticsearch:

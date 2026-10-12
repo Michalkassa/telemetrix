@@ -1,5 +1,6 @@
 package com.telemetrix.replay;
 
+import com.telemetrix.cache.Caches;
 import com.telemetrix.circuit.CircuitLayout;
 import com.telemetrix.circuit.CircuitLayoutStore;
 import com.telemetrix.circuit.LayoutResponse;
@@ -22,6 +23,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -124,6 +126,7 @@ public class ReplayService {
 		return frame.build();
 	}
 
+	@Cacheable(Caches.REPLAYS) // docs/adr/0008; evicted when the race is imported again
 	public ReplayResponse replayResponse(long sessionId) {
 		RaceReplay replay = replay(sessionId);
 		long start = replay.clockStart().toEpochMilli();

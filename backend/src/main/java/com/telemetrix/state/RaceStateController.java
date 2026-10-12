@@ -33,8 +33,9 @@ class RaceStateController {
 	// `t` is milliseconds after the replay's clockStart.
 	@GetMapping("/api/sessions/{id}/replay/snapshots")
 	List<SnapshotResponse> snapshots(@PathVariable long id) {
-		long zero = states.clockStart(id).toEpochMilli();
-		return states.shippedSnapshots(id).stream()
+		var shipped = states.shippedSnapshots(id);
+		long zero = shipped.clockStart().toEpochMilli();
+		return shipped.snapshots().stream()
 				.map(s -> new SnapshotResponse(s.at().toEpochMilli() - zero, s.at(), s.lap(), s.reason(),
 						s.state().flag(), new TreeMap<>(s.state().yellowSectors()), s.state().drsEnabled(),
 						new TreeMap<>(s.state().cars())))

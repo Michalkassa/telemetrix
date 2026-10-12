@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.web.servlet.assertj.MockMvcTester;
 
@@ -24,6 +25,9 @@ class RateLimitTest {
 
 	@Autowired
 	TokenService tokens;
+
+	@Autowired
+	LettuceConnectionFactory redis;
 
 	@Test
 	void aBurstOfAnonymousRequestsIsRefused() {
@@ -48,6 +52,15 @@ class RateLimitTest {
 
 		assertThat(mvc.get().uri("/api/seasons").header("Authorization", bearer).with(from("10.0.0.3")))
 				.hasStatus(HttpStatus.TOO_MANY_REQUESTS);
+	}
+
+	@Test
+	void limitingKeepsWorkingWhenTheRedisConnectionsRestart() {
+		// as when a context is paused and resumed (the app's connection factory stops and starts again)
+		redis.stop();
+		redis.start();
+
+		assertThat(mvc.get().uri("/api/seasons").with(from("10.0.0.5"))).hasStatusOk();
 	}
 
 	@Test

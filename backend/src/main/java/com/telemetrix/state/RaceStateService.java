@@ -1,5 +1,6 @@
 package com.telemetrix.state;
 
+import com.telemetrix.cache.Caches;
 import com.telemetrix.event.RaceDataLoader;
 import com.telemetrix.eventstore.EventStore;
 import com.telemetrix.eventstore.Projection;
@@ -11,6 +12,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.annotation.Order;
 import org.springframework.transaction.event.TransactionalEventListener;
 import org.springframework.stereotype.Service;
@@ -48,13 +50,16 @@ public class RaceStateService implements Projection {
 
 	/**
 	 * The snapshots the browser gets with a race: once per lap, at each key event, and at every change —
-	 * so the latest one at or before any moment is the derived state then (not the 5 s ones).
+	 * so the latest one at or before any moment is the derived state then (not the 5 s ones). Cached in
+	 * Redis (docs/adr/0008): another instance, or this one after a restart, needn't build the engine.
 	 */
-	public List<Snapshot> shippedSnapshots(long sessionId) {
-		return engine(sessionId).snapshots().stream()
+	@Cacheable(Caches.SNAPSHOTS)
+	public ShippedSnapshots shippedSnapshots(long sessionId) {
+		RaceStateEngine engine = engine(sessionId);
+		return new ShippedSnapshots(engine.clockStart(), engine.snapshots().stream()
 				.filter(s -> s.reason() == SnapshotReason.LAP || s.reason() == SnapshotReason.CHANGE
 						|| s.reason().isKeyEvent())
-				.toList();
+				.toList());
 	}
 
 	public Instant clockStart(long sessionId) {

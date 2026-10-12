@@ -57,7 +57,8 @@ Each role includes the ones above it. Send either:
 - `X-API-Key: <key>` — for scripts; each key has its own role (`telemetrix.security.api-keys`).
 
 Every response under `/api` carries `X-Rate-Limit-Remaining`. Over the limit (default 300 a minute
-anonymous, by address; 1200 signed in) the answer is **429** with `Retry-After`.
+anonymous, by address; 1200 signed in) the answer is **429** with `Retry-After`. The limits are kept in
+Redis, so they hold across every backend instance (docs/adr/0008).
 
 #### Sign in with GitHub: `GET /oauth2/authorization/github`
 
@@ -449,7 +450,8 @@ replay's `clockStart`.
 `POST {"sessionId": 5}` creates a watch session: one shared playback clock that everyone with the
 `watchId` follows. The creator is the host and gets the `hostKey` (keep it; share only the `watchId`).
 **201** `{"watchId": "qJ3x9Kd2", "hostKey": "…", "sessionId": 5}`. `GET` returns the clock (below),
-**404** for an unknown watch session. Sessions live in memory: they end when the backend restarts.
+**404** for an unknown watch session. Sessions live in Redis (docs/adr/0008): any backend instance can
+serve one, and a restart doesn't end it; one is forgotten a day after its last change.
 
 #### STOMP over WebSocket at `/ws`
 

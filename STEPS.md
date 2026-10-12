@@ -1361,14 +1361,14 @@ Kafka natural, because events are already the interface.
 standings test still passes.
 
 <!-- features:36 -->
-**Checks off (0/6):**
+**Checks off (6/6):**
 
-- [ ] `ES-01` Easier replay reconstruction
-- [ ] `ES-02` Time travel debugging
-- [ ] `ES-03` Efficient playback
-- [ ] `ES-04` Historical querying
-- [ ] `PAT-05` CQRS
-- [ ] `PAT-06` Event Sourcing
+- [x] `ES-01` Easier replay reconstruction
+- [x] `ES-02` Time travel debugging
+- [x] `ES-03` Efficient playback
+- [x] `ES-04` Historical querying
+- [x] `PAT-05` CQRS
+- [x] `PAT-06` Event Sourcing
 <!-- /features -->
 
 ---

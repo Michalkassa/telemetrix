@@ -11,6 +11,9 @@ import java.util.List;
 public record RaceEvent(EventType type, Instant at, Integer lap, Instant endsAt, Integer endLap, Severity severity,
 		List<Integer> participants, String summary, String link) {
 
+	/** Its type in a session's stream (SessionEvent.Detected), where the timeline reads it from. */
+	public static final String STORED_TYPE = "RACE_EVENT_DETECTED";
+
 	public RaceEvent {
 		participants = List.copyOf(participants);
 	}

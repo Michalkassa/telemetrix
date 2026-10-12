@@ -14,14 +14,14 @@ python3 scripts/sync_features.py --check                # CI: fail if plan.md/ST
 ```
 
 <!-- progress:start -->
-**186 / 305 features done (60%)**
+**192 / 305 features done (62%)**
 
 | Phase | Done | Total | Progress |
 |---|---:|---:|---|
 | 0 — Foundation | 3 | 3 | `██████████` |
 | 1 — Data foundation & basic replay | 66 | 71 | `█████████░` |
 | 2 — Telemetry, timeline & playback | 81 | 83 | `██████████` |
-| 3 — Championship & analytics | 36 | 46 | `████████░░` |
+| 3 — Championship & analytics | 42 | 46 | `█████████░` |
 | 4 — Distributed systems & production | 0 | 75 | `░░░░░░░░░░` |
 | 5 — Data science & polish | 0 | 16 | `░░░░░░░░░░` |
 | stretch — Stretch goals | 0 | 11 | `░░░░░░░░░░` |
@@ -203,10 +203,10 @@ System reconstructs race state at every timestamp:
 
 ## Event Sourcing Architecture
 Store race state as events:
-- [ ] Easier replay reconstruction <!-- ES-01 -->
-- [ ] Time travel debugging <!-- ES-02 -->
-- [ ] Efficient playback <!-- ES-03 -->
-- [ ] Historical querying <!-- ES-04 -->
+- [x] Easier replay reconstruction <!-- ES-01 -->
+- [x] Time travel debugging <!-- ES-02 -->
+- [x] Efficient playback <!-- ES-03 -->
+- [x] Historical querying <!-- ES-04 -->
 
 ---
 
@@ -782,8 +782,8 @@ Use Python separately for:
 - [x] Strategy Pattern <!-- PAT-02 -->
 - [x] Observer Pattern <!-- PAT-03 -->
 - [x] Builder Pattern <!-- PAT-04 -->
-- [ ] CQRS <!-- PAT-05 -->
-- [ ] Event Sourcing <!-- PAT-06 -->
+- [x] CQRS <!-- PAT-05 -->
+- [x] Event Sourcing <!-- PAT-06 -->
 - [x] Repository Pattern <!-- PAT-07 -->
 
 ---

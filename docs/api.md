@@ -142,7 +142,8 @@ Both: **404** for an unknown race.
 #### `GET /api/seasons/{year}/standings?round={round}`
 
 Drivers' and constructors' standings after a round (default: the latest), rebuilt race by race from the
-points awarded in the history (Grand Prix and sprints) and kept in `championship_snapshots`. Until 1990
+points awarded in the history (Grand Prix and sprints) — each race's results stream (docs/adr/0006) —
+and kept in `championship_snapshots`. Until 1990
 only a driver's best results counted (some seasons: the best of each half) — the rules come from the
 data and reproduce the official totals of every season 1950–1990. Level drivers are split by
 count-back: wins, then second places, … (Grand Prix only, not sprints). Before 1979 constructors'
@@ -362,7 +363,8 @@ long ago the other car was there; null for cars on the grid or retired, and froz
 finishes. `tyreAge` counts laps on the current tyres including any they'd done before; `penaltySeconds`
 are time penalties so far (added after the race), `pendingPenalties` drive-throughs and stop-gos not yet
 served (a pit stop serves one). Answers in a few milliseconds anywhere: positions come straight from the
-timing, and the rest starts from the nearest snapshot (every 5 s, every lap, every key event).
+timing, and the rest is a fold over the session's event stream (docs/adr/0006) that starts from the
+nearest snapshot (every 5 s, every lap, every key event).
 
 ```json
 {"at": "2023-09-17T13:20:00Z", "lap": 44, "flag": "VSC",
@@ -421,9 +423,9 @@ the changes. The browser opens a watch session with "Watch together" on the repl
 
 #### `GET /api/races/{id}/timeline?type={type}`
 
-What happened in the race (its Race session; open the race first), in time order. Events are worked
-out from the stored data by one detector per type (`event` package) and kept until the race is imported
-again. `t` is milliseconds after `clockStart`, the replay clock's zero, so the player can jump to an
+What happened in the race (its Race session; open the race first), in time order. Events are found
+by one detector per type (`event` package) when the race is imported and stored in the session's event
+stream (docs/adr/0006); the timeline is read from there. `t` is milliseconds after `clockStart`, the replay clock's zero, so the player can jump to an
 event; `lap` is the leader's lap (a fastest lap: the car's own). Events that last (safety car, VSC, red
 and yellow flags, pit stops) have `endsAt` / `endLap`. `participants` act in order: the overtaker
 first. Repeat `type` to keep several types.
@@ -455,7 +457,58 @@ first. Repeat `type` to keep several types.
 | `TEAM_RADIO` | Each clip; `link` is the recording |
 | `WEATHER` | Rain starting or stopping |
 
-Each detected event is also published inside the backend as a `RaceEventDetected` Spring event.
+Each detected event is also published inside the backend as a `RaceEventDetected` Spring event, when
+it's first recorded.
+
+### Event log (docs/adr/0006)
+
+A race session's events are an append-only stream: everything that changes the race state and every
+timeline event, in order, numbered from 1 (`seq`). When the race is imported again with different data,
+the stream gets a new `generation`; earlier ones stay readable.
+
+#### `GET /api/sessions/{id}/events?type={type}&from={instant}&to={instant}&generation={n}`
+
+The session's events (the latest generation unless `generation` is given). Repeat `type` to keep several
+types; `from` / `to` (inclusive) keep a time window and leave out events from before the start. `t` is
+milliseconds after `clockStart`; null for events before the start (the stream's opening, each car's
+starting tyres).
+
+```json
+{"sessionId": 15, "generation": 1, "latestGeneration": 1, "clockStart": "2023-09-17T12:03:44.658Z",
+ "events": [{"seq": 178, "type": "FLAG_CHANGED", "at": "2023-09-17T12:36:40.792Z", "t": 1976134,
+             "payload": {"at": "2023-09-17T12:36:40.792Z", "flag": "SAFETY_CAR"}}]}
+```
+
+| `type` | Payload |
+|--------|---------|
+| `SESSION_RECORDED` | The stream's opening: `clockStart`, `chequeredAt`, `totalLaps`, `codes` (car → `"VER"`) |
+| `FLAG_CHANGED` | `flag` (as in the race state) |
+| `PIT_IN`, `PIT_OUT` | `car` |
+| `TYRES_FITTED` | `car`, `compound`, `lapStart`, `ageAtStart`; `at` null for the starting set |
+| `PENALTY_GIVEN` | `car`, `kind` (`TIME`, `DRIVE_THROUGH`, `STOP_GO`, `GRID`), `amount` |
+| `SECTOR_FLAGGED` | `sector`, `flag` (`YELLOW`, `DOUBLE_YELLOW`; null: clear) |
+| `TRACK_CLEARED` | — |
+| `DRS_CHANGED` | `enabled` |
+| `WEATHER_REPORTED` | `airTemperature`, `trackTemperature`, `humidity`, `rainfall`, `windSpeed` |
+| `RACE_EVENT_DETECTED` | A timeline event, as in the timeline |
+
+| Status | When |
+|--------|------|
+| 200 | Found |
+| 404 | Unknown session, no timing, or no such generation |
+
+#### `GET /api/sessions/{id}/events/{seq}/state`
+
+Time travel: the whole race state (as `/replay/state`) right after event `seq` and nothing after it,
+even another event at the same moment. `at` is the event's time (the clock's zero for one before the
+start).
+
+```json
+{"seq": 178, "type": "FLAG_CHANGED", "at": "2023-09-17T12:36:40.792Z",
+ "state": {"at": "2023-09-17T12:36:40.792Z", "lap": 20, "flag": "SAFETY_CAR", "cars": []}}
+```
+
+404 for an event number outside the stream, or as for the events.
 
 | Status | When |
 |--------|------|
@@ -594,3 +647,13 @@ restartable Spring Batch job. `POST` answers **202 Accepted** at once and runs i
 | 200 | `GET`: the last run |
 | 404 | `GET`: no run yet |
 | 409 | `POST`: a run is already in progress |
+
+#### `POST /api/admin/projections/rebuild`
+
+Throws every read model away — the timeline, the race-state snapshots, `championship_snapshots`, the
+`driver_race_results` view — and rebuilds it from the event streams alone (docs/adr/0006). Safe to run
+at any time.
+
+```json
+{"rebuilt": ["timeline", "race_state_snapshots", "championship_snapshots", "driver_race_results"]}
+```

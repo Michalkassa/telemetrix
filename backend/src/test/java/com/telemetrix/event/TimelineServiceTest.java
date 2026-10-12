@@ -3,91 +3,75 @@ package com.telemetrix.event;
 import static com.telemetrix.event.TestRace.t;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
-import com.telemetrix.ingestion.RaceImported;
+import com.telemetrix.eventstore.EventStore;
+import com.telemetrix.eventstore.StoredEvent;
+import com.telemetrix.eventstore.StreamAppended;
+import com.telemetrix.eventstore.StreamId;
+import com.telemetrix.eventstore.StreamType;
 import java.util.List;
-import org.junit.jupiter.api.BeforeEach;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import org.springframework.test.context.event.ApplicationEvents;
-import org.springframework.test.context.event.RecordApplicationEvents;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import tools.jackson.databind.json.JsonMapper;
 
-// The Observer pattern: every detected event is published as a Spring application event, once per
-// race (until it's imported again), for other modules to listen to.
-@SpringJUnitConfig(TimelineServiceTest.Config.class)
-@RecordApplicationEvents
+// The timeline is a read model of the session's stream: its detected events in stream order, with the
+// clock's zero and the drivers' codes from the stream's opening. Kept until the stream is appended to.
+// (Running the detectors and publishing what they find is the write side's: SessionRecorderTest.)
 class TimelineServiceTest {
 
-	static final RaceEvent SC = new RaceEvent(EventType.SAFETY_CAR, t(250), 3, t(480), 5, Severity.HIGH, List.of(),
-			"Safety car", null);
+	static final JsonMapper JSON = JsonMapper.builder().build();
+
+	static final StreamId SESSION = new StreamId(StreamType.SESSION, 7);
 
 	static final RaceEvent PIT = new RaceEvent(EventType.PIT_STOP, t(100), 2, t(125), 2, Severity.LOW, List.of(1),
 			"Pit stop: VER", null);
 
-	@Configuration
-	@Import(TimelineService.class)
-	static class Config {
+	static final RaceEvent SC = new RaceEvent(EventType.SAFETY_CAR, t(250), 3, t(480), 5, Severity.HIGH, List.of(),
+			"Safety car", null);
 
-		@Bean
-		EventDetector safetyCars() {
-			return race -> List.of(SC);
-		}
+	EventStore store = org.mockito.Mockito.mock(EventStore.class);
 
-		@Bean
-		EventDetector pitStops() {
-			return race -> List.of(PIT);
-		}
+	TimelineService timelines = new TimelineService(store);
 
-	}
+	@Test
+	void theDetectedEventsOfTheStreamInOrder() {
+		given(store.read(SESSION)).willReturn(stream());
 
-	@MockitoBean
-	RaceDataLoader loader;
+		Timeline timeline = timelines.timeline(7);
 
-	@Autowired
-	TimelineService timelines;
-
-	@Autowired
-	ApplicationEvents published;
-
-	@BeforeEach
-	void forgetEarlierTests() {
-		// the context (and so the service's cache) is shared by these tests
-		timelines.onRaceImported(new RaceImported(3, List.of(7L)));
+		assertThat(timeline.sessionId()).isEqualTo(7);
+		assertThat(timeline.clockStart()).isEqualTo(t(0));
+		assertThat(timeline.codes()).isEqualTo(Map.of(1, "VER"));
+		assertThat(timeline.events()).containsExactly(PIT, SC);
 	}
 
 	@Test
-	void runsEveryDetectorAndOrdersTheirEventsByTime() {
-		given(loader.load(7)).willReturn(new TestRace().car(1, "VER", 0, 0, 1000, 10).build());
+	void keptUntilTheStreamIsAppendedTo() {
+		given(store.read(SESSION)).willReturn(stream());
 
-		assertThat(timelines.timeline(7).events()).containsExactly(PIT, SC);
+		timelines.timeline(7);
+		timelines.timeline(7);
+		timelines.onStreamAppended(new StreamAppended(new StreamId(StreamType.RACE_RESULTS, 7), 2));
+		timelines.timeline(7);
+		verify(store, times(1)).read(SESSION);
+
+		timelines.onStreamAppended(new StreamAppended(SESSION, 2));
+		timelines.timeline(7);
+		verify(store, times(2)).read(SESSION);
 	}
 
-	@Test
-	void publishesEachDetectedEventOnce() {
-		given(loader.load(7)).willReturn(new TestRace().car(1, "VER", 0, 0, 1000, 10).build());
-
-		timelines.timeline(7);
-		timelines.timeline(7); // from the cache: nothing new to tell anyone
-
-		assertThat(published.stream(RaceEventDetected.class)).extracting(RaceEventDetected::event)
-				.containsExactly(PIT, SC);
-		assertThat(published.stream(RaceEventDetected.class)).allSatisfy(e -> assertThat(e.sessionId()).isEqualTo(7));
+	private static List<StoredEvent> stream() {
+		return List.of(stored(1, "SESSION_RECORDED", null, Map.of("clockStart", t(0), "chequeredAt", t(1000),
+						"totalLaps", 10, "codes", Map.of(1, "VER"))),
+				stored(2, RaceEvent.STORED_TYPE, t(100), PIT),
+				stored(3, "FLAG_CHANGED", t(250), Map.of("at", t(250), "flag", "SAFETY_CAR")),
+				stored(4, RaceEvent.STORED_TYPE, t(250), SC));
 	}
 
-	@Test
-	void aReimportedRaceIsDetectedAgain() {
-		given(loader.load(7)).willReturn(new TestRace().car(1, "VER", 0, 0, 1000, 10).build());
-		timelines.timeline(7);
-
-		timelines.onRaceImported(new RaceImported(3, List.of(7L)));
-		timelines.timeline(7);
-
-		assertThat(published.stream(RaceEventDetected.class)).hasSize(4);
+	private static StoredEvent stored(int seq, String type, java.time.Instant at, Object payload) {
+		return new StoredEvent(seq, SESSION, 1, seq, type, at, JSON.readTree(JSON.writeValueAsString(payload)), t(0));
 	}
 
 }

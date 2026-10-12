@@ -1,15 +1,18 @@
 package com.telemetrix.state;
 
 import com.telemetrix.event.RaceData;
-import com.telemetrix.event.RaceData.LapTime;
-import com.telemetrix.event.RaceData.Stint;
-import com.telemetrix.racecontrol.PenaltyKind;
-import com.telemetrix.racecontrol.RaceControlParser;
-import com.telemetrix.racecontrol.RaceControlSignal;
-import com.telemetrix.racecontrol.TrackStatus;
-import com.telemetrix.racecontrol.TrackStatusPeriod;
 import com.telemetrix.replay.ProgressTimeline;
-import com.telemetrix.replay.RaceReplay.PitWindow;
+import com.telemetrix.state.SessionEvent.Detected;
+import com.telemetrix.state.SessionEvent.DrsChanged;
+import com.telemetrix.state.SessionEvent.FlagChanged;
+import com.telemetrix.state.SessionEvent.PenaltyGiven;
+import com.telemetrix.state.SessionEvent.PitIn;
+import com.telemetrix.state.SessionEvent.PitOut;
+import com.telemetrix.state.SessionEvent.SectorFlagged;
+import com.telemetrix.state.SessionEvent.SessionRecorded;
+import com.telemetrix.state.SessionEvent.TrackCleared;
+import com.telemetrix.state.SessionEvent.TyresFitted;
+import com.telemetrix.state.SessionEvent.WeatherReported;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -20,9 +23,10 @@ import java.util.Map;
 import java.util.Objects;
 
 // A race's state at any moment (RaceState). Positions, laps and gaps come straight from the timing
-// (instant, docs/adr/0004); the rest — flag, tyres, pit stops, penalties — is folded from the race's
-// events in time order. Snapshots of that folded part, taken every 5 s, every lap and at key events, mean
-// a seek only replays the few events since the nearest snapshot: scrubbing stays instant anywhere.
+// (instant, docs/adr/0004); the rest — flag, tyres, pit stops, penalties, weather — is a fold over the
+// session's event stream (SessionEvent, docs/adr/0006) in order. Snapshots of that folded part, taken every
+// 5 s, every lap and at key events, are a cache: a seek only replays the few events since the nearest one,
+// so scrubbing stays instant anywhere. stateAtEvent is time travel: the state right after event #n.
 public final class RaceStateEngine {
 
 	static final Duration SNAPSHOT_INTERVAL = Duration.ofSeconds(5);
@@ -30,61 +34,50 @@ public final class RaceStateEngine {
 	// within this many seconds of the car ahead (at the detection point; here: anywhere) a car may use DRS
 	static final double DRS_GAP = 1.0;
 
-	// what the fold reads, in time order; `order` breaks ties at the same moment
-	sealed interface Input {
+	/** A state-changing event at a moment, with its number in the stream. */
+	private record Numbered(int seq, SessionEvent event) {
 
-		Instant at();
+		Instant at() {
+			return event.at();
+		}
 
-		int order();
-
-	}
-
-	record FlagChanged(Instant at, Flag flag, int order) implements Input {
-	}
-
-	record PitIn(Instant at, int car, int order) implements Input {
-	}
-
-	record PitOut(Instant at, int car, int order) implements Input {
-	}
-
-	record TyresFitted(Instant at, int car, String compound, int lapStart, int ageAtStart, int order)
-			implements Input {
-	}
-
-	record PenaltyGiven(Instant at, int car, PenaltyKind kind, Integer amount, int order) implements Input {
-	}
-
-	/** `flag` null: the sector is clear. */
-	record SectorFlagged(Instant at, int sector, SectorFlag flag, int order) implements Input {
-	}
-
-	record TrackCleared(Instant at, int order) implements Input {
-	}
-
-	record DrsChanged(Instant at, boolean enabled, int order) implements Input {
 	}
 
 	private final RaceData race;
 
+	private final List<SessionEvent> events;
+
 	private final DerivedState initial;
 
-	private final List<Input> inputs;
+	// the state-changing events at a moment, in stream order
+	private final List<Numbered> inputs;
 
 	private final List<Snapshot> snapshots;
 
-	private final List<RaceData.Weather> weather;
-
-	private RaceStateEngine(RaceData race) {
+	private RaceStateEngine(RaceData race, List<SessionEvent> events) {
 		this.race = race;
-		this.weather = race.weather().stream().sorted(Comparator.comparing(RaceData.Weather::at)).toList();
-		this.initial = initialState(race);
-		this.inputs = inputs(race);
+		this.events = List.copyOf(events);
+		List<Numbered> before = new ArrayList<>();
+		List<Numbered> timed = new ArrayList<>();
+		for (int i = 0; i < this.events.size(); i++) {
+			SessionEvent event = this.events.get(i);
+			if (changesState(event)) {
+				(event.at() == null ? before : timed).add(new Numbered(i + 1, event));
+			}
+		}
+		this.inputs = List.copyOf(timed);
+		this.initial = foldAll(new DerivedState(Flag.GREEN, Map.of(), false, null, Map.of()), before);
 		this.snapshots = takeSnapshots();
 	}
 
+	/** The engine for a race's imported data (its stream worked out here, without timeline events). */
 	public static RaceStateEngine of(RaceData race) {
-		return new RaceStateEngine(race);
+		return of(race, SessionEvents.derive(race, List.of()));
+	}
+
+	/** The engine for a session's stream; `timing` gives the cars' positions (its other data is unused). */
+	public static RaceStateEngine of(RaceData timing, List<SessionEvent> events) {
+		return new RaceStateEngine(timing, events);
 	}
 
 	/** The state at a moment, from the nearest snapshot plus the events since. */
@@ -119,6 +112,24 @@ public final class RaceStateEngine {
 		return snapshots.get(lo);
 	}
 
+	/** The session's stream; event #n is `events().get(n - 1)`. */
+	public List<SessionEvent> events() {
+		return events;
+	}
+
+	/**
+	 * Time travel: the state right after event #`seq` (from 1) and nothing later, even at the same moment;
+	 * at the event's time (the clock's zero for one before the start).
+	 */
+	public RaceState stateAtEvent(int seq) {
+		if (seq < 1 || seq > events.size()) {
+			throw new IllegalArgumentException("No event #" + seq + " in a stream of " + events.size());
+		}
+		Instant at = events.get(seq - 1).at();
+		List<Numbered> upTo = inputs.stream().filter(n -> n.seq() <= seq).toList();
+		return state(at == null ? race.clockStart() : at, foldAll(initial, upTo));
+	}
+
 	public Instant clockStart() {
 		return race.clockStart();
 	}
@@ -133,9 +144,19 @@ public final class RaceStateEngine {
 		}
 		var folding = new Folding(state);
 		for (; i < inputs.size() && !inputs.get(i).at().isAfter(upTo); i++) {
-			folding.apply(inputs.get(i));
+			folding.apply(inputs.get(i).event());
 		}
 		return folding.freeze();
+	}
+
+	private static DerivedState foldAll(DerivedState state, List<Numbered> events) {
+		var folding = new Folding(state);
+		events.forEach(n -> folding.apply(n.event()));
+		return folding.freeze();
+	}
+
+	private static boolean changesState(SessionEvent event) {
+		return !(event instanceof SessionRecorded || event instanceof Detected);
 	}
 
 	private int firstInputAfter(Instant after) {
@@ -161,17 +182,20 @@ public final class RaceStateEngine {
 
 		boolean drsEnabled;
 
+		WeatherNow weather;
+
 		final Map<Integer, DerivedState.Car> cars;
 
 		Folding(DerivedState state) {
 			this.flag = state.flag();
 			this.yellowSectors = new HashMap<>(state.yellowSectors());
 			this.drsEnabled = state.drsEnabled();
+			this.weather = state.weather();
 			this.cars = new HashMap<>(state.cars());
 		}
 
-		void apply(Input input) {
-			switch (input) {
+		void apply(SessionEvent event) {
+			switch (event) {
 				case FlagChanged f -> flag = f.flag();
 				// a drive-through or stop-go is served at the next stop
 				case PitIn p -> update(p.car(), c -> c.withPit(c.pitStops() + 1, true, Math.max(0, c.pendingPenalties() - 1)));
@@ -193,6 +217,12 @@ public final class RaceStateEngine {
 				}
 				case TrackCleared c -> yellowSectors.clear();
 				case DrsChanged d -> drsEnabled = d.enabled();
+				case WeatherReported w -> weather = new WeatherNow(w.airTemperature(), w.trackTemperature(),
+						w.humidity(), w.rainfall(), w.windSpeed());
+				case SessionRecorded r -> {
+				}
+				case Detected d -> {
+				}
 			}
 		}
 
@@ -201,7 +231,7 @@ public final class RaceStateEngine {
 		}
 
 		DerivedState freeze() {
-			return new DerivedState(flag, yellowSectors, drsEnabled, cars);
+			return new DerivedState(flag, yellowSectors, drsEnabled, weather, cars);
 		}
 
 	}
@@ -257,7 +287,7 @@ public final class RaceStateEngine {
 			cars.add(carState(now.car(), cars.size() + 1, now.lapsDone(), now.status(), null, null, 0, false, derived));
 		}
 		int lap = leader == null ? 1 : race.lapOf(leader.lapsDone());
-		return new RaceState(t, lap, derived.flag(), derived.yellowSectors(), derived.drsEnabled(), weatherAt(t), cars);
+		return new RaceState(t, lap, derived.flag(), derived.yellowSectors(), derived.drsEnabled(), derived.weather(), cars);
 	}
 
 	private CarState carState(int car, int position, double lapsDone, CarStatus status, Double gap, Double interval,
@@ -268,19 +298,6 @@ public final class RaceStateEngine {
 		return new CarState(car, race.code(car), position, lap, round(lapsDone, 10_000), status, gap, interval,
 				lapsDown, d.compound(), tyreAge, d.pitStops(), d.penaltySeconds(), d.pendingPenalties(), drs,
 				d.mandatoryStopDone());
-	}
-
-	// the latest weather reading at or before t
-	private WeatherNow weatherAt(Instant t) {
-		RaceData.Weather latest = null;
-		for (RaceData.Weather w : weather) {
-			if (w.at().isAfter(t)) {
-				break;
-			}
-			latest = w;
-		}
-		return latest == null ? null : new WeatherNow(latest.airTemperature(), latest.trackTemperature(),
-				latest.humidity(), latest.rainfall(), latest.windSpeed());
 	}
 
 	// seconds since `other` was where this car is now
@@ -294,76 +311,6 @@ public final class RaceStateEngine {
 	}
 
 	// ---- building the inputs and snapshots
-
-	// before anything happens: green, and each car on its first set of tyres
-	private static DerivedState initialState(RaceData race) {
-		Map<Integer, DerivedState.Car> cars = new HashMap<>();
-		race.stints().stream()
-				.filter(s -> s.stint() == firstStint(race, s.car()))
-				.forEach(s -> cars.put(s.car(), DerivedState.Car.NONE.withTyres(s.compound(), s.lapStart(),
-						s.ageAtStart())));
-		return new DerivedState(Flag.GREEN, Map.of(), false, cars);
-	}
-
-	private static int firstStint(RaceData race, int car) {
-		return race.stints().stream().filter(s -> s.car() == car).mapToInt(Stint::stint).min().orElse(1);
-	}
-
-	private static List<Input> inputs(RaceData race) {
-		List<Input> inputs = new ArrayList<>();
-		// at the same moment: a period ending, then the next starting; pit exit before entry; then the rest
-		for (TrackStatusPeriod p : race.trackStatus()) {
-			if (p.to() != null) {
-				inputs.add(new FlagChanged(p.to(), Flag.GREEN, 0));
-			}
-		}
-		for (TrackStatusPeriod p : race.trackStatus()) {
-			inputs.add(new FlagChanged(p.from(), Flag.of(p.status()), 1));
-		}
-		race.pits().forEach((car, stops) -> stops.forEach(stop -> {
-			inputs.add(new PitOut(stop.to(), car, 2));
-			inputs.add(new PitIn(stop.from(), car, 3));
-		}));
-		for (Stint stint : race.stints()) {
-			if (stint.stint() == firstStint(race, stint.car())) {
-				continue;
-			}
-			Instant at = fittedAt(race, stint);
-			if (at != null) {
-				inputs.add(new TyresFitted(at, stint.car(), stint.compound(), stint.lapStart(), stint.ageAtStart(), 4));
-			}
-		}
-		race.penalties().forEach(p -> inputs.add(new PenaltyGiven(p.at(), p.car(), p.kind(), p.amount(), 5)));
-		for (RaceData.Message m : race.raceControl()) {
-			String text = m.text() == null ? "" : m.text().trim();
-			switch (RaceControlParser.parse(text)) {
-				case RaceControlSignal.SectorFlag f -> inputs.add(new SectorFlagged(m.at(), f.sector(),
-						!f.yellow() ? null : text.startsWith("DOUBLE") ? SectorFlag.DOUBLE_YELLOW : SectorFlag.YELLOW, 6));
-				case RaceControlSignal.TrackClear c -> inputs.add(new TrackCleared(m.at(), 6));
-				default -> {
-					if (text.equals("DRS ENABLED") || text.equals("DRS DISABLED")) { // not one zone: DRS as a whole
-						inputs.add(new DrsChanged(m.at(), text.equals("DRS ENABLED"), 6));
-					}
-				}
-			}
-		}
-		// a stable sort: same moment and kind keep the order they came in
-		inputs.sort(Comparator.comparing(Input::at).thenComparingInt(Input::order));
-		return List.copyOf(inputs);
-	}
-
-	// at the pit stop on the lap before the stint (as the car leaves), else when the stint's first lap began
-	private static Instant fittedAt(RaceData race, Stint stint) {
-		return race.pits().getOrDefault(stint.car(), List.of()).stream()
-				.filter(p -> Objects.equals(p.lap(), stint.lapStart() - 1))
-				.map(PitWindow::to)
-				.findFirst()
-				.orElseGet(() -> race.laps().stream()
-						.filter(l -> l.car() == stint.car() && l.lap() == stint.lapStart() && l.startsAt() != null)
-						.map(LapTime::startsAt)
-						.findFirst()
-						.orElse(null));
-	}
 
 	private List<Snapshot> takeSnapshots() {
 		record When(Instant at, SnapshotReason reason) {
@@ -380,24 +327,25 @@ public final class RaceStateEngine {
 				when.add(new When(leaderStarted, SnapshotReason.LAP));
 			}
 		}
-		for (TrackStatusPeriod p : race.trackStatus()) {
-			SnapshotReason reason = switch (p.status()) {
-				case SAFETY_CAR -> SnapshotReason.SAFETY_CAR;
-				case VSC -> SnapshotReason.VSC;
-				case RED -> SnapshotReason.RED_FLAG;
+		for (Numbered n : inputs) {
+			SnapshotReason reason = switch (n.event()) {
+				case FlagChanged f when f.flag() == Flag.SAFETY_CAR -> SnapshotReason.SAFETY_CAR;
+				case FlagChanged f when f.flag() == Flag.VSC -> SnapshotReason.VSC;
+				case FlagChanged f when f.flag() == Flag.RED -> SnapshotReason.RED_FLAG;
+				case PitIn p -> SnapshotReason.PIT_STOP;
 				default -> null;
 			};
 			if (reason != null) {
-				when.add(new When(p.from(), reason));
+				when.add(new When(n.at(), reason));
 			}
 		}
-		race.pits().values().forEach(stops -> stops.forEach(s -> when.add(new When(s.from(), SnapshotReason.PIT_STOP))));
-		// one at every moment something changes, for the browser to look up (inputs are in time order)
+		// one at every moment something the browser shows changes, for it to look up (inputs are in time
+		// order; the weather it gets with the replay)
 		Instant last = null;
-		for (Input input : inputs) {
-			if (!input.at().equals(last)) {
-				when.add(new When(input.at(), SnapshotReason.CHANGE));
-				last = input.at();
+		for (Numbered n : inputs) {
+			if (!(n.event() instanceof WeatherReported) && !n.at().equals(last)) {
+				when.add(new When(n.at(), SnapshotReason.CHANGE));
+				last = n.at();
 			}
 		}
 		when.sort(Comparator.comparing(When::at).thenComparing(When::reason));

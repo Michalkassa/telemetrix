@@ -3,6 +3,8 @@ package com.telemetrix.analytics;
 import com.telemetrix.analytics.DriverStats.Career;
 import com.telemetrix.analytics.DriverStats.Conditions;
 import com.telemetrix.common.NotFoundException;
+import com.telemetrix.eventstore.Projection;
+import com.telemetrix.result.ResultsRecorder;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -10,25 +12,49 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 // A driver's statistics, in SQL: aggregates with FILTER over the driver_race_results materialized view
-// (one row per Grand Prix entry), window functions for shares and running totals. Poles count race grid
+// (one row per Grand Prix entry; a read model of the races' results streams, docs/adr/0006), window
+// functions for shares and running totals. Poles count race grid
 // position 1, not qualifying P1 (the qualifying view is the order before grid penalties).
 @Service
 @Transactional(readOnly = true)
-public class DriverStatsService {
+public class DriverStatsService implements Projection {
 
 	/** Longer than this in the pit lane is a red-flag stoppage, not a pit stop. */
 	public static final long RED_FLAG_MS = 5 * 60_000;
 
 	private final JdbcTemplate jdbc;
 
-	DriverStatsService(JdbcTemplate jdbc) {
+	private final ResultsRecorder results;
+
+	DriverStatsService(JdbcTemplate jdbc, ResultsRecorder results) {
 		this.jdbc = jdbc;
+		this.results = results;
 	}
 
-	/** Brings the materialized view up to date (after the history import or a race import). */
+	@Override
+	public String name() {
+		return "driver_race_results";
+	}
+
+	/** Works the view out again from the results streams alone. */
+	@Override
+	@Transactional
+	public void rebuild() {
+		jdbc.execute("refresh materialized view driver_race_results");
+	}
+
+	/** After the history import: records every race's results that changed, then rebuilds the view. */
 	@Transactional
 	public void refresh() {
-		jdbc.execute("refresh materialized view driver_race_results");
+		results.recordAll();
+		rebuild();
+	}
+
+	/** After a race import (which brings its weather): records that race again, then rebuilds the view. */
+	@Transactional
+	public void refresh(long raceId) {
+		results.record(raceId);
+		rebuild();
 	}
 
 	public DriverStats stats(String ref) {

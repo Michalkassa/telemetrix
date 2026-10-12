@@ -3,11 +3,11 @@ package com.telemetrix.state;
 import java.util.Map;
 
 /**
- * The part of the race state that builds up from events (RaceStateEngine folds them): the flag, and per
- * car its tyres, pit stops and penalties. Positions and gaps aren't here: they come straight from the
- * timing at any moment.
+ * The part of the race state that builds up from events (RaceStateEngine folds them): the flag, the
+ * latest weather (null before the first reading), and per car its tyres, pit stops and penalties.
+ * Positions and gaps aren't here: they come straight from the timing at any moment.
  */
-public record DerivedState(Flag flag, Map<Integer, SectorFlag> yellowSectors, boolean drsEnabled,
+public record DerivedState(Flag flag, Map<Integer, SectorFlag> yellowSectors, boolean drsEnabled, WeatherNow weather,
 		Map<Integer, Car> cars) {
 
 	/**

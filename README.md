@@ -17,7 +17,10 @@ stops, tyres, wet vs dry, per track and per season; SQL over a materialized view
 positions gained by strategy), each race's **timeline** (overtakes, pit stops, SC/VSC, incidents,
 DNFs, fastest laps, penalties, ...), the race **state** at any moment (order, gaps, tyres, flags,
 penalties; instant to seek thanks to snapshots), and the **replay** (a whole race's timing points in one ~80 KB response) are
-served over a REST API. The React frontend has the landing page, dashboard, the **Seasons** lens (`/seasons`: a year grid, then each
+served over a REST API. Race sessions and race results are **event-sourced** ([`docs/adr/0006`](docs/adr/0006-event-sourcing-and-cqrs.md)):
+an append-only event store is the source of truth, and the timeline, race state, standings and driver
+analytics are read models rebuilt from it (`POST /api/admin/projections/rebuild`); a session's event
+log can be queried, and the state at any event number inspected (time travel). The React frontend has the landing page, dashboard, the **Seasons** lens (`/seasons`: a year grid, then each
 season's hub with drivers' and constructors' standings, a race-by-race results grid linking every
 result to its race, the race list, and points-progression comparisons of two drivers across seasons),
 the **Drivers & Teams** lens (`/drivers` and `/teams`: searchable directories, a driver hub with
@@ -161,7 +164,7 @@ journey) and are driven inward with unit tests. The rules and the test tools for
 
 ## Where to start implementing
 
-Follow [`STEPS.md`](STEPS.md) from **Step 35** (multi-race comparison; Step 20, CI, is still to do), using [`templates/README.md`](templates/README.md) as the reference for each Spring
+Follow [`STEPS.md`](STEPS.md) from **Step 37** (security; Step 20, CI, is still to do), using [`templates/README.md`](templates/README.md) as the reference for each Spring
 layer. Every step starts with its **Tests first** list. When a feature's tests pass, tick it off:
 `python3 scripts/sync_features.py done <ID>`.
 

@@ -82,10 +82,10 @@ STATE-04,2,26,Race State Engine,Active penalties,done,2026-10-09
 STATE-05,2,26,Race State Engine,Current flags,done,2026-10-09
 STATE-06,2,26,Race State Engine,Pit window status,done,2026-10-09
 STATE-07,3,30,Race State Engine,Championship standings,done,2026-10-10
-ES-01,3,36,Event Sourcing Architecture,Easier replay reconstruction,todo,
-ES-02,3,36,Event Sourcing Architecture,Time travel debugging,todo,
-ES-03,3,36,Event Sourcing Architecture,Efficient playback,todo,
-ES-04,3,36,Event Sourcing Architecture,Historical querying,todo,
+ES-01,3,36,Event Sourcing Architecture,Easier replay reconstruction,done,2026-10-12
+ES-02,3,36,Event Sourcing Architecture,Time travel debugging,done,2026-10-12
+ES-03,3,36,Event Sourcing Architecture,Efficient playback,done,2026-10-12
+ES-04,3,36,Event Sourcing Architecture,Historical querying,done,2026-10-12
 STACK-01,0,1,Primary Stack,Java 25,done,2026-09-22
 STACK-02,0,1,Primary Stack,Spring Boot 4,done,2026-09-22
 STACK-03,2,24,Primary Stack,Spring WebFlux,todo,
@@ -281,8 +281,8 @@ PAT-01,1,21,Patterns To Use,Factory Pattern,done,2026-10-09
 PAT-02,3,30,Patterns To Use,Strategy Pattern,done,2026-10-10
 PAT-03,2,22,Patterns To Use,Observer Pattern,done,2026-10-09
 PAT-04,1,15,Patterns To Use,Builder Pattern,done,2026-10-09
-PAT-05,3,36,Patterns To Use,CQRS,todo,
-PAT-06,3,36,Patterns To Use,Event Sourcing,todo,
+PAT-05,3,36,Patterns To Use,CQRS,done,2026-10-12
+PAT-06,3,36,Patterns To Use,Event Sourcing,done,2026-10-12
 PAT-07,1,7,Patterns To Use,Repository Pattern,done,2026-10-09
 STRETCH-01,stretch,55,Possible Future Features,3D visualization,todo,
 STRETCH-02,stretch,55,Possible Future Features,Live race mode,todo,

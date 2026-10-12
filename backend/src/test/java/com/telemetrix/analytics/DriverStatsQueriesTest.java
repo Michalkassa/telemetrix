@@ -7,9 +7,16 @@ import static org.assertj.core.api.Assertions.within;
 
 import com.telemetrix.RepositoryTest;
 import com.telemetrix.common.NotFoundException;
+import com.telemetrix.eventstore.EventStore;
+import com.telemetrix.result.ResultsRecorder;
+import java.time.Clock;
+import java.time.Instant;
+import java.time.ZoneOffset;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.jdbc.Sql;
@@ -17,9 +24,19 @@ import org.springframework.test.context.jdbc.Sql;
 // Driver statistics in SQL against PostgreSQL, on a seeded mini-dataset (analytics/mini-dataset.sql: 3
 // races, 4 drivers) where every number below was worked out by hand first.
 @RepositoryTest
-@Import(DriverStatsService.class)
+@Import({ DriverStatsService.class, ResultsRecorder.class, EventStore.class, DriverStatsQueriesTest.Beans.class })
 @Sql("/analytics/mini-dataset.sql")
 class DriverStatsQueriesTest {
+
+	@TestConfiguration(proxyBeanMethods = false)
+	static class Beans {
+
+		@Bean
+		Clock clock() {
+			return Clock.fixed(Instant.parse("2026-10-12T20:00:00Z"), ZoneOffset.UTC);
+		}
+
+	}
 
 	@Autowired
 	DriverStatsService stats;
@@ -107,6 +124,18 @@ class DriverStatsQueriesTest {
 		assertThat(seasons).extracting(s -> s.season(), s -> s.wins(), s -> s.careerWins())
 				.containsExactly(org.assertj.core.groups.Tuple.tuple(2024, 1, 1),
 						org.assertj.core.groups.Tuple.tuple(2025, 1, 2));
+	}
+
+	@Test
+	void theViewIsAReadModelOfTheResultsStreams() {
+		var before = jdbc.queryForList("select * from driver_race_results order by race_entry_id");
+		assertThat(before).hasSize(12);
+		jdbc.update("delete from session_results");
+		jdbc.update("delete from weather_data");
+
+		stats.rebuild(); // from the events alone
+
+		assertThat(jdbc.queryForList("select * from driver_race_results order by race_entry_id")).isEqualTo(before);
 	}
 
 	@Test

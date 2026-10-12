@@ -20,7 +20,11 @@ penalties; instant to seek thanks to snapshots), and the **replay** (a whole rac
 served over a REST API. Race sessions and race results are **event-sourced** ([`docs/adr/0006`](docs/adr/0006-event-sourcing-and-cqrs.md)):
 an append-only event store is the source of truth, and the timeline, race state, standings and driver
 analytics are read models rebuilt from it (`POST /api/admin/projections/rebuild`); a session's event
-log can be queried, and the state at any event number inspected (time travel). The React frontend has the landing page, dashboard, the **Seasons** lens (`/seasons`: a year grid, then each
+log can be queried, and the state at any event number inspected (time travel). **Security**
+([`docs/adr/0007`](docs/adr/0007-security-jwt-github-api-keys.md)): reading is open to everyone; signing
+in with GitHub issues the app's own JWTs (RS256, refreshable), and roles USER / ANALYST / ADMIN come from
+allowlists of GitHub logins (the event log needs ANALYST, imports and rebuilds ADMIN). Scripts use API
+keys; every caller is rate limited (429), and hostile input is refused before it reaches a query. The React frontend has the landing page, dashboard, the **Seasons** lens (`/seasons`: a year grid, then each
 season's hub with drivers' and constructors' standings, a race-by-race results grid linking every
 result to its race, the race list, and points-progression comparisons of two drivers across seasons),
 the **Drivers & Teams** lens (`/drivers` and `/teams`: searchable directories, a driver hub with
@@ -91,17 +95,22 @@ docker compose up -d --wait        # starts postgres:16 and waits until it is he
 Then, from `backend/`, run the app:
 
 ```bash
+# an ADMIN API key for the imports below: "telemetrix-dev-seed-key" (only its SHA-256 is given)
+export TELEMETRIX_SECURITY_APIKEYS_0_NAME=dev TELEMETRIX_SECURITY_APIKEYS_0_ROLE=ADMIN \
+  TELEMETRIX_SECURITY_APIKEYS_0_SHA256=3269123ed71ec32853e5e11324d321a4116cdfca4a5591f3ae855dc2041d766d
 ./mvnw spring-boot:run             # http://localhost:8080 — Ctrl+C to stop
 ```
 
 It connects to Postgres and Flyway applies the migrations in `src/main/resources/db/migration/`.
-The database starts empty; fill it (all data sources are free — `docs/adr/0003`):
+The database starts empty; fill it (all data sources are free — `docs/adr/0003`). The imports are
+ADMIN-only (docs/adr/0007):
 
 ```bash
-curl -X POST localhost:8080/api/admin/import/history         # 1950 → today from Jolpica's dump (~20 s, runs in the background)
-curl localhost:8080/api/admin/import/history                 # ...until "status": "COMPLETED"
-curl -X POST localhost:8080/api/admin/import/seasons/2024     # a season's calendar + OpenF1 links (also nightly for the current season)
-curl -X POST localhost:8080/api/admin/import/races/1102       # one race's OpenF1 sessions, laps, stints, pit stops
+KEY='X-API-Key: telemetrix-dev-seed-key'
+curl -X POST -H "$KEY" localhost:8080/api/admin/import/history       # 1950 → today from Jolpica's dump (~20 s, in the background)
+curl -H "$KEY" localhost:8080/api/admin/import/history               # ...until "status": "COMPLETED"
+curl -X POST -H "$KEY" localhost:8080/api/admin/import/seasons/2024   # a season's calendar + OpenF1 links (also nightly for the current season)
+curl -X POST -H "$KEY" localhost:8080/api/admin/import/races/1102     # one race's OpenF1 sessions, laps, stints, pit stops
 ```
 
 Then the frontend, from `frontend/` (first time: `npm install`):
@@ -146,6 +155,20 @@ SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5433/telemetrix ./mvnw spring-
 
 Supported: `SPRING_DATASOURCE_URL`, `SPRING_DATASOURCE_USERNAME`, `SPRING_DATASOURCE_PASSWORD`.
 
+**Security** (docs/adr/0007; none of it is needed to browse — reading is open):
+
+| Variable | What |
+|----------|------|
+| `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET` | A GitHub OAuth app ([settings/developers](https://github.com/settings/developers)) for "Sign in with GitHub". Its callback is `http://localhost:5173/login/oauth2/code/github` with Vite, `http://localhost:3000/...` with Docker |
+| `TELEMETRIX_ADMINS`, `TELEMETRIX_ANALYSTS` | Comma-separated GitHub logins with those roles; anyone else who signs in is a USER |
+| `TELEMETRIX_LOGIN_REDIRECT` | Where the browser lands after signing in, the tokens in the URL fragment |
+| `TELEMETRIX_SECURITY_JWT_PUBLICKEY`, `..._PRIVATEKEY` | The signing key as PEM files (`file:/run/secrets/jwt-public.pem`; private as PKCS#8). Unset: a new key at each start, so a restart signs everyone out — set them in production |
+| `TELEMETRIX_SECURITY_APIKEYS_0_NAME`, `..._ROLE`, `..._SHA256` | An API key for scripts (`X-API-Key`): its name, role and SHA-256 (`printf 'my-key' \| shasum -a 256`); `_1_`, `_2_`, ... for more |
+| `SEED_API_KEY`, `SEED_API_KEY_SHA256` | Docker only: the key the `seed` service imports with, and its hash for the backend. The defaults are a development pair: replace them anywhere else |
+
+Make a signing key: `openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:2048 -out jwt-private.pem`
+then `openssl rsa -in jwt-private.pem -pubout -out jwt-public.pem`.
+
 Other settings worth knowing:
 
 - `spring.jpa.hibernate.ddl-auto=validate` — Flyway owns the schema; Hibernate only checks at
@@ -164,7 +187,7 @@ journey) and are driven inward with unit tests. The rules and the test tools for
 
 ## Where to start implementing
 
-Follow [`STEPS.md`](STEPS.md) from **Step 37** (security; Step 20, CI, is still to do), using [`templates/README.md`](templates/README.md) as the reference for each Spring
+Follow [`STEPS.md`](STEPS.md) from **Step 38** (Redis caching; Step 20, CI, is still to do), using [`templates/README.md`](templates/README.md) as the reference for each Spring
 layer. Every step starts with its **Tests first** list. When a feature's tests pass, tick it off:
 `python3 scripts/sync_features.py done <ID>`.
 

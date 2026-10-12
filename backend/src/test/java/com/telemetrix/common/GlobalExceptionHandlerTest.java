@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 // Every error the API returns is an RFC 9457 problem detail. A test-only controller throws each
 // kind of exception so the handler can be tested without any real feature.
 @WebMvcTest(GlobalExceptionHandlerTest.ThrowingController.class)
+// controller behaviour only: who may call it is AuthorizationMatrixTest's, against the real filter chain
+@AutoConfigureMockMvc(addFilters = false)
 @Import(GlobalExceptionHandlerTest.ThrowingController.class)
 class GlobalExceptionHandlerTest {
 

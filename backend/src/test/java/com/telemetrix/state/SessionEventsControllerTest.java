@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Set;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -20,6 +21,8 @@ import tools.jackson.databind.json.JsonMapper;
 
 // The session's event log over HTTP: query it (historical querying) and the state at any event (time travel).
 @WebMvcTest(SessionEventsController.class)
+// controller behaviour only: who may call it is AuthorizationMatrixTest's, against the real filter chain
+@AutoConfigureMockMvc(addFilters = false)
 class SessionEventsControllerTest {
 
 	static final Instant ZERO = Instant.parse("2023-09-17T12:03:44.658Z");

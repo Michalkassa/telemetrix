@@ -31,6 +31,17 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-telemetrix}
       SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-telemetrix}
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-telemetrix}
+      # security (docs/adr/0007): see README, Configuration
+      GITHUB_CLIENT_ID: ${GITHUB_CLIENT_ID:-not-configured}
+      GITHUB_CLIENT_SECRET: ${GITHUB_CLIENT_SECRET:-not-configured}
+      TELEMETRIX_ADMINS: ${TELEMETRIX_ADMINS:-}
+      TELEMETRIX_ANALYSTS: ${TELEMETRIX_ANALYSTS:-}
+      TELEMETRIX_LOGIN_REDIRECT: ${TELEMETRIX_LOGIN_REDIRECT:-http://localhost:3000/auth/callback}
+      # the seed below imports as ADMIN with this key (only its SHA-256 is given to the backend). The
+      # default is the SHA-256 of "telemetrix-dev-seed-key": set your own pair outside development.
+      TELEMETRIX_SECURITY_APIKEYS_0_NAME: seed
+      TELEMETRIX_SECURITY_APIKEYS_0_ROLE: ADMIN
+      TELEMETRIX_SECURITY_APIKEYS_0_SHA256: ${SEED_API_KEY_SHA256:-3269123ed71ec32853e5e11324d321a4116cdfca4a5591f3ae855dc2041d766d}
     ports:
       - "${BACKEND_PORT:-8080}:8080"
     depends_on:
@@ -68,12 +79,14 @@ services:
         condition: service_healthy
     environment:
       SEED_SEASONS: ${SEED_SEASONS:-2024}
+      SEED_API_KEY: ${SEED_API_KEY:-telemetrix-dev-seed-key}
     entrypoint: ["/bin/sh", "-c"]
     command:
       - |
         for year in $$SEED_SEASONS; do
           echo "importing the $$year calendar..."
-          curl -fsS --retry 3 --retry-all-errors -X POST http://backend:8080/api/admin/import/seasons/$$year -o /dev/null || exit 1
+          curl -fsS --retry 3 --retry-all-errors -X POST -H "X-API-Key: $$SEED_API_KEY" \
+            http://backend:8080/api/admin/import/seasons/$$year -o /dev/null || exit 1
         done
         echo done
     restart: "no"

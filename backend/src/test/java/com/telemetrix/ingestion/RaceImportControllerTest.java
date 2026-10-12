@@ -9,12 +9,15 @@ import com.telemetrix.ingestion.RaceImportCoordinator.State;
 import java.time.Instant;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.assertj.MockMvcTester;
 
 @WebMvcTest(RaceImportController.class)
+// controller behaviour only: who may call it is AuthorizationMatrixTest's, against the real filter chain
+@AutoConfigureMockMvc(addFilters = false)
 class RaceImportControllerTest {
 
 	static final Instant NOW = Instant.parse("2026-10-09T12:00:00Z");

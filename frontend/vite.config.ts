@@ -10,6 +10,9 @@ export default defineConfig({
     proxy: {
       '/api': 'http://localhost:8080',
       '/ws': { target: 'ws://localhost:8080', ws: true }, // watch-together (docs/adr/0005)
+      // "Sign in with GitHub" (docs/adr/0007); the OAuth app's callback: http://localhost:5173/login/oauth2/code/github
+      '/oauth2': 'http://localhost:8080',
+      '/login/oauth2': 'http://localhost:8080',
     },
   },
   test: {

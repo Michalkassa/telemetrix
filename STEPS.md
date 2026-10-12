@@ -1399,24 +1399,24 @@ rule, and SQL-injection attempts.
 ADMIN gets 200, and a burst of requests hits 429.
 
 <!-- features:37 -->
-**Checks off (0/16):**
+**Checks off (16/16):**
 
-- [ ] `STACK-04` Spring Security
-- [ ] `AUTH-01` JWT authentication
-- [ ] `AUTH-02` OAuth2 login
-- [ ] `AUTH-03` Role-based permissions
-- [ ] `AUTH-04` Rate limiting
-- [ ] `AUTH-05` API key support
-- [ ] `ROLE-01` USER
-- [ ] `ROLE-02` ADMIN
-- [ ] `ROLE-03` ANALYST
-- [ ] `TEST-11` Authentication flows
-- [ ] `TEST-15` JWT validation
-- [ ] `TEST-16` Authorization checks
-- [ ] `TEST-17` Injection prevention
-- [ ] `NFR-11` JWT encryption
-- [ ] `NFR-13` Input sanitization
-- [ ] `MOD-01` auth-service
+- [x] `STACK-04` Spring Security
+- [x] `AUTH-01` JWT authentication
+- [x] `AUTH-02` OAuth2 login
+- [x] `AUTH-03` Role-based permissions
+- [x] `AUTH-04` Rate limiting
+- [x] `AUTH-05` API key support
+- [x] `ROLE-01` USER
+- [x] `ROLE-02` ADMIN
+- [x] `ROLE-03` ANALYST
+- [x] `TEST-11` Authentication flows
+- [x] `TEST-15` JWT validation
+- [x] `TEST-16` Authorization checks
+- [x] `TEST-17` Injection prevention
+- [x] `NFR-11` JWT encryption
+- [x] `NFR-13` Input sanitization
+- [x] `MOD-01` auth-service
 <!-- /features -->
 
 ---

@@ -29,13 +29,66 @@ type `application/problem+json`:
 
 | Status | When |
 |--------|------|
-| 400 | The request is invalid. For a bad body, `errors` maps each failing field to its message: `"errors": {"name": "must not be blank"}` |
+| 400 | The request is invalid. For a bad body, `errors` maps each failing field to its message: `"errors": {"name": "must not be blank"}`. A value of the wrong type or shape names the parameter but never echoes the value |
+| 401 | No valid credentials where they're needed, an expired or forged token, or an unknown API key (`WWW-Authenticate: Bearer`) |
+| 403 | Signed in, but your role may not do this |
 | 404 | The requested resource doesn't exist |
 | 409 | The request conflicts with current state (e.g. a duplicate) |
+| 429 | Too many requests from you: wait `Retry-After` seconds |
 | 502 | An external data source (Jolpica, OpenF1) failed even after retries. The `detail` names the source and request |
 | 500 | A bug on the server. The `detail` is always `"Unexpected error"`; the cause is only in the server log |
 
-Implemented by `com.telemetrix.common.GlobalExceptionHandler`.
+Implemented by `com.telemetrix.common.GlobalExceptionHandler` (401, 403 and 429: `auth.ProblemResponses`).
+
+## Authentication and roles (docs/adr/0007)
+
+Reading is open to everyone, as are opening a race (`POST /api/races/{id}/import`) and creating a watch
+session. Everything else needs credentials:
+
+| Who | Can also |
+|-----|----------|
+| USER (anyone signed in) | `GET /api/auth/me`; any other write |
+| ANALYST | The event log and time travel (`/api/sessions/{id}/events/**`) |
+| ADMIN | Imports and rebuilding read models (`/api/admin/**`) |
+
+Each role includes the ones above it. Send either:
+
+- `Authorization: Bearer <access token>` — from signing in with GitHub (below), valid 15 minutes; or
+- `X-API-Key: <key>` — for scripts; each key has its own role (`telemetrix.security.api-keys`).
+
+Every response under `/api` carries `X-Rate-Limit-Remaining`. Over the limit (default 300 a minute
+anonymous, by address; 1200 signed in) the answer is **429** with `Retry-After`.
+
+#### Sign in with GitHub: `GET /oauth2/authorization/github`
+
+A browser link, not an API call. It goes to GitHub and comes back to the app's
+`telemetrix.security.login-redirect` with the tokens in the URL fragment:
+
+```
+http://localhost:5173/auth/callback#access_token=eyJ...&refresh_token=eyJ...&token_type=Bearer&expires_in=900
+```
+
+or `#error=login_failed`. Roles: GitHub logins listed in `telemetrix.security.admins` / `analysts`;
+anyone else is a USER.
+
+#### `POST /api/auth/refresh`
+
+A new pair of tokens for a refresh token (valid 14 days); the role is worked out again.
+
+```json
+{"refreshToken": "eyJ..."}
+```
+
+```json
+{"accessToken": "eyJ...", "refreshToken": "eyJ...", "expiresIn": 900}
+```
+
+401 for an expired, forged or access (not refresh) token.
+
+#### `GET /api/auth/me`
+
+Who you are: `{"subject": "github:octocat", "roles": ["ADMIN"]}` (an API key: `"api-key:<name>"`). 401
+when not signed in.
 
 ## Endpoints
 
@@ -468,6 +521,8 @@ the stream gets a new `generation`; earlier ones stay readable.
 
 #### `GET /api/sessions/{id}/events?type={type}&from={instant}&to={instant}&generation={n}`
 
+**ANALYST.**
+
 The session's events (the latest generation unless `generation` is given). Repeat `type` to keep several
 types; `from` / `to` (inclusive) keep a time window and leave out events from before the start. `t` is
 milliseconds after `clockStart`; null for events before the start (the stream's opening, each car's
@@ -498,6 +553,8 @@ starting tyres).
 | 404 | Unknown session, no timing, or no such generation |
 
 #### `GET /api/sessions/{id}/events/{seq}/state`
+
+**ANALYST.**
 
 Time travel: the whole race state (as `/replay/state`) right after event `seq` and nothing after it,
 even another event at the same moment. `at` is the event's time (the clock's zero for one before the
@@ -576,8 +633,7 @@ exactly `lapDelta`. Bahrain 2024, Verstappen's 1:32.608 against Leclerc's 1:34.0
 
 ### Admin: imports
 
-> **Unsecured until Step 37** (Security), when they become ADMIN-only. Don't expose them publicly
-> before then.
+**ADMIN** (a token or an API key with that role): anyone else gets 401 or 403.
 
 The season and race imports return an **import report**: per kind of row, how many were inserted, updated, unchanged or
 skipped, plus notes (why rows were skipped, "already imported", ...).
@@ -649,6 +705,8 @@ restartable Spring Batch job. `POST` answers **202 Accepted** at once and runs i
 | 409 | `POST`: a run is already in progress |
 
 #### `POST /api/admin/projections/rebuild`
+
+**ADMIN.**
 
 Throws every read model away — the timeline, the race-state snapshots, `championship_snapshots`, the
 `driver_race_results` view — and rebuilds it from the event streams alone (docs/adr/0006). Safe to run

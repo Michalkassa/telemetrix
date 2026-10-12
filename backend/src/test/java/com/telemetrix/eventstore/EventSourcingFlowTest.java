@@ -5,6 +5,7 @@ import static org.mockito.BDDMockito.given;
 
 import com.telemetrix.Fixtures;
 import com.telemetrix.TestcontainersConfiguration;
+import com.telemetrix.auth.TokenService;
 import com.telemetrix.ingestion.RaceImporter;
 import com.telemetrix.ingestion.f1archive.F1ArchiveClient;
 import com.telemetrix.ingestion.history.HistoryImportService;
@@ -65,6 +66,16 @@ class EventSourcingFlowTest {
 	long raceId;
 
 	long sessionId;
+
+	@Autowired
+	TokenService tokens;
+
+	@BeforeEach
+	void signInAsAnAdmin() {
+		// the event log is ANALYST's, rebuilding ADMIN's (docs/adr/0007); test-admin is on the admin allowlist
+		http = http.mutate().defaultHeader("Authorization", "Bearer " + tokens.issue("github:test-admin").accessToken())
+				.build();
+	}
 
 	@BeforeEach
 	void importHistoryAndOpenSingapore2023() throws Exception {

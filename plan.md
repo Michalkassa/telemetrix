@@ -14,7 +14,7 @@ python3 scripts/sync_features.py --check                # CI: fail if plan.md/ST
 ```
 
 <!-- progress:start -->
-**192 / 305 features done (62%)**
+**208 / 305 features done (68%)**
 
 | Phase | Done | Total | Progress |
 |---|---:|---:|---|
@@ -22,7 +22,7 @@ python3 scripts/sync_features.py --check                # CI: fail if plan.md/ST
 | 1 — Data foundation & basic replay | 66 | 71 | `█████████░` |
 | 2 — Telemetry, timeline & playback | 81 | 83 | `██████████` |
 | 3 — Championship & analytics | 42 | 46 | `█████████░` |
-| 4 — Distributed systems & production | 0 | 75 | `░░░░░░░░░░` |
+| 4 — Distributed systems & production | 16 | 75 | `██░░░░░░░░` |
 | 5 — Data science & polish | 0 | 16 | `░░░░░░░░░░` |
 | stretch — Stretch goals | 0 | 11 | `░░░░░░░░░░` |
 <!-- progress:end -->
@@ -217,7 +217,7 @@ Store race state as events:
 - [x] Java 25 <!-- STACK-01 -->
 - [x] Spring Boot 4 <!-- STACK-02 -->
 - [ ] Spring WebFlux <!-- STACK-03 -->
-- [ ] Spring Security <!-- STACK-04 -->
+- [x] Spring Security <!-- STACK-04 -->
 - [x] Spring Data JPA <!-- STACK-05 -->
 - [x] Spring Batch <!-- STACK-06 -->
 - [ ] Spring Cache <!-- STACK-07 -->
@@ -463,16 +463,16 @@ Used for:
 # Authentication
 
 ## Security Features
-- [ ] JWT authentication <!-- AUTH-01 -->
-- [ ] OAuth2 login <!-- AUTH-02 -->
-- [ ] Role-based permissions <!-- AUTH-03 -->
-- [ ] Rate limiting <!-- AUTH-04 -->
-- [ ] API key support <!-- AUTH-05 -->
+- [x] JWT authentication <!-- AUTH-01 -->
+- [x] OAuth2 login <!-- AUTH-02 -->
+- [x] Role-based permissions <!-- AUTH-03 -->
+- [x] Rate limiting <!-- AUTH-04 -->
+- [x] API key support <!-- AUTH-05 -->
 
 ## Roles
-- [ ] USER <!-- ROLE-01 -->
-- [ ] ADMIN <!-- ROLE-02 -->
-- [ ] ANALYST <!-- ROLE-03 -->
+- [x] USER <!-- ROLE-01 -->
+- [x] ADMIN <!-- ROLE-02 -->
+- [x] ANALYST <!-- ROLE-03 -->
 
 ---
 
@@ -516,7 +516,7 @@ to write first.
 ### End-to-End Tests
 - [x] Replay pipeline <!-- TEST-09 -->
 - [x] Full ingestion flow <!-- TEST-10 -->
-- [ ] Authentication flows <!-- TEST-11 -->
+- [x] Authentication flows <!-- TEST-11 -->
 
 ### Performance Tests
 - [ ] Telemetry streaming <!-- TEST-12 -->
@@ -524,9 +524,9 @@ to write first.
 - [ ] Database stress tests <!-- TEST-14 -->
 
 ### Security Tests
-- [ ] JWT validation <!-- TEST-15 -->
-- [ ] Authorization checks <!-- TEST-16 -->
-- [ ] Injection prevention <!-- TEST-17 -->
+- [x] JWT validation <!-- TEST-15 -->
+- [x] Authorization checks <!-- TEST-16 -->
+- [x] Injection prevention <!-- TEST-17 -->
 
 ---
 
@@ -720,9 +720,9 @@ Use Python separately for:
 - [ ] Distributed caching <!-- NFR-10 -->
 
 ## Security
-- [ ] JWT encryption <!-- NFR-11 -->
+- [x] JWT encryption <!-- NFR-11 -->
 - [ ] HTTPS everywhere <!-- NFR-12 -->
-- [ ] Input sanitization <!-- NFR-13 -->
+- [x] Input sanitization <!-- NFR-13 -->
 
 ## Maintainability
 - [ ] Clean architecture <!-- NFR-14 -->
@@ -735,7 +735,7 @@ Use Python separately for:
 # Suggested Backend Modules
 
 ## Modules
-- [ ] auth-service <!-- MOD-01 -->
+- [x] auth-service <!-- MOD-01 -->
 - [x] race-service <!-- MOD-02 -->
 - [x] telemetry-service <!-- MOD-03 -->
 - [x] replay-service <!-- MOD-04 -->

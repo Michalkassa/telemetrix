@@ -1,5 +1,7 @@
 package com.telemetrix.analytics;
 
+import com.telemetrix.common.Inputs;
+import jakarta.validation.constraints.Pattern;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,13 +23,13 @@ class DriverStatsController {
 
 	// Every Grand Prix a driver entered, the newest first.
 	@GetMapping("/api/drivers/{id}/races")
-	java.util.List<RaceLogEntry> races(@PathVariable String id) {
+	java.util.List<RaceLogEntry> races(@PathVariable @Pattern(regexp = Inputs.REF) String id) {
 		return stats.raceLog(id);
 	}
 
 	// A driver's career statistics; `id` is the driver's ref ("hamilton", "max_verstappen").
 	@GetMapping("/api/drivers/{id}/stats")
-	DriverStats stats(@PathVariable String id) {
+	DriverStats stats(@PathVariable @Pattern(regexp = Inputs.REF) String id) {
 		return stats.stats(id);
 	}
 

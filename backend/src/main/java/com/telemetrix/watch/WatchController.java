@@ -1,7 +1,9 @@
 package com.telemetrix.watch;
 
+import com.telemetrix.common.Inputs;
 import com.telemetrix.watch.WatchService.Command;
 import com.telemetrix.watch.WatchService.Created;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 import org.springframework.http.HttpStatus;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -43,7 +45,7 @@ class WatchController {
 
 	@GetMapping("/api/watch/{watchId}")
 	@ResponseBody
-	ClockState state(@PathVariable String watchId) {
+	ClockState state(@PathVariable @Pattern(regexp = Inputs.WATCH_ID) String watchId) {
 		return watches.state(watchId);
 	}
 

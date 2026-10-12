@@ -5,6 +5,7 @@ import java.util.Map;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 // Turns exceptions from any controller into RFC 9457 problem details, in one place.
@@ -52,6 +54,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	ProblemDetail handleUnexpected(Exception e) {
 		log.error("Unhandled exception", e);
 		return ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, "Unexpected error");
+	}
+
+	// A value of the wrong type (?round=abc): say which parameter, never echo the value (docs/adr/0007).
+	@Override
+	protected @Nullable ResponseEntity<Object> handleTypeMismatch(TypeMismatchException e, HttpHeaders headers,
+			HttpStatusCode status, WebRequest request) {
+		String name = e instanceof MethodArgumentTypeMismatchException m ? m.getName() : e.getPropertyName();
+		ProblemDetail problem = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Invalid value for '" + name + "'");
+		return handleExceptionInternal(e, problem, headers, HttpStatus.BAD_REQUEST, request);
 	}
 
 	// @Valid failures: add an "errors" map of field -> message so clients can show them per field.

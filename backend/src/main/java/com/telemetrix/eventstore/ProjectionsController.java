@@ -4,7 +4,7 @@ import java.util.List;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-// Unsecured until Step 37 (Security), when this becomes ADMIN-only.
+// ADMIN only (auth.SecurityConfig, docs/adr/0007).
 @RestController
 class ProjectionsController {
 

@@ -89,7 +89,7 @@ ES-04,3,36,Event Sourcing Architecture,Historical querying,done,2026-10-12
 STACK-01,0,1,Primary Stack,Java 25,done,2026-09-22
 STACK-02,0,1,Primary Stack,Spring Boot 4,done,2026-09-22
 STACK-03,2,24,Primary Stack,Spring WebFlux,todo,
-STACK-04,4,37,Primary Stack,Spring Security,todo,
+STACK-04,4,37,Primary Stack,Spring Security,done,2026-10-12
 STACK-05,0,3,Primary Stack,Spring Data JPA,done,2026-09-22
 STACK-06,1,10,Primary Stack,Spring Batch,done,2026-10-09
 STACK-07,4,38,Primary Stack,Spring Cache,todo,
@@ -185,14 +185,14 @@ API-05,1,13,REST APIs,GET /telemetry/{sessionId},done,2026-10-09
 WS-01,2,24,WebSocket APIs,Live replay stream,done,2026-10-09
 WS-02,2,24,WebSocket APIs,Telemetry updates,todo,
 WS-03,2,28,WebSocket APIs,Timeline synchronization,done,2026-10-09
-AUTH-01,4,37,Security Features,JWT authentication,todo,
-AUTH-02,4,37,Security Features,OAuth2 login,todo,
-AUTH-03,4,37,Security Features,Role-based permissions,todo,
-AUTH-04,4,37,Security Features,Rate limiting,todo,
-AUTH-05,4,37,Security Features,API key support,todo,
-ROLE-01,4,37,Roles,USER,todo,
-ROLE-02,4,37,Roles,ADMIN,todo,
-ROLE-03,4,37,Roles,ANALYST,todo,
+AUTH-01,4,37,Security Features,JWT authentication,done,2026-10-12
+AUTH-02,4,37,Security Features,OAuth2 login,done,2026-10-12
+AUTH-03,4,37,Security Features,Role-based permissions,done,2026-10-12
+AUTH-04,4,37,Security Features,Rate limiting,done,2026-10-12
+AUTH-05,4,37,Security Features,API key support,done,2026-10-12
+ROLE-01,4,37,Roles,USER,done,2026-10-12
+ROLE-02,4,37,Roles,ADMIN,done,2026-10-12
+ROLE-03,4,37,Roles,ANALYST,done,2026-10-12
 OBS-01,4,42,Logging,Structured JSON logging,todo,
 OBS-02,4,42,Logging,Correlation IDs,todo,
 OBS-03,4,42,Monitoring,Prometheus,todo,
@@ -209,13 +209,13 @@ TEST-07,4,38,Integration Tests,Redis tests,todo,
 TEST-08,1,11,Integration Tests,API tests,done,2026-10-09
 TEST-09,2,24,End-to-End Tests,Replay pipeline,done,2026-10-09
 TEST-10,1,13,End-to-End Tests,Full ingestion flow,done,2026-10-09
-TEST-11,4,37,End-to-End Tests,Authentication flows,todo,
+TEST-11,4,37,End-to-End Tests,Authentication flows,done,2026-10-12
 TEST-12,4,44,Performance Tests,Telemetry streaming,todo,
 TEST-13,4,44,Performance Tests,Replay scalability,todo,
 TEST-14,4,44,Performance Tests,Database stress tests,todo,
-TEST-15,4,37,Security Tests,JWT validation,todo,
-TEST-16,4,37,Security Tests,Authorization checks,todo,
-TEST-17,4,37,Security Tests,Injection prevention,todo,
+TEST-15,4,37,Security Tests,JWT validation,done,2026-10-12
+TEST-16,4,37,Security Tests,Authorization checks,done,2026-10-12
+TEST-17,4,37,Security Tests,Injection prevention,done,2026-10-12
 FETEST-01,1,16,Testing Stack,Vitest,done,2026-10-09
 FETEST-02,1,16,Testing Stack,React Testing Library,done,2026-10-09
 FETEST-03,4,46,Testing Stack,Cypress,todo,
@@ -262,14 +262,14 @@ NFR-07,4,45,Reliability,Retry mechanisms,todo,
 NFR-08,4,44,Scalability,Horizontal scaling,todo,
 NFR-09,4,44,Scalability,Stateless APIs,todo,
 NFR-10,4,38,Scalability,Distributed caching,todo,
-NFR-11,4,37,Security,JWT encryption,todo,
+NFR-11,4,37,Security,JWT encryption,done,2026-10-12
 NFR-12,4,47,Security,HTTPS everywhere,todo,
-NFR-13,4,37,Security,Input sanitization,todo,
+NFR-13,4,37,Security,Input sanitization,done,2026-10-12
 NFR-14,4,43,Maintainability,Clean architecture,todo,
 NFR-15,4,43,Maintainability,SOLID principles,todo,
 NFR-16,4,43,Maintainability,Domain-driven design,todo,
 NFR-17,4,43,Maintainability,Modular services,todo,
-MOD-01,4,37,Modules,auth-service,todo,
+MOD-01,4,37,Modules,auth-service,done,2026-10-12
 MOD-02,1,11,Modules,race-service,done,2026-10-09
 MOD-03,1,13,Modules,telemetry-service,done,2026-10-09
 MOD-04,1,15,Modules,replay-service,done,2026-10-09

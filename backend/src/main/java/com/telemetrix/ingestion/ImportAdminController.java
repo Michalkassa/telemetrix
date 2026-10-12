@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-// Manual imports. Unsecured until Step 37 (Security), when these become ADMIN-only.
+// Manual imports: ADMIN only (auth.SecurityConfig, docs/adr/0007).
 @RestController
 @RequestMapping("/api/admin/import")
 class ImportAdminController {
